@@ -26,12 +26,13 @@ def test_submission_components_match_official_contract() -> None:
     assert torch.isfinite(llr).all()
 
 
-def test_submission_low_snr_tail_guard() -> None:
+def test_submission_low_snr_tail_guard_is_disabled() -> None:
     receiver = Receiver()
     channel = torch.complex(torch.randn(1, 2, 16, 144), torch.randn(1, 2, 16, 144))
     received = torch.complex(torch.randn(1, 2, 144), torch.randn(1, 2, 144))
     llr = receiver(received, channel, torch.zeros(1, 5), torch.tensor([-19.5]))
-    assert llr.shape == (1, 1)
+    assert llr.shape[0] == 1
+    assert llr.shape[1] >= 924
 
 
 def test_submission_walsh_pilot_profile_targets_weaker_user() -> None:
