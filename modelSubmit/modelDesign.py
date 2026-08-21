@@ -390,22 +390,22 @@ class Transmitter(nn.Module):
                 (candidate_thresholds[None] >= lower_snr[:, None])
                 & (candidate_thresholds[None] < higher_snr[:, None])
             )
-            high_user = snr_dl.argmax(dim=0)
-            high_snr = snr_dl.max(dim=0).values
+            low_user = snr_dl.argmin(dim=0)
+            low_snr = snr_dl.min(dim=0).values
             phase_counts_by_user = phase_counts.transpose(0, 1)
-            high_phase_count = phase_counts_by_user[batch_indices, high_user]
+            low_phase_count = phase_counts_by_user[batch_indices, low_user]
             threshold_tail_start = torch.where(
-                high_snr < MIDDLE_PREFIX_THRESHOLD_DB,
-                torch.full_like(high_phase_count, MIDDLE_PREFIX_BITS),
-                1056 + high_phase_count,
+                low_snr < MIDDLE_PREFIX_THRESHOLD_DB,
+                torch.full_like(low_phase_count, MIDDLE_PREFIX_BITS),
+                1056 + low_phase_count,
             )
             threshold_relative_positions = torch.arange(228, device=precoder.device)[None]
             threshold_tail_indices = (
                 threshold_tail_start[:, None] + threshold_relative_positions
             ).clamp_max(1151)
             bits_by_user = torch.stack(bits_list, dim=1).to(torch.int64)
-            high_bits = bits_by_user[batch_indices, high_user]
-            threshold_tail = torch.gather(high_bits, 1, threshold_tail_indices)
+            low_bits = bits_by_user[batch_indices, low_user]
+            threshold_tail = torch.gather(low_bits, 1, threshold_tail_indices)
             threshold_tail_mask = threshold_relative_positions < (
                 1152 - threshold_tail_start
             )[:, None]
@@ -724,7 +724,7 @@ class Receiver(nn.Module):
             return llr[:, :1]
         if bool(torch.all(snr < MIDDLE_PREFIX_THRESHOLD_DB).item()):
             middle_llr = llr[:, :MIDDLE_PREFIX_BITS]
-            if bool(torch.all(snr > threshold).item()):
+            if bool(torch.all(snr <= threshold).item()):
                 threshold_codebook = _threshold_tail_codebook(llr.device, llr.dtype)
                 tail_prediction = threshold_codebook[threshold_index]
                 tail_llr = 2.0 * tail_prediction - 1.0
@@ -747,7 +747,7 @@ class Receiver(nn.Module):
             tail_prediction = codebook[control_index, own_pilot_index]
             tail_llr = 2.0 * tail_prediction[:, :remaining] - 1.0
             payload_llr = torch.cat([payload_llr, tail_llr], dim=1)
-        elif bool(torch.all(snr > threshold).item()):
+        elif bool(torch.all(snr <= threshold).item()):
             remaining = 1152 - llr.shape[1] - payload_llr.shape[1]
             threshold_codebook = _threshold_tail_codebook(llr.device, llr.dtype)
             tail_prediction = threshold_codebook[threshold_index]

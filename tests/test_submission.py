@@ -34,7 +34,7 @@ def test_submission_low_snr_tail_guard() -> None:
     assert llr.shape == (1, 1)
 
 
-def test_submission_walsh_pilot_profile() -> None:
+def test_submission_walsh_pilot_profile_targets_weaker_user() -> None:
     root = Path(__file__).resolve().parents[1]
     encoder = Encoder()
     transmitter = Transmitter()
@@ -46,7 +46,10 @@ def test_submission_walsh_pilot_profile() -> None:
     snr = torch.tensor([[0.0], [5.0]])
     feedback = [encoder(channel[:, user], snr[user]) for user in range(2)]
     signal, ctrl = transmitter(bits, feedback, snr)
-    received = torch.sum(channel[:, 0] * signal.unsqueeze(1), dim=2)
-    llr = receiver(received, channel[:, 0], ctrl, snr[0])
+    received_weak = torch.sum(channel[:, 0] * signal.unsqueeze(1), dim=2)
+    received_strong = torch.sum(channel[:, 1] * signal.unsqueeze(1), dim=2)
+    weak_llr = receiver(received_weak, channel[:, 0], ctrl, snr[0])
+    strong_llr = receiver(received_strong, channel[:, 1], ctrl, snr[1])
     assert torch.any(ctrl > 0)
-    assert llr.shape == (1, 1056)
+    assert weak_llr.shape == (1, 1152)
+    assert strong_llr.shape == (1, 1058)
