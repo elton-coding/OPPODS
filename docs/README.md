@@ -10,7 +10,9 @@
 
 - [FATE-MIMO 初始技术方案](solutions/FATE-MIMO_v1.md)
 - [FATE-MIMO V115 冻结方案](solutions/FATE-MIMO_v115.md)
+- [FATE-MIMO V117 冠军增量方案](solutions/FATE-MIMO_v117.md)
 - [V115 提交说明](submission/V115_提交说明.md)
+- [V117 提交说明](submission/V117_提交说明.md)
 
 ## 外部方案研究
 
