@@ -6,6 +6,8 @@ from pathlib import Path
 
 import torch
 
+from scripts.build_submission import ARCHIVE_MEMBERS, package_submission
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -35,13 +37,9 @@ def test_threshold_assignment_stays_in_27_level_range() -> None:
     assert torch.all(assignment.sum(dim=1) == 1)
 
 
-def test_final_archive_has_exact_root_members() -> None:
-    archive_path = ROOT / "artifacts" / "FATE_MIMO_submission_threshold_vq_v115_official.zip"
+def test_final_archive_has_exact_root_members(tmp_path: Path) -> None:
+    archive_path = tmp_path / "submission.zip"
+    package_submission(ROOT / "modelSubmit", archive_path)
     with zipfile.ZipFile(archive_path) as archive:
-        assert archive.namelist() == [
-            "submit_pt/modelDesign.py",
-            "submit_pt/modelSubmit/encoder.pth",
-            "submit_pt/modelSubmit/transmitter.pth",
-            "submit_pt/modelSubmit/receiver.pth",
-        ]
+        assert archive.namelist() == list(ARCHIVE_MEMBERS)
         assert archive.testzip() is None

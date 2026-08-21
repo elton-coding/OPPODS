@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "competition": "DataFountain_1176",
+  "updated_at": "2026-08-21",
+  "promotion_metric": "mean final score across seeds 1176, 1177 and 1178",
+  "protocol": {
+    "evaluator": "official-compatible batch_size=1 local evaluator",
+    "samples_per_seed": 2000,
+    "ue_scores_per_seed": 4000,
+    "seeds": [1176, 1177, 1178],
+    "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
+  },
+  "champion": {
+    "solution": "FATE-MIMO complementary threshold-constrained tail VQ",
+    "version": "V115",
+    "source_commit": "e46d28368f4c2f9ebef7ea8dbbcb25e56180aad4",
+    "local_validation": {
+      "1176": {
+        "efficiency": 68.13365885416665,
+        "fairness_p10": 49.95659722222222,
+        "final": 62.68054036458332
+      },
+      "1177": {
+        "final": 62.89477105034722
+      },
+      "1178": {
+        "efficiency": 68.45717230902778,
+        "fairness_p10": 49.95659722222222,
+        "final": 62.90699978298612
+      },
+      "mean_final": 62.82743706597222
+    },
+    "online_leaderboard": null,
+    "submission_archive": {
+      "name": "FATE_MIMO_submission_threshold_vq_v115_official.zip",
+      "sha256": "D4A045E81E360C927E67EA9522E01A8A5556B59AD68F3090BD669C728592062C"
+    }
+  },
+  "references": {
+    "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064,
+    "previous_stable_v62_seed1176_final": 62.45463541666666
+  }
+}
