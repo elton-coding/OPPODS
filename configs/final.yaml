@@ -1,5 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
+solution_version: V117
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -73,16 +74,15 @@ profiles:
   control_threshold_constrained_tail_vq: true
   control_threshold_tail_codewords: 27
   control_threshold_tail_max_bits: 228
-  control_threshold_tail_roles: high_user_only
+  control_threshold_tail_roles: low_user_only
   reserved_profile_bits_per_ue: 1056
   blind_profile_bits_per_ue: 1152
-  tail_guard_snr_db: -15.5
-  tail_guard_bits_per_ue: 1
+  tail_guard_snr_db: -20.0
+  tail_guard_bits_per_ue: 924
   middle_prefix_snr_db: -9.5
   middle_prefix_bits_per_ue: 924
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_threshold_vq_v115_official.zip
-  local_flat_evaluation_archive: artifacts/FATE_MIMO_submission_threshold_vq_v115.zip
-  sha256: D4A045E81E360C927E67EA9522E01A8A5556B59AD68F3090BD669C728592062C
+  versioned_archive: artifacts/FATE_MIMO_submission_weak_tail_v117_official.zip
+  sha256: 2428C5DFB0865EF3E1181F1901FFA1D0D73DA0803FA5C8A57768A9FCBB691F84

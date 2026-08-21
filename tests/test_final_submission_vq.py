@@ -28,6 +28,11 @@ def test_threshold_tail_codebook_has_adjacent_complement_pairs() -> None:
         assert torch.equal(codebook[index] + codebook[index + 1], torch.ones(228, dtype=torch.int64))
 
 
+def test_low_snr_one_bit_guard_is_disabled_in_competition_range() -> None:
+    module = _load_submission_module()
+    assert module.LOW_SNR_THRESHOLD_DB == -20.0
+
+
 def test_threshold_assignment_stays_in_27_level_range() -> None:
     module = _load_submission_module()
     snr = torch.tensor([[-20.0, -19.0], [-5.0, 8.0], [10.24, 19.0]], dtype=torch.float32)
