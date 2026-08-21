@@ -1,6 +1,6 @@
 # OPPODS / DataFountain 1176
 
-本目录用于开发 6G/B6G 内生 AI 多用户 MIMO 端到端传输方案。官方原始样例保留在 `ziliao/`，新代码位于 `src/`、`scripts/` 和 `tests/`。
+本仓库用于开发 6G/B6G 内生 AI 多用户 MIMO 端到端传输方案。官方原始样例保留在 `ziliao/`，研发代码位于 `src/`、`scripts/` 和 `tests/`，当前最高分可部署版本位于 `modelSubmit/`。
 
 ## 环境
 
@@ -27,7 +27,16 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 
 冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.133659`，公平 P10 `49.956597`，总分 **`62.680540`**。相对上一稳定版 `62.454635` 提升 `0.225905`。这些是本地验证结果，不等同于线上排行榜成绩。
 
-完整设计见 `获奖技术方案_v2_落地版.md`，冻结参数见 `configs/final.yaml`。
+完整设计见 [FATE-MIMO V115](docs/solutions/FATE-MIMO_v115.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
+
+## Git 与版本纪律
+
+- `main` 只保存经过固定协议复核的最高总分方案。
+- 新算法、新模块和可能影响得分的尝试必须从 `main` 创建 `feature/<topic>` 分支，并先推送远端。
+- 实验原始产物留在被忽略的 `artifacts/`、`checkpoints/` 和 `runs/`；只有摘要指标、复现配置和晋级模型进入 Git。
+- 只有候选方案通过测试、多 seed 评测且总分高于当前冠军后，才允许合并到 `main`。
+
+详细规则见 [版本与实验管理](docs/governance/版本与实验管理.md)，文档入口见 [docs/README.md](docs/README.md)。
 
 ## 常用命令
 
@@ -41,7 +50,7 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 
 ```powershell
 & $python -m pytest
-& $python scripts/build_submission.py
+& $python scripts/build_submission.py --package-only
 & $python scripts/evaluate_submission.py --samples 2000
 ```
 
