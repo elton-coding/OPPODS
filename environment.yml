@@ -1,0 +1,17 @@
+name: oppods-df1176
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      - torch==2.10.0
+      - numpy==1.26.4
+      - scipy>=1.11,<1.15
+      - PyYAML>=6.0,<7
+      - tqdm>=4.66,<5
+      - tensorboard>=2.16,<3
+      - psutil>=5.9,<8
+      - pytest>=8.0,<9
+      - ruff>=0.6,<1

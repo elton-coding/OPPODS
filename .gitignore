@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.idea/
+.vscode/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Local experiment outputs. Curated results must be promoted into tracked
+# docs/ or benchmarks/ files before they are committed.
+artifacts/
+checkpoints/
+logs/
+runs/
+submit/
+*.pth
+*.pt
+
+# The current best deployable submission is the only tracked weight set.
+!modelSubmit/*.pth
+
+# Organizer data and locally reproduced organizer weights are not source code.
+ziliao/data_train/
+ziliao/modelSubmit/
+
+# Raw videos remain local; derived notes and selected figures under docs/ are tracked.
+docs/source_media/

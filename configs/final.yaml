@@ -1,0 +1,88 @@
+competition: DataFountain_1176
+solution_name: FATE-MIMO
+environment:
+  conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
+  python: "3.11.15"
+  torch: "2.10.0+cu128"
+  gpu: NVIDIA GeForce RTX 5090 D
+data:
+  path: ziliao/data_train/H_train.npz
+  split_seed: 1176
+feedback:
+  frequency_group_size: 12
+  delay_mode_order: [0, 1, 2, 3, 11, 10]
+  uplink_complex_symbols: 96
+  wiener_noise_scale: 0.75
+  denoiser_width: 128
+  denoiser_layers: 3
+  denoiser_heads: 4
+  final_checkpoint: checkpoints/sparse_denoiser_task_reg000439453125_rec08_ft1e5.pt
+  task_finetune_regularization_scale: 0.00439453125
+  task_finetune_learning_rate: 1.0e-5
+  task_finetune_steps: 2000
+  task_finetune_reconstruction_weight: 0.8
+  task_finetune_tail_weight: 0.1
+precoding:
+  type: robust_rzf
+  regularization_scale: 1.5
+  pilot_profile_regularization_scale: 0.45
+modulation:
+  type: layered_gray_256qam
+  central_boost: -0.5
+receiver:
+  decision_directed_iterations: 15
+profiles:
+  reserved_pilot_when_max_snr_below_db: 20.0
+  reserved_pilot_amplitude: 1.5
+  reserved_pilot_offset_within_group: 5
+  reserved_pilot_separator: alternating_walsh_tri3
+  reserved_pilot_covariance_loading_scale: 4.0
+  reserved_pilot_gain_refinement_iterations: 4
+  reserved_pilot_gain_refinement_min_snr_db: -10.0
+  reserved_pilot_gain_refinement_rate: 0.3125
+  reserved_pilot_identity_mode: hybrid_local_threshold
+  reserved_pilot_identity_margin: 0.3
+  reserved_pilot_identity_margin_snr_slope_per_db: -0.02
+  reserved_pilot_gain_interpolation: linear_post_dd
+  reserved_pilot_gain_interpolation_scale: 0.5
+  reserved_pilot_steering_shrinkage: 0.0375
+  reserved_pilot_data_gain_refinement_scale: 0.2
+  reserved_pilot_data_gain_refinement_radius: 2
+  reserved_pilot_data_gain_refinement_min_snr_db: -5.0
+  reserved_pilot_data_gain_refinement_iterations: 4
+  reserved_pilot_data_gain_refinement_snr_slope_per_db: 0.01
+  reserved_pilot_data_gain_soft_temperature: 0.5
+  reserved_pilot_data_gain_residual_mode: current_after_vector_update
+  reserved_pilot_data_vector_refinement_scale: 0.2
+  reserved_pilot_data_vector_refinement_min_snr_db: -12.5
+  reserved_pilot_data_vector_soft_temperature: 3.0
+  reserved_pilot_interference_cancellation_scale: 0.2
+  reserved_pilot_interference_cancellation_temperature: 0.3
+  reserved_pilot_interference_cancellation_min_snr_db: -10.0
+  reserved_pilot_interference_cancellation_snr_slope: -0.005
+  reserved_pilot_phase_bit_min_snr_db: 2.5
+  reserved_pilot_phase_schedule:
+    - {min_snr_db: 2.5, bits_per_ue: 2, constellation: qpsk}
+    - {min_snr_db: 7.5, bits_per_ue: 3, constellation: 8psk}
+    - {min_snr_db: 12.5, bits_per_ue: 4, constellation: 16psk}
+    - {min_snr_db: 18.75, bits_per_ue: 5, constellation: 32psk}
+  control_dual_high_snr_gate_db: 10.25
+  control_dual_high_tail_codewords: 5
+  control_threshold_codewords: 27
+  control_threshold_range_db: [-20.0, 10.25]
+  control_threshold_constrained_tail_vq: true
+  control_threshold_tail_codewords: 27
+  control_threshold_tail_max_bits: 228
+  control_threshold_tail_roles: high_user_only
+  reserved_profile_bits_per_ue: 1056
+  blind_profile_bits_per_ue: 1152
+  tail_guard_snr_db: -15.5
+  tail_guard_bits_per_ue: 1
+  middle_prefix_snr_db: -9.5
+  middle_prefix_bits_per_ue: 924
+submission:
+  directory: modelSubmit
+  archive: artifacts/FATE_MIMO_submission.zip
+  versioned_archive: artifacts/FATE_MIMO_submission_threshold_vq_v115_official.zip
+  local_flat_evaluation_archive: artifacts/FATE_MIMO_submission_threshold_vq_v115.zip
+  sha256: D4A045E81E360C927E67EA9522E01A8A5556B59AD68F3090BD669C728592062C
