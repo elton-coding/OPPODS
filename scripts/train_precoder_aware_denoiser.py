@@ -32,6 +32,27 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--regularization-scale", type=float, default=1.5)
     parser.add_argument("--reconstruction-weight", type=float, default=0.05)
     parser.add_argument("--tail-weight", type=float, default=0.1)
+    parser.add_argument("--tail-alpha", type=float, default=0.2)
+    parser.add_argument(
+        "--tail-target",
+        choices=("all-users", "weakest-user"),
+        default="all-users",
+        help="Apply batch CVaR to every user independently or to each sample's weakest user",
+    )
+    parser.add_argument(
+        "--weakest-user-weight",
+        type=float,
+        default=0.0,
+        help="Weight of the mean per-sample weakest-user utility",
+    )
+    parser.add_argument(
+        "--weak-user-focus-probability",
+        type=float,
+        default=0.0,
+        help="Training-only probability of forcing one user's SNR into the focus interval",
+    )
+    parser.add_argument("--weak-user-focus-min-snr", type=float, default=-15.5)
+    parser.add_argument("--weak-user-focus-max-snr", type=float, default=-9.5)
     parser.add_argument("--minimum-profile-max-snr", type=float)
     parser.add_argument("--width", type=int, default=128)
     parser.add_argument("--layers", type=int, default=3)
@@ -50,6 +71,56 @@ def seed_everything(seed: int) -> None:
     torch.cuda.manual_seed_all(seed)
 
 
+def validate_args(args: argparse.Namespace) -> None:
+    if not 0.0 < args.tail_alpha <= 1.0:
+        raise ValueError("--tail-alpha must be in (0, 1]")
+    if args.tail_weight < 0.0 or args.weakest_user_weight < 0.0:
+        raise ValueError("fairness weights must be non-negative")
+    if args.tail_weight + args.weakest_user_weight > 1.0:
+        raise ValueError("--tail-weight + --weakest-user-weight must not exceed 1")
+    if not 0.0 <= args.weak_user_focus_probability <= 1.0:
+        raise ValueError("--weak-user-focus-probability must be in [0, 1]")
+    if args.weak_user_focus_min_snr >= args.weak_user_focus_max_snr:
+        raise ValueError("weak-user focus minimum SNR must be below its maximum")
+
+
+def sample_training_snr(
+    batch_size: int,
+    device: torch.device,
+    generator: torch.Generator,
+    args: argparse.Namespace,
+) -> torch.Tensor:
+    """Draw official SNR profiles, optionally oversampling one weak user."""
+    snr = torch.empty(batch_size, DEFAULT_SYSTEM.num_ue, device=device).uniform_(
+        -20.0, 20.0, generator=generator
+    )
+    if args.weak_user_focus_probability > 0.0:
+        focused = torch.rand(batch_size, device=device, generator=generator) < args.weak_user_focus_probability
+        focused_count = int(focused.sum())
+        if focused_count:
+            focused_rows = torch.nonzero(focused, as_tuple=False).squeeze(1)
+            focused_users = torch.randint(
+                0,
+                DEFAULT_SYSTEM.num_ue,
+                (focused_count,),
+                device=device,
+                generator=generator,
+            )
+            focused_snr = torch.empty(focused_count, device=device).uniform_(
+                args.weak_user_focus_min_snr,
+                args.weak_user_focus_max_snr,
+                generator=generator,
+            )
+            snr[focused_rows, focused_users] = focused_snr
+    if args.minimum_profile_max_snr is not None:
+        mask = snr.max(dim=1).values < args.minimum_profile_max_snr
+        replacement = torch.empty(int(mask.sum()), device=device).uniform_(
+            args.minimum_profile_max_snr, 20.0, generator=generator
+        )
+        snr[mask, 0] = replacement
+    return snr
+
+
 def forward_task(
     channel: torch.Tensor,
     snr_dl: torch.Tensor,
@@ -58,6 +129,9 @@ def forward_task(
     regularization_scale: float,
     reconstruction_weight: float,
     tail_weight: float,
+    tail_alpha: float,
+    tail_target: str,
+    weakest_user_weight: float,
     generator: torch.Generator,
 ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
     batch = channel.shape[0]
@@ -90,15 +164,25 @@ def forward_task(
     total_power = torch.sum(torch.abs(effective_matrix).square(), dim=-1)
     interference_power = (total_power - desired_power).clamp_min(0.0)
     sinr = desired_power / (interference_power + noise_variance_dl[:, None, :]).clamp_min(1e-9)
-    utility_per_user = torch.log1p(sinr).mean(dim=1).reshape(-1)
+    utility_by_sample_user = torch.log1p(sinr).mean(dim=1)
+    utility_per_user = utility_by_sample_user.reshape(-1)
+    weakest_user_utility = utility_by_sample_user.min(dim=1).values
     mean_utility = utility_per_user.mean()
-    tail_utility = lower_cvar(utility_per_user, alpha=0.2)
+    mean_weakest_user_utility = weakest_user_utility.mean()
+    tail_values = utility_per_user if tail_target == "all-users" else weakest_user_utility
+    tail_utility = lower_cvar(tail_values, alpha=tail_alpha)
     coefficient_nmse = torch.stack(coefficient_nmse_users, dim=1).mean()
-    task_utility = (1.0 - tail_weight) * mean_utility + tail_weight * tail_utility
+    mean_weight = 1.0 - tail_weight - weakest_user_weight
+    task_utility = (
+        mean_weight * mean_utility
+        + weakest_user_weight * mean_weakest_user_utility
+        + tail_weight * tail_utility
+    )
     loss = -task_utility + reconstruction_weight * coefficient_nmse
     metrics = {
         "loss": loss.detach(),
         "mean_utility": mean_utility.detach(),
+        "mean_weakest_user_utility": mean_weakest_user_utility.detach(),
         "tail_utility": tail_utility.detach(),
         "sinr_db": (10.0 * torch.log10(sinr.mean().clamp_min(1e-9))).detach(),
         "coefficient_nmse": coefficient_nmse.detach(),
@@ -139,6 +223,9 @@ def validate(
             args.regularization_scale,
             args.reconstruction_weight,
             args.tail_weight,
+            args.tail_alpha,
+            args.tail_target,
+            args.weakest_user_weight,
             generator,
         )
         for name, value in metrics.items():
@@ -150,6 +237,7 @@ def validate(
 
 def main() -> None:
     args = parse_args()
+    validate_args(args)
     seed_everything(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data = ChannelMemmap(args.data)
@@ -176,13 +264,7 @@ def main() -> None:
     for step in range(args.steps):
         indices = rng.choice(splits["train"], args.batch_size, replace=False)
         channel = torch.from_numpy(data.read(indices)).to(device)
-        snr = torch.empty(args.batch_size, 2, device=device).uniform_(-20.0, 20.0, generator=generator)
-        if args.minimum_profile_max_snr is not None:
-            mask = snr.max(dim=1).values < args.minimum_profile_max_snr
-            replacement = torch.empty(int(mask.sum()), device=device).uniform_(
-                args.minimum_profile_max_snr, 20.0, generator=generator
-            )
-            snr[mask, 0] = replacement
+        snr = sample_training_snr(args.batch_size, device, generator, args)
         loss, metrics = forward_task(
             channel,
             snr,
@@ -191,6 +273,9 @@ def main() -> None:
             args.regularization_scale,
             args.reconstruction_weight,
             args.tail_weight,
+            args.tail_alpha,
+            args.tail_target,
+            args.weakest_user_weight,
             generator,
         )
         optimizer.zero_grad(set_to_none=True)
