@@ -37,6 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--threshold", type=float)
     parser.add_argument("--search-prefixes", action="store_true")
     parser.add_argument("--prefix-scores-out", type=Path)
+    parser.add_argument("--scores-out", type=Path, help="Save exact per-UE scores, SNRs, and output lengths")
     return parser.parse_args()
 
 
@@ -100,6 +101,7 @@ def main() -> None:
                 score = 100.0 * (float(correct) + 0.5 * (1152 - llr.shape[1])) / 1152
                 scores.append(score)
                 lengths.append(llr.shape[1])
+                user_snrs.append(float(snr_dl[user].item()))
                 if args.search_prefixes:
                     if llr.shape[1] < PREFIXES[-1]:
                         raise RuntimeError("prefix search requires full 1056-bit receiver output")
@@ -111,7 +113,6 @@ def main() -> None:
                         prefix_scores[prefix].append(
                             100.0 * (float(prefix_correct) + 0.5 * (1152 - prefix)) / 1152
                         )
-                    user_snrs.append(float(snr_dl[user].item()))
             if args.progress_every and (sample_index + 1) % args.progress_every == 0:
                 print(
                     json.dumps(
@@ -123,6 +124,15 @@ def main() -> None:
                     flush=True,
                 )
     summary = summarize_scores(np.asarray(scores))
+    if args.scores_out is not None:
+        args.scores_out.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(
+            args.scores_out,
+            score=np.asarray(scores, dtype=np.float32),
+            snr=np.asarray(user_snrs, dtype=np.float32),
+            length=np.asarray(lengths, dtype=np.int16),
+            data_index=np.repeat(indices.astype(np.int64), 2),
+        )
     result: dict[str, object] = {
                 "samples": len(indices),
                 "scores": len(scores),
