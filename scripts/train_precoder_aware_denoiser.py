@@ -53,6 +53,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--weak-user-focus-min-snr", type=float, default=-15.5)
     parser.add_argument("--weak-user-focus-max-snr", type=float, default=-9.5)
+    parser.add_argument(
+        "--focus-other-users-min-snr",
+        type=float,
+        help="When focusing one weak user, clamp every other user to at least this SNR",
+    )
     parser.add_argument("--minimum-profile-max-snr", type=float)
     parser.add_argument("--width", type=int, default=128)
     parser.add_argument("--layers", type=int, default=3)
@@ -82,6 +87,8 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("--weak-user-focus-probability must be in [0, 1]")
     if args.weak_user_focus_min_snr >= args.weak_user_focus_max_snr:
         raise ValueError("weak-user focus minimum SNR must be below its maximum")
+    if args.focus_other_users_min_snr is not None and not -20.0 <= args.focus_other_users_min_snr <= 20.0:
+        raise ValueError("--focus-other-users-min-snr must be in [-20, 20]")
 
 
 def sample_training_snr(
@@ -111,6 +118,9 @@ def sample_training_snr(
                 args.weak_user_focus_max_snr,
                 generator=generator,
             )
+            if args.focus_other_users_min_snr is not None:
+                focused_profiles = snr[focused_rows].clamp_min(args.focus_other_users_min_snr)
+                snr[focused_rows] = focused_profiles
             snr[focused_rows, focused_users] = focused_snr
     if args.minimum_profile_max_snr is not None:
         mask = snr.max(dim=1).values < args.minimum_profile_max_snr

@@ -15,6 +15,7 @@ def training_args(**overrides: float | str | None) -> Namespace:
         "weak_user_focus_probability": 1.0,
         "weak_user_focus_min_snr": -15.5,
         "weak_user_focus_max_snr": -9.5,
+        "focus_other_users_min_snr": -9.5,
         "minimum_profile_max_snr": None,
     }
     values.update(overrides)
@@ -29,6 +30,7 @@ def test_weak_user_focus_places_one_user_in_target_interval() -> None:
 
     focused = (snr >= args.weak_user_focus_min_snr) & (snr < args.weak_user_focus_max_snr)
     assert torch.all(focused.any(dim=1))
+    assert torch.all((snr >= args.focus_other_users_min_snr).sum(dim=1) >= 1)
     assert torch.all((-20.0 <= snr) & (snr <= 20.0))
 
 
@@ -39,6 +41,7 @@ def test_weak_user_focus_places_one_user_in_target_interval() -> None:
         ({"tail_weight": 0.8, "weakest_user_weight": 0.3}, "must not exceed"),
         ({"weak_user_focus_probability": 1.1}, "probability"),
         ({"weak_user_focus_min_snr": -9.5, "weak_user_focus_max_snr": -15.5}, "minimum SNR"),
+        ({"focus_other_users_min_snr": 20.1}, "other-users-min-snr"),
     ],
 )
 def test_invalid_fairness_arguments_are_rejected(
