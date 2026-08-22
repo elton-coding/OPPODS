@@ -13,6 +13,7 @@
 - [FATE-MIMO V117 冠军增量方案](solutions/FATE-MIMO_v117.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
+- [Score-aligned CVaR 与弱用户 SNR 定向训练实验](experiments/score-aligned-cvar-training.md)
 
 ## 外部方案研究
 
