@@ -51,7 +51,7 @@ PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
 PILOT_32PSK_MIN_SNR_DB = 18.75
-SNR_EXPERT_BOUNDARIES_DB = (-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0)
+SNR_EXPERT_BOUNDARIES_DB = (-15.0, -10.0, -9.0, -8.0, -7.0, -6.0, -5.0, 0.0, 5.0, 10.0, 15.0)
 
 
 def _dominant_hermitian_eigenvector_2x2(matrix: torch.Tensor) -> torch.Tensor:

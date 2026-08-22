@@ -9,7 +9,11 @@ import torch
 SNR_INTERVALS_DB = (
     (-20.0, -15.0),
     (-15.0, -10.0),
-    (-10.0, -5.0),
+    (-10.0, -9.0),
+    (-9.0, -8.0),
+    (-8.0, -7.0),
+    (-7.0, -6.0),
+    (-6.0, -5.0),
     (-5.0, 0.0),
     (0.0, 5.0),
     (5.0, 10.0),
@@ -19,8 +23,8 @@ SNR_INTERVALS_DB = (
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Bundle eight independently trained 5 dB SNR experts")
-    parser.add_argument("--checkpoints", type=Path, nargs=8, required=True)
+    parser = argparse.ArgumentParser(description="Bundle independently trained SNR interval experts")
+    parser.add_argument("--checkpoints", type=Path, nargs=len(SNR_INTERVALS_DB), required=True)
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
 
