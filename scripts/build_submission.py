@@ -66,7 +66,14 @@ def main() -> None:
         encoder = model_design.Encoder()
         transmitter = model_design.Transmitter()
         receiver = model_design.Receiver()
-        transmitter.decoder.load_state_dict(checkpoint["denoiser"])
+        experts = [transmitter.decoder, *getattr(transmitter, "expert_decoders", [])]
+        expert_states = checkpoint.get("experts")
+        if expert_states is None:
+            expert_states = [checkpoint["denoiser"]] * len(experts)
+        if len(expert_states) != len(experts):
+            raise ValueError(f"checkpoint has {len(expert_states)} experts, model expects {len(experts)}")
+        for expert, state in zip(experts, expert_states, strict=True):
+            expert.load_state_dict(state)
         args.output_dir.mkdir(parents=True, exist_ok=True)
         torch.save(encoder.state_dict(), args.output_dir / "encoder.pth")
         torch.save(transmitter.state_dict(), args.output_dir / "transmitter.pth")

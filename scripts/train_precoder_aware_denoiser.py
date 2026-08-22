@@ -32,6 +32,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--regularization-scale", type=float, default=1.5)
     parser.add_argument("--reconstruction-weight", type=float, default=0.05)
     parser.add_argument("--tail-weight", type=float, default=0.1)
+    parser.add_argument("--snr-min", type=float, default=-20.0)
+    parser.add_argument("--snr-max", type=float, default=20.0)
     parser.add_argument("--minimum-profile-max-snr", type=float)
     parser.add_argument("--width", type=int, default=128)
     parser.add_argument("--layers", type=int, default=3)
@@ -48,6 +50,11 @@ def seed_everything(seed: int) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+
+
+def validate_args(args: argparse.Namespace) -> None:
+    if not -20.0 <= args.snr_min < args.snr_max <= 20.0:
+        raise ValueError("--snr-min/--snr-max must define an increasing interval within [-20, 20]")
 
 
 def forward_task(
@@ -124,7 +131,9 @@ def validate(
     for start in range(0, len(indices), args.batch_size):
         batch_indices = indices[start : start + args.batch_size]
         channel = torch.from_numpy(data.read(batch_indices)).to(device)
-        snr = torch.from_numpy(rng.uniform(-20.0, 20.0, (len(batch_indices), 2)).astype(np.float32)).to(device)
+        snr = torch.from_numpy(
+            rng.uniform(args.snr_min, args.snr_max, (len(batch_indices), 2)).astype(np.float32)
+        ).to(device)
         if args.minimum_profile_max_snr is not None:
             mask = snr.max(dim=1).values < args.minimum_profile_max_snr
             replacement = torch.from_numpy(
@@ -150,6 +159,7 @@ def validate(
 
 def main() -> None:
     args = parse_args()
+    validate_args(args)
     seed_everything(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data = ChannelMemmap(args.data)
@@ -176,7 +186,9 @@ def main() -> None:
     for step in range(args.steps):
         indices = rng.choice(splits["train"], args.batch_size, replace=False)
         channel = torch.from_numpy(data.read(indices)).to(device)
-        snr = torch.empty(args.batch_size, 2, device=device).uniform_(-20.0, 20.0, generator=generator)
+        snr = torch.empty(args.batch_size, 2, device=device).uniform_(
+            args.snr_min, args.snr_max, generator=generator
+        )
         if args.minimum_profile_max_snr is not None:
             mask = snr.max(dim=1).values < args.minimum_profile_max_snr
             replacement = torch.empty(int(mask.sum()), device=device).uniform_(

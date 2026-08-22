@@ -51,6 +51,7 @@ PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
 PILOT_32PSK_MIN_SNR_DB = 18.75
+SNR_EXPERT_BOUNDARIES_DB = (-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0)
 
 
 def _dominant_hermitian_eigenvector_2x2(matrix: torch.Tensor) -> torch.Tensor:
@@ -288,6 +289,20 @@ class Transmitter(nn.Module):
     def __init__(self):
         super().__init__()
         self.decoder = SparseFeedbackDenoiser()
+        self.expert_decoders = nn.ModuleList([SparseFeedbackDenoiser() for _ in SNR_EXPERT_BOUNDARIES_DB])
+
+    def _decode_feedback(self, feedback: torch.Tensor, snr: torch.Tensor) -> torch.Tensor:
+        boundaries = torch.tensor(SNR_EXPERT_BOUNDARIES_DB, device=snr.device, dtype=snr.dtype)
+        expert_indices = torch.bucketize(snr, boundaries, right=True)
+        decoded = torch.empty(
+            (feedback.shape[0], GROUPS, NUM_TX), device=feedback.device, dtype=feedback.dtype
+        )
+        experts = [self.decoder, *self.expert_decoders]
+        for expert_index, expert in enumerate(experts):
+            mask = expert_indices == expert_index
+            if bool(torch.any(mask).item()):
+                decoded[mask] = expert(feedback[mask], snr[mask])
+        return decoded
 
     def forward(
         self,
@@ -295,7 +310,9 @@ class Transmitter(nn.Module):
         feedback_list: list[torch.Tensor],
         snr_dl: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        effective = torch.stack([self.decoder(feedback_list[user], snr_dl[user]) for user in range(NUM_UE)], dim=2)
+        effective = torch.stack(
+            [self._decode_feedback(feedback_list[user], snr_dl[user]) for user in range(NUM_UE)], dim=2
+        )
         noise_variance = torch.pow(10.0, -snr_dl.transpose(0, 1) / 10.0)
         use_reserved = bool(torch.all(snr_dl.max(dim=0).values < RESERVED_PROFILE_MAX_SNR_DB).item())
         regularization = PILOT_RZF_REGULARIZATION if use_reserved else RZF_REGULARIZATION
