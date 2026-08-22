@@ -13,6 +13,7 @@
 - [FATE-MIMO V117 冠军增量方案](solutions/FATE-MIMO_v117.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
+- [离散 SNR 专家银行实验](experiments/snr-expert-bank.md)
 
 ## 外部方案研究
 
