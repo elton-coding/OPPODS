@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO very-high and ultra-peak paired RZF with SNR-routed receiver experts",
-    "version": "V139",
-    "source_commit": "2b4fc158c3487dea0c46d9c03e3f68f6c83c4412",
+    "solution": "FATE-MIMO low/very-high/ultra-peak paired RZF with SNR-routed receiver experts",
+    "version": "V143",
+    "source_commit": "c92020201fd326f1656b9c7a34bc11c373299207",
     "local_validation": {
       "1176": {
-        "efficiency": 68.37166883680557,
+        "efficiency": 68.3770724826389,
         "fairness_p10": 50.69444444444444,
-        "final": 63.06850151909723
+        "final": 63.07228407118056
       },
       "1177": {
-        "efficiency": 68.66715494791666,
+        "efficiency": 68.67880859375,
         "fairness_p10": 50.78125,
-        "final": 63.301383463541654
+        "final": 63.309541015625
       },
       "1178": {
-        "efficiency": 68.66092664930557,
+        "efficiency": 68.66776258680557,
         "fairness_p10": 50.607638888888886,
-        "final": 63.244940321180565
+        "final": 63.24972547743056
       },
-      "mean_final": 63.204941767939815
+      "mean_final": 63.21051685474537
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_paired_rzf_ultrapeak_v139_official.zip",
-      "sha256": "967AC26612848861924096B735F5DF41E97DAE5ACA179AF22D006817DEA7A350"
+      "name": "FATE_MIMO_submission_paired_rzf_low_v143_official.zip",
+      "sha256": "696850654692352C37917E4FEC3A4378C1B72D732D48DEB2058485A434F01078"
     }
   },
   "references": {
@@ -61,6 +61,7 @@
     "previous_champion_v135_mean_final": 63.19689561631944,
     "previous_champion_v137_mean_final": 63.198040002893514,
     "previous_champion_v138_mean_final": 63.204648075810184,
+    "previous_champion_v139_mean_final": 63.204941767939815,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
