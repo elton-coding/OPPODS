@@ -25,6 +25,8 @@ MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
+THRESHOLD_CODEBOOK_MODE = "walsh"
+THRESHOLD_WALSH_START = 65
 RESERVED_PROFILE_MAX_SNR_DB = 20.0
 PILOT_AMPLITUDE = 1.5
 PILOT_OFFSET = 5
@@ -142,11 +144,20 @@ def _threshold_tail_codebook(device: torch.device, dtype: torch.dtype) -> torch.
     positions = torch.arange(228, device=device, dtype=torch.int64)[None]
     template_count = (THRESHOLD_CODEWORDS + 1) // 2
     templates = torch.arange(template_count, device=device, dtype=torch.int64)[:, None]
-    hashed = positions + 193 * templates + 1
-    hashed = hashed * 1103515245 + 12345
-    hashed = torch.bitwise_xor(hashed, torch.bitwise_right_shift(hashed, 13))
-    hashed = hashed * 2654435761
-    base = torch.bitwise_and(torch.bitwise_right_shift(hashed, 17), 1)
+    if THRESHOLD_CODEBOOK_MODE == "hash":
+        hashed = positions + 193 * templates + 1
+        hashed = hashed * 1103515245 + 12345
+        hashed = torch.bitwise_xor(hashed, torch.bitwise_right_shift(hashed, 13))
+        hashed = hashed * 2654435761
+        base = torch.bitwise_and(torch.bitwise_right_shift(hashed, 17), 1)
+    elif THRESHOLD_CODEBOOK_MODE == "walsh":
+        walsh_rows = templates + THRESHOLD_WALSH_START
+        parity = torch.bitwise_and(positions, walsh_rows)
+        for shift in (1, 2, 4, 8):
+            parity = torch.bitwise_xor(parity, torch.bitwise_right_shift(parity, shift))
+        base = torch.bitwise_and(parity, 1)
+    else:
+        raise ValueError(f"unsupported threshold codebook mode: {THRESHOLD_CODEBOOK_MODE}")
     paired = torch.stack([base, 1 - base], dim=1).reshape(2 * template_count, 228)
     return paired[:THRESHOLD_CODEWORDS].to(dtype)
 
