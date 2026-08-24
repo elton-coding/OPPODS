@@ -18,6 +18,7 @@ DELAY_MODE_PRIOR = (0.5722, 0.2068, 0.0698, 0.0301, 0.0424, 0.0173)
 WIENER_NOISE_SCALE = 0.75
 RZF_REGULARIZATION = 1.5
 PILOT_RZF_REGULARIZATION = 0.45
+PILOT_RZF_REGULARIZATION_ANY_USER_INTERVALS = ((-10.0, -2.75, 0.4),)
 CENTRAL_BOOST = -0.5
 DD_ITERATIONS = 15
 LOW_SNR_THRESHOLD_DB = -20.0
@@ -95,6 +96,19 @@ def _snr_interval_value(
     value = torch.full_like(snr, default)
     for low_db, high_db, interval_value in intervals:
         in_interval = (snr >= low_db) & (snr < high_db)
+        value = torch.where(in_interval, torch.full_like(value, interval_value), value)
+    return value
+
+
+def _snr_pair_interval_value(
+    default: float,
+    intervals: tuple[tuple[float, float, float], ...],
+    snr_by_user: torch.Tensor,
+) -> torch.Tensor:
+    """Route a shared link parameter when any UE falls inside an SNR interval."""
+    value = torch.full_like(snr_by_user[:, 0], default)
+    for low_db, high_db, interval_value in intervals:
+        in_interval = ((snr_by_user >= low_db) & (snr_by_user < high_db)).any(dim=1)
         value = torch.where(in_interval, torch.full_like(value, interval_value), value)
     return value
 
@@ -330,7 +344,7 @@ class Encoder(nn.Module):
 def _rzf_precoder(
     effective: torch.Tensor,
     noise_variance: torch.Tensor,
-    regularization_scale: float = RZF_REGULARIZATION,
+    regularization_scale: float | torch.Tensor = RZF_REGULARIZATION,
 ) -> torch.Tensor:
     batch = effective.shape[0]
     gram = effective @ effective.conj().transpose(-2, -1)
@@ -357,7 +371,14 @@ class Transmitter(nn.Module):
         effective = torch.stack([self.decoder(feedback_list[user], snr_dl[user]) for user in range(NUM_UE)], dim=2)
         noise_variance = torch.pow(10.0, -snr_dl.transpose(0, 1) / 10.0)
         use_reserved = bool(torch.all(snr_dl.max(dim=0).values < RESERVED_PROFILE_MAX_SNR_DB).item())
-        regularization = PILOT_RZF_REGULARIZATION if use_reserved else RZF_REGULARIZATION
+        if use_reserved:
+            regularization = _snr_pair_interval_value(
+                PILOT_RZF_REGULARIZATION,
+                PILOT_RZF_REGULARIZATION_ANY_USER_INTERVALS,
+                snr_dl.transpose(0, 1),
+            )[:, None, None, None]
+        else:
+            regularization = RZF_REGULARIZATION
         precoder = _rzf_precoder(effective, noise_variance, regularization)
         precoder_sc = precoder.repeat_interleave(GROUP_SIZE, dim=1)
         if use_reserved:
