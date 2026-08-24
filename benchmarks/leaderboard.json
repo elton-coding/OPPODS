@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO SNR-binned clipped-confidence prefix with Walsh tail VQ",
-    "version": "V125",
-    "source_commit": "dfa25ca3c678e69bc37a06a6109b81a783b5fb9e",
+    "solution": "FATE-MIMO semantic bare-prefix extension with SNR-binned confidence and Walsh tail VQ",
+    "version": "V126",
+    "source_commit": "9862fe7d68b3e13cffb5894e1d193900f68dcac8",
     "local_validation": {
       "1176": {
-        "efficiency": 68.27492404513889,
+        "efficiency": 68.27833116319444,
         "fairness_p10": 50.69444444444444,
-        "final": 63.00078016493055
+        "final": 63.00316514756944
       },
       "1177": {
-        "efficiency": 68.57666015625,
+        "efficiency": 68.58043619791665,
         "fairness_p10": 50.78125,
-        "final": 63.238037109375
+        "final": 63.24068033854166
       },
       "1178": {
-        "efficiency": 68.57251519097223,
+        "efficiency": 68.57492404513887,
         "fairness_p10": 50.607638888888886,
-        "final": 63.18305230034723
+        "final": 63.18473849826387
       },
-      "mean_final": 63.14062319155092
+      "mean_final": 63.14286132812499
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_snr_binned_confidence_v125_official.zip",
-      "sha256": "A38585B2C6C5CB7952ED6AED54A84B88EE67A686C6CD9F256BF633FE64C99599"
+      "name": "FATE_MIMO_submission_bare_prefix_extension_v126_official.zip",
+      "sha256": "FDC2A71E3335D3F779A19E98C9FA65AD1DA598863FA4B6CD94EAAD0699B1F797"
     }
   },
   "references": {
@@ -48,6 +48,7 @@
     "previous_champion_v122_mean_final": 63.13517469618055,
     "previous_champion_v123_mean_final": 63.138096426504625,
     "previous_champion_v124_mean_final": 63.13980794270833,
+    "previous_champion_v125_mean_final": 63.14062319155092,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
