@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V117
+solution_version: V118
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -53,14 +53,22 @@ profiles:
   reserved_pilot_data_gain_refinement_iterations: 4
   reserved_pilot_data_gain_refinement_snr_slope_per_db: 0.01
   reserved_pilot_data_gain_soft_temperature: 0.5
+  reserved_pilot_data_gain_soft_temperature_intervals:
+    - {snr_db: [-2.5, 0.0], value: 0.3}
+    - {snr_db: [2.5, 5.0], value: 0.3}
   reserved_pilot_data_gain_residual_mode: current_after_vector_update
   reserved_pilot_data_vector_refinement_scale: 0.2
   reserved_pilot_data_vector_refinement_min_snr_db: -12.5
   reserved_pilot_data_vector_soft_temperature: 3.0
+  reserved_pilot_data_vector_soft_temperature_intervals:
+    - {snr_db: [0.0, 2.5], value: 2.0}
+    - {snr_db: [5.0, 7.5], value: 2.0}
   reserved_pilot_interference_cancellation_scale: 0.2
   reserved_pilot_interference_cancellation_temperature: 0.3
   reserved_pilot_interference_cancellation_min_snr_db: -10.0
   reserved_pilot_interference_cancellation_snr_slope: -0.005
+  reserved_pilot_interference_cancellation_disabled_intervals_db:
+    - [-8.5, -8.0]
   reserved_pilot_phase_bit_min_snr_db: 2.5
   reserved_pilot_phase_schedule:
     - {min_snr_db: 2.5, bits_per_ue: 2, constellation: qpsk}
@@ -84,5 +92,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_weak_tail_v117_official.zip
-  sha256: 2428C5DFB0865EF3E1181F1901FFA1D0D73DA0803FA5C8A57768A9FCBB691F84
+  versioned_archive: artifacts/FATE_MIMO_submission_snr_physical_v118_official.zip
+  sha256: 968B680A9CAF530BF3D1EA4735BB32FC4B20344606E21C9772CBAE213717F9F3

@@ -47,10 +47,25 @@ INTERFERENCE_CANCELLATION_SCALE = 0.2
 INTERFERENCE_CANCELLATION_TEMPERATURE = 0.3
 INTERFERENCE_CANCELLATION_MIN_SNR_DB = -10.0
 INTERFERENCE_CANCELLATION_SNR_SLOPE = -0.005
+INTERFERENCE_CANCELLATION_DISABLED_INTERVALS_DB = ((-8.5, -8.0),)
 PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
 PILOT_32PSK_MIN_SNR_DB = 18.75
+DATA_VECTOR_SOFT_TEMPERATURE_INTERVALS = ((0.0, 2.5, 2.0), (5.0, 7.5, 2.0))
+DATA_GAIN_SOFT_TEMPERATURE_INTERVALS = ((-2.5, 0.0, 0.3), (2.5, 5.0, 0.3))
+
+
+def _snr_interval_value(
+    default: float,
+    intervals: tuple[tuple[float, float, float], ...],
+    snr: torch.Tensor,
+) -> torch.Tensor:
+    value = torch.full_like(snr, default)
+    for low_db, high_db, interval_value in intervals:
+        in_interval = (snr >= low_db) & (snr < high_db)
+        value = torch.where(in_interval, torch.full_like(value, interval_value), value)
+    return value
 
 
 def _dominant_hermitian_eigenvector_2x2(matrix: torch.Tensor) -> torch.Tensor:
@@ -602,8 +617,13 @@ class Receiver(nn.Module):
         ).square() / (
             torch.abs(projected[:, :, 1]).square() + vector_filtered_noise
         )[:, :, None, None].clamp_min(1e-6)
+        vector_soft_temperature = _snr_interval_value(
+            DATA_VECTOR_SOFT_TEMPERATURE,
+            DATA_VECTOR_SOFT_TEMPERATURE_INTERVALS,
+            snr,
+        )
         posterior = torch.softmax(
-            -normalized_distance / DATA_VECTOR_SOFT_TEMPERATURE, dim=-1
+            -normalized_distance / vector_soft_temperature[:, None, None, None], dim=-1
         )
         soft_conjugate = torch.sum(posterior * self.points.conj(), dim=-1)
         soft_energy = torch.sum(posterior * torch.abs(self.points).square(), dim=-1)
@@ -671,8 +691,13 @@ class Receiver(nn.Module):
             normalized_distance = torch.abs(
                 flat_observation[..., None] - predicted
             ).square() / data_gain_soft_residual[..., None].clamp_min(1e-6)
+            gain_soft_temperature = _snr_interval_value(
+                DATA_GAIN_SOFT_TEMPERATURE,
+                DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
+                snr,
+            )
             posterior = torch.softmax(
-                -normalized_distance / DATA_GAIN_SOFT_TEMPERATURE, dim=-1
+                -normalized_distance / gain_soft_temperature[:, None, None], dim=-1
             )
             soft_conjugate = torch.sum(posterior * self.points.conj(), dim=-1)
             numerator = flat_observation * soft_conjugate
@@ -714,7 +739,12 @@ class Receiver(nn.Module):
         cancelled_observation = (
             observation - adaptive_cancellation_scale * other_leakage * soft_other
         )
-        cancellation_mask = (snr >= INTERFERENCE_CANCELLATION_MIN_SNR_DB)[:, None]
+        cancellation_enabled = snr >= INTERFERENCE_CANCELLATION_MIN_SNR_DB
+        for low_db, high_db in INTERFERENCE_CANCELLATION_DISABLED_INTERVALS_DB:
+            cancellation_enabled = cancellation_enabled & ~(
+                (snr >= low_db) & (snr < high_db)
+            )
+        cancellation_mask = cancellation_enabled[:, None]
         observation = torch.where(cancellation_mask, cancelled_observation, observation)
         filtered_noise = noise_variance[:, None] * torch.sum(torch.abs(weights).square(), dim=-1)
         residual = torch.abs(projected[:, :, 1]).square() + filtered_noise
