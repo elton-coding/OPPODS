@@ -39,6 +39,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--prefix-scores-out", type=Path)
     parser.add_argument("--scores-out", type=Path, help="Save exact per-UE scores, SNRs, and output lengths")
     parser.add_argument(
+        "--extension-diagnostics-out",
+        type=Path,
+        help="Save middle-SNR extension confidence features and paired fallback/1056 scores.",
+    )
+    parser.add_argument(
         "--override",
         action="append",
         default=[],
@@ -79,6 +84,27 @@ def main() -> None:
     lengths: list[int] = []
     prefix_scores: dict[int, list[float]] = {prefix: [] for prefix in PREFIXES}
     user_snrs: list[float] = []
+    extension_diagnostics: dict[str, list[float | int]] = {
+        key: []
+        for key in (
+            "data_index",
+            "user",
+            "score_position",
+            "snr",
+            "mean_abs",
+            "median_abs",
+            "q25_abs",
+            "q75_abs",
+            "std_abs",
+            "mean_clipped_0p25",
+            "mean_clipped_0p5",
+            "mean_clipped_1p0",
+            "fallback_length",
+            "fallback_score",
+            "extension_score",
+            "score_delta",
+        )
+    }
     started = time.perf_counter()
     with torch.no_grad():
         for sample_index, data_index in enumerate(indices):
@@ -116,6 +142,83 @@ def main() -> None:
                 scores.append(score)
                 lengths.append(llr.shape[1])
                 user_snrs.append(float(snr_dl[user].item()))
+                if (
+                    args.extension_diagnostics_out is not None
+                    and float(snr_dl[user].item()) >= module.LOW_SNR_THRESHOLD_DB
+                    and float(snr_dl[user].item()) < module.MIDDLE_PREFIX_THRESHOLD_DB
+                ):
+                    original_middle_threshold = module.MIDDLE_PREFIX_THRESHOLD_DB
+                    original_extension_threshold = (
+                        module.MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD
+                    )
+                    try:
+                        module.MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 1.0e9
+                        fallback_llr = receiver(
+                            received,
+                            channel[:, user],
+                            ctrl,
+                            snr_dl[user],
+                        )
+                        module.MIDDLE_PREFIX_THRESHOLD_DB = -20.0
+                        full_llr = receiver(
+                            received,
+                            channel[:, user],
+                            ctrl,
+                            snr_dl[user],
+                        )
+                    finally:
+                        module.MIDDLE_PREFIX_THRESHOLD_DB = original_middle_threshold
+                        module.MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = (
+                            original_extension_threshold
+                        )
+                    raw_llr = full_llr[:, :1056]
+                    extension_abs = torch.abs(
+                        raw_llr[:, module.MIDDLE_PREFIX_BITS:1056]
+                    )
+                    fallback_correct = (
+                        (fallback_llr >= 0)
+                        == (
+                            bits_list[user][:, : fallback_llr.shape[1]]
+                            >= 0.5
+                        )
+                    ).sum()
+                    fallback_score = 100.0 * (
+                        float(fallback_correct)
+                        + 0.5 * (1152 - fallback_llr.shape[1])
+                    ) / 1152
+                    extension_correct = (
+                        (raw_llr >= 0)
+                        == (bits_list[user][:, :1056] >= 0.5)
+                    ).sum()
+                    extension_score = 100.0 * (
+                        float(extension_correct) + 0.5 * (1152 - 1056)
+                    ) / 1152
+                    diagnostic_values: dict[str, float | int] = {
+                        "data_index": int(data_index),
+                        "user": user,
+                        "score_position": 2 * sample_index + user,
+                        "snr": float(snr_dl[user].item()),
+                        "mean_abs": float(torch.mean(extension_abs).item()),
+                        "median_abs": float(torch.median(extension_abs).item()),
+                        "q25_abs": float(torch.quantile(extension_abs, 0.25).item()),
+                        "q75_abs": float(torch.quantile(extension_abs, 0.75).item()),
+                        "std_abs": float(torch.std(extension_abs).item()),
+                        "mean_clipped_0p25": float(
+                            torch.mean(extension_abs.clamp_max(0.25)).item()
+                        ),
+                        "mean_clipped_0p5": float(
+                            torch.mean(extension_abs.clamp_max(0.5)).item()
+                        ),
+                        "mean_clipped_1p0": float(
+                            torch.mean(extension_abs.clamp_max(1.0)).item()
+                        ),
+                        "fallback_length": fallback_llr.shape[1],
+                        "fallback_score": fallback_score,
+                        "extension_score": extension_score,
+                        "score_delta": extension_score - fallback_score,
+                    }
+                    for key, value in diagnostic_values.items():
+                        extension_diagnostics[key].append(value)
                 if args.search_prefixes:
                     if llr.shape[1] < PREFIXES[-1]:
                         raise RuntimeError("prefix search requires full 1056-bit receiver output")
@@ -146,6 +249,15 @@ def main() -> None:
             snr=np.asarray(user_snrs, dtype=np.float32),
             length=np.asarray(lengths, dtype=np.int16),
             data_index=np.repeat(indices.astype(np.int64), 2),
+        )
+    if args.extension_diagnostics_out is not None:
+        args.extension_diagnostics_out.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(
+            args.extension_diagnostics_out,
+            **{
+                key: np.asarray(values)
+                for key, values in extension_diagnostics.items()
+            },
         )
     result: dict[str, object] = {
                 "samples": len(indices),
