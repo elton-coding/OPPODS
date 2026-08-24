@@ -21,13 +21,13 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 & $python -m pytest
 ```
 
-## 当前冠军方案（V119）
+## 当前冠军方案（V120）
 
-最终采用任务导向稀疏反馈、解析 Wiener 零初始化残差 Transformer、鲁棒 RZF、分层 Gray 256-QAM、正交保留导频、弱用户约束尾部向量量化，以及按 UE SNR 路由的 Receiver 物理参数专家。V119 在 V118 的五个区间专家之外，进一步对三个稳定 SNR 区间使用更强的频域导频增益插值。
+最终采用任务导向稀疏反馈、解析 Wiener 零初始化残差 Transformer、鲁棒 RZF、分层 Gray 256-QAM、正交保留导频、弱用户约束尾部向量量化，以及按 UE SNR 路由的 Receiver 物理参数专家。V120 在 V119 基础上把 924-bit 弱用户尾部 VQ 分支扩展到 `-8 dB`。
 
-冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.248177`，公平 P10 `50.607639`，总分 **`62.956016`**。三个固定 seed 的平均总分为 **`63.082102`**，相对 V118 提升 `0.001666`。这些是本地验证结果，不等同于线上排行榜成绩。
+冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.254818`，公平 P10 `50.607639`，总分 **`62.960664`**。三个固定 seed 的平均总分为 **`63.088153`**，相对 V119 提升 `0.006051`。这些是本地验证结果，不等同于线上排行榜成绩。
 
-完整设计见 [FATE-MIMO V119](docs/solutions/FATE-MIMO_v119.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
+完整设计见 [FATE-MIMO V120](docs/solutions/FATE-MIMO_v120.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
 
 ## Git 与版本纪律
 

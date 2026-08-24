@@ -11,37 +11,38 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO SNR-specific Receiver physics and pilot interpolation",
-    "version": "V119",
-    "source_commit": "08a1c19518a85eb641c08b1bfe55e52d09b46302",
+    "solution": "FATE-MIMO SNR-specific Receiver physics and extended weak-user tail",
+    "version": "V120",
+    "source_commit": "a87c8ddbfbab24c73a24207473ed8a4d66780437",
     "local_validation": {
       "1176": {
-        "efficiency": 68.24817708333333,
+        "efficiency": 68.25481770833335,
         "fairness_p10": 50.607638888888886,
-        "final": 62.95601562499999
+        "final": 62.960664062500015
       },
       "1177": {
-        "efficiency": 68.5408962673611,
+        "efficiency": 68.55003255208334,
         "fairness_p10": 50.607638888888886,
-        "final": 63.16091905381944
+        "final": 63.167314453125
       },
       "1178": {
-        "efficiency": 68.53302951388889,
+        "efficiency": 68.54318576388889,
         "fairness_p10": 50.520833333333336,
-        "final": 63.12937065972223
+        "final": 63.136480034722226
       },
-      "mean_final": 63.08210177951389
+      "mean_final": 63.08815285011574
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_snr_pilot_v119_official.zip",
-      "sha256": "7FA44908DA6A3244ADDE4B74FA2FF370FA3E0BD26A87D13D67710F0B529296AF"
+      "name": "FATE_MIMO_submission_output_v120_official.zip",
+      "sha256": "F558194D7827F8887FD93F6F2F6A255BEC3E3E0FC00507B800A0E9AF9E29D275"
     }
   },
   "references": {
     "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064,
     "previous_champion_v117_mean_final": 63.07745840567129,
     "previous_champion_v118_mean_final": 63.080435836226855,
+    "previous_champion_v119_mean_final": 63.08210177951389,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
