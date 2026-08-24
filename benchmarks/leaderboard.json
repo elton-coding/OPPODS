@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO paired-UE multi-band pilot RZF experts with very-high-SNR subband",
-    "version": "V130",
-    "source_commit": "10b260cf5cd7ad09f9ca66c589ad37a02a34561a",
+    "solution": "FATE-MIMO paired-UE multi-band pilot RZF experts with ultra-high-SNR strong regularization",
+    "version": "V131",
+    "source_commit": "5de8eb0167d28345f0f58cc04d5fe12b6cd92650",
     "local_validation": {
       "1176": {
-        "efficiency": 68.32401258680557,
+        "efficiency": 68.33616536458334,
         "fairness_p10": 50.69444444444444,
-        "final": 63.03514214409723
+        "final": 63.04364908854167
       },
       "1177": {
-        "efficiency": 68.63189019097221,
+        "efficiency": 68.63937717013889,
         "fairness_p10": 50.78125,
-        "final": 63.27669813368055
+        "final": 63.281939019097216
       },
       "1178": {
-        "efficiency": 68.62073567708335,
+        "efficiency": 68.62928602430556,
         "fairness_p10": 50.607638888888886,
-        "final": 63.21680664062501
+        "final": 63.22279188368056
       },
-      "mean_final": 63.17621563946759
+      "mean_final": 63.182793330439814
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_paired_rzf_high_subband_v130_official.zip",
-      "sha256": "7E62CF1126619AADB22A2D0981E05F7870C74F82B5F8B30266A9AEEC239085BE"
+      "name": "FATE_MIMO_submission_paired_rzf_ultrahigh_v131_official.zip",
+      "sha256": "B0E156A76F31B2AAD4BF5A499A115E43A22B8FA916CF855B8D2B7594363F696E"
     }
   },
   "references": {
@@ -53,6 +53,7 @@
     "previous_champion_v127_mean_final": 63.142881582754626,
     "previous_champion_v128_mean_final": 63.14754014756943,
     "previous_champion_v129_mean_final": 63.170944372106476,
+    "previous_champion_v130_mean_final": 63.17621563946759,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
