@@ -24,6 +24,26 @@ LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
 MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 0.3
+MIDDLE_EXTENSION_CONFIDENCE_CLIP = 1.0
+MIDDLE_EXTENSION_SNR_BIN_EDGES_DB = (
+    -20.0,
+    -17.5,
+    -15.0,
+    -12.5,
+    -10.0,
+    -7.5,
+    -5.0,
+    -2.5,
+)
+MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS = (
+    0.246,
+    0.246,
+    0.246,
+    0.124,
+    0.101,
+    0.246,
+    0.246,
+)
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
@@ -796,10 +816,17 @@ class Receiver(nn.Module):
         if bool(torch.all(snr < MIDDLE_PREFIX_THRESHOLD_DB).item()):
             middle_llr = llr[:, :MIDDLE_PREFIX_BITS]
             extension_llr = llr[:, MIDDLE_PREFIX_BITS:1056]
-            extension_confidence = torch.mean(torch.abs(extension_llr), dim=1)
+            extension_confidence = torch.mean(
+                torch.abs(extension_llr).clamp_max(MIDDLE_EXTENSION_CONFIDENCE_CLIP),
+                dim=1,
+            )
+            bin_boundaries = snr.new_tensor(MIDDLE_EXTENSION_SNR_BIN_EDGES_DB[1:-1])
+            bin_thresholds = snr.new_tensor(MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS)
+            bin_index = torch.bucketize(snr, bin_boundaries, right=True)
+            extension_threshold = bin_thresholds[bin_index]
             if bool(
                 torch.all(
-                    extension_confidence >= MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD
+                    extension_confidence >= extension_threshold
                 ).item()
             ):
                 return llr[:, :1056]
@@ -822,7 +849,6 @@ class Receiver(nn.Module):
         if bool(torch.all(data_mode).item()):
             remaining = 1152 - llr.shape[1] - payload_llr.shape[1]
             codebook = _tail_codebook(llr.device, llr.dtype)
-            batch_indices = torch.arange(batch, device=llr.device)
             tail_prediction = codebook[control_index, own_pilot_index]
             tail_llr = 2.0 * tail_prediction[:, :remaining] - 1.0
             payload_llr = torch.cat([payload_llr, tail_llr], dim=1)

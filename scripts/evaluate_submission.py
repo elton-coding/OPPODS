@@ -151,8 +151,17 @@ def main() -> None:
                     original_extension_threshold = (
                         module.MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD
                     )
+                    original_bin_thresholds = getattr(
+                        module,
+                        "MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS",
+                        None,
+                    )
                     try:
                         module.MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 1.0e9
+                        if original_bin_thresholds is not None:
+                            module.MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS = tuple(
+                                1.0e9 for _ in original_bin_thresholds
+                            )
                         fallback_llr = receiver(
                             received,
                             channel[:, user],
@@ -171,6 +180,10 @@ def main() -> None:
                         module.MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = (
                             original_extension_threshold
                         )
+                        if original_bin_thresholds is not None:
+                            module.MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS = (
+                                original_bin_thresholds
+                            )
                     raw_llr = full_llr[:, :1056]
                     extension_abs = torch.abs(
                         raw_llr[:, module.MIDDLE_PREFIX_BITS:1056]
