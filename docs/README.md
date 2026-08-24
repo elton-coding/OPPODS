@@ -23,6 +23,7 @@
 - [FATE-MIMO V127 Walsh 尾部置信度再校准方案](solutions/FATE-MIMO_v127.md)
 - [FATE-MIMO V128 双 UE SNR 分段 RZF 专家方案](solutions/FATE-MIMO_v128.md)
 - [FATE-MIMO V129 双 UE 多区间 RZF 专家方案](solutions/FATE-MIMO_v129.md)
+- [FATE-MIMO V130 极高 SNR RZF 子专家方案](solutions/FATE-MIMO_v130.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -37,6 +38,7 @@
 - [V127 提交说明](submission/V127_提交说明.md)
 - [V128 提交说明](submission/V128_提交说明.md)
 - [V129 提交说明](submission/V129_提交说明.md)
+- [V130 提交说明](submission/V130_提交说明.md)
 
 ## 实验记录
 
@@ -54,6 +56,7 @@
 - [V127 Walsh 尾部置信度再校准](experiments/walsh-tail-confidence-v127.md)
 - [V128 双 UE SNR 分段 RZF 专家实验](experiments/snr-pair-rzf-v128.md)
 - [V129 双 UE 多区间 RZF 专家实验](experiments/paired-rzf-multiband-v129.md)
+- [V130 极高 SNR RZF 子专家实验](experiments/paired-rzf-high-subband-v130.md)
 
 ## 外部方案研究
 

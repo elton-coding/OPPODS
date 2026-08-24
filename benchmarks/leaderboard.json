@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO paired-UE multi-band pilot RZF experts",
-    "version": "V129",
-    "source_commit": "16caaeb850639241d4d342e2aec57afedc34d6e3",
+    "solution": "FATE-MIMO paired-UE multi-band pilot RZF experts with very-high-SNR subband",
+    "version": "V130",
+    "source_commit": "10b260cf5cd7ad09f9ca66c589ad37a02a34561a",
     "local_validation": {
       "1176": {
-        "efficiency": 68.31472439236111,
+        "efficiency": 68.32401258680557,
         "fairness_p10": 50.69444444444444,
-        "final": 63.02864040798611
+        "final": 63.03514214409723
       },
       "1177": {
-        "efficiency": 68.62390407986112,
+        "efficiency": 68.63189019097221,
         "fairness_p10": 50.78125,
-        "final": 63.271107855902784
+        "final": 63.27669813368055
       },
       "1178": {
-        "efficiency": 68.61541883680556,
+        "efficiency": 68.62073567708335,
         "fairness_p10": 50.607638888888886,
-        "final": 63.213084852430555
+        "final": 63.21680664062501
       },
-      "mean_final": 63.170944372106476
+      "mean_final": 63.17621563946759
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_paired_rzf_multiband_v129_official.zip",
-      "sha256": "ABB133C8E04C73D9001182ACE82CEDCC1F0FD80B22180E760DE21725685414F3"
+      "name": "FATE_MIMO_submission_paired_rzf_high_subband_v130_official.zip",
+      "sha256": "7E62CF1126619AADB22A2D0981E05F7870C74F82B5F8B30266A9AEEC239085BE"
     }
   },
   "references": {
@@ -52,6 +52,7 @@
     "previous_champion_v126_mean_final": 63.14286132812499,
     "previous_champion_v127_mean_final": 63.142881582754626,
     "previous_champion_v128_mean_final": 63.14754014756943,
+    "previous_champion_v129_mean_final": 63.170944372106476,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }

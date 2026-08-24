@@ -21,13 +21,13 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 & $python -m pytest
 ```
 
-## 当前冠军方案（V129）
+## 当前冠军方案（V130）
 
-最终采用任务导向稀疏反馈、解析 Wiener 零初始化残差 Transformer、鲁棒 RZF、分层 Gray 256-QAM、正交保留导频、弱用户约束尾部向量量化，以及按 SNR 路由的 Receiver 和共享预编码参数专家。V129 在任一 UE 位于 `[-10,-2.75) dB` 时使用导频 RZF 正则 `0.40`，在两个 UE 都不低于 `-0.75 dB` 时使用 `0.90`，其余组合使用 `0.45`。
+最终采用任务导向稀疏反馈、解析 Wiener 零初始化残差 Transformer、鲁棒 RZF、分层 Gray 256-QAM、正交保留导频、弱用户约束尾部向量量化，以及按 SNR 路由的 Receiver 和共享预编码参数专家。V130 在 V129 基础上增加极高 SNR 子专家：两个 UE 都至少为 `4 dB` 时使用导频 RZF 正则 `1.20`，`[-0.75,4)` 使用 `0.90`，中低 SNR 路由保持 `0.40/0.45`。
 
-冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.314724`，公平 P10 `50.694444`，总分 **`63.028640`**。三个固定 seed 的平均总分为 **`63.170944`**，相对 V128 提升 `0.023404`；冻结后 seed2035/2036/2037 三项盲测全部为正，P10 均不变。以上均为本地验证结果，不等同于线上排行榜成绩。
+冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.324013`，公平 P10 `50.694444`，总分 **`63.035142`**。三个固定 seed 的平均总分为 **`63.176216`**，相对 V129 提升 `0.005271`；冻结后 seed2041/2042/2043 三项盲测全部为正，P10 均不变。以上均为本地验证结果，不等同于线上排行榜成绩。
 
-完整设计见 [FATE-MIMO V129](docs/solutions/FATE-MIMO_v129.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
+完整设计见 [FATE-MIMO V130](docs/solutions/FATE-MIMO_v130.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
 
 ## Git 与版本纪律
 
