@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO multi-band paired RZF with strengthened high-SNR receiver covariance expert",
-    "version": "V133",
-    "source_commit": "fed1dd8057b684514d127c39c3092eb4c2dc1e39",
+    "solution": "FATE-MIMO multi-band paired RZF with layered high-SNR receiver covariance experts",
+    "version": "V134",
+    "source_commit": "5ffc5ebd3404e91e2718655ab2878649a8ac3519",
     "local_validation": {
       "1176": {
-        "efficiency": 68.35224609375,
+        "efficiency": 68.35250651041666,
         "fairness_p10": 50.69444444444444,
-        "final": 63.05490559895833
+        "final": 63.055087890624996
       },
       "1177": {
-        "efficiency": 68.65356987847223,
+        "efficiency": 68.65595703125,
         "fairness_p10": 50.78125,
-        "final": 63.291873914930555
+        "final": 63.293544921875
       },
       "1178": {
-        "efficiency": 68.64729817708334,
+        "efficiency": 68.6514865451389,
         "fairness_p10": 50.607638888888886,
-        "final": 63.235400390625
+        "final": 63.23833224826389
       },
-      "mean_final": 63.194059968171295
+      "mean_final": 63.19565502025463
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_receiver_covload_high_v133_official.zip",
-      "sha256": "5C4D8E6C03BA7C77F24965F32F98250DB3D17CE9DFE605F995DB2743B32E4B5D"
+      "name": "FATE_MIMO_submission_receiver_covload_ultrahigh_v134_official.zip",
+      "sha256": "5A2A43A7F8163B7E7B70F12FECC3D6C3496D63AD25010791C3C836974A748C21"
     }
   },
   "references": {
@@ -56,6 +56,7 @@
     "previous_champion_v130_mean_final": 63.17621563946759,
     "previous_champion_v131_mean_final": 63.182793330439814,
     "previous_champion_v132_mean_final": 63.18970522280093,
+    "previous_champion_v133_mean_final": 63.194059968171295,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }

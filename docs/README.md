@@ -27,6 +27,7 @@
 - [FATE-MIMO V131 超高 SNR RZF 强正则专家方案](solutions/FATE-MIMO_v131.md)
 - [FATE-MIMO V132 高 SNR Receiver 协方差专家方案](solutions/FATE-MIMO_v132.md)
 - [FATE-MIMO V133 高 SNR Receiver 协方差加载增强方案](solutions/FATE-MIMO_v133.md)
+- [FATE-MIMO V134 分层高 SNR Receiver 协方差专家方案](solutions/FATE-MIMO_v134.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -45,6 +46,7 @@
 - [V131 提交说明](submission/V131_提交说明.md)
 - [V132 提交说明](submission/V132_提交说明.md)
 - [V133 提交说明](submission/V133_提交说明.md)
+- [V134 提交说明](submission/V134_提交说明.md)
 
 ## 实验记录
 
@@ -66,6 +68,7 @@
 - [V131 超高 SNR RZF 强正则实验](experiments/paired-rzf-ultrahigh-v131.md)
 - [V132 高 SNR Receiver 协方差加载专家](experiments/receiver-covload-v132.md)
 - [V133 高 SNR Receiver 协方差加载强度搜索](experiments/receiver-covload-high-v133.md)
+- [V134 分层高 SNR Receiver 协方差加载专家](experiments/receiver-covload-ultrahigh-v134.md)
 
 ## 外部方案研究
 
