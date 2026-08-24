@@ -91,6 +91,9 @@ def main() -> None:
             "user",
             "score_position",
             "snr",
+            "control_index",
+            "control_threshold",
+            "threshold_margin",
             "mean_abs",
             "median_abs",
             "q25_abs",
@@ -268,6 +271,26 @@ def main() -> None:
                         "extension_score": extension_score,
                         "score_delta": extension_score - fallback_score,
                     }
+                    control_weights = ctrl.new_tensor((16, 8, 4, 2, 1))
+                    control_index = int(
+                        torch.sum(ctrl[0].to(torch.int64) * control_weights).item()
+                    )
+                    threshold_index = max(
+                        control_index - module.DATA_MODE_CODEWORDS,
+                        0,
+                    )
+                    control_threshold = -20.0 + (
+                        30.25 / module.THRESHOLD_CODEWORDS
+                    ) * (threshold_index + 1.0)
+                    diagnostic_values.update(
+                        {
+                            "control_index": control_index,
+                            "control_threshold": control_threshold,
+                            "threshold_margin": (
+                                float(snr_dl[user].item()) - control_threshold
+                            ),
+                        }
+                    )
                     for key, value in diagnostic_values.items():
                         extension_diagnostics[key].append(value)
                 if args.search_prefixes:
