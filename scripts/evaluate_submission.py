@@ -38,6 +38,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--search-prefixes", action="store_true")
     parser.add_argument("--prefix-scores-out", type=Path)
     parser.add_argument("--scores-out", type=Path, help="Save exact per-UE scores, SNRs, and output lengths")
+    parser.add_argument(
+        "--override",
+        action="append",
+        default=[],
+        metavar="NAME=JSON",
+        help="Override a modelDesign module constant before constructing submission modules",
+    )
     return parser.parse_args()
 
 
@@ -45,6 +52,13 @@ def main() -> None:
     args = parse_args()
     device = torch.device(args.device)
     module = load_model_design(args.submission / "modelDesign.py")
+    for override in args.override:
+        if "=" not in override:
+            raise ValueError(f"invalid override {override!r}; expected NAME=JSON")
+        name, raw_value = override.split("=", 1)
+        if not hasattr(module, name):
+            raise ValueError(f"modelDesign has no constant {name!r}")
+        setattr(module, name, json.loads(raw_value))
     if args.threshold is not None:
         module.LOW_SNR_THRESHOLD_DB = args.threshold
     encoder = module.Encoder().to(device)

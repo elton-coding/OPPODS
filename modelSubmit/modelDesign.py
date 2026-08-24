@@ -52,6 +52,15 @@ PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
 PILOT_32PSK_MIN_SNR_DB = 18.75
 SNR_EXPERT_BOUNDARIES_DB = (-15.0, -10.0, -9.0, -8.0, -7.0, -6.0, -5.0, 0.0, 5.0, 10.0, 15.0)
+PILOT_COVARIANCE_LOADING_BY_SNR = (4.0,) * 12
+PILOT_IDENTITY_MARGIN_BY_SNR = (0.3,) * 12
+
+
+def _snr_profile_value(values: tuple[float, ...], snr: torch.Tensor) -> torch.Tensor:
+    boundaries = torch.tensor(SNR_EXPERT_BOUNDARIES_DB, device=snr.device, dtype=snr.dtype)
+    indices = torch.bucketize(snr, boundaries, right=True)
+    table = torch.tensor(values, device=snr.device, dtype=snr.dtype)
+    return table[indices]
 
 
 def _dominant_hermitian_eigenvector_2x2(matrix: torch.Tensor) -> torch.Tensor:
@@ -580,7 +589,8 @@ class Receiver(nn.Module):
         local_pilot_index = similarity.argmax(dim=1)
         confidence = torch.abs(similarity[:, 0] - similarity[:, 1])
         adaptive_identity_margin = (
-            PILOT_IDENTITY_MARGIN + PILOT_IDENTITY_MARGIN_SNR_SLOPE * snr
+            _snr_profile_value(PILOT_IDENTITY_MARGIN_BY_SNR, snr)
+            + PILOT_IDENTITY_MARGIN_SNR_SLOPE * snr
         ).clamp(0.0, 1.0)
         own_pilot_index = torch.where(
             confidence >= adaptive_identity_margin, local_pilot_index, own_pilot_index
@@ -615,7 +625,8 @@ class Receiver(nn.Module):
         noise_variance = torch.pow(10.0, -snr / 10.0)
         pilot_estimation_noise = 0.375 * noise_variance / PILOT_AMPLITUDE**2
         identity = torch.eye(2, device=y.device, dtype=y.dtype)
-        covariance = covariance + PILOT_COVARIANCE_LOADING_SCALE * (
+        covariance_loading = _snr_profile_value(PILOT_COVARIANCE_LOADING_BY_SNR, snr)
+        covariance = covariance + covariance_loading[:, None, None, None] * (
             noise_variance + pilot_estimation_noise
         )[:, None, None, None] * identity
         weights = torch.linalg.solve(covariance, desired_vector.unsqueeze(-1)).squeeze(-1)
@@ -670,7 +681,7 @@ class Receiver(nn.Module):
         desired_vector = torch.where(vector_update_mask, refined_vector, desired_vector)
         matrix = torch.stack([desired_vector, other_vector], dim=-1)
         covariance = matrix @ matrix.conj().transpose(-2, -1)
-        covariance = covariance + PILOT_COVARIANCE_LOADING_SCALE * (
+        covariance = covariance + covariance_loading[:, None, None, None] * (
             noise_variance + pilot_estimation_noise
         )[:, None, None, None] * identity
         weights = torch.linalg.solve(covariance, desired_vector.unsqueeze(-1)).squeeze(-1)
