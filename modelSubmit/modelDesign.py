@@ -25,6 +25,7 @@ MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
+DATA_MODE_MIN_SNR_DB = 10.25
 THRESHOLD_CODEBOOK_MODE = "walsh"
 THRESHOLD_WALSH_START = 65
 RESERVED_PROFILE_MAX_SNR_DB = 20.0
@@ -115,7 +116,7 @@ def _pilot_assignment(snr_db: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]
     actual[:, 0] = (~user0_is_high).to(torch.int64)
     actual[:, 1] = user0_is_high.to(torch.int64)
     lower_snr = snr_db.min(dim=1).values
-    threshold_step = 30.25 / THRESHOLD_CODEWORDS
+    threshold_step = (DATA_MODE_MIN_SNR_DB + 20.0) / THRESHOLD_CODEWORDS
     threshold_index = torch.floor((lower_snr + 20.0) / threshold_step).to(torch.int64)
     threshold_index = threshold_index.clamp(0, THRESHOLD_CODEWORDS - 1)
     return actual, threshold_index
@@ -385,7 +386,7 @@ class Transmitter(nn.Module):
                 pilot_code = pilot_code * pilot_phase[:, None]
                 streams[:, user, pilot_positions] = PILOT_AMPLITUDE * pilot_code
             signal = torch.einsum("bstu,bus->bts", precoder_sc, streams)
-            data_mode = snr_dl.min(dim=0).values >= 10.25
+            data_mode = snr_dl.min(dim=0).values >= DATA_MODE_MIN_SNR_DB
             phase_counts = torch.zeros_like(snr_dl, dtype=torch.int64)
             for phase_threshold, phase_bits in (
                 (PILOT_BIT_MIN_SNR_DB, 2),
@@ -422,7 +423,9 @@ class Transmitter(nn.Module):
             candidate_indices = torch.arange(
                 THRESHOLD_CODEWORDS, device=precoder.device, dtype=torch.int64
             )
-            candidate_thresholds = -20.0 + (30.25 / THRESHOLD_CODEWORDS) * (
+            candidate_thresholds = -20.0 + (
+                (DATA_MODE_MIN_SNR_DB + 20.0) / THRESHOLD_CODEWORDS
+            ) * (
                 candidate_indices.to(snr_dl.dtype) + 1.0
             )
             valid_thresholds = (
@@ -550,7 +553,9 @@ class Receiver(nn.Module):
         pilot_vectors = torch.stack([code0, code1], dim=2)
         data_mode = control_index < DATA_MODE_CODEWORDS
         threshold_index = (control_index - DATA_MODE_CODEWORDS).clamp_min(0)
-        threshold = -20.0 + (30.25 / THRESHOLD_CODEWORDS) * (
+        threshold = -20.0 + (
+            (DATA_MODE_MIN_SNR_DB + 20.0) / THRESHOLD_CODEWORDS
+        ) * (
             threshold_index.to(torch.float32) + 1.0
         )
         own_pilot_index = (snr <= threshold).to(torch.int64)
