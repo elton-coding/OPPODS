@@ -58,6 +58,7 @@ RESERVED_PROFILE_MAX_SNR_DB = 20.0
 PILOT_AMPLITUDE = 1.5
 PILOT_OFFSET = 5
 PILOT_COVARIANCE_LOADING_SCALE = 4.0
+PILOT_COVARIANCE_LOADING_SCALE_INTERVALS = ((8.75, 20.0, 5.0),)
 PILOT_GAIN_REFINEMENT_ITERATIONS = 4
 PILOT_GAIN_REFINEMENT_MIN_SNR_DB = -10.0
 PILOT_GAIN_REFINEMENT_RATE = 0.3125
@@ -658,8 +659,13 @@ class Receiver(nn.Module):
         covariance = matrix @ matrix.conj().transpose(-2, -1)
         noise_variance = torch.pow(10.0, -snr / 10.0)
         pilot_estimation_noise = 0.375 * noise_variance / PILOT_AMPLITUDE**2
+        covariance_loading_scale = _snr_interval_value(
+            PILOT_COVARIANCE_LOADING_SCALE,
+            PILOT_COVARIANCE_LOADING_SCALE_INTERVALS,
+            snr,
+        )
         identity = torch.eye(2, device=y.device, dtype=y.dtype)
-        covariance = covariance + PILOT_COVARIANCE_LOADING_SCALE * (
+        covariance = covariance + covariance_loading_scale[:, None, None, None] * (
             noise_variance + pilot_estimation_noise
         )[:, None, None, None] * identity
         weights = torch.linalg.solve(covariance, desired_vector.unsqueeze(-1)).squeeze(-1)
@@ -724,7 +730,7 @@ class Receiver(nn.Module):
         desired_vector = torch.where(vector_update_mask, refined_vector, desired_vector)
         matrix = torch.stack([desired_vector, other_vector], dim=-1)
         covariance = matrix @ matrix.conj().transpose(-2, -1)
-        covariance = covariance + PILOT_COVARIANCE_LOADING_SCALE * (
+        covariance = covariance + covariance_loading_scale[:, None, None, None] * (
             noise_variance + pilot_estimation_noise
         )[:, None, None, None] * identity
         weights = torch.linalg.solve(covariance, desired_vector.unsqueeze(-1)).squeeze(-1)
