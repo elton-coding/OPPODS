@@ -57,6 +57,7 @@ PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
 PILOT_32PSK_MIN_SNR_DB = 18.75
+DATA_MODE_MIN_SNR_DB = 10.25
 DATA_VECTOR_SOFT_TEMPERATURE_INTERVALS = ((0.0, 2.5, 2.0), (5.0, 7.5, 2.0))
 DATA_GAIN_SOFT_TEMPERATURE_INTERVALS = ((-2.5, 0.0, 0.3), (2.5, 5.0, 0.3))
 
@@ -111,7 +112,8 @@ def _pilot_assignment(snr_db: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]
     actual[:, 0] = (~user0_is_high).to(torch.int64)
     actual[:, 1] = user0_is_high.to(torch.int64)
     lower_snr = snr_db.min(dim=1).values
-    threshold_index = torch.floor((lower_snr + 20.0) / (30.25 / 27.0)).to(torch.int64).clamp(0, 26)
+    threshold_step = (DATA_MODE_MIN_SNR_DB + 20.0) / 27.0
+    threshold_index = torch.floor((lower_snr + 20.0) / threshold_step).to(torch.int64).clamp(0, 26)
     return actual, threshold_index
 
 
@@ -368,7 +370,7 @@ class Transmitter(nn.Module):
                 pilot_code = pilot_code * pilot_phase[:, None]
                 streams[:, user, pilot_positions] = PILOT_AMPLITUDE * pilot_code
             signal = torch.einsum("bstu,bus->bts", precoder_sc, streams)
-            data_mode = snr_dl.min(dim=0).values >= 10.25
+            data_mode = snr_dl.min(dim=0).values >= DATA_MODE_MIN_SNR_DB
             phase_counts = torch.zeros_like(snr_dl, dtype=torch.int64)
             for phase_threshold, phase_bits in (
                 (PILOT_BIT_MIN_SNR_DB, 2),
@@ -403,7 +405,8 @@ class Transmitter(nn.Module):
             lower_snr = snr_dl.min(dim=0).values
             higher_snr = snr_dl.max(dim=0).values
             candidate_indices = torch.arange(27, device=precoder.device, dtype=torch.int64)
-            candidate_thresholds = -20.0 + (30.25 / 27.0) * (
+            threshold_step = (DATA_MODE_MIN_SNR_DB + 20.0) / 27.0
+            candidate_thresholds = -20.0 + threshold_step * (
                 candidate_indices.to(snr_dl.dtype) + 1.0
             )
             valid_thresholds = (
@@ -527,7 +530,8 @@ class Receiver(nn.Module):
         pilot_vectors = torch.stack([code0, code1], dim=2)
         data_mode = control_index < 5
         threshold_index = (control_index - 5).clamp_min(0)
-        threshold = -20.0 + (30.25 / 27.0) * (threshold_index.to(torch.float32) + 1.0)
+        threshold_step = (DATA_MODE_MIN_SNR_DB + 20.0) / 27.0
+        threshold = -20.0 + threshold_step * (threshold_index.to(torch.float32) + 1.0)
         own_pilot_index = (snr <= threshold).to(torch.int64)
         local_feedback = _normalize_feedback(_task_feedback(h).reshape(batch, -1)).reshape(
             batch, GROUPS, NUM_TX
