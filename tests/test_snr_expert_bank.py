@@ -2,7 +2,7 @@ from argparse import Namespace
 
 import torch
 
-from modelSubmit.modelDesign import GROUPS, NUM_TX, Transmitter
+from modelSubmit.modelDesign import GROUPS, NUM_TX, Receiver, Transmitter
 from scripts.train_precoder_aware_denoiser import validate_args
 
 
@@ -23,3 +23,14 @@ def test_interval_expert_routing_matches_shared_model_when_weights_are_equal() -
 
 def test_training_snr_interval_is_validated() -> None:
     validate_args(Namespace(snr_min=-10.0, snr_max=-5.0))
+
+
+def test_zero_initialized_receiver_experts_preserve_llrs() -> None:
+    receiver = Receiver().eval()
+    llr = torch.randn(12, 1056)
+    snr = torch.tensor([-20.0, -15.0, -10.0, -9.0, -8.0, -7.0, -6.0, -5.0, 0.0, 5.0, 10.0, 15.0])
+
+    with torch.no_grad():
+        corrected = receiver.apply_llr_expert(llr, snr)
+
+    assert torch.equal(corrected, llr)

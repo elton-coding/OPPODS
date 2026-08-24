@@ -14,6 +14,13 @@ def load_champion_transmitter_weights(transmitter: Transmitter, path: Path) -> N
         expert.load_state_dict(transmitter.decoder.state_dict())
 
 
+def load_champion_receiver_weights(receiver: Receiver, path: Path) -> None:
+    state = torch.load(path, weights_only=True)
+    missing, unexpected = receiver.load_state_dict(state, strict=False)
+    assert not unexpected
+    assert all(name.startswith("llr_experts.") for name in missing)
+
+
 def test_submission_components_match_official_contract() -> None:
     root = Path(__file__).resolve().parents[1]
     encoder = Encoder()
@@ -21,7 +28,7 @@ def test_submission_components_match_official_contract() -> None:
     receiver = Receiver()
     encoder.load_state_dict(torch.load(root / "modelSubmit/encoder.pth", weights_only=True))
     load_champion_transmitter_weights(transmitter, root / "modelSubmit/transmitter.pth")
-    receiver.load_state_dict(torch.load(root / "modelSubmit/receiver.pth", weights_only=True))
+    load_champion_receiver_weights(receiver, root / "modelSubmit/receiver.pth")
     channel = torch.complex(torch.randn(1, 2, 2, 16, 144), torch.randn(1, 2, 2, 16, 144))
     bits = [torch.randint(0, 2, (1, 1152), dtype=torch.float32) for _ in range(2)]
     snr = torch.tensor([[0.0], [20.0]])
@@ -50,7 +57,7 @@ def test_submission_walsh_pilot_profile_targets_weaker_user() -> None:
     transmitter = Transmitter()
     receiver = Receiver()
     load_champion_transmitter_weights(transmitter, root / "modelSubmit/transmitter.pth")
-    receiver.load_state_dict(torch.load(root / "modelSubmit/receiver.pth", weights_only=True))
+    load_champion_receiver_weights(receiver, root / "modelSubmit/receiver.pth")
     channel = torch.complex(torch.randn(1, 2, 2, 16, 144), torch.randn(1, 2, 2, 16, 144))
     bits = [torch.randint(0, 2, (1, 1152), dtype=torch.float32) for _ in range(2)]
     snr = torch.tensor([[0.0], [5.0]])

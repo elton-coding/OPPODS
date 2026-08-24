@@ -493,12 +493,48 @@ def _layered_qam_llr(
     return layers.transpose(-2, -1).reshape(observation.shape[0], -1)
 
 
+class LLRResidualExpert(nn.Module):
+    """Small SNR-interval expert that corrects the eight layered-QAM LLRs per RE."""
+
+    def __init__(self, width: int = 64):
+        super().__init__()
+        self.input = nn.Linear(9, width)
+        self.output = nn.Linear(width, 8)
+        nn.init.zeros_(self.output.weight)
+        nn.init.zeros_(self.output.bias)
+
+    def forward(self, llr: torch.Tensor, snr: torch.Tensor) -> torch.Tensor:
+        subcarriers = llr.shape[1] // 8
+        layered = llr.reshape(llr.shape[0], 8, subcarriers).transpose(1, 2)
+        normalized = torch.tanh(layered / 8.0)
+        snr_feature = (snr[:, None, None] / 20.0).expand(-1, subcarriers, 1)
+        features = torch.cat([normalized, snr_feature], dim=-1)
+        correction = 4.0 * torch.tanh(self.output(torch.nn.functional.gelu(self.input(features))))
+        corrected = layered + correction
+        return corrected.transpose(1, 2).reshape(llr.shape[0], -1)
+
+
 class Receiver(nn.Module):
     def __init__(self):
         super().__init__()
         points, labels = _constellation(torch.device("cpu"))
         self.register_buffer("points", points)
         self.register_buffer("labels", labels)
+        self.llr_experts = nn.ModuleList(
+            [LLRResidualExpert() for _ in range(len(SNR_EXPERT_BOUNDARIES_DB) + 1)]
+        )
+        self.disable_llr_experts = False
+        self.training_prefix_bits: int | None = None
+
+    def apply_llr_expert(self, llr: torch.Tensor, snr: torch.Tensor) -> torch.Tensor:
+        boundaries = torch.tensor(SNR_EXPERT_BOUNDARIES_DB, device=snr.device, dtype=snr.dtype)
+        expert_indices = torch.bucketize(snr, boundaries, right=True)
+        corrected = torch.empty_like(llr)
+        for expert_index, expert in enumerate(self.llr_experts):
+            mask = expert_indices == expert_index
+            if bool(torch.any(mask).item()):
+                corrected[mask] = expert(llr[mask], snr[mask])
+        return corrected
 
     def _reserved_receive(
         self,
@@ -737,6 +773,10 @@ class Receiver(nn.Module):
         residual = torch.abs(projected[:, :, 1]).square() + filtered_noise
         residual = residual.repeat_interleave(11, dim=1)
         llr = _layered_qam_llr(observation, desired_gain, residual, self.points, self.labels).to(torch.float32)
+        if not self.disable_llr_experts:
+            llr = self.apply_llr_expert(llr, snr)
+        if self.training_prefix_bits is not None:
+            return llr[:, : self.training_prefix_bits]
         if bool(torch.all(snr < LOW_SNR_THRESHOLD_DB).item()):
             return llr[:, :1]
         if bool(torch.all(snr < MIDDLE_PREFIX_THRESHOLD_DB).item()):

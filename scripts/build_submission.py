@@ -74,6 +74,8 @@ def main() -> None:
             raise ValueError(f"checkpoint has {len(expert_states)} experts, model expects {len(experts)}")
         for expert, state in zip(experts, expert_states, strict=True):
             expert.load_state_dict(state)
+        if "receiver" in checkpoint:
+            receiver.load_state_dict(checkpoint["receiver"])
         args.output_dir.mkdir(parents=True, exist_ok=True)
         torch.save(encoder.state_dict(), args.output_dir / "encoder.pth")
         torch.save(transmitter.state_dict(), args.output_dir / "transmitter.pth")
