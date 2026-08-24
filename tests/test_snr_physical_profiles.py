@@ -1,6 +1,11 @@
 import torch
 
-from modelSubmit.modelDesign import _snr_interval_value, _snr_pair_interval_value
+from modelSubmit.modelDesign import (
+    INTERFERENCE_CANCELLATION_SCALE,
+    INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    _snr_interval_value,
+    _snr_pair_interval_value,
+)
 
 
 def test_physical_receiver_interval_profiles_use_half_open_boundaries() -> None:
@@ -31,3 +36,18 @@ def test_shared_link_profile_routes_when_any_user_is_in_interval() -> None:
     )
 
     assert torch.allclose(values, torch.tensor([0.4, 0.45, 0.4, 0.9, 0.45, 1.8]))
+
+
+def test_interference_cancellation_scale_profile_uses_half_open_snr_intervals() -> None:
+    snr = torch.tensor([-7.7501, -7.75, -5.0001, -5.0, -0.25, 2.7499, 2.75, 8.0, 17.9999, 18.0])
+
+    values = _snr_interval_value(
+        INTERFERENCE_CANCELLATION_SCALE,
+        INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+        snr,
+    )
+
+    assert torch.allclose(
+        values,
+        torch.tensor([0.2, 0.25, 0.25, 0.2, 0.25, 0.25, 0.2, 0.25, 0.25, 0.2]),
+    )

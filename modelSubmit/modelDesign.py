@@ -88,6 +88,11 @@ DATA_VECTOR_REFINEMENT_SCALE = 0.2
 DATA_VECTOR_REFINEMENT_MIN_SNR_DB = -12.5
 DATA_VECTOR_SOFT_TEMPERATURE = 3.0
 INTERFERENCE_CANCELLATION_SCALE = 0.2
+INTERFERENCE_CANCELLATION_SCALE_INTERVALS = (
+    (-7.75, -5.0, 0.25),
+    (-0.25, 2.75, 0.25),
+    (8.0, 18.0, 0.25),
+)
 INTERFERENCE_CANCELLATION_TEMPERATURE = 0.3
 INTERFERENCE_CANCELLATION_MIN_SNR_DB = -10.0
 INTERFERENCE_CANCELLATION_SNR_SLOPE = -0.005
@@ -838,8 +843,13 @@ class Receiver(nn.Module):
         )
         soft_other = torch.sum(other_posterior * self.points, dim=-1)
         other_leakage = projected[:, :, 1].repeat_interleave(11, dim=1)
+        cancellation_scale = _snr_interval_value(
+            INTERFERENCE_CANCELLATION_SCALE,
+            INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+            snr,
+        )
         adaptive_cancellation_scale = (
-            INTERFERENCE_CANCELLATION_SCALE + INTERFERENCE_CANCELLATION_SNR_SLOPE * snr
+            cancellation_scale + INTERFERENCE_CANCELLATION_SNR_SLOPE * snr
         ).clamp(0.0, 1.0)[:, None]
         cancelled_observation = (
             observation - adaptive_cancellation_scale * other_leakage * soft_other
