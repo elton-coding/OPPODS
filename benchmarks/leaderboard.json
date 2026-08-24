@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO paired-UE multi-band pilot RZF experts with ultra-high-SNR strong regularization",
-    "version": "V131",
-    "source_commit": "5de8eb0167d28345f0f58cc04d5fe12b6cd92650",
+    "solution": "FATE-MIMO multi-band paired RZF with high-SNR receiver covariance expert",
+    "version": "V132",
+    "source_commit": "18bec57f7fdaacfb686da4c1953bfe493ce18963",
     "local_validation": {
       "1176": {
-        "efficiency": 68.33616536458334,
+        "efficiency": 68.34523654513889,
         "fairness_p10": 50.69444444444444,
-        "final": 63.04364908854167
+        "final": 63.049998914930555
       },
       "1177": {
-        "efficiency": 68.63937717013889,
+        "efficiency": 68.64807942708335,
         "fairness_p10": 50.78125,
-        "final": 63.281939019097216
+        "final": 63.288030598958336
       },
       "1178": {
-        "efficiency": 68.62928602430556,
+        "efficiency": 68.64113498263889,
         "fairness_p10": 50.607638888888886,
-        "final": 63.22279188368056
+        "final": 63.23108615451389
       },
-      "mean_final": 63.182793330439814
+      "mean_final": 63.18970522280093
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_paired_rzf_ultrahigh_v131_official.zip",
-      "sha256": "B0E156A76F31B2AAD4BF5A499A115E43A22B8FA916CF855B8D2B7594363F696E"
+      "name": "FATE_MIMO_submission_receiver_covload_v132_official.zip",
+      "sha256": "F98726E38C4F94C34F138A7C946AA1273552C53C82CE9369A8CD1B0DBB25BF09"
     }
   },
   "references": {
@@ -54,6 +54,7 @@
     "previous_champion_v128_mean_final": 63.14754014756943,
     "previous_champion_v129_mean_final": 63.170944372106476,
     "previous_champion_v130_mean_final": 63.17621563946759,
+    "previous_champion_v131_mean_final": 63.182793330439814,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }

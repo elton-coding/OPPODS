@@ -25,6 +25,7 @@
 - [FATE-MIMO V129 双 UE 多区间 RZF 专家方案](solutions/FATE-MIMO_v129.md)
 - [FATE-MIMO V130 极高 SNR RZF 子专家方案](solutions/FATE-MIMO_v130.md)
 - [FATE-MIMO V131 超高 SNR RZF 强正则专家方案](solutions/FATE-MIMO_v131.md)
+- [FATE-MIMO V132 高 SNR Receiver 协方差专家方案](solutions/FATE-MIMO_v132.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -41,6 +42,7 @@
 - [V129 提交说明](submission/V129_提交说明.md)
 - [V130 提交说明](submission/V130_提交说明.md)
 - [V131 提交说明](submission/V131_提交说明.md)
+- [V132 提交说明](submission/V132_提交说明.md)
 
 ## 实验记录
 
@@ -60,6 +62,7 @@
 - [V129 双 UE 多区间 RZF 专家实验](experiments/paired-rzf-multiband-v129.md)
 - [V130 极高 SNR RZF 子专家实验](experiments/paired-rzf-high-subband-v130.md)
 - [V131 超高 SNR RZF 强正则实验](experiments/paired-rzf-ultrahigh-v131.md)
+- [V132 高 SNR Receiver 协方差加载专家](experiments/receiver-covload-v132.md)
 
 ## 外部方案研究
 
