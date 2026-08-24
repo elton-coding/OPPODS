@@ -21,13 +21,13 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 & $python -m pytest
 ```
 
-## 当前冠军方案（V123）
+## 当前冠军方案（V124）
 
-最终采用任务导向稀疏反馈、解析 Wiener 零初始化残差 Transformer、鲁棒 RZF、分层 Gray 256-QAM、正交保留导频、弱用户约束尾部向量量化，以及按 UE SNR 路由的 Receiver 物理参数专家。V123 保留 V122 的 `1/31` 控制码字分配和 `-2.5 dB` 匹配前缀边界，并将弱用户 228-bit 尾部 VQ 从伪随机哈希码本升级为 start=65 的低相关 Walsh 码本。
+最终采用任务导向稀疏反馈、解析 Wiener 零初始化残差 Transformer、鲁棒 RZF、分层 Gray 256-QAM、正交保留导频、弱用户约束尾部向量量化，以及按 UE SNR 路由的 Receiver 物理参数专家。V124 保留 V123 的 Walsh 尾部码本，并在中档 SNR 分支增加 LLR 置信度门控：额外 132 bit 的平均绝对 LLR 不低于 `0.3` 时，将输出从 924 bit 扩展为 1056 bit。
 
-冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.268566`，公平 P10 `50.694444`，总分 **`62.996329`**。三个固定 seed 的平均总分为 **`63.138096`**，相对 V122 提升 `0.002922`。这些是本地验证结果，不等同于线上排行榜成绩。
+冻结版严格本地官方同口径评测（2000 样本、4000 UE 分数、seed 1176）：效率 `68.272103`，公平 P10 `50.694444`，总分 **`62.998805`**。三个固定 seed 的平均总分为 **`63.139808`**，相对 V123 提升 `0.001712`。这些是本地验证结果，不等同于线上排行榜成绩。
 
-完整设计见 [FATE-MIMO V123](docs/solutions/FATE-MIMO_v123.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
+完整设计见 [FATE-MIMO V124](docs/solutions/FATE-MIMO_v124.md)，冻结参数见 [final.yaml](configs/final.yaml)，可追溯成绩见 [冠军基准表](benchmarks/leaderboard.json)。
 
 ## Git 与版本纪律
 

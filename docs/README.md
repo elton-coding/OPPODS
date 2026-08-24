@@ -17,6 +17,7 @@
 - [FATE-MIMO V121 控制码字预算方案](solutions/FATE-MIMO_v121.md)
 - [FATE-MIMO V122 SNR 分段匹配前缀方案](solutions/FATE-MIMO_v122.md)
 - [FATE-MIMO V123 Walsh 尾部码本方案](solutions/FATE-MIMO_v123.md)
+- [FATE-MIMO V124 置信度前缀专家方案](solutions/FATE-MIMO_v124.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -25,6 +26,7 @@
 - [V121 提交说明](submission/V121_提交说明.md)
 - [V122 提交说明](submission/V122_提交说明.md)
 - [V123 提交说明](submission/V123_提交说明.md)
+- [V124 提交说明](submission/V124_提交说明.md)
 
 ## 实验记录
 
@@ -34,6 +36,7 @@
 - [控制码字预算扫描](experiments/control-codeword-allocation.md)
 - [V121 中档前缀边界复扫](experiments/v121-middle-prefix-resweep.md)
 - [弱用户 Walsh 尾部码本扫描](experiments/threshold-codebook-walsh.md)
+- [中档 SNR 置信度前缀扫描](experiments/confidence-prefix-v123.md)
 
 ## 外部方案研究
 
