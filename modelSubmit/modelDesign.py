@@ -33,6 +33,11 @@ PILOT_GAIN_REFINEMENT_RATE = 0.3125
 PILOT_IDENTITY_MARGIN = 0.3
 PILOT_IDENTITY_MARGIN_SNR_SLOPE = -0.02
 PILOT_GAIN_INTERPOLATION_SCALE = 0.5
+PILOT_GAIN_INTERPOLATION_SCALE_INTERVALS = (
+    (-17.5, -15.0, 0.75),
+    (-10.0, -7.5, 0.75),
+    (15.0, 20.0, 0.75),
+)
 PILOT_STEERING_SHRINKAGE = 0.0375
 DATA_GAIN_REFINEMENT_SCALE = 0.2
 DATA_GAIN_REFINEMENT_RADIUS = 2
@@ -602,7 +607,12 @@ class Receiver(nn.Module):
             (1.0 - interpolation)[None, None, :] * center_gain[:, :, None]
             + interpolation[None, None, :] * neighbor_gain
         )
-        gain_interpolation_delta = PILOT_GAIN_INTERPOLATION_SCALE * (
+        gain_interpolation_scale = _snr_interval_value(
+            PILOT_GAIN_INTERPOLATION_SCALE,
+            PILOT_GAIN_INTERPOLATION_SCALE_INTERVALS,
+            snr,
+        )
+        gain_interpolation_delta = gain_interpolation_scale[:, None, None] * (
             interpolated_gain - center_gain[:, :, None]
         )
         data_y = grouped.index_select(-1, data_offsets).reshape(batch, 2, 132)
@@ -659,7 +669,12 @@ class Receiver(nn.Module):
             (1.0 - interpolation)[None, None, :] * center_gain[:, :, None]
             + interpolation[None, None, :] * neighbor_gain
         )
-        gain_interpolation_delta = PILOT_GAIN_INTERPOLATION_SCALE * (
+        gain_interpolation_scale = _snr_interval_value(
+            PILOT_GAIN_INTERPOLATION_SCALE,
+            PILOT_GAIN_INTERPOLATION_SCALE_INTERVALS,
+            snr,
+        )
+        gain_interpolation_delta = gain_interpolation_scale[:, None, None] * (
             interpolated_gain - center_gain[:, :, None]
         )
         weight_sc = weights.repeat_interleave(11, dim=1).permute(0, 2, 1)
