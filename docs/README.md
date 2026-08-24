@@ -36,6 +36,7 @@
 
 ## 实验记录
 
+- [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
 - [SNR 分段 Receiver 物理参数专家](experiments/snr-receiver-physical-profiles.md)
 - [中低 SNR 输出策略扫描](experiments/snr-output-policy-sweep.md)
