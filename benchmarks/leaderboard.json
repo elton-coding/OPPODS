@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO recalibrated Walsh-tail confidence with semantic bare-prefix extension",
-    "version": "V127",
-    "source_commit": "15deba234cddf641ab913955f8d6b9e76fc7158c",
+    "solution": "FATE-MIMO paired-UE SNR-routed pilot RZF expert",
+    "version": "V128",
+    "source_commit": "8d7e1b0dae09149ff7dbb0b87ed297b773d1d664",
     "local_validation": {
       "1176": {
-        "efficiency": 68.27833116319444,
+        "efficiency": 68.28473307291665,
         "fairness_p10": 50.69444444444444,
-        "final": 63.00316514756944
+        "final": 63.00764648437499
       },
       "1177": {
-        "efficiency": 68.58052300347222,
+        "efficiency": 68.58712022569443,
         "fairness_p10": 50.78125,
-        "final": 63.240741102430555
+        "final": 63.2453591579861
       },
       "1178": {
-        "efficiency": 68.57492404513887,
+        "efficiency": 68.58189019097222,
         "fairness_p10": 50.607638888888886,
-        "final": 63.18473849826387
+        "final": 63.189614800347215
       },
-      "mean_final": 63.142881582754626
+      "mean_final": 63.14754014756943
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_walsh_tail_confidence_v127_official.zip",
-      "sha256": "4CDE0DC1ACDFC4A09B866B4543DE4DFF6EED07A9585CA4AD35923B6B54E0394E"
+      "name": "FATE_MIMO_submission_snr_pair_rzf_v128_official.zip",
+      "sha256": "D07586B4396525E5C1AF12BF10D035D890332A6463272597266B62EDD530C0D8"
     }
   },
   "references": {
@@ -50,6 +50,7 @@
     "previous_champion_v124_mean_final": 63.13980794270833,
     "previous_champion_v125_mean_final": 63.14062319155092,
     "previous_champion_v126_mean_final": 63.14286132812499,
+    "previous_champion_v127_mean_final": 63.142881582754626,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
