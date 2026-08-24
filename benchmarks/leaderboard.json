@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO confidence-gated middle-SNR prefix with Walsh tail VQ",
-    "version": "V124",
-    "source_commit": "1613fd730faf80fbe098a8f410553b0e341f35df",
+    "solution": "FATE-MIMO SNR-binned clipped-confidence prefix with Walsh tail VQ",
+    "version": "V125",
+    "source_commit": "dfa25ca3c678e69bc37a06a6109b81a783b5fb9e",
     "local_validation": {
       "1176": {
-        "efficiency": 68.27210286458335,
+        "efficiency": 68.27492404513889,
         "fairness_p10": 50.69444444444444,
-        "final": 62.99880533854167
+        "final": 63.00078016493055
       },
       "1177": {
-        "efficiency": 68.57620442708333,
+        "efficiency": 68.57666015625,
         "fairness_p10": 50.78125,
-        "final": 63.237718098958325
+        "final": 63.238037109375
       },
       "1178": {
-        "efficiency": 68.57229817708334,
+        "efficiency": 68.57251519097223,
         "fairness_p10": 50.607638888888886,
-        "final": 63.18290039062501
+        "final": 63.18305230034723
       },
-      "mean_final": 63.13980794270833
+      "mean_final": 63.14062319155092
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_confidence_v124_official.zip",
-      "sha256": "7B4762B01F30BBAD06385C23098BE1427B0D5655122DA22C3C761443AC9FA75F"
+      "name": "FATE_MIMO_submission_snr_binned_confidence_v125_official.zip",
+      "sha256": "A38585B2C6C5CB7952ED6AED54A84B88EE67A686C6CD9F256BF633FE64C99599"
     }
   },
   "references": {
@@ -47,6 +47,7 @@
     "previous_champion_v121_mean_final": 63.114685691550925,
     "previous_champion_v122_mean_final": 63.13517469618055,
     "previous_champion_v123_mean_final": 63.138096426504625,
+    "previous_champion_v124_mean_final": 63.13980794270833,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }

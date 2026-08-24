@@ -18,6 +18,7 @@
 - [FATE-MIMO V122 SNR 分段匹配前缀方案](solutions/FATE-MIMO_v122.md)
 - [FATE-MIMO V123 Walsh 尾部码本方案](solutions/FATE-MIMO_v123.md)
 - [FATE-MIMO V124 置信度前缀专家方案](solutions/FATE-MIMO_v124.md)
+- [FATE-MIMO V125 SNR 分箱截断置信度方案](solutions/FATE-MIMO_v125.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -27,6 +28,7 @@
 - [V122 提交说明](submission/V122_提交说明.md)
 - [V123 提交说明](submission/V123_提交说明.md)
 - [V124 提交说明](submission/V124_提交说明.md)
+- [V125 提交说明](submission/V125_提交说明.md)
 
 ## 实验记录
 
@@ -37,6 +39,8 @@
 - [V121 中档前缀边界复扫](experiments/v121-middle-prefix-resweep.md)
 - [弱用户 Walsh 尾部码本扫描](experiments/threshold-codebook-walsh.md)
 - [中档 SNR 置信度前缀扫描](experiments/confidence-prefix-v123.md)
+- [V124 中档 SNR 扩展置信度诊断](experiments/confidence-diagnostics-v124.md)
+- [V125 SNR 分箱截断置信度门控](experiments/snr-binned-clipped-confidence-v125.md)
 
 ## 外部方案研究
 

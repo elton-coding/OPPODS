@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V124
+solution_version: V125
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -96,9 +96,12 @@ profiles:
   middle_prefix_snr_db: -2.5
   middle_prefix_bits_per_ue: 924
   middle_extension_bits_per_ue: 1056
-  middle_extension_mean_abs_llr_threshold: 0.3
+  middle_extension_confidence_statistic: clipped_mean_abs_llr
+  middle_extension_confidence_clip: 1.0
+  middle_extension_snr_bin_edges_db: [-20.0, -17.5, -15.0, -12.5, -10.0, -7.5, -5.0, -2.5]
+  middle_extension_snr_bin_thresholds: [0.246, 0.246, 0.246, 0.124, 0.101, 0.246, 0.246]
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_confidence_v124_official.zip
-  sha256: 7B4762B01F30BBAD06385C23098BE1427B0D5655122DA22C3C761443AC9FA75F
+  versioned_archive: artifacts/FATE_MIMO_submission_snr_binned_confidence_v125_official.zip
+  sha256: A38585B2C6C5CB7952ED6AED54A84B88EE67A686C6CD9F256BF633FE64C99599

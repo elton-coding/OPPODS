@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from itertools import pairwise
 from pathlib import Path
 
 import numpy as np
@@ -84,7 +85,7 @@ def main() -> None:
     delta = np.concatenate(all_deltas)
     edges = np.arange(-20.0, 20.0 + args.snr_bin_width, args.snr_bin_width)
     snr_bins: list[dict[str, object]] = []
-    for low, high in zip(edges[:-1], edges[1:], strict=True):
+    for low, high in pairwise(edges):
         selected = (snr >= low) & (snr < high)
         if not np.any(selected):
             continue
