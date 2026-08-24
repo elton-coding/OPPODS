@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO paired-UE SNR-routed pilot RZF expert",
-    "version": "V128",
-    "source_commit": "8d7e1b0dae09149ff7dbb0b87ed297b773d1d664",
+    "solution": "FATE-MIMO paired-UE multi-band pilot RZF experts",
+    "version": "V129",
+    "source_commit": "16caaeb850639241d4d342e2aec57afedc34d6e3",
     "local_validation": {
       "1176": {
-        "efficiency": 68.28473307291665,
+        "efficiency": 68.31472439236111,
         "fairness_p10": 50.69444444444444,
-        "final": 63.00764648437499
+        "final": 63.02864040798611
       },
       "1177": {
-        "efficiency": 68.58712022569443,
+        "efficiency": 68.62390407986112,
         "fairness_p10": 50.78125,
-        "final": 63.2453591579861
+        "final": 63.271107855902784
       },
       "1178": {
-        "efficiency": 68.58189019097222,
+        "efficiency": 68.61541883680556,
         "fairness_p10": 50.607638888888886,
-        "final": 63.189614800347215
+        "final": 63.213084852430555
       },
-      "mean_final": 63.14754014756943
+      "mean_final": 63.170944372106476
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_snr_pair_rzf_v128_official.zip",
-      "sha256": "D07586B4396525E5C1AF12BF10D035D890332A6463272597266B62EDD530C0D8"
+      "name": "FATE_MIMO_submission_paired_rzf_multiband_v129_official.zip",
+      "sha256": "ABB133C8E04C73D9001182ACE82CEDCC1F0FD80B22180E760DE21725685414F3"
     }
   },
   "references": {
@@ -51,6 +51,7 @@
     "previous_champion_v125_mean_final": 63.14062319155092,
     "previous_champion_v126_mean_final": 63.14286132812499,
     "previous_champion_v127_mean_final": 63.142881582754626,
+    "previous_champion_v128_mean_final": 63.14754014756943,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
