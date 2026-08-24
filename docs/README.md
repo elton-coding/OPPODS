@@ -14,17 +14,20 @@
 - [FATE-MIMO V118 SNR 分段 Receiver 方案](solutions/FATE-MIMO_v118.md)
 - [FATE-MIMO V119 SNR 分段导频插值方案](solutions/FATE-MIMO_v119.md)
 - [FATE-MIMO V120 弱用户输出策略](solutions/FATE-MIMO_v120.md)
+- [FATE-MIMO V121 控制码字预算方案](solutions/FATE-MIMO_v121.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
 - [V119 提交说明](submission/V119_提交说明.md)
 - [V120 提交说明](submission/V120_提交说明.md)
+- [V121 提交说明](submission/V121_提交说明.md)
 
 ## 实验记录
 
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
 - [SNR 分段 Receiver 物理参数专家](experiments/snr-receiver-physical-profiles.md)
 - [中低 SNR 输出策略扫描](experiments/snr-output-policy-sweep.md)
+- [控制码字预算扫描](experiments/control-codeword-allocation.md)
 
 ## 外部方案研究
 
