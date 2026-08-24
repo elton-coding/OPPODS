@@ -19,6 +19,7 @@ WIENER_NOISE_SCALE = 0.75
 RZF_REGULARIZATION = 1.5
 PILOT_RZF_REGULARIZATION = 0.45
 PILOT_RZF_REGULARIZATION_ANY_USER_INTERVALS = ((-10.0, -2.75, 0.4),)
+PILOT_RZF_REGULARIZATION_ALL_USER_INTERVALS = ((-0.75, 20.0, 0.9),)
 CENTRAL_BOOST = -0.5
 DD_ITERATIONS = 15
 LOW_SNR_THRESHOLD_DB = -20.0
@@ -102,13 +103,17 @@ def _snr_interval_value(
 
 def _snr_pair_interval_value(
     default: float,
-    intervals: tuple[tuple[float, float, float], ...],
+    any_user_intervals: tuple[tuple[float, float, float], ...],
     snr_by_user: torch.Tensor,
+    all_user_intervals: tuple[tuple[float, float, float], ...] = (),
 ) -> torch.Tensor:
-    """Route a shared link parameter when any UE falls inside an SNR interval."""
+    """Route shared link parameters using joint UE SNR interval predicates."""
     value = torch.full_like(snr_by_user[:, 0], default)
-    for low_db, high_db, interval_value in intervals:
+    for low_db, high_db, interval_value in any_user_intervals:
         in_interval = ((snr_by_user >= low_db) & (snr_by_user < high_db)).any(dim=1)
+        value = torch.where(in_interval, torch.full_like(value, interval_value), value)
+    for low_db, high_db, interval_value in all_user_intervals:
+        in_interval = ((snr_by_user >= low_db) & (snr_by_user < high_db)).all(dim=1)
         value = torch.where(in_interval, torch.full_like(value, interval_value), value)
     return value
 
@@ -376,6 +381,7 @@ class Transmitter(nn.Module):
                 PILOT_RZF_REGULARIZATION,
                 PILOT_RZF_REGULARIZATION_ANY_USER_INTERVALS,
                 snr_dl.transpose(0, 1),
+                PILOT_RZF_REGULARIZATION_ALL_USER_INTERVALS,
             )[:, None, None, None]
         else:
             regularization = RZF_REGULARIZATION
