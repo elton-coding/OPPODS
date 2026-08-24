@@ -771,7 +771,8 @@ class Receiver(nn.Module):
             middle_llr = llr[:, :MIDDLE_PREFIX_BITS]
             if bool(torch.all(snr <= threshold).item()):
                 threshold_codebook = _threshold_tail_codebook(llr.device, llr.dtype)
-                tail_prediction = threshold_codebook[threshold_index]
+                remaining = 1152 - middle_llr.shape[1]
+                tail_prediction = threshold_codebook[threshold_index, :remaining]
                 tail_llr = 2.0 * tail_prediction - 1.0
                 return torch.cat([middle_llr, tail_llr], dim=1)
             return middle_llr
