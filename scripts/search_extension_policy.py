@@ -31,6 +31,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--quantiles", type=int, default=129)
     parser.add_argument("--top", type=int, default=20)
+    parser.add_argument(
+        "--allow-baseline-extension",
+        action="store_true",
+        help="Allow baseline archives that already apply a middle-SNR extension policy.",
+    )
     return parser.parse_args()
 
 
@@ -62,7 +67,11 @@ def _derived_metrics(archive: np.lib.npyio.NpzFile) -> dict[str, np.ndarray]:
     return metrics
 
 
-def load_seed_data(baseline_paths: list[Path], diagnostic_paths: list[Path]) -> list[SeedData]:
+def load_seed_data(
+    baseline_paths: list[Path],
+    diagnostic_paths: list[Path],
+    allow_baseline_extension: bool = False,
+) -> list[SeedData]:
     if len(baseline_paths) != len(diagnostic_paths):
         raise ValueError("baseline and diagnostics archive counts must match")
     result: list[SeedData] = []
@@ -76,7 +85,7 @@ def load_seed_data(baseline_paths: list[Path], diagnostic_paths: list[Path]) -> 
             if positions.size and (positions.min() < 0 or positions.max() >= scores.size):
                 raise ValueError(f"invalid score position in {diagnostic_path}")
             maximum_error = float(np.max(np.abs(scores[positions] - fallback), initial=0.0))
-            if maximum_error > 1.0e-4:
+            if maximum_error > 1.0e-4 and not allow_baseline_extension:
                 raise ValueError(
                     f"fallback scores do not reconstruct {baseline_path}: max error {maximum_error}"
                 )
@@ -157,7 +166,11 @@ def main() -> None:
     args = parse_args()
     if args.quantiles < 3:
         raise ValueError("quantiles must be at least 3")
-    seed_data = load_seed_data(args.baseline, args.diagnostics)
+    seed_data = load_seed_data(
+        args.baseline,
+        args.diagnostics,
+        allow_baseline_extension=args.allow_baseline_extension,
+    )
     metric_names = list(seed_data[0].metrics)
     if any(list(data.metrics) != metric_names for data in seed_data[1:]):
         raise ValueError("diagnostic metric keys do not match")
