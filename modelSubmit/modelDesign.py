@@ -23,6 +23,8 @@ DD_ITERATIONS = 15
 LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -8.0
 MIDDLE_PREFIX_BITS = 924
+DATA_MODE_CODEWORDS = 1
+THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 RESERVED_PROFILE_MAX_SNR_DB = 20.0
 PILOT_AMPLITUDE = 1.5
 PILOT_OFFSET = 5
@@ -111,7 +113,9 @@ def _pilot_assignment(snr_db: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]
     actual[:, 0] = (~user0_is_high).to(torch.int64)
     actual[:, 1] = user0_is_high.to(torch.int64)
     lower_snr = snr_db.min(dim=1).values
-    threshold_index = torch.floor((lower_snr + 20.0) / (30.25 / 27.0)).to(torch.int64).clamp(0, 26)
+    threshold_step = 30.25 / THRESHOLD_CODEWORDS
+    threshold_index = torch.floor((lower_snr + 20.0) / threshold_step).to(torch.int64)
+    threshold_index = threshold_index.clamp(0, THRESHOLD_CODEWORDS - 1)
     return actual, threshold_index
 
 
@@ -130,19 +134,21 @@ def _tail_codebook(device: torch.device, dtype: torch.dtype) -> torch.Tensor:
     hashed = hashed * 2654435761
     base = torch.bitwise_and(torch.bitwise_right_shift(hashed, 17), 1)
     full = torch.cat([base, 1 - base], dim=0)
-    return full[torch.tensor((0, 1, 3, 5, 7), device=device)].to(dtype)
+    codeword_order = torch.tensor((0, 1, 3, 5, 7, 2, 4, 6), device=device)
+    return full[codeword_order[:DATA_MODE_CODEWORDS]].to(dtype)
 
 
 def _threshold_tail_codebook(device: torch.device, dtype: torch.dtype) -> torch.Tensor:
     positions = torch.arange(228, device=device, dtype=torch.int64)[None]
-    templates = torch.arange(14, device=device, dtype=torch.int64)[:, None]
+    template_count = (THRESHOLD_CODEWORDS + 1) // 2
+    templates = torch.arange(template_count, device=device, dtype=torch.int64)[:, None]
     hashed = positions + 193 * templates + 1
     hashed = hashed * 1103515245 + 12345
     hashed = torch.bitwise_xor(hashed, torch.bitwise_right_shift(hashed, 13))
     hashed = hashed * 2654435761
     base = torch.bitwise_and(torch.bitwise_right_shift(hashed, 17), 1)
-    paired = torch.stack([base, 1 - base], dim=1).reshape(28, 228)
-    return paired[:27].to(dtype)
+    paired = torch.stack([base, 1 - base], dim=1).reshape(2 * template_count, 228)
+    return paired[:THRESHOLD_CODEWORDS].to(dtype)
 
 
 def _bits_to_integer(bits: torch.Tensor) -> torch.Tensor:
@@ -402,8 +408,10 @@ class Transmitter(nn.Module):
             payload_value = matches.argmax(dim=1)
             lower_snr = snr_dl.min(dim=0).values
             higher_snr = snr_dl.max(dim=0).values
-            candidate_indices = torch.arange(27, device=precoder.device, dtype=torch.int64)
-            candidate_thresholds = -20.0 + (30.25 / 27.0) * (
+            candidate_indices = torch.arange(
+                THRESHOLD_CODEWORDS, device=precoder.device, dtype=torch.int64
+            )
+            candidate_thresholds = -20.0 + (30.25 / THRESHOLD_CODEWORDS) * (
                 candidate_indices.to(snr_dl.dtype) + 1.0
             )
             valid_thresholds = (
@@ -444,7 +452,11 @@ class Transmitter(nn.Module):
             selected_threshold_index = torch.where(
                 valid_thresholds.any(dim=1), selected_threshold_index, threshold_index
             )
-            control_value = torch.where(data_mode, payload_value, 5 + selected_threshold_index)
+            control_value = torch.where(
+                data_mode,
+                payload_value,
+                DATA_MODE_CODEWORDS + selected_threshold_index,
+            )
             ctrl = _integer_to_control(control_value, bits_list[0].dtype)
         else:
             symbols = torch.stack([_layered_qam_modulate(bits[:, :1152]) for bits in bits_list], dim=1)
@@ -525,9 +537,11 @@ class Receiver(nn.Module):
         code0 = smooth(pilot)
         code1 = smooth(pilot * walsh_sign[None, :, None])
         pilot_vectors = torch.stack([code0, code1], dim=2)
-        data_mode = control_index < 5
-        threshold_index = (control_index - 5).clamp_min(0)
-        threshold = -20.0 + (30.25 / 27.0) * (threshold_index.to(torch.float32) + 1.0)
+        data_mode = control_index < DATA_MODE_CODEWORDS
+        threshold_index = (control_index - DATA_MODE_CODEWORDS).clamp_min(0)
+        threshold = -20.0 + (30.25 / THRESHOLD_CODEWORDS) * (
+            threshold_index.to(torch.float32) + 1.0
+        )
         own_pilot_index = (snr <= threshold).to(torch.int64)
         local_feedback = _normalize_feedback(_task_feedback(h).reshape(batch, -1)).reshape(
             batch, GROUPS, NUM_TX
