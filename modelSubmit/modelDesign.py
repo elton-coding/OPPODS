@@ -23,6 +23,7 @@ DD_ITERATIONS = 15
 LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
+MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 0.3
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
@@ -794,6 +795,14 @@ class Receiver(nn.Module):
             return llr[:, :1]
         if bool(torch.all(snr < MIDDLE_PREFIX_THRESHOLD_DB).item()):
             middle_llr = llr[:, :MIDDLE_PREFIX_BITS]
+            extension_llr = llr[:, MIDDLE_PREFIX_BITS:1056]
+            extension_confidence = torch.mean(torch.abs(extension_llr), dim=1)
+            if bool(
+                torch.all(
+                    extension_confidence >= MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD
+                ).item()
+            ):
+                return llr[:, :1056]
             if bool(torch.all(snr <= threshold).item()):
                 threshold_codebook = _threshold_tail_codebook(llr.device, llr.dtype)
                 tail_prediction = threshold_codebook[threshold_index]
