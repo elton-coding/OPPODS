@@ -26,7 +26,7 @@ def test_shared_link_profile_routes_when_any_user_is_in_interval() -> None:
         0.45,
         ((-10.0, -2.75, 0.4),),
         snr_by_user,
-        ((-0.75, 20.0, 0.9),),
+        ((-0.25, 20.0, 0.9),),
     )
 
     assert torch.allclose(values, torch.tensor([0.4, 0.45, 0.4, 0.9, 0.45]))
