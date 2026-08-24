@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V118
+solution_version: V119
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -46,6 +46,10 @@ profiles:
   reserved_pilot_identity_margin_snr_slope_per_db: -0.02
   reserved_pilot_gain_interpolation: linear_post_dd
   reserved_pilot_gain_interpolation_scale: 0.5
+  reserved_pilot_gain_interpolation_scale_intervals:
+    - {snr_db: [-17.5, -15.0], value: 0.75}
+    - {snr_db: [-10.0, -7.5], value: 0.75}
+    - {snr_db: [15.0, 20.0], value: 0.75}
   reserved_pilot_steering_shrinkage: 0.0375
   reserved_pilot_data_gain_refinement_scale: 0.2
   reserved_pilot_data_gain_refinement_radius: 2
@@ -92,5 +96,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_snr_physical_v118_official.zip
-  sha256: 968B680A9CAF530BF3D1EA4735BB32FC4B20344606E21C9772CBAE213717F9F3
+  versioned_archive: artifacts/FATE_MIMO_submission_snr_pilot_v119_official.zip
+  sha256: 7FA44908DA6A3244ADDE4B74FA2FF370FA3E0BD26A87D13D67710F0B529296AF

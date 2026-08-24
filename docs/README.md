@@ -12,9 +12,11 @@
 - [FATE-MIMO V115 冻结方案](solutions/FATE-MIMO_v115.md)
 - [FATE-MIMO V117 冠军增量方案](solutions/FATE-MIMO_v117.md)
 - [FATE-MIMO V118 SNR 分段 Receiver 方案](solutions/FATE-MIMO_v118.md)
+- [FATE-MIMO V119 SNR 分段导频插值方案](solutions/FATE-MIMO_v119.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
+- [V119 提交说明](submission/V119_提交说明.md)
 
 ## 实验记录
 
