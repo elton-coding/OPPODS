@@ -47,6 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--hinge-weight", type=float, default=0.0)
     parser.add_argument("--hinge-margin", type=float, default=1.0)
     parser.add_argument("--seed", type=int, default=1176)
+    parser.add_argument("--model-seed", type=int, default=1176)
     parser.add_argument("--log-every", type=int, default=50)
     parser.add_argument("--validate-every", type=int, default=250)
     parser.add_argument("--validation-batches", type=int, default=16)
@@ -234,10 +235,11 @@ def checkpoint_payload(
 
 def main() -> None:
     args = parse_args()
-    seed_everything(args.seed)
+    seed_everything(args.model_seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     _, encoder, transmitter, receiver = load_submission(args, device)
     validate_args(args, len(receiver.llr_experts))
+    seed_everything(args.seed)
     for parameter in encoder.parameters():
         parameter.requires_grad_(False)
     for parameter in transmitter.parameters():
