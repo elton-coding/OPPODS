@@ -24,6 +24,9 @@ LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
 MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 0.3
+MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD_INTERVALS: tuple[
+    tuple[float, float, float], ...
+] = ()
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
@@ -797,10 +800,13 @@ class Receiver(nn.Module):
             middle_llr = llr[:, :MIDDLE_PREFIX_BITS]
             extension_llr = llr[:, MIDDLE_PREFIX_BITS:1056]
             extension_confidence = torch.mean(torch.abs(extension_llr), dim=1)
+            extension_threshold = _snr_interval_value(
+                MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD,
+                MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD_INTERVALS,
+                snr,
+            )
             if bool(
-                torch.all(
-                    extension_confidence >= MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD
-                ).item()
+                torch.all(extension_confidence >= extension_threshold).item()
             ):
                 return llr[:, :1056]
             if bool(torch.all(snr <= threshold).item()):
