@@ -44,6 +44,7 @@ MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS = (
     0.246,
     0.246,
 )
+MIDDLE_BARE_PREFIX_EXTENSION_MIN_SNR_DB = -7.5
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
@@ -835,6 +836,8 @@ class Receiver(nn.Module):
                 tail_prediction = threshold_codebook[threshold_index]
                 tail_llr = 2.0 * tail_prediction - 1.0
                 return torch.cat([middle_llr, tail_llr], dim=1)
+            if bool(torch.all(snr >= MIDDLE_BARE_PREFIX_EXTENSION_MIN_SNR_DB).item()):
+                return llr[:, :1056]
             return middle_llr
         if bool(torch.all(snr >= PILOT_32PSK_MIN_SNR_DB).item()):
             payload_llr = psk32_pilot_llr

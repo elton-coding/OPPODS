@@ -105,6 +105,15 @@ def main() -> None:
             "score_delta",
         )
     }
+    extension_prefix_lengths = np.arange(
+        module.MIDDLE_PREFIX_BITS,
+        1056 + 1,
+        11,
+        dtype=np.int16,
+    )
+    extension_group_count = (1056 - module.MIDDLE_PREFIX_BITS) // 11
+    extension_group_confidences: list[np.ndarray] = []
+    extension_prefix_scores: list[np.ndarray] = []
     started = time.perf_counter()
     with torch.no_grad():
         for sample_index, data_index in enumerate(indices):
@@ -187,6 +196,35 @@ def main() -> None:
                     raw_llr = full_llr[:, :1056]
                     extension_abs = torch.abs(
                         raw_llr[:, module.MIDDLE_PREFIX_BITS:1056]
+                    )
+                    group_confidence = torch.mean(
+                        extension_abs.clamp_max(1.0).reshape(
+                            -1,
+                            extension_group_count,
+                            11,
+                        ),
+                        dim=2,
+                    )
+                    raw_correct = (
+                        (raw_llr >= 0)
+                        == (bits_list[user][:, :1056] >= 0.5)
+                    )
+                    cumulative_correct = torch.cumsum(
+                        raw_correct.to(torch.int32),
+                        dim=1,
+                    )
+                    prefix_scores = []
+                    for prefix_length in extension_prefix_lengths:
+                        prefix_correct = cumulative_correct[:, int(prefix_length) - 1]
+                        prefix_score = 100.0 * (
+                            float(prefix_correct) + 0.5 * (1152 - int(prefix_length))
+                        ) / 1152
+                        prefix_scores.append(prefix_score)
+                    extension_group_confidences.append(
+                        group_confidence[0].cpu().numpy()
+                    )
+                    extension_prefix_scores.append(
+                        np.asarray(prefix_scores, dtype=np.float32)
                     )
                     fallback_correct = (
                         (fallback_llr >= 0)
@@ -271,6 +309,12 @@ def main() -> None:
                 key: np.asarray(values)
                 for key, values in extension_diagnostics.items()
             },
+            prefix_lengths=extension_prefix_lengths,
+            group_mean_clipped_1p0=np.asarray(
+                extension_group_confidences,
+                dtype=np.float32,
+            ),
+            prefix_scores=np.asarray(extension_prefix_scores, dtype=np.float32),
         )
     result: dict[str, object] = {
                 "samples": len(indices),
