@@ -28,6 +28,19 @@ def test_threshold_tail_codebook_has_adjacent_complement_pairs() -> None:
         assert torch.equal(codebook[index] + codebook[index + 1], torch.ones(228, dtype=torch.int64))
 
 
+def test_walsh_threshold_tail_codebook_is_supported() -> None:
+    module = _load_submission_module()
+    module.THRESHOLD_CODEBOOK_MODE = "walsh"
+    codebook = module._threshold_tail_codebook(torch.device("cpu"), torch.int64)
+    assert codebook.shape == (module.THRESHOLD_CODEWORDS, 228)
+    assert torch.all((codebook == 0) | (codebook == 1))
+    for index in range(0, module.THRESHOLD_CODEWORDS - 1, 2):
+        assert torch.equal(
+            codebook[index] + codebook[index + 1],
+            torch.ones(228, dtype=torch.int64),
+        )
+
+
 def test_low_snr_one_bit_guard_is_disabled_in_competition_range() -> None:
     module = _load_submission_module()
     assert module.LOW_SNR_THRESHOLD_DB == -20.0
