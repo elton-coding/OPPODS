@@ -27,6 +27,7 @@ DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
 THRESHOLD_WALSH_START = 65
+THRESHOLD_WALSH_COLUMN_OFFSET = 0
 RESERVED_PROFILE_MAX_SNR_DB = 20.0
 PILOT_AMPLITUDE = 1.5
 PILOT_OFFSET = 5
@@ -152,7 +153,11 @@ def _threshold_tail_codebook(device: torch.device, dtype: torch.dtype) -> torch.
         base = torch.bitwise_and(torch.bitwise_right_shift(hashed, 17), 1)
     elif THRESHOLD_CODEBOOK_MODE == "walsh":
         walsh_rows = templates + THRESHOLD_WALSH_START
-        parity = torch.bitwise_and(positions, walsh_rows)
+        walsh_positions = torch.remainder(
+            positions + THRESHOLD_WALSH_COLUMN_OFFSET,
+            256,
+        )
+        parity = torch.bitwise_and(walsh_positions, walsh_rows)
         for shift in (1, 2, 4, 8):
             parity = torch.bitwise_xor(parity, torch.bitwise_right_shift(parity, shift))
         base = torch.bitwise_and(parity, 1)
