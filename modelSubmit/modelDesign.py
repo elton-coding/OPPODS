@@ -69,6 +69,10 @@ PILOT_COVARIANCE_LOADING_SCALE_INTERVALS = (
 PILOT_GAIN_REFINEMENT_ITERATIONS = 4
 PILOT_GAIN_REFINEMENT_MIN_SNR_DB = -10.0
 PILOT_GAIN_REFINEMENT_RATE = 0.3125
+PILOT_GAIN_REFINEMENT_RATE_INTERVALS = (
+    (-8.25, -4.5, 0.375),
+    (11.0, 15.75, 0.1875),
+)
 PILOT_IDENTITY_MARGIN = 0.3
 PILOT_IDENTITY_MARGIN_SNR_SLOPE = -0.02
 PILOT_GAIN_INTERPOLATION_SCALE = 0.5
@@ -772,6 +776,11 @@ class Receiver(nn.Module):
         group_observation = observation.reshape(batch, 12, 11)
         group_gain = projected[:, :, 0, None]
         update_mask = (snr >= PILOT_GAIN_REFINEMENT_MIN_SNR_DB)[:, None, None]
+        gain_refinement_rate = _snr_interval_value(
+            PILOT_GAIN_REFINEMENT_RATE,
+            PILOT_GAIN_REFINEMENT_RATE_INTERVALS,
+            snr,
+        )[:, None, None]
         for _ in range(PILOT_GAIN_REFINEMENT_ITERATIONS):
             safe_gain = torch.where(torch.abs(group_gain) > 1e-9, group_gain, torch.ones_like(group_gain))
             equalized = group_observation / safe_gain
@@ -780,9 +789,7 @@ class Receiver(nn.Module):
             estimate = torch.sum(group_observation * decisions.conj(), dim=-1, keepdim=True) / torch.sum(
                 torch.abs(decisions).square(), dim=-1, keepdim=True
             ).clamp_min(1e-6)
-            updated = (
-                (1.0 - PILOT_GAIN_REFINEMENT_RATE) * group_gain + PILOT_GAIN_REFINEMENT_RATE * estimate
-            )
+            updated = (1.0 - gain_refinement_rate) * group_gain + gain_refinement_rate * estimate
             group_gain = torch.where(update_mask, updated, group_gain)
         group_gain = group_gain + gain_interpolation_delta
         flat_observation = group_observation.reshape(batch, 132)
