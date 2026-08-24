@@ -23,6 +23,7 @@ PILOT_RZF_REGULARIZATION_ALL_USER_INTERVALS = (
     (-0.75, 20.0, 0.9),
     (4.0, 20.0, 1.8),
     (8.5, 20.0, 4.0),
+    (16.75, 20.0, 8.0),
 )
 CENTRAL_BOOST = -0.5
 DD_ITERATIONS = 15
