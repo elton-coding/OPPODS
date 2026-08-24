@@ -33,6 +33,7 @@
 - [FATE-MIMO V138 极高双用户 SNR RZF 专家方案](solutions/FATE-MIMO_v138.md)
 - [FATE-MIMO V139 超峰值双用户 SNR RZF 专家方案](solutions/FATE-MIMO_v139.md)
 - [FATE-MIMO V143 低中 SNR 配对 RZF 重校准方案](solutions/FATE-MIMO_v143.md)
+- [FATE-MIMO V147 SNR 分段软干扰抵消专家方案](solutions/FATE-MIMO_v147.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -57,6 +58,7 @@
 - [V138 提交说明](submission/V138_提交说明.md)
 - [V139 提交说明](submission/V139_提交说明.md)
 - [V143 提交说明](submission/V143_提交说明.md)
+- [V147 提交说明](submission/V147_提交说明.md)
 
 ## 实验记录
 
@@ -84,6 +86,7 @@
 - [V138 极高双用户 SNR RZF 专家](experiments/paired-rzf-veryhigh-v138.md)
 - [V139 超峰值双用户 SNR RZF 专家](experiments/paired-rzf-ultrapeak-v139.md)
 - [V143 低中 SNR 配对 RZF 重校准](experiments/paired-rzf-low-v143.md)
+- [V147 Receiver 干扰抵消强度 SNR 专家](experiments/receiver-ic-scale-v147.md)
 
 ## 外部方案研究
 
