@@ -27,6 +27,8 @@ DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
 THRESHOLD_WALSH_START = 65
+THRESHOLD_CODEBOOK_SWAP_PAIRS = False
+THRESHOLD_CODEBOOK_FLIP_LAST = False
 RESERVED_PROFILE_MAX_SNR_DB = 20.0
 PILOT_AMPLITUDE = 1.5
 PILOT_OFFSET = 5
@@ -158,8 +160,14 @@ def _threshold_tail_codebook(device: torch.device, dtype: torch.dtype) -> torch.
         base = torch.bitwise_and(parity, 1)
     else:
         raise ValueError(f"unsupported threshold codebook mode: {THRESHOLD_CODEBOOK_MODE}")
-    paired = torch.stack([base, 1 - base], dim=1).reshape(2 * template_count, 228)
-    return paired[:THRESHOLD_CODEWORDS].to(dtype)
+    paired = torch.stack([base, 1 - base], dim=1)
+    if THRESHOLD_CODEBOOK_SWAP_PAIRS:
+        paired = torch.flip(paired, dims=(1,))
+    codebook = paired.reshape(2 * template_count, 228)[:THRESHOLD_CODEWORDS]
+    if THRESHOLD_CODEBOOK_FLIP_LAST:
+        codebook = codebook.clone()
+        codebook[-1] = 1 - codebook[-1]
+    return codebook.to(dtype)
 
 
 def _bits_to_integer(bits: torch.Tensor) -> torch.Tensor:
