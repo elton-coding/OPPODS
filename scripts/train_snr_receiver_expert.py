@@ -43,6 +43,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--score-tail-alpha", type=float, default=0.2)
     parser.add_argument("--llr-temperature", type=float, default=4.0)
     parser.add_argument("--correction-weight", type=float, default=1e-4)
+    parser.add_argument("--bce-weight", type=float, default=0.0)
+    parser.add_argument("--hinge-weight", type=float, default=0.0)
+    parser.add_argument("--hinge-margin", type=float, default=1.0)
     parser.add_argument("--seed", type=int, default=1176)
     parser.add_argument("--log-every", type=int, default=50)
     parser.add_argument("--validate-every", type=int, default=250)
@@ -63,6 +66,8 @@ def validate_args(args: argparse.Namespace, expert_count: int) -> None:
         raise ValueError("--score-tail-alpha must be in (0, 1]")
     if args.llr_temperature <= 0.0:
         raise ValueError("--llr-temperature must be positive")
+    if args.bce_weight < 0.0 or args.hinge_weight < 0.0 or args.hinge_margin < 0.0:
+        raise ValueError("BCE/hinge weights and hinge margin must be non-negative")
 
 
 def seed_everything(seed: int) -> None:
@@ -152,18 +157,30 @@ def score_objective(
     args: argparse.Namespace,
 ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
     corrected = expert(raw_llr, snr)[:, : args.prefix_bits]
-    scores = soft_per_sample_score(bits, corrected / args.llr_temperature)
+    logits = corrected / args.llr_temperature
+    targets = bits[:, : args.prefix_bits]
+    scores = soft_per_sample_score(bits, logits)
     mean_score = scores.mean()
     tail_score = lower_cvar(scores, alpha=args.score_tail_alpha)
     objective = (1.0 - args.score_tail_weight) * mean_score + args.score_tail_weight * tail_score
     correction = corrected - raw_llr[:, : args.prefix_bits]
     correction_energy = correction.square().mean()
-    loss = -objective / 100.0 + args.correction_weight * correction_energy
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(logits, targets)
+    signed_margin = (2.0 * targets - 1.0) * logits
+    hinge = torch.relu(args.hinge_margin - signed_margin).mean()
+    loss = (
+        -objective / 100.0
+        + args.bce_weight * bce
+        + args.hinge_weight * hinge
+        + args.correction_weight * correction_energy
+    )
     return loss, {
         "mean_soft_score": mean_score.detach(),
         "tail_soft_score": tail_score.detach(),
         "objective": objective.detach(),
         "correction_rms": torch.sqrt(correction_energy.detach()),
+        "bce": bce.detach(),
+        "hinge": hinge.detach(),
     }
 
 
