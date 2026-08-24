@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO weak-user-prioritized 31-level control tail VQ",
-    "version": "V121",
-    "source_commit": "8a9a02a0479afa30a5edef83f582fc7a449053a9",
+    "solution": "FATE-MIMO matched middle-SNR prefix with 31-level control tail VQ",
+    "version": "V122",
+    "source_commit": "fbc30dc58d72c0e3f307489c74466b501687d16b",
     "local_validation": {
       "1176": {
-        "efficiency": 68.24619140625,
+        "efficiency": 68.26272786458334,
         "fairness_p10": 50.69444444444444,
-        "final": 62.98066731770834
+        "final": 62.99224283854167
       },
       "1177": {
-        "efficiency": 68.55107421875,
-        "fairness_p10": 50.69444444444444,
-        "final": 63.19408528645833
+        "efficiency": 68.57036675347221,
+        "fairness_p10": 50.78125,
+        "final": 63.23363172743055
       },
       "1178": {
-        "efficiency": 68.55287543402778,
+        "efficiency": 68.56765407986111,
         "fairness_p10": 50.607638888888886,
-        "final": 63.16930447048611
+        "final": 63.17964952256945
       },
-      "mean_final": 63.114685691550925
+      "mean_final": 63.13517469618055
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_control_v121_official.zip",
-      "sha256": "D92F25E37CDE6BD716F27B66284CC77ED0DEF864843503AC842962C107745563"
+      "name": "FATE_MIMO_submission_middle_v122_official.zip",
+      "sha256": "E959C5512775BC1A68B2E84006BB520703ED6C8EF825E9FBBA7F5EEEA54E307D"
     }
   },
   "references": {
@@ -44,6 +44,7 @@
     "previous_champion_v118_mean_final": 63.080435836226855,
     "previous_champion_v119_mean_final": 63.08210177951389,
     "previous_champion_v120_mean_final": 63.08815285011574,
+    "previous_champion_v121_mean_final": 63.114685691550925,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
