@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "competition": "DataFountain_1176",
-  "updated_at": "2026-08-24",
+  "updated_at": "2026-08-25",
   "promotion_metric": "mean final score across seeds 1176, 1177 and 1178",
   "protocol": {
     "evaluator": "official-compatible batch_size=1 local evaluator",
@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO multi-band paired RZF with high-SNR receiver covariance expert",
-    "version": "V132",
-    "source_commit": "18bec57f7fdaacfb686da4c1953bfe493ce18963",
+    "solution": "FATE-MIMO multi-band paired RZF with strengthened high-SNR receiver covariance expert",
+    "version": "V133",
+    "source_commit": "fed1dd8057b684514d127c39c3092eb4c2dc1e39",
     "local_validation": {
       "1176": {
-        "efficiency": 68.34523654513889,
+        "efficiency": 68.35224609375,
         "fairness_p10": 50.69444444444444,
-        "final": 63.049998914930555
+        "final": 63.05490559895833
       },
       "1177": {
-        "efficiency": 68.64807942708335,
+        "efficiency": 68.65356987847223,
         "fairness_p10": 50.78125,
-        "final": 63.288030598958336
+        "final": 63.291873914930555
       },
       "1178": {
-        "efficiency": 68.64113498263889,
+        "efficiency": 68.64729817708334,
         "fairness_p10": 50.607638888888886,
-        "final": 63.23108615451389
+        "final": 63.235400390625
       },
-      "mean_final": 63.18970522280093
+      "mean_final": 63.194059968171295
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_receiver_covload_v132_official.zip",
-      "sha256": "F98726E38C4F94C34F138A7C946AA1273552C53C82CE9369A8CD1B0DBB25BF09"
+      "name": "FATE_MIMO_submission_receiver_covload_high_v133_official.zip",
+      "sha256": "5C4D8E6C03BA7C77F24965F32F98250DB3D17CE9DFE605F995DB2743B32E4B5D"
     }
   },
   "references": {
@@ -55,6 +55,7 @@
     "previous_champion_v129_mean_final": 63.170944372106476,
     "previous_champion_v130_mean_final": 63.17621563946759,
     "previous_champion_v131_mean_final": 63.182793330439814,
+    "previous_champion_v132_mean_final": 63.18970522280093,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
