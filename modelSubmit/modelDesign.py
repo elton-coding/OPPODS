@@ -27,6 +27,7 @@ DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
 THRESHOLD_CODEBOOK_MODE = "walsh"
 THRESHOLD_WALSH_START = 65
+THRESHOLD_WALSH_ROWS: tuple[int, ...] = ()
 RESERVED_PROFILE_MAX_SNR_DB = 20.0
 PILOT_AMPLITUDE = 1.5
 PILOT_OFFSET = 5
@@ -151,7 +152,19 @@ def _threshold_tail_codebook(device: torch.device, dtype: torch.dtype) -> torch.
         hashed = hashed * 2654435761
         base = torch.bitwise_and(torch.bitwise_right_shift(hashed, 17), 1)
     elif THRESHOLD_CODEBOOK_MODE == "walsh":
-        walsh_rows = templates + THRESHOLD_WALSH_START
+        if len(THRESHOLD_WALSH_ROWS) > 0:
+            if len(THRESHOLD_WALSH_ROWS) != template_count:
+                raise ValueError(
+                    "THRESHOLD_WALSH_ROWS must contain exactly "
+                    f"{template_count} rows"
+                )
+            walsh_rows = torch.tensor(
+                THRESHOLD_WALSH_ROWS,
+                device=device,
+                dtype=torch.int64,
+            )[:, None]
+        else:
+            walsh_rows = templates + THRESHOLD_WALSH_START
         parity = torch.bitwise_and(positions, walsh_rows)
         for shift in (1, 2, 4, 8):
             parity = torch.bitwise_xor(parity, torch.bitwise_right_shift(parity, shift))
