@@ -11,9 +11,9 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO semantic bare-prefix extension with SNR-binned confidence and Walsh tail VQ",
-    "version": "V126",
-    "source_commit": "9862fe7d68b3e13cffb5894e1d193900f68dcac8",
+    "solution": "FATE-MIMO recalibrated Walsh-tail confidence with semantic bare-prefix extension",
+    "version": "V127",
+    "source_commit": "15deba234cddf641ab913955f8d6b9e76fc7158c",
     "local_validation": {
       "1176": {
         "efficiency": 68.27833116319444,
@@ -21,21 +21,21 @@
         "final": 63.00316514756944
       },
       "1177": {
-        "efficiency": 68.58043619791665,
+        "efficiency": 68.58052300347222,
         "fairness_p10": 50.78125,
-        "final": 63.24068033854166
+        "final": 63.240741102430555
       },
       "1178": {
         "efficiency": 68.57492404513887,
         "fairness_p10": 50.607638888888886,
         "final": 63.18473849826387
       },
-      "mean_final": 63.14286132812499
+      "mean_final": 63.142881582754626
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_bare_prefix_extension_v126_official.zip",
-      "sha256": "FDC2A71E3335D3F779A19E98C9FA65AD1DA598863FA4B6CD94EAAD0699B1F797"
+      "name": "FATE_MIMO_submission_walsh_tail_confidence_v127_official.zip",
+      "sha256": "4CDE0DC1ACDFC4A09B866B4543DE4DFF6EED07A9585CA4AD35923B6B54E0394E"
     }
   },
   "references": {
@@ -49,6 +49,7 @@
     "previous_champion_v123_mean_final": 63.138096426504625,
     "previous_champion_v124_mean_final": 63.13980794270833,
     "previous_champion_v125_mean_final": 63.14062319155092,
+    "previous_champion_v126_mean_final": 63.14286132812499,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
