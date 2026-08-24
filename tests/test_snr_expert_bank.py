@@ -2,7 +2,13 @@ from argparse import Namespace
 
 import torch
 
-from modelSubmit.modelDesign import GROUPS, NUM_TX, Receiver, Transmitter
+from modelSubmit.modelDesign import (
+    GROUPS,
+    NUM_TX,
+    Receiver,
+    Transmitter,
+    _snr_interval_value,
+)
 from scripts.train_precoder_aware_denoiser import validate_args
 
 
@@ -34,3 +40,11 @@ def test_zero_initialized_receiver_experts_preserve_llrs() -> None:
         corrected = receiver.apply_llr_expert(llr, snr)
 
     assert torch.equal(corrected, llr)
+
+
+def test_physical_receiver_interval_profiles_use_half_open_boundaries() -> None:
+    snr = torch.tensor([-2.5, -0.01, 0.0, 2.49, 2.5])
+
+    values = _snr_interval_value(3.0, ((-2.5, 0.0, 0.3), (0.0, 2.5, 2.0)), snr)
+
+    assert torch.equal(values, torch.tensor([0.3, 0.3, 2.0, 2.0, 3.0]))

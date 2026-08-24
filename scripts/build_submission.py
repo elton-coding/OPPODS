@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import shutil
 import zipfile
 from pathlib import Path
 from types import ModuleType
@@ -77,6 +78,10 @@ def main() -> None:
         if "receiver" in checkpoint:
             receiver.load_state_dict(checkpoint["receiver"])
         args.output_dir.mkdir(parents=True, exist_ok=True)
+        source_model_design = Path(__file__).resolve().parents[1] / "modelSubmit" / "modelDesign.py"
+        target_model_design = args.output_dir / "modelDesign.py"
+        if source_model_design.resolve() != target_model_design.resolve():
+            shutil.copy2(source_model_design, target_model_design)
         torch.save(encoder.state_dict(), args.output_dir / "encoder.pth")
         torch.save(transmitter.state_dict(), args.output_dir / "transmitter.pth")
         torch.save(receiver.state_dict(), args.output_dir / "receiver.pth")
