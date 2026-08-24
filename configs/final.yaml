@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V138
+solution_version: V139
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -33,6 +33,7 @@ precoding:
     - {snr_db: [-0.75, 20.0], value: 0.9}
     - {snr_db: [4.0, 20.0], value: 1.8}
     - {snr_db: [8.5, 20.0], value: 4.0}
+    - {snr_db: [16.75, 20.0], value: 8.0}
 modulation:
   type: layered_gray_256qam
   central_boost: -0.5
@@ -115,5 +116,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_paired_rzf_veryhigh_v138_official.zip
-  sha256: 9C2DCE553BE102F45AD643C404EAA182712D9730E027DF554F246CC3C2B6E56E
+  versioned_archive: artifacts/FATE_MIMO_submission_paired_rzf_ultrapeak_v139_official.zip
+  sha256: 967AC26612848861924096B735F5DF41E97DAE5ACA179AF22D006817DEA7A350
