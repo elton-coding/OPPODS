@@ -78,6 +78,10 @@ PILOT_GAIN_INTERPOLATION_SCALE_INTERVALS = (
     (15.0, 20.0, 0.75),
 )
 PILOT_STEERING_SHRINKAGE = 0.0375
+PILOT_STEERING_SHRINKAGE_INTERVALS = (
+    (-7.0, -3.5, 0.0125),
+    (2.0, 7.5, 0.0125),
+)
 DATA_GAIN_REFINEMENT_SCALE = 0.2
 DATA_GAIN_REFINEMENT_RADIUS = 2
 DATA_GAIN_REFINEMENT_MIN_SNR_DB = -5.0
@@ -658,9 +662,14 @@ class Receiver(nn.Module):
             torch.abs(local_vector).square(), dim=-1, keepdim=True
         ).clamp_min(1e-9)
         aligned_local = local_vector * alignment
+        steering_shrinkage = _snr_interval_value(
+            PILOT_STEERING_SHRINKAGE,
+            PILOT_STEERING_SHRINKAGE_INTERVALS,
+            snr,
+        )[:, None, None]
         desired_vector = (
-            (1.0 - PILOT_STEERING_SHRINKAGE) * desired_vector
-            + PILOT_STEERING_SHRINKAGE * aligned_local
+            (1.0 - steering_shrinkage) * desired_vector
+            + steering_shrinkage * aligned_local
         )
         matrix = torch.stack([desired_vector, other_vector], dim=-1)
         covariance = matrix @ matrix.conj().transpose(-2, -1)

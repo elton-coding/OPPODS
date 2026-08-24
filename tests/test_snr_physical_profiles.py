@@ -1,6 +1,11 @@
 import torch
 
-from modelSubmit.modelDesign import _snr_interval_value, _snr_pair_interval_value
+from modelSubmit.modelDesign import (
+    PILOT_STEERING_SHRINKAGE,
+    PILOT_STEERING_SHRINKAGE_INTERVALS,
+    _snr_interval_value,
+    _snr_pair_interval_value,
+)
 
 
 def test_physical_receiver_interval_profiles_use_half_open_boundaries() -> None:
@@ -31,3 +36,15 @@ def test_shared_link_profile_routes_when_any_user_is_in_interval() -> None:
     )
 
     assert torch.allclose(values, torch.tensor([0.4, 0.45, 0.4, 0.9, 0.45, 1.8]))
+
+
+def test_pilot_steering_profile_uses_half_open_snr_intervals() -> None:
+    snr = torch.tensor([-7.0, -3.5001, -3.5, 1.9999, 2.0, 7.4999, 7.5])
+
+    values = _snr_interval_value(
+        PILOT_STEERING_SHRINKAGE,
+        PILOT_STEERING_SHRINKAGE_INTERVALS,
+        snr,
+    )
+
+    assert torch.allclose(values, torch.tensor([0.0125, 0.0125, 0.0375, 0.0375, 0.0125, 0.0125, 0.0375]))
