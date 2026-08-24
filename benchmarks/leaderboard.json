@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO multi-band paired RZF with mid/high-SNR receiver covariance experts",
-    "version": "V135",
-    "source_commit": "2585c1bb35fd9aa9031d2dd6106ae3da3fcee3c5",
+    "solution": "FATE-MIMO multi-band paired RZF with mid/high/peak-SNR receiver covariance experts",
+    "version": "V137",
+    "source_commit": "a38048dd6b0ca3c4ab3bfd072e3b140e9e116a0c",
     "local_validation": {
       "1176": {
-        "efficiency": 68.35485026041665,
+        "efficiency": 68.35619574652777,
         "fairness_p10": 50.69444444444444,
-        "final": 63.05672851562499
+        "final": 63.05767035590277
       },
       "1177": {
-        "efficiency": 68.65751953125,
+        "efficiency": 68.65897352430555,
         "fairness_p10": 50.78125,
-        "final": 63.294638671875
+        "final": 63.295656467013885
       },
       "1178": {
-        "efficiency": 68.65289713541667,
+        "efficiency": 68.6550021701389,
         "fairness_p10": 50.607638888888886,
-        "final": 63.239319661458325
+        "final": 63.24079318576389
       },
-      "mean_final": 63.19689561631944
+      "mean_final": 63.198040002893514
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_receiver_covload_mid_v135_official.zip",
-      "sha256": "8EB532E2B1EB20967D91C75460984D46E594F618495F9E8A18F2C943C860449A"
+      "name": "FATE_MIMO_submission_receiver_covload_peak_v137_official.zip",
+      "sha256": "EF6D271243EA7E3B43A548593142BE5F2680FB2334670FBA0A1E344E49D2E837"
     }
   },
   "references": {
@@ -58,6 +58,7 @@
     "previous_champion_v132_mean_final": 63.18970522280093,
     "previous_champion_v133_mean_final": 63.194059968171295,
     "previous_champion_v134_mean_final": 63.19565502025463,
+    "previous_champion_v135_mean_final": 63.19689561631944,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }

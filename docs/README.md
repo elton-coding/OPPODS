@@ -29,6 +29,7 @@
 - [FATE-MIMO V133 高 SNR Receiver 协方差加载增强方案](solutions/FATE-MIMO_v133.md)
 - [FATE-MIMO V134 分层高 SNR Receiver 协方差专家方案](solutions/FATE-MIMO_v134.md)
 - [FATE-MIMO V135 中档 Receiver 协方差专家方案](solutions/FATE-MIMO_v135.md)
+- [FATE-MIMO V137 峰值 SNR Receiver 协方差专家方案](solutions/FATE-MIMO_v137.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -49,6 +50,7 @@
 - [V133 提交说明](submission/V133_提交说明.md)
 - [V134 提交说明](submission/V134_提交说明.md)
 - [V135 提交说明](submission/V135_提交说明.md)
+- [V137 提交说明](submission/V137_提交说明.md)
 
 ## 实验记录
 
@@ -72,6 +74,7 @@
 - [V133 高 SNR Receiver 协方差加载强度搜索](experiments/receiver-covload-high-v133.md)
 - [V134 分层高 SNR Receiver 协方差加载专家](experiments/receiver-covload-ultrahigh-v134.md)
 - [V135 中档 Receiver 协方差加载专家](experiments/receiver-covload-mid-v135.md)
+- [V137 峰值 SNR Receiver 协方差加载专家](experiments/receiver-covload-peak-v137.md)
 
 ## 外部方案研究
 

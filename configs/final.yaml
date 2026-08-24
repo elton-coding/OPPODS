@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V135
+solution_version: V137
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -47,6 +47,7 @@ profiles:
     - {snr_db: [1.5, 5.75], value: 3.0}
     - {snr_db: [8.75, 20.0], value: 5.0}
     - {snr_db: [11.65, 20.0], value: 7.0}
+    - {snr_db: [14.75, 19.0], value: 8.0}
   reserved_pilot_gain_refinement_iterations: 4
   reserved_pilot_gain_refinement_min_snr_db: -10.0
   reserved_pilot_gain_refinement_rate: 0.3125
@@ -113,5 +114,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_receiver_covload_mid_v135_official.zip
-  sha256: 8EB532E2B1EB20967D91C75460984D46E594F618495F9E8A18F2C943C860449A
+  versioned_archive: artifacts/FATE_MIMO_submission_receiver_covload_peak_v137_official.zip
+  sha256: EF6D271243EA7E3B43A548593142BE5F2680FB2334670FBA0A1E344E49D2E837
