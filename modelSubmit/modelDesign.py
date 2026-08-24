@@ -61,6 +61,7 @@ PILOT_16PSK_MIN_SNR_DB = 12.5
 PILOT_32PSK_MIN_SNR_DB = 18.75
 DATA_VECTOR_SOFT_TEMPERATURE_INTERVALS = ((0.0, 2.5, 2.0), (5.0, 7.5, 2.0))
 DATA_GAIN_SOFT_TEMPERATURE_INTERVALS = ((-2.5, 0.0, 0.3), (2.5, 5.0, 0.3))
+DATA_GAIN_REFINEMENT_SCALE_INTERVALS: tuple[tuple[float, float, float], ...] = ()
 
 
 def _snr_interval_value(
@@ -712,8 +713,13 @@ class Receiver(nn.Module):
         flat_observation = group_observation.reshape(batch, 132)
         base_gain = group_gain.reshape(batch, 132)
         data_update_mask = (snr >= DATA_GAIN_REFINEMENT_MIN_SNR_DB)[:, None]
+        data_gain_refinement_scale = _snr_interval_value(
+            DATA_GAIN_REFINEMENT_SCALE,
+            DATA_GAIN_REFINEMENT_SCALE_INTERVALS,
+            snr,
+        )
         adaptive_data_gain_scale = (
-            DATA_GAIN_REFINEMENT_SCALE + DATA_GAIN_REFINEMENT_SNR_SLOPE * snr
+            data_gain_refinement_scale + DATA_GAIN_REFINEMENT_SNR_SLOPE * snr
         ).clamp(0.0, 1.0)[:, None]
         for _ in range(DATA_GAIN_REFINEMENT_ITERATIONS):
             predicted = base_gain[..., None] * self.points
