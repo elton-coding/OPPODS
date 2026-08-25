@@ -32,6 +32,7 @@ MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
 MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 0.3
 MIDDLE_EXTENSION_CONFIDENCE_CLIP = 1.0
+MIDDLE_EXTENSION_CONFIDENCE_METRIC = "q25_over_mean"
 MIDDLE_EXTENSION_SNR_BIN_EDGES_DB = (
     -20.0,
     -17.5,
@@ -43,13 +44,13 @@ MIDDLE_EXTENSION_SNR_BIN_EDGES_DB = (
     -2.5,
 )
 MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS = (
-    0.246,
-    0.246,
-    0.246,
-    0.124,
-    0.101,
-    0.260,
-    0.260,
+    0.3262861888736557,
+    0.3077989036659491,
+    0.6016486163883144,
+    0.6016486163883144,
+    0.437427782321725,
+    0.6016486163883144,
+    0.6016486163883144,
 )
 MIDDLE_BARE_PREFIX_EXTENSION_MIN_SNR_DB = -7.5
 DATA_MODE_CODEWORDS = 1
@@ -136,6 +137,22 @@ def _snr_pair_interval_value(
         in_interval = ((snr_by_user >= low_db) & (snr_by_user < high_db)).all(dim=1)
         value = torch.where(in_interval, torch.full_like(value, interval_value), value)
     return value
+
+
+def _middle_extension_confidence(extension_llr: torch.Tensor) -> torch.Tensor:
+    """Summarize confidence and shape consistency of each UE's extension LLRs."""
+    extension_abs = torch.abs(extension_llr)
+    if MIDDLE_EXTENSION_CONFIDENCE_METRIC == "q25_over_mean":
+        q25 = torch.quantile(extension_abs, 0.25, dim=1)
+        return q25 / (torch.mean(extension_abs, dim=1) + 1.0e-9)
+    if MIDDLE_EXTENSION_CONFIDENCE_METRIC == "mean_clipped_1p0":
+        return torch.mean(
+            extension_abs.clamp_max(MIDDLE_EXTENSION_CONFIDENCE_CLIP),
+            dim=1,
+        )
+    raise ValueError(
+        f"unsupported middle-extension confidence metric: {MIDDLE_EXTENSION_CONFIDENCE_METRIC!r}"
+    )
 
 
 def _dominant_hermitian_eigenvector_2x2(matrix: torch.Tensor) -> torch.Tensor:
@@ -874,10 +891,7 @@ class Receiver(nn.Module):
         if bool(torch.all(snr < MIDDLE_PREFIX_THRESHOLD_DB).item()):
             middle_llr = llr[:, :MIDDLE_PREFIX_BITS]
             extension_llr = llr[:, MIDDLE_PREFIX_BITS:1056]
-            extension_confidence = torch.mean(
-                torch.abs(extension_llr).clamp_max(MIDDLE_EXTENSION_CONFIDENCE_CLIP),
-                dim=1,
-            )
+            extension_confidence = _middle_extension_confidence(extension_llr)
             bin_boundaries = snr.new_tensor(MIDDLE_EXTENSION_SNR_BIN_EDGES_DB[1:-1])
             bin_thresholds = snr.new_tensor(MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS)
             bin_index = torch.bucketize(snr, bin_boundaries, right=True)

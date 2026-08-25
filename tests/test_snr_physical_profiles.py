@@ -5,9 +5,23 @@ from modelSubmit.modelDesign import (
     DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    _middle_extension_confidence,
     _snr_interval_value,
     _snr_pair_interval_value,
 )
+
+
+def test_middle_extension_q25_over_mean_confidence_is_computed_per_user() -> None:
+    extension_llr = torch.tensor(
+        [
+            [0.0, -1.0, 2.0, -3.0, 4.0],
+            [0.0, -2.0, 4.0, -6.0, 8.0],
+        ]
+    )
+
+    confidence = _middle_extension_confidence(extension_llr)
+
+    assert torch.allclose(confidence, torch.tensor([0.5, 0.5]))
 
 
 def test_physical_receiver_interval_profiles_use_half_open_boundaries() -> None:
