@@ -5,10 +5,24 @@ from modelSubmit.modelDesign import (
     DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    PILOT_STEERING_SHRINKAGE,
+    PILOT_STEERING_SHRINKAGE_INTERVALS,
     _snr_interval_override,
     _snr_interval_value,
     _snr_pair_interval_value,
 )
+
+
+def test_pilot_steering_shrinkage_profile_uses_half_open_low_snr_interval() -> None:
+    snr = torch.tensor([-18.0001, -18.0, -17.0001, -17.0])
+
+    values = _snr_interval_value(
+        PILOT_STEERING_SHRINKAGE,
+        PILOT_STEERING_SHRINKAGE_INTERVALS,
+        snr,
+    )
+
+    assert torch.allclose(values, torch.tensor([0.0375, 0.075, 0.075, 0.0375]))
 
 
 def test_middle_extension_threshold_subinterval_override_is_half_open() -> None:
