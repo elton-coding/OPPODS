@@ -5,6 +5,8 @@ from modelSubmit.modelDesign import (
     DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    WIENER_NOISE_SCALE,
+    WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
     _snr_interval_override,
     _snr_interval_value,
     _snr_pair_interval_value,
@@ -48,6 +50,25 @@ def test_shared_link_profile_routes_when_any_user_is_in_interval() -> None:
     )
 
     assert torch.allclose(values, torch.tensor([0.4, 0.45, 0.4, 0.9, 0.45, 1.8]))
+
+
+def test_wiener_scale_routes_both_users_when_either_is_in_interval() -> None:
+    snr_by_user = torch.tensor(
+        [
+            [2.7499, 20.0],
+            [2.75, -20.0],
+            [11.2499, 0.0],
+            [11.25, 20.0],
+        ]
+    )
+
+    values = _snr_pair_interval_value(
+        WIENER_NOISE_SCALE,
+        WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
+        snr_by_user,
+    )
+
+    assert torch.allclose(values, torch.tensor([0.75, 0.875, 0.875, 0.75]))
 
 
 def test_interference_cancellation_scale_profile_uses_half_open_snr_intervals() -> None:
