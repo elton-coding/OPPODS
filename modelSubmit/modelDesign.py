@@ -101,6 +101,9 @@ INTERFERENCE_CANCELLATION_SCALE_INTERVALS = (
 INTERFERENCE_CANCELLATION_TEMPERATURE = 0.3
 INTERFERENCE_CANCELLATION_MIN_SNR_DB = -10.0
 INTERFERENCE_CANCELLATION_SNR_SLOPE = -0.005
+INTERFERENCE_CANCELLATION_CONFIDENCE_GAIN = 0.0
+INTERFERENCE_CANCELLATION_CONFIDENCE_GAIN_INTERVALS = ((10.0, 20.0, -0.1),)
+INTERFERENCE_CANCELLATION_CONFIDENCE_FLOOR = 0.1
 INTERFERENCE_CANCELLATION_DISABLED_INTERVALS_DB = ((-8.5, -8.0),)
 PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
@@ -896,6 +899,23 @@ class Receiver(nn.Module):
         adaptive_cancellation_scale = (
             cancellation_scale + INTERFERENCE_CANCELLATION_SNR_SLOPE * snr
         ).clamp(0.0, 1.0)[:, None]
+        if (
+            INTERFERENCE_CANCELLATION_CONFIDENCE_GAIN != 0.0
+            or INTERFERENCE_CANCELLATION_CONFIDENCE_GAIN_INTERVALS
+        ):
+            other_confidence = (
+                other_posterior.amax(dim=-1)
+                - INTERFERENCE_CANCELLATION_CONFIDENCE_FLOOR
+            ) / (1.0 - INTERFERENCE_CANCELLATION_CONFIDENCE_FLOOR)
+            confidence_gain = _snr_interval_value(
+                INTERFERENCE_CANCELLATION_CONFIDENCE_GAIN,
+                INTERFERENCE_CANCELLATION_CONFIDENCE_GAIN_INTERVALS,
+                snr,
+            )[:, None]
+            adaptive_cancellation_scale = (
+                adaptive_cancellation_scale
+                + confidence_gain * other_confidence.clamp(0.0, 1.0)
+            ).clamp(0.0, 1.0)
         cancelled_observation = (
             observation - adaptive_cancellation_scale * other_leakage * soft_other
         )
