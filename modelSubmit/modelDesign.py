@@ -16,6 +16,7 @@ MODE_COUNT = 6
 DELAY_MODE_ORDER = (0, 1, 2, 3, 11, 10)
 DELAY_MODE_PRIOR = (0.5722, 0.2068, 0.0698, 0.0301, 0.0424, 0.0173)
 WIENER_NOISE_SCALE = 0.75
+WIENER_NOISE_SCALE_ANY_USER_INTERVALS = ((2.75, 11.25, 0.875),)
 RZF_REGULARIZATION = 1.5
 PILOT_RZF_REGULARIZATION = 0.45
 PILOT_RZF_REGULARIZATION_ANY_USER_INTERVALS = ((-10.0, -2.75, 0.35),)
@@ -346,13 +347,22 @@ class SparseFeedbackDenoiser(nn.Module):
         self.output = nn.Linear(128, 2 * NUM_TX)
         self.residual_scale = nn.Parameter(torch.tensor(0.1))
 
-    def forward(self, feedback: torch.Tensor, snr_db: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        feedback: torch.Tensor,
+        snr_db: torch.Tensor,
+        wiener_noise_scale: float | torch.Tensor | None = None,
+    ) -> torch.Tensor:
         batch = feedback.shape[0]
         selected = feedback[:, : MODE_COUNT * NUM_TX].reshape(batch, MODE_COUNT, NUM_TX)
         signal_variance = NUM_UL_RE * self.mode_prior / (NUM_TX * self.mode_prior.sum())
         noise_variance = torch.pow(10.0, -(snr_db - 10.0) / 10.0)
+        if wiener_noise_scale is None:
+            wiener_noise_scale = self.wiener_noise_scale
+        if isinstance(wiener_noise_scale, torch.Tensor):
+            wiener_noise_scale = wiener_noise_scale[:, None]
         weight = signal_variance[None, :] / (
-            signal_variance[None, :] + self.wiener_noise_scale * noise_variance[:, None]
+            signal_variance[None, :] + wiener_noise_scale * noise_variance[:, None]
         )
         wiener = selected * weight[:, :, None]
         snr_feature = (snr_db[:, None, None] / 20.0).expand(-1, MODE_COUNT, 1)
@@ -409,7 +419,22 @@ class Transmitter(nn.Module):
         feedback_list: list[torch.Tensor],
         snr_dl: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        effective = torch.stack([self.decoder(feedback_list[user], snr_dl[user]) for user in range(NUM_UE)], dim=2)
+        wiener_noise_scale = _snr_pair_interval_value(
+            WIENER_NOISE_SCALE,
+            WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
+            snr_dl.transpose(0, 1),
+        )
+        effective = torch.stack(
+            [
+                self.decoder(
+                    feedback_list[user],
+                    snr_dl[user],
+                    wiener_noise_scale,
+                )
+                for user in range(NUM_UE)
+            ],
+            dim=2,
+        )
         noise_variance = torch.pow(10.0, -snr_dl.transpose(0, 1) / 10.0)
         use_reserved = bool(torch.all(snr_dl.max(dim=0).values < RESERVED_PROFILE_MAX_SNR_DB).item())
         if use_reserved:
