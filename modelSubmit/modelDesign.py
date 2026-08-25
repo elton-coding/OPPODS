@@ -101,6 +101,7 @@ INTERFERENCE_CANCELLATION_TEMPERATURE = 0.3
 INTERFERENCE_CANCELLATION_MIN_SNR_DB = -10.0
 INTERFERENCE_CANCELLATION_SNR_SLOPE = -0.005
 INTERFERENCE_CANCELLATION_DISABLED_INTERVALS_DB = ((-8.5, -8.0),)
+INTERFERENCE_RESIDUAL_VARIANCE_SCALE = 1.0
 PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
@@ -882,7 +883,11 @@ class Receiver(nn.Module):
         cancellation_mask = cancellation_enabled[:, None]
         observation = torch.where(cancellation_mask, cancelled_observation, observation)
         filtered_noise = noise_variance[:, None] * torch.sum(torch.abs(weights).square(), dim=-1)
-        residual = torch.abs(projected[:, :, 1]).square() + filtered_noise
+        residual = (
+            INTERFERENCE_RESIDUAL_VARIANCE_SCALE
+            * torch.abs(projected[:, :, 1]).square()
+            + filtered_noise
+        )
         residual = residual.repeat_interleave(11, dim=1)
         llr = _layered_qam_llr(observation, desired_gain, residual, self.points, self.labels).to(torch.float32)
         if bool(torch.all(snr < LOW_SNR_THRESHOLD_DB).item()):
