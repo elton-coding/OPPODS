@@ -32,6 +32,8 @@ MIDDLE_PREFIX_THRESHOLD_DB = -2.5
 MIDDLE_PREFIX_BITS = 924
 MIDDLE_EXTENSION_CONFIDENCE_THRESHOLD = 0.3
 MIDDLE_EXTENSION_CONFIDENCE_CLIP = 1.0
+MIDDLE_EXTENSION_TAIL_GROUP_START = 4
+MIDDLE_EXTENSION_TAIL_GROUP_CONFIDENCE_THRESHOLD = 0.097
 MIDDLE_EXTENSION_SNR_BIN_EDGES_DB = (
     -20.0,
     -17.5,
@@ -135,6 +137,15 @@ def _snr_interval_override(
         in_interval = (snr >= low_db) & (snr < high_db)
         value = torch.where(in_interval, torch.full_like(value, interval_value), value)
     return value
+
+
+def _middle_extension_group_confidence(extension_llr: torch.Tensor) -> torch.Tensor:
+    """Return clipped mean absolute LLR confidence for each 11-bit extension group."""
+    extension_groups = extension_llr.reshape(extension_llr.shape[0], -1, 11)
+    return torch.mean(
+        torch.abs(extension_groups).clamp_max(MIDDLE_EXTENSION_CONFIDENCE_CLIP),
+        dim=2,
+    )
 
 
 def _snr_pair_interval_value(
@@ -908,6 +919,22 @@ class Receiver(nn.Module):
                     extension_confidence >= extension_threshold
                 ).item()
             ):
+                group_confidence = _middle_extension_group_confidence(extension_llr)
+                tail_group_confidence = torch.mean(
+                    group_confidence[:, MIDDLE_EXTENSION_TAIL_GROUP_START:],
+                    dim=1,
+                )
+                if bool(
+                    torch.all(
+                        tail_group_confidence
+                        < MIDDLE_EXTENSION_TAIL_GROUP_CONFIDENCE_THRESHOLD
+                    ).item()
+                ):
+                    stop_length = (
+                        MIDDLE_PREFIX_BITS
+                        + 11 * MIDDLE_EXTENSION_TAIL_GROUP_START
+                    )
+                    return llr[:, :stop_length]
                 return llr[:, :1056]
             if bool(torch.all(snr <= threshold).item()):
                 threshold_codebook = _threshold_tail_codebook(llr.device, llr.dtype)
