@@ -80,6 +80,7 @@ PILOT_GAIN_INTERPOLATION_SCALE_INTERVALS = (
 PILOT_STEERING_SHRINKAGE = 0.0375
 DATA_GAIN_REFINEMENT_SCALE = 0.2
 DATA_GAIN_REFINEMENT_RADIUS = 2
+DATA_GAIN_REFINEMENT_RADIUS_INTERVALS = ((4.25, 8.75, 3),)
 DATA_GAIN_REFINEMENT_MIN_SNR_DB = -5.0
 DATA_GAIN_REFINEMENT_ITERATIONS = 4
 DATA_GAIN_REFINEMENT_SNR_SLOPE = 0.01
@@ -115,6 +116,30 @@ def _snr_interval_value(
         in_interval = (snr >= low_db) & (snr < high_db)
         value = torch.where(in_interval, torch.full_like(value, interval_value), value)
     return value
+
+
+def _snr_interval_rolling_sum(
+    values: torch.Tensor,
+    default_radius: int,
+    intervals: tuple[tuple[float, float, int], ...],
+    snr: torch.Tensor,
+) -> torch.Tensor:
+    """Use an exact cyclic rolling-sum path for each SNR-selected radius."""
+
+    def rolling_sum(radius: int) -> torch.Tensor:
+        return sum(
+            torch.roll(values, shift, dims=1)
+            for shift in range(-radius, radius + 1)
+        )
+
+    result = rolling_sum(default_radius)
+    radius_sums: dict[int, torch.Tensor] = {default_radius: result}
+    for low_db, high_db, interval_radius in intervals:
+        if interval_radius not in radius_sums:
+            radius_sums[interval_radius] = rolling_sum(interval_radius)
+        in_interval = ((snr >= low_db) & (snr < high_db))[:, None]
+        result = torch.where(in_interval, radius_sums[interval_radius], result)
+    return result
 
 
 def _snr_pair_interval_value(
@@ -812,13 +837,17 @@ class Receiver(nn.Module):
             soft_conjugate = torch.sum(posterior * self.points.conj(), dim=-1)
             numerator = flat_observation * soft_conjugate
             denominator = torch.sum(posterior * torch.abs(self.points).square(), dim=-1)
-            smoothed_numerator = sum(
-                torch.roll(numerator, shift, dims=1)
-                for shift in range(-DATA_GAIN_REFINEMENT_RADIUS, DATA_GAIN_REFINEMENT_RADIUS + 1)
+            smoothed_numerator = _snr_interval_rolling_sum(
+                numerator,
+                DATA_GAIN_REFINEMENT_RADIUS,
+                DATA_GAIN_REFINEMENT_RADIUS_INTERVALS,
+                snr,
             )
-            smoothed_denominator = sum(
-                torch.roll(denominator, shift, dims=1)
-                for shift in range(-DATA_GAIN_REFINEMENT_RADIUS, DATA_GAIN_REFINEMENT_RADIUS + 1)
+            smoothed_denominator = _snr_interval_rolling_sum(
+                denominator,
+                DATA_GAIN_REFINEMENT_RADIUS,
+                DATA_GAIN_REFINEMENT_RADIUS_INTERVALS,
+                snr,
             )
             smoothed_gain = smoothed_numerator / smoothed_denominator.clamp_min(1e-6)
             refined_gain = base_gain + adaptive_data_gain_scale * (smoothed_gain - base_gain)

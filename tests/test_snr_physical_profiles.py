@@ -1,8 +1,11 @@
 import torch
 
 from modelSubmit.modelDesign import (
+    DATA_GAIN_REFINEMENT_RADIUS,
+    DATA_GAIN_REFINEMENT_RADIUS_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    _snr_interval_rolling_sum,
     _snr_interval_value,
     _snr_pair_interval_value,
 )
@@ -51,3 +54,22 @@ def test_interference_cancellation_scale_profile_uses_half_open_snr_intervals() 
         values,
         torch.tensor([0.2, 0.25, 0.25, 0.2, 0.25, 0.25, 0.2, 0.25, 0.25, 0.2]),
     )
+
+
+def test_data_gain_radius_profile_uses_exact_half_open_rolling_sum_paths() -> None:
+    values = torch.arange(20, dtype=torch.float32).reshape(4, 5)
+    snr = torch.tensor([4.2499, 4.25, 8.7499, 8.75])
+
+    actual = _snr_interval_rolling_sum(
+        values,
+        DATA_GAIN_REFINEMENT_RADIUS,
+        DATA_GAIN_REFINEMENT_RADIUS_INTERVALS,
+        snr,
+    )
+    radius_two = sum(torch.roll(values, shift, dims=1) for shift in range(-2, 3))
+    radius_three = sum(torch.roll(values, shift, dims=1) for shift in range(-3, 4))
+
+    assert torch.equal(actual[0], radius_two[0])
+    assert torch.equal(actual[1], radius_three[1])
+    assert torch.equal(actual[2], radius_three[2])
+    assert torch.equal(actual[3], radius_two[3])
