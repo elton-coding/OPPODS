@@ -5,10 +5,25 @@ from modelSubmit.modelDesign import (
     DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    _middle_extension_group_confidence,
     _snr_interval_override,
     _snr_interval_value,
     _snr_pair_interval_value,
 )
+
+
+def test_middle_extension_group_confidence_preserves_11_bit_order() -> None:
+    extension_llr = torch.cat(
+        [
+            torch.full((1, 11), 0.02),
+            torch.full((1, 11), 0.08),
+        ],
+        dim=1,
+    )
+
+    confidence = _middle_extension_group_confidence(extension_llr)
+
+    assert torch.allclose(confidence, torch.tensor([[0.02, 0.08]]))
 
 
 def test_middle_extension_threshold_subinterval_override_is_half_open() -> None:
