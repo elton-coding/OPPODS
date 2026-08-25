@@ -89,6 +89,7 @@ DATA_GAIN_REFINEMENT_ITERATIONS = 4
 DATA_GAIN_REFINEMENT_SNR_SLOPE = 0.01
 DATA_GAIN_SOFT_TEMPERATURE = 0.5
 DATA_VECTOR_REFINEMENT_SCALE = 0.2
+DATA_VECTOR_REFINEMENT_SCALE_INTERVALS = ((9.5, 10.75, 0.25),)
 DATA_VECTOR_REFINEMENT_MIN_SNR_DB = -12.5
 DATA_VECTOR_SOFT_TEMPERATURE = 3.0
 INTERFERENCE_CANCELLATION_SCALE = 0.2
@@ -755,7 +756,12 @@ class Receiver(nn.Module):
         vector_estimate = torch.sum(
             grouped_data_y * soft_conjugate[:, :, None, :], dim=-1
         ) / torch.sum(soft_energy, dim=-1, keepdim=True).clamp_min(1e-6)
-        refined_vector = desired_vector + DATA_VECTOR_REFINEMENT_SCALE * (
+        vector_refinement_scale = _snr_interval_value(
+            DATA_VECTOR_REFINEMENT_SCALE,
+            DATA_VECTOR_REFINEMENT_SCALE_INTERVALS,
+            snr,
+        )
+        refined_vector = desired_vector + vector_refinement_scale[:, None, None] * (
             vector_estimate - desired_vector
         )
         vector_update_mask = (snr >= DATA_VECTOR_REFINEMENT_MIN_SNR_DB)[:, None, None]

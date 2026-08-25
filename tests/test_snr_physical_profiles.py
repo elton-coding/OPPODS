@@ -3,6 +3,8 @@ import torch
 from modelSubmit.modelDesign import (
     DATA_GAIN_SOFT_TEMPERATURE,
     DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
+    DATA_VECTOR_REFINEMENT_SCALE,
+    DATA_VECTOR_REFINEMENT_SCALE_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
     _snr_interval_override,
@@ -75,3 +77,15 @@ def test_data_gain_temperature_profile_uses_half_open_snr_intervals() -> None:
     )
 
     assert torch.allclose(values, torch.tensor([0.5, 0.6, 0.6, 0.5]))
+
+
+def test_data_vector_refinement_profile_uses_half_open_snr_interval() -> None:
+    snr = torch.tensor([9.4999, 9.5, 10.7499, 10.75])
+
+    values = _snr_interval_value(
+        DATA_VECTOR_REFINEMENT_SCALE,
+        DATA_VECTOR_REFINEMENT_SCALE_INTERVALS,
+        snr,
+    )
+
+    assert torch.allclose(values, torch.tensor([0.2, 0.25, 0.25, 0.2]))
