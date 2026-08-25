@@ -36,6 +36,7 @@
 - [FATE-MIMO V147 SNR 分段软干扰抵消专家方案](solutions/FATE-MIMO_v147.md)
 - [FATE-MIMO V149 数据增益温度专家方案](solutions/FATE-MIMO_v149.md)
 - [FATE-MIMO V152 高中间 SNR 扩展门控方案](solutions/FATE-MIMO_v152.md)
+- [FATE-MIMO V153 超高中间 SNR 子区间门控方案](solutions/FATE-MIMO_v153.md)
 - [V115 提交说明](submission/V115_提交说明.md)
 - [V117 提交说明](submission/V117_提交说明.md)
 - [V118 提交说明](submission/V118_提交说明.md)
@@ -63,6 +64,7 @@
 - [V147 提交说明](submission/V147_提交说明.md)
 - [V149 提交说明](submission/V149_提交说明.md)
 - [V152 提交说明](submission/V152_提交说明.md)
+- [V153 提交说明](submission/V153_提交说明.md)
 
 ## 实验记录
 
@@ -93,6 +95,7 @@
 - [V147 Receiver 干扰抵消强度 SNR 专家](experiments/receiver-ic-scale-v147.md)
 - [V149 Receiver 数据增益温度 SNR 专家](experiments/receiver-data-gain-temperature-v149.md)
 - [V152 高中间 SNR 输出扩展稳健重校准](experiments/extension-highbin-threshold-v152.md)
+- [V153 超高中间 SNR 输出扩展子区间](experiments/extension-ultrahigh-middle-v153.md)
 
 ## 外部方案研究
 
