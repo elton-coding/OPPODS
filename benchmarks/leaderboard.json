@@ -11,14 +11,14 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO ultrahigh-middle extension subinterval and SNR-routed receiver experts",
-    "version": "V153",
-    "source_commit": "fa392e6153c07836734183469433e0231ef0e2d2",
+    "solution": "FATE-MIMO inner upper-middle extension subinterval and SNR-routed receiver experts",
+    "version": "V156",
+    "source_commit": "842712f341da1431bac4be01f2fe8e9ee2c813a3",
     "local_validation": {
       "1176": {
-        "efficiency": 68.38182508680556,
+        "efficiency": 68.38206380208334,
         "fairness_p10": 50.69444444444444,
-        "final": 63.075610894097224
+        "final": 63.07577799479167
       },
       "1177": {
         "efficiency": 68.68553602430556,
@@ -30,12 +30,12 @@
         "fairness_p10": 50.607638888888886,
         "final": 63.25204969618056
       },
-      "mean_final": 63.213970269097224
+      "mean_final": 63.21402596932871
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_extension_ultrahigh_v153_official.zip",
-      "sha256": "F8F806117046A13FF1C3B323483C0088C359BADE99B6CE199E053DF3CBD2F081"
+      "name": "FATE_MIMO_submission_extension_inner_upper_v156_official.zip",
+      "sha256": "DAD63BF4D596F08678DCCA0588389CEBA755B245368B5EB6E21DE7E89BFD4960"
     }
   },
   "references": {
@@ -66,6 +66,7 @@
     "previous_champion_v147_mean_final": 63.21305374710648,
     "previous_champion_v149_mean_final": 63.21349934895833,
     "previous_champion_v152_mean_final": 63.21385380497686,
+    "previous_champion_v153_mean_final": 63.213970269097224,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
