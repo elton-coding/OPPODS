@@ -11,9 +11,9 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO SNR-routed data-gain temperature, interference cancellation and paired RZF experts",
-    "version": "V149",
-    "source_commit": "5d85f554ea37bee9cba401896d994316e0af9399",
+    "solution": "FATE-MIMO block-robust high-middle extension gate and SNR-routed receiver experts",
+    "version": "V152",
+    "source_commit": "8c8586af54139a8f0e88b43b212ef6e6d7f99aa0",
     "local_validation": {
       "1176": {
         "efficiency": 68.38171657986112,
@@ -21,21 +21,21 @@
         "final": 63.075534939236114
       },
       "1177": {
-        "efficiency": 68.6846896701389,
+        "efficiency": 68.68514539930557,
         "fairness_p10": 50.78125,
-        "final": 63.313657769097226
+        "final": 63.313976779513894
       },
       "1178": {
-        "efficiency": 68.67001953125,
+        "efficiency": 68.67108289930556,
         "fairness_p10": 50.607638888888886,
-        "final": 63.25130533854167
+        "final": 63.25204969618056
       },
-      "mean_final": 63.21349934895833
+      "mean_final": 63.21385380497686
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_data_gain_temperature_v149_official.zip",
-      "sha256": "FE3783D3767687A018E138480657F95CF057F2A739940DC4C2E7568F417BD29B"
+      "name": "FATE_MIMO_submission_extension_highbin_v152_official.zip",
+      "sha256": "551A33B27016C7D61C504EE922BE7A1F6AA98ADBCC36E7FC1AF4DD3F80E07704"
     }
   },
   "references": {
@@ -64,6 +64,7 @@
     "previous_champion_v139_mean_final": 63.204941767939815,
     "previous_champion_v143_mean_final": 63.21051685474537,
     "previous_champion_v147_mean_final": 63.21305374710648,
+    "previous_champion_v149_mean_final": 63.21349934895833,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
