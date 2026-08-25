@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V147
+solution_version: V149
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -72,6 +72,7 @@ profiles:
   reserved_pilot_data_gain_soft_temperature_intervals:
     - {snr_db: [-2.5, 0.0], value: 0.3}
     - {snr_db: [2.5, 5.0], value: 0.3}
+    - {snr_db: [10.5, 15.75], value: 0.6}
   reserved_pilot_data_gain_residual_mode: current_after_vector_update
   reserved_pilot_data_vector_refinement_scale: 0.2
   reserved_pilot_data_vector_refinement_min_snr_db: -12.5
@@ -120,5 +121,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_receiver_ic_scale_v147_official.zip
-  sha256: 12D00CD9263FAD4423CBD86C47224C6CBA698253FDE9211803B6024CA8738BBB
+  versioned_archive: artifacts/FATE_MIMO_submission_data_gain_temperature_v149_official.zip
+  sha256: FE3783D3767687A018E138480657F95CF057F2A739940DC4C2E7568F417BD29B

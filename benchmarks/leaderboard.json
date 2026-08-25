@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO SNR-routed interference cancellation and paired RZF with receiver experts",
-    "version": "V147",
-    "source_commit": "d33016aae588deda73fea6cd14668db1b2c91fee",
+    "solution": "FATE-MIMO SNR-routed data-gain temperature, interference cancellation and paired RZF experts",
+    "version": "V149",
+    "source_commit": "5d85f554ea37bee9cba401896d994316e0af9399",
     "local_validation": {
       "1176": {
-        "efficiency": 68.38152126736111,
+        "efficiency": 68.38171657986112,
         "fairness_p10": 50.69444444444444,
-        "final": 63.07539822048611
+        "final": 63.075534939236114
       },
       "1177": {
-        "efficiency": 68.68386501736111,
+        "efficiency": 68.6846896701389,
         "fairness_p10": 50.78125,
-        "final": 63.31308051215278
+        "final": 63.313657769097226
       },
       "1178": {
-        "efficiency": 68.66912977430556,
+        "efficiency": 68.67001953125,
         "fairness_p10": 50.607638888888886,
-        "final": 63.250682508680555
+        "final": 63.25130533854167
       },
-      "mean_final": 63.21305374710648
+      "mean_final": 63.21349934895833
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_receiver_ic_scale_v147_official.zip",
-      "sha256": "12D00CD9263FAD4423CBD86C47224C6CBA698253FDE9211803B6024CA8738BBB"
+      "name": "FATE_MIMO_submission_data_gain_temperature_v149_official.zip",
+      "sha256": "FE3783D3767687A018E138480657F95CF057F2A739940DC4C2E7568F417BD29B"
     }
   },
   "references": {
@@ -63,6 +63,7 @@
     "previous_champion_v138_mean_final": 63.204648075810184,
     "previous_champion_v139_mean_final": 63.204941767939815,
     "previous_champion_v143_mean_final": 63.21051685474537,
+    "previous_champion_v147_mean_final": 63.21305374710648,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
