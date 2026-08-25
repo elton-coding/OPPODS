@@ -1,6 +1,17 @@
+from pathlib import Path
+
 import numpy as np
 
-from scripts.search_extension_policy import SeedData, evaluate_policy, is_robust
+from scripts.search_extension_policy import (
+    SeedData,
+    _seed_from_path,
+    evaluate_policy,
+    is_robust,
+)
+
+
+def test_seed_parser_ignores_trailing_sample_count() -> None:
+    assert _seed_from_path(Path("features_seed2120_2000.npz")) == 2120
 
 
 def _seed_data(reference_scores: np.ndarray) -> SeedData:

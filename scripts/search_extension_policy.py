@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from dataclasses import dataclass
 from itertools import pairwise
 from pathlib import Path
@@ -21,6 +22,14 @@ class SeedData:
     extension_scores: np.ndarray
     snr: np.ndarray
     metrics: dict[str, np.ndarray]
+
+
+def _seed_from_path(path: Path) -> int:
+    suffix = path.stem.rsplit("seed", maxsplit=1)[-1]
+    match = re.match(r"\d+", suffix)
+    if match is None:
+        raise ValueError(f"cannot infer seed from {path}")
+    return int(match.group())
 
 
 def parse_args() -> argparse.Namespace:
@@ -109,10 +118,9 @@ def load_seed_data(
                     f"fallback scores do not reconstruct {baseline_path}: max error {maximum_error}"
                 )
             scores[positions] = fallback
-            seed_text = diagnostic_path.stem.rsplit("seed", maxsplit=1)[-1]
             result.append(
                 SeedData(
-                    seed=int(seed_text),
+                    seed=_seed_from_path(diagnostic_path),
                     baseline_scores=scores,
                     reference_scores=reference_scores,
                     positions=positions,
