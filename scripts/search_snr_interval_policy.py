@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -39,10 +40,10 @@ def _seed_from_path(path: Path) -> int:
     if "seed" not in stem:
         raise ValueError(f"cannot infer seed from {path}")
     suffix = stem.rsplit("seed", maxsplit=1)[1]
-    digits = "".join(character for character in suffix if character.isdigit())
-    if not digits:
+    match = re.match(r"\d+", suffix)
+    if match is None:
         raise ValueError(f"cannot infer seed from {path}")
-    return int(digits)
+    return int(match.group())
 
 
 def load_pairs(

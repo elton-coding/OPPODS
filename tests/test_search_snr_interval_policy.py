@@ -1,13 +1,20 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 from scripts.search_snr_interval_policy import (
     PairedScores,
+    _seed_from_path,
     evaluate_interval,
     is_robust,
     search_intervals,
 )
+
+
+def test_seed_parser_ignores_trailing_sample_count() -> None:
+    assert _seed_from_path(Path("candidate_seed1176_2000.npz")) == 1176
 
 
 def _pair(seed: int, delta: np.ndarray) -> PairedScores:
