@@ -101,6 +101,7 @@ INTERFERENCE_CANCELLATION_TEMPERATURE = 0.3
 INTERFERENCE_CANCELLATION_MIN_SNR_DB = -10.0
 INTERFERENCE_CANCELLATION_SNR_SLOPE = -0.005
 INTERFERENCE_CANCELLATION_DISABLED_INTERVALS_DB = ((-8.5, -8.0),)
+INTERFERENCE_POSTERIOR_RESIDUAL_BLEND = 0.0
 PILOT_BIT_MIN_SNR_DB = 2.5
 PILOT_8PSK_MIN_SNR_DB = 7.5
 PILOT_16PSK_MIN_SNR_DB = 12.5
@@ -884,6 +885,25 @@ class Receiver(nn.Module):
         filtered_noise = noise_variance[:, None] * torch.sum(torch.abs(weights).square(), dim=-1)
         residual = torch.abs(projected[:, :, 1]).square() + filtered_noise
         residual = residual.repeat_interleave(11, dim=1)
+        if INTERFERENCE_POSTERIOR_RESIDUAL_BLEND != 0.0:
+            effective_cancellation_scale = torch.where(
+                cancellation_mask,
+                adaptive_cancellation_scale,
+                torch.zeros_like(adaptive_cancellation_scale),
+            )
+            posterior_variance = torch.sum(
+                other_posterior * torch.abs(self.points - soft_other[..., None]).square(),
+                dim=-1,
+            )
+            posterior_residual = torch.abs(other_leakage).square() * (
+                posterior_variance
+                + (1.0 - effective_cancellation_scale).square()
+                * torch.abs(soft_other).square()
+            ) + filtered_noise.repeat_interleave(11, dim=1)
+            residual = (
+                (1.0 - INTERFERENCE_POSTERIOR_RESIDUAL_BLEND) * residual
+                + INTERFERENCE_POSTERIOR_RESIDUAL_BLEND * posterior_residual
+            )
         llr = _layered_qam_llr(observation, desired_gain, residual, self.points, self.labels).to(torch.float32)
         if bool(torch.all(snr < LOW_SNR_THRESHOLD_DB).item()):
             return llr[:, :1]
