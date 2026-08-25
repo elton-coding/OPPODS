@@ -5,9 +5,19 @@ from modelSubmit.modelDesign import (
     DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
     INTERFERENCE_CANCELLATION_SCALE,
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
+    _snr_interval_override,
     _snr_interval_value,
     _snr_pair_interval_value,
 )
+
+
+def test_middle_extension_threshold_subinterval_override_is_half_open() -> None:
+    snr = torch.tensor([-2.7501, -2.75, -2.5001, -2.5])
+    base = torch.full_like(snr, 0.296287667183649)
+
+    values = _snr_interval_override(base, ((-2.75, -2.5, 0.45),), snr)
+
+    assert torch.allclose(values, torch.tensor([0.29628766, 0.45, 0.45, 0.29628766]))
 
 
 def test_physical_receiver_interval_profiles_use_half_open_boundaries() -> None:

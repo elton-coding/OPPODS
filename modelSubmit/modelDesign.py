@@ -51,6 +51,7 @@ MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS = (
     0.260,
     0.296287667183649,
 )
+MIDDLE_EXTENSION_SNR_INTERVAL_THRESHOLDS = ((-2.75, -2.5, 0.45),)
 MIDDLE_BARE_PREFIX_EXTENSION_MIN_SNR_DB = -7.5
 DATA_MODE_CODEWORDS = 1
 THRESHOLD_CODEWORDS = 2**NUM_CTRL - DATA_MODE_CODEWORDS
@@ -115,6 +116,18 @@ def _snr_interval_value(
     snr: torch.Tensor,
 ) -> torch.Tensor:
     value = torch.full_like(snr, default)
+    for low_db, high_db, interval_value in intervals:
+        in_interval = (snr >= low_db) & (snr < high_db)
+        value = torch.where(in_interval, torch.full_like(value, interval_value), value)
+    return value
+
+
+def _snr_interval_override(
+    value: torch.Tensor,
+    intervals: tuple[tuple[float, float, float], ...],
+    snr: torch.Tensor,
+) -> torch.Tensor:
+    """Override an existing per-UE value on half-open SNR intervals."""
     for low_db, high_db, interval_value in intervals:
         in_interval = (snr >= low_db) & (snr < high_db)
         value = torch.where(in_interval, torch.full_like(value, interval_value), value)
@@ -882,6 +895,11 @@ class Receiver(nn.Module):
             bin_thresholds = snr.new_tensor(MIDDLE_EXTENSION_SNR_BIN_THRESHOLDS)
             bin_index = torch.bucketize(snr, bin_boundaries, right=True)
             extension_threshold = bin_thresholds[bin_index]
+            extension_threshold = _snr_interval_override(
+                extension_threshold,
+                MIDDLE_EXTENSION_SNR_INTERVAL_THRESHOLDS,
+                snr,
+            )
             if bool(
                 torch.all(
                     extension_confidence >= extension_threshold
