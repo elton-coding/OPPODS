@@ -7,6 +7,7 @@ from modelSubmit.modelDesign import (
     INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
     WIENER_NOISE_SCALE,
     WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
+    WIENER_NOISE_SCALE_MIN_USER_SNR_DB,
     _snr_interval_override,
     _snr_interval_value,
     _snr_pair_interval_value,
@@ -52,12 +53,14 @@ def test_shared_link_profile_routes_when_any_user_is_in_interval() -> None:
     assert torch.allclose(values, torch.tensor([0.4, 0.45, 0.4, 0.9, 0.45, 1.8]))
 
 
-def test_wiener_scale_routes_both_users_when_either_is_in_interval() -> None:
+def test_wiener_scale_routes_only_when_weak_user_is_protected() -> None:
     snr_by_user = torch.tensor(
         [
             [2.7499, 20.0],
             [2.75, -20.0],
-            [11.2499, 0.0],
+            [2.75, 3.7499],
+            [3.75, 3.75],
+            [11.2499, 4.0],
             [11.25, 20.0],
         ]
     )
@@ -67,8 +70,13 @@ def test_wiener_scale_routes_both_users_when_either_is_in_interval() -> None:
         WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
         snr_by_user,
     )
+    values = torch.where(
+        snr_by_user.amin(dim=1) < WIENER_NOISE_SCALE_MIN_USER_SNR_DB,
+        torch.full_like(values, WIENER_NOISE_SCALE),
+        values,
+    )
 
-    assert torch.allclose(values, torch.tensor([0.75, 0.875, 0.875, 0.75]))
+    assert torch.allclose(values, torch.tensor([0.75, 0.75, 0.75, 0.875, 0.875, 0.75]))
 
 
 def test_interference_cancellation_scale_profile_uses_half_open_snr_intervals() -> None:

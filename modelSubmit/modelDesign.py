@@ -17,6 +17,7 @@ DELAY_MODE_ORDER = (0, 1, 2, 3, 11, 10)
 DELAY_MODE_PRIOR = (0.5722, 0.2068, 0.0698, 0.0301, 0.0424, 0.0173)
 WIENER_NOISE_SCALE = 0.75
 WIENER_NOISE_SCALE_ANY_USER_INTERVALS = ((2.75, 11.25, 0.875),)
+WIENER_NOISE_SCALE_MIN_USER_SNR_DB = 3.75
 RZF_REGULARIZATION = 1.5
 PILOT_RZF_REGULARIZATION = 0.45
 PILOT_RZF_REGULARIZATION_ANY_USER_INTERVALS = ((-10.0, -2.75, 0.35),)
@@ -419,10 +420,17 @@ class Transmitter(nn.Module):
         feedback_list: list[torch.Tensor],
         snr_dl: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
+        snr_by_user = snr_dl.transpose(0, 1)
         wiener_noise_scale = _snr_pair_interval_value(
             WIENER_NOISE_SCALE,
             WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
-            snr_dl.transpose(0, 1),
+            snr_by_user,
+        )
+        weak_user_protected = snr_by_user.amin(dim=1) < WIENER_NOISE_SCALE_MIN_USER_SNR_DB
+        wiener_noise_scale = torch.where(
+            weak_user_protected,
+            torch.full_like(wiener_noise_scale, WIENER_NOISE_SCALE),
+            wiener_noise_scale,
         )
         effective = torch.stack(
             [
