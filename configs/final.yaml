@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V156
+solution_version: V189
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -14,6 +14,9 @@ feedback:
   delay_mode_order: [0, 1, 2, 3, 11, 10]
   uplink_complex_symbols: 96
   wiener_noise_scale: 0.75
+  wiener_noise_scale_any_user_intervals:
+    - {snr_db: [2.75, 11.25], value: 0.875}
+  wiener_noise_scale_min_user_snr_db: 3.75
   denoiser_width: 128
   denoiser_layers: 3
   denoiser_heads: 4
@@ -124,5 +127,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_extension_inner_upper_v156_official.zip
-  sha256: DAD63BF4D596F08678DCCA0588389CEBA755B245368B5EB6E21DE7E89BFD4960
+  versioned_archive: artifacts/FATE_MIMO_submission_wiener_weak_guard_v189_official.zip
+  sha256: 91F9596C998FDC8C893ED7E89F15A8D0FB18EA8B1FB70964710A391840A60F3B

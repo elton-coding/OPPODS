@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "competition": "DataFountain_1176",
-  "updated_at": "2026-08-25",
+  "updated_at": "2026-08-27",
   "promotion_metric": "mean final score across seeds 1176, 1177 and 1178",
   "protocol": {
     "evaluator": "official-compatible batch_size=1 local evaluator",
@@ -11,31 +11,31 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO inner upper-middle extension subinterval and SNR-routed receiver experts",
-    "version": "V156",
-    "source_commit": "842712f341da1431bac4be01f2fe8e9ee2c813a3",
+    "solution": "FATE-MIMO weak-user-protected paired Wiener expert",
+    "version": "V189",
+    "source_commit": "ddc071af74deae7cec13017985b8f3328c46134c",
     "local_validation": {
       "1176": {
-        "efficiency": 68.38206380208334,
+        "efficiency": 68.38566623263888,
         "fairness_p10": 50.69444444444444,
-        "final": 63.07577799479167
+        "final": 63.07829969618055
       },
       "1177": {
-        "efficiency": 68.68553602430556,
+        "efficiency": 68.69117838541668,
         "fairness_p10": 50.78125,
-        "final": 63.31425021701389
+        "final": 63.31819986979167
       },
       "1178": {
-        "efficiency": 68.67108289930556,
+        "efficiency": 68.67479383680556,
         "fairness_p10": 50.607638888888886,
-        "final": 63.25204969618056
+        "final": 63.25464735243055
       },
-      "mean_final": 63.21402596932871
+      "mean_final": 63.21704897280093
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_extension_inner_upper_v156_official.zip",
-      "sha256": "DAD63BF4D596F08678DCCA0588389CEBA755B245368B5EB6E21DE7E89BFD4960"
+      "name": "FATE_MIMO_submission_wiener_weak_guard_v189_official.zip",
+      "sha256": "91F9596C998FDC8C893ED7E89F15A8D0FB18EA8B1FB70964710A391840A60F3B"
     }
   },
   "references": {
@@ -67,6 +67,7 @@
     "previous_champion_v149_mean_final": 63.21349934895833,
     "previous_champion_v152_mean_final": 63.21385380497686,
     "previous_champion_v153_mean_final": 63.213970269097224,
+    "previous_champion_v156_mean_final": 63.21402596932871,
     "previous_champion_v115_mean_final": 62.82743706597222,
     "previous_stable_v62_seed1176_final": 62.45463541666666
   }
