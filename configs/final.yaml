@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V189
+solution_version: V190
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -91,6 +91,10 @@ profiles:
   reserved_pilot_interference_cancellation_temperature: 0.3
   reserved_pilot_interference_cancellation_min_snr_db: -10.0
   reserved_pilot_interference_cancellation_snr_slope: -0.005
+  reserved_pilot_interference_cancellation_confidence_gain: 0.0
+  reserved_pilot_interference_cancellation_confidence_gain_intervals:
+    - {snr_db: [10.0, 20.0], value: -0.1}
+  reserved_pilot_interference_cancellation_confidence_floor: 0.1
   reserved_pilot_interference_cancellation_disabled_intervals_db:
     - [-8.5, -8.0]
   reserved_pilot_phase_bit_min_snr_db: 2.5
@@ -127,5 +131,5 @@ profiles:
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_wiener_weak_guard_v189_official.zip
-  sha256: 91F9596C998FDC8C893ED7E89F15A8D0FB18EA8B1FB70964710A391840A60F3B
+  versioned_archive: artifacts/FATE_MIMO_submission_wiener_confidence_safe_v190_official.zip
+  sha256: D53E8E059D1641BF0E04659DB1755DAB5F86F4754AD6EA7C6C082544B0617268
