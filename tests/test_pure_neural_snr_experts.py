@@ -174,5 +174,5 @@ def test_receiver_blends_neighboring_experts_at_snr_boundaries() -> None:
     received = torch.complex(torch.randn(4, 2, 144), torch.randn(4, 2, 144))
     channel = torch.complex(torch.randn(4, 2, 16, 144), torch.randn(4, 2, 16, 144))
     control = torch.ones(4, 5)
-    logits = receiver(received, channel, control, torch.tensor([-15.25, -15.0, -14.75, 2.0]))
+    logits = receiver(received, channel, control, torch.tensor([-15.125, -15.0, -14.875, 2.0]))
     torch.testing.assert_close(logits[:, 0], torch.tensor([0.25, 0.5, 0.75, 4.0]))
