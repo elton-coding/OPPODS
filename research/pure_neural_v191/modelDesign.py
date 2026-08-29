@@ -13,6 +13,7 @@ NUM_CTRL = 5
 NUM_BITS_PER_SYMBOL = 8
 NUM_BITS_PER_UE = NUM_DL_SC * NUM_BITS_PER_SYMBOL
 TRANSMITTER_ROUTING = "per_user_components"
+RECEIVER_BLEND_WIDTH_DB = 0.25
 OUTPUT_PREFIX_POLICY = (
     (-20.0, -16.5, 1),
     (-16.5, -14.5, 132),
@@ -357,6 +358,22 @@ class Receiver(nn.Module):
             selected = indices == expert_index
             if bool(selected.any().item()):
                 output[selected] = expert(y[selected], h[selected], ctrl_bits[selected], snr[selected])
+        if RECEIVER_BLEND_WIDTH_DB > 0.0:
+            for upper_index, boundary_db in enumerate(SNR_EXPERT_BOUNDARIES_DB, start=1):
+                distance = snr - boundary_db
+                selected = torch.abs(distance) < RECEIVER_BLEND_WIDTH_DB
+                if bool(selected.any().item()):
+                    lower_logits = self.experts[upper_index - 1](
+                        y[selected], h[selected], ctrl_bits[selected], snr[selected]
+                    )
+                    upper_logits = self.experts[upper_index](
+                        y[selected], h[selected], ctrl_bits[selected], snr[selected]
+                    )
+                    upper_weight = 0.5 * (distance[selected] / RECEIVER_BLEND_WIDTH_DB + 1.0)
+                    output[selected] = (
+                        lower_logits * (1.0 - upper_weight[:, None])
+                        + upper_logits * upper_weight[:, None]
+                    )
         # The official evaluator calls one UE sample at a time. Training and
         # batched validation retain all logits so the BCE target shape stays fixed.
         if not self.training and output.shape[0] == 1:

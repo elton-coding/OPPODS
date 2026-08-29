@@ -155,3 +155,24 @@ def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
     assert receiver(received, channel, control, torch.tensor([0.0])).shape == (1, 1152)
     receiver.train()
     assert receiver(received, channel, control, torch.tensor([-18.0])).shape == (1, 1152)
+
+
+def test_receiver_blends_neighboring_experts_at_snr_boundaries() -> None:
+    module = _load_module("pure_neural_v197_blend_test", ROOT / "research/pure_neural_v191/modelDesign.py")
+
+    class ConstantReceiver(torch.nn.Module):
+        def __init__(self, value: float):
+            super().__init__()
+            self.value = value
+
+        def forward(self, y, h, ctrl_bits, snr):
+            del h, ctrl_bits, snr
+            return torch.full((y.shape[0], 1152), self.value)
+
+    receiver = module.Receiver().train()
+    receiver.experts = torch.nn.ModuleList([ConstantReceiver(float(index)) for index in range(8)])
+    received = torch.complex(torch.randn(4, 2, 144), torch.randn(4, 2, 144))
+    channel = torch.complex(torch.randn(4, 2, 16, 144), torch.randn(4, 2, 16, 144))
+    control = torch.ones(4, 5)
+    logits = receiver(received, channel, control, torch.tensor([-15.25, -15.0, -14.75, 2.0]))
+    torch.testing.assert_close(logits[:, 0], torch.tensor([0.25, 0.5, 0.75, 4.0]))
