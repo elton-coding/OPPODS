@@ -19,7 +19,11 @@ from oppods.data import ChannelMemmap, deterministic_split_indices
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train the V191 pure-neural 5 dB SNR expert bank")
-    parser.add_argument("--stage", choices=("initialize", "pretrain", "calibrate"), required=True)
+    parser.add_argument(
+        "--stage",
+        choices=("initialize", "pretrain", "asymmetric", "calibrate"),
+        required=True,
+    )
     parser.add_argument("--expert-index", type=int, choices=range(8))
     parser.add_argument("--steps", type=int, default=750)
     parser.add_argument("--batch-size", type=int, default=32)
@@ -36,10 +40,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v191/modelDesign.py"))
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v191/modelSubmit"))
     args = parser.parse_args()
-    if args.stage == "pretrain" and args.expert_index is None:
-        parser.error("--stage pretrain requires --expert-index")
-    if args.stage != "pretrain" and args.expert_index is not None:
-        parser.error("--expert-index is only valid for --stage pretrain")
+    expert_stages = {"pretrain", "asymmetric"}
+    if args.stage in expert_stages and args.expert_index is None:
+        parser.error(f"--stage {args.stage} requires --expert-index")
+    if args.stage not in expert_stages and args.expert_index is not None:
+        parser.error("--expert-index is only valid for --stage pretrain or asymmetric")
     if args.tail_weight < 0.0:
         parser.error("--tail-weight must be non-negative")
     if not 0.0 < args.tail_fraction <= 1.0:
@@ -173,9 +178,27 @@ def sample_snr(
         assert expert_index is not None
         low_db = -20.0 + 5.0 * expert_index
         high_db = low_db + 5.0
-    else:
-        low_db, high_db = -20.0, 20.0
-    return low_db + (high_db - low_db) * torch.rand(
+        return low_db + (high_db - low_db) * torch.rand(
+            (batch_size, 2),
+            device=device,
+            generator=generator,
+        )
+    if stage == "asymmetric":
+        assert expert_index is not None
+        snr = -20.0 + 40.0 * torch.rand(
+            (batch_size, 2),
+            device=device,
+            generator=generator,
+        )
+        target_users = torch.arange(batch_size, device=device) % 2
+        target_snr = -20.0 + 5.0 * expert_index + 5.0 * torch.rand(
+            batch_size,
+            device=device,
+            generator=generator,
+        )
+        snr[torch.arange(batch_size, device=device), target_users] = target_snr
+        return snr
+    return -20.0 + 40.0 * torch.rand(
         (batch_size, 2),
         device=device,
         generator=generator,
@@ -273,7 +296,7 @@ def main() -> None:
     split = deterministic_split_indices(len(data), seed=1176)
     validation_indices = split["validation"][: args.validation_samples]
     train_indices = split["train"]
-    if args.stage == "pretrain":
+    if args.stage in {"pretrain", "asymmetric"}:
         assert args.expert_index is not None
         parameters = list(expert_parameters(link, args.expert_index))
     else:
@@ -371,9 +394,11 @@ def main() -> None:
         "elapsed_seconds": time.perf_counter() - started,
         "output_dir": str(args.output_dir.resolve()),
     }
-    report_path = args.output_dir.parent / (
-        f"pretrain_expert_{args.expert_index}.json" if args.stage == "pretrain" else "calibration.json"
-    )
+    if args.stage in {"pretrain", "asymmetric"}:
+        report_name = f"{args.stage}_expert_{args.expert_index}.json"
+    else:
+        report_name = "calibration.json"
+    report_path = args.output_dir.parent / report_name
     report_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     (args.output_dir.parent / "latest_training.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2),

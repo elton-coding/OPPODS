@@ -107,6 +107,23 @@ def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
     assert tail_loss > mean_loss
 
 
+def test_asymmetric_sampling_alternates_the_band_target_user() -> None:
+    trainer = _load_module("pure_neural_v195_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    generator = torch.Generator().manual_seed(195)
+    snr = trainer.sample_snr(
+        128,
+        stage="asymmetric",
+        expert_index=2,
+        device=torch.device("cpu"),
+        generator=generator,
+    )
+    rows = torch.arange(128)
+    target_users = rows % 2
+    target_snr = snr[rows, target_users]
+    assert bool(((target_snr >= -10.0) & (target_snr < -5.0)).all())
+    assert bool(((snr >= -20.0) & (snr < 20.0)).all())
+
+
 def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
     module = _load_module("pure_neural_v193_prefix_test", ROOT / "research/pure_neural_v191/modelDesign.py")
     receiver = module.Receiver()
