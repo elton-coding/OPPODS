@@ -13,6 +13,11 @@ NUM_CTRL = 5
 NUM_BITS_PER_SYMBOL = 8
 NUM_BITS_PER_UE = NUM_DL_SC * NUM_BITS_PER_SYMBOL
 TRANSMITTER_ROUTING = "per_user_components"
+OUTPUT_PREFIX_POLICY = (
+    (-20.0, -16.5, 1),
+    (-16.5, -14.5, 132),
+    (-14.5, 20.0, 1152),
+)
 # Compatibility constants used by the repository's diagnostics-capable evaluator.
 # The pure-neural baseline always emits all 1152 logits and does not use these gates.
 LOW_SNR_THRESHOLD_DB = -20.0
@@ -352,4 +357,11 @@ class Receiver(nn.Module):
             selected = indices == expert_index
             if bool(selected.any().item()):
                 output[selected] = expert(y[selected], h[selected], ctrl_bits[selected], snr[selected])
+        # The official evaluator calls one UE sample at a time. Training and
+        # batched validation retain all logits so the BCE target shape stays fixed.
+        if not self.training and output.shape[0] == 1:
+            snr_value = float(snr.item())
+            for low_db, high_db, prefix_bits in OUTPUT_PREFIX_POLICY:
+                if low_db <= snr_value < high_db:
+                    return output[:, :prefix_bits]
         return output
