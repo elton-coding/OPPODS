@@ -12,6 +12,7 @@ NUM_TX = 16
 NUM_CTRL = 5
 NUM_BITS_PER_SYMBOL = 8
 NUM_BITS_PER_UE = NUM_DL_SC * NUM_BITS_PER_SYMBOL
+TRANSMITTER_ROUTING = "per_user_components"
 # Compatibility constants used by the repository's diagnostics-capable evaluator.
 # The pure-neural baseline always emits all 1152 logits and does not use these gates.
 LOW_SNR_THRESHOLD_DB = -20.0
@@ -242,7 +243,7 @@ class Transmitter(nn.Module):
         for expert in self.experts:
             expert.load_state_dict(state_dict)
 
-    def forward(
+    def _whole_min_forward(
         self,
         bits_list: list[torch.Tensor],
         feedback_list: list[torch.Tensor],
@@ -264,6 +265,69 @@ class Transmitter(nn.Module):
                 signal[selected] = expert_signal
                 control[selected] = expert_control
         return signal, control
+
+    def _component_forward(
+        self,
+        bits_list: list[torch.Tensor],
+        feedback_list: list[torch.Tensor],
+        snr_dl: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        batch = bits_list[0].shape[0]
+        decoded_users: list[torch.Tensor] = []
+        symbol_users: list[torch.Tensor] = []
+        for user in range(NUM_UE):
+            indices = _expert_indices(snr_dl[user])
+            decoded = torch.empty(
+                (batch, 3, 2, 16),
+                device=feedback_list[user].device,
+                dtype=feedback_list[user].dtype,
+            )
+            symbols = torch.empty(
+                (batch, 1, NUM_DL_SC),
+                device=feedback_list[user].device,
+                dtype=feedback_list[user].dtype,
+            )
+            for expert_index, expert in enumerate(self.experts):
+                selected = indices == expert_index
+                if bool(selected.any().item()):
+                    decoded[selected] = expert._decoder(feedback_list[user][selected])
+                    symbols[selected] = expert._modulate(bits_list[user][selected], expert._mod[user])
+            decoded_users.append(decoded)
+            symbol_users.append(symbols)
+
+        h_hat = torch.stack(decoded_users, dim=1)
+        symbols = torch.cat(symbol_users, dim=1).permute(0, 2, 1)
+        noise = torch.pow(10.0, -snr_dl.transpose(0, 1) / 10.0)
+        pair_indices = _expert_indices(snr_dl.amin(dim=0))
+        precoder = torch.empty(
+            (batch, 3, NUM_TX, NUM_UE),
+            device=feedback_list[0].device,
+            dtype=feedback_list[0].dtype,
+        )
+        for expert_index, expert in enumerate(self.experts):
+            selected = pair_indices == expert_index
+            if bool(selected.any().item()):
+                precoder[selected] = expert._precoder(h_hat[selected], noise[selected])
+        precoder = precoder.repeat_interleave(48, dim=1)
+        signal = torch.matmul(precoder, symbols.unsqueeze(-1)).squeeze(-1).permute(0, 2, 1)
+        control = torch.ones(
+            (batch, NUM_CTRL),
+            device=bits_list[0].device,
+            dtype=bits_list[0].dtype,
+        )
+        return signal, control
+
+    def forward(
+        self,
+        bits_list: list[torch.Tensor],
+        feedback_list: list[torch.Tensor],
+        snr_dl: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        if TRANSMITTER_ROUTING == "whole_min":
+            return self._whole_min_forward(bits_list, feedback_list, snr_dl)
+        if TRANSMITTER_ROUTING == "per_user_components":
+            return self._component_forward(bits_list, feedback_list, snr_dl)
+        raise ValueError(f"unknown transmitter routing mode {TRANSMITTER_ROUTING!r}")
 
 
 class Receiver(nn.Module):

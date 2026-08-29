@@ -14,7 +14,7 @@ import torch
 from oppods.data import ChannelMemmap, deterministic_split_indices
 from oppods.metrics import summarize_scores
 
-PREFIXES = (1, 132, 264, 396, 528, 660, 792, 924, 1056)
+PREFIXES = (1, 132, 264, 396, 528, 660, 792, 924, 1056, 1152)
 
 
 def load_model_design(path: Path) -> ModuleType:
@@ -273,7 +273,7 @@ def main() -> None:
                         extension_diagnostics[key].append(value)
                 if args.search_prefixes:
                     if llr.shape[1] < PREFIXES[-1]:
-                        raise RuntimeError("prefix search requires full 1056-bit receiver output")
+                        raise RuntimeError("prefix search requires full 1152-bit receiver output")
                     user_bits = bits_list[user]
                     for prefix in PREFIXES:
                         prefix_correct = (
@@ -345,7 +345,7 @@ def main() -> None:
                     selected = np.where(
                         snrs < low_threshold,
                         arrays[1],
-                        np.where(snrs < high_threshold, arrays[middle_prefix], arrays[1056]),
+                        np.where(snrs < high_threshold, arrays[middle_prefix], arrays[1152]),
                     )
                     candidate_summary = summarize_scores(selected)
                     candidates.append(
@@ -360,13 +360,13 @@ def main() -> None:
                     )
         result["prefix_search"] = {
             "current_rule": summarize_scores(
-                np.where(snrs < -15.5, arrays[1], arrays[1056])
+                np.where(snrs < -15.5, arrays[1], arrays[1152])
             ).__dict__,
             "proposed_rule": summarize_scores(
                 np.where(
                     snrs < -16.0,
                     arrays[1],
-                    np.where(snrs < -9.5, arrays[924], arrays[1056]),
+                    np.where(snrs < -9.5, arrays[924], arrays[1152]),
                 )
             ).__dict__,
             "best": max(candidates, key=lambda item: item["final"]),
