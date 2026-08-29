@@ -25,6 +25,12 @@ def parse_args() -> argparse.Namespace:
         required=True,
     )
     parser.add_argument("--expert-index", type=int, choices=range(8))
+    parser.add_argument(
+        "--train-components",
+        nargs="+",
+        choices=("encoder", "transmitter", "receiver"),
+        default=("encoder", "transmitter", "receiver"),
+    )
     parser.add_argument("--steps", type=int, default=750)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
@@ -146,10 +152,18 @@ class PureNeuralLink(nn.Module):
         return torch.stack(output, dim=1)
 
 
-def expert_parameters(link: PureNeuralLink, expert_index: int) -> Iterable[nn.Parameter]:
-    yield from link.encoder.experts[expert_index].parameters()
-    yield from link.transmitter.experts[expert_index].parameters()
-    yield from link.receiver.experts[expert_index].parameters()
+def expert_parameters(
+    link: PureNeuralLink,
+    expert_index: int,
+    components: Iterable[str] = ("encoder", "transmitter", "receiver"),
+) -> Iterable[nn.Parameter]:
+    selected = set(components)
+    if "encoder" in selected:
+        yield from link.encoder.experts[expert_index].parameters()
+    if "transmitter" in selected:
+        yield from link.transmitter.experts[expert_index].parameters()
+    if "receiver" in selected:
+        yield from link.receiver.experts[expert_index].parameters()
 
 
 def score_aligned_bce(
@@ -326,7 +340,7 @@ def main() -> None:
     train_indices = split["train"]
     if args.stage in {"pretrain", "asymmetric"}:
         assert args.expert_index is not None
-        parameters = list(expert_parameters(link, args.expert_index))
+        parameters = list(expert_parameters(link, args.expert_index, args.train_components))
     else:
         parameters = list(link.parameters())
     optimizer = torch.optim.Adam(parameters, lr=args.learning_rate)
@@ -415,6 +429,7 @@ def main() -> None:
     result = {
         "stage": args.stage,
         "expert_index": args.expert_index,
+        "train_components": args.train_components if args.expert_index is not None else None,
         "snr_interval_db": (
             [-20.0 + 5.0 * args.expert_index, -15.0 + 5.0 * args.expert_index]
             if args.expert_index is not None

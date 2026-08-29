@@ -159,6 +159,7 @@ def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
 
 def test_receiver_blends_neighboring_experts_at_snr_boundaries() -> None:
     module = _load_module("pure_neural_v197_blend_test", ROOT / "research/pure_neural_v191/modelDesign.py")
+    module.RECEIVER_BLEND_WIDTH_DB = 0.25
 
     class ConstantReceiver(torch.nn.Module):
         def __init__(self, value: float):

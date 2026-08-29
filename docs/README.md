@@ -75,6 +75,7 @@
 - [V156 提交说明](submission/V156_提交说明.md)
 - [V189 提交说明](submission/V189_提交说明.md)
 - [V190 提交说明](submission/V190_提交说明.md)
+- [V198 纯神经候选提交说明](submission/V198_纯神经候选提交说明.md)
 
 ## 实验记录
 
@@ -86,6 +87,7 @@
 - [V195 纯神经非对称上下文微调（未采用）](experiments/pure-neural-asymmetric-finetune-v195-rejected.md)
 - [V196 目标加权上下文与组件消融（未采用）](experiments/pure-neural-targeted-context-v196-rejected.md)
 - [V197 Receiver 边界软路由（未采用）](experiments/pure-neural-soft-boundary-v197-rejected.md)
+- [V198 冻结 Receiver 的非对称微调](experiments/pure-neural-frozen-receiver-v198.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
