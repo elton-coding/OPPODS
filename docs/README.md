@@ -79,6 +79,7 @@
 ## 实验记录
 
 - [消融实验总表与组合路线](experiments/ablation-registry.md)
+- [V191 赛题 baseline 纯神经 SNR 专家主线](experiments/pure-neural-snr-experts-v191.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
