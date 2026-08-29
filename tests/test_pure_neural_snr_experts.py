@@ -105,3 +105,17 @@ def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
     mean_loss = trainer.score_aligned_bce(logits, bits, tail_weight=0.0, tail_fraction=0.5)
     tail_loss = trainer.score_aligned_bce(logits, bits, tail_weight=1.0, tail_fraction=0.5)
     assert tail_loss > mean_loss
+
+
+def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
+    module = _load_module("pure_neural_v193_prefix_test", ROOT / "research/pure_neural_v191/modelDesign.py")
+    receiver = module.Receiver()
+    received = torch.complex(torch.randn(1, 2, 144), torch.randn(1, 2, 144))
+    channel = torch.complex(torch.randn(1, 2, 16, 144), torch.randn(1, 2, 16, 144))
+    control = torch.ones(1, 5)
+    receiver.eval()
+    assert receiver(received, channel, control, torch.tensor([-18.0])).shape == (1, 1)
+    assert receiver(received, channel, control, torch.tensor([-15.0])).shape == (1, 132)
+    assert receiver(received, channel, control, torch.tensor([0.0])).shape == (1, 1152)
+    receiver.train()
+    assert receiver(received, channel, control, torch.tensor([-18.0])).shape == (1, 1152)
