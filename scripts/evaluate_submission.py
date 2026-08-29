@@ -105,13 +105,14 @@ def main() -> None:
             "score_delta",
         )
     }
+    middle_prefix_bits = getattr(module, "MIDDLE_PREFIX_BITS", 924)
     extension_prefix_lengths = np.arange(
-        module.MIDDLE_PREFIX_BITS,
+        middle_prefix_bits,
         1056 + 1,
         11,
         dtype=np.int16,
     )
-    extension_group_count = (1056 - module.MIDDLE_PREFIX_BITS) // 11
+    extension_group_count = (1056 - middle_prefix_bits) // 11
     extension_group_confidences: list[np.ndarray] = []
     extension_prefix_scores: list[np.ndarray] = []
     started = time.perf_counter()

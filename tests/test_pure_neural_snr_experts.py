@@ -96,3 +96,12 @@ def test_mixed_snr_routes_gradients_to_selected_experts() -> None:
     assert any(parameter.grad is not None for parameter in encoder.experts[0].parameters())
     assert any(parameter.grad is not None for parameter in encoder.experts[7].parameters())
     assert all(parameter.grad is None for parameter in encoder.experts[3].parameters())
+
+
+def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
+    trainer = _load_module("pure_neural_v191_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    logits = torch.tensor([[[4.0, 4.0], [-4.0, -4.0]]])
+    bits = torch.ones_like(logits)
+    mean_loss = trainer.score_aligned_bce(logits, bits, tail_weight=0.0, tail_fraction=0.5)
+    tail_loss = trainer.score_aligned_bce(logits, bits, tail_weight=1.0, tail_fraction=0.5)
+    assert tail_loss > mean_loss
