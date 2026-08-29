@@ -24,6 +24,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--steps", type=int, default=750)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
+    parser.add_argument("--tail-weight", type=float, default=0.0)
+    parser.add_argument("--tail-fraction", type=float, default=0.2)
     parser.add_argument("--validate-every", type=int, default=100)
     parser.add_argument("--validation-samples", type=int, default=256)
     parser.add_argument("--patience", type=int, default=8)
@@ -38,6 +40,10 @@ def parse_args() -> argparse.Namespace:
         parser.error("--stage pretrain requires --expert-index")
     if args.stage != "pretrain" and args.expert_index is not None:
         parser.error("--expert-index is only valid for --stage pretrain")
+    if args.tail_weight < 0.0:
+        parser.error("--tail-weight must be non-negative")
+    if not 0.0 < args.tail_fraction <= 1.0:
+        parser.error("--tail-fraction must be in (0, 1]")
     return args
 
 
@@ -136,6 +142,23 @@ def expert_parameters(link: PureNeuralLink, expert_index: int) -> Iterable[nn.Pa
     yield from link.encoder.experts[expert_index].parameters()
     yield from link.transmitter.experts[expert_index].parameters()
     yield from link.receiver.experts[expert_index].parameters()
+
+
+def score_aligned_bce(
+    logits: torch.Tensor,
+    bits: torch.Tensor,
+    *,
+    tail_weight: float,
+    tail_fraction: float,
+) -> torch.Tensor:
+    per_link = nn.functional.binary_cross_entropy_with_logits(logits, bits, reduction="none").mean(dim=-1)
+    mean_loss = per_link.mean()
+    if tail_weight == 0.0:
+        return mean_loss
+    flat = per_link.reshape(-1)
+    tail_count = max(1, math.ceil(tail_fraction * flat.numel()))
+    tail_loss = torch.topk(flat, tail_count).values.mean()
+    return (mean_loss + tail_weight * tail_loss) / (1.0 + tail_weight)
 
 
 def sample_snr(
@@ -256,7 +279,6 @@ def main() -> None:
     else:
         parameters = list(link.parameters())
     optimizer = torch.optim.Adam(parameters, lr=args.learning_rate)
-    criterion = nn.BCEWithLogitsLoss()
     generator = torch.Generator(device=device).manual_seed(args.seed)
 
     best = evaluate(
@@ -294,7 +316,12 @@ def main() -> None:
             generator=generator,
         )
         logits = link(channel, bits, snr, generator=generator)
-        loss = criterion(logits, bits)
+        loss = score_aligned_bce(
+            logits,
+            bits,
+            tail_weight=args.tail_weight,
+            tail_fraction=args.tail_fraction,
+        )
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(parameters, max_norm=1.0)
@@ -335,6 +362,8 @@ def main() -> None:
         ),
         "initialization": initialization,
         "seed": args.seed,
+        "tail_weight": args.tail_weight,
+        "tail_fraction": args.tail_fraction,
         "requested_steps": args.steps,
         "best_step": best_step,
         "best_validation": best,

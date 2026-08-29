@@ -103,8 +103,6 @@ def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
     mean_loss = trainer.score_aligned_bce(logits, bits, tail_weight=0.0, tail_fraction=0.5)
     tail_loss = trainer.score_aligned_bce(logits, bits, tail_weight=1.0, tail_fraction=0.5)
     assert tail_loss > mean_loss
-
-
 def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
     module = _load_module("pure_neural_v193_prefix_test", ROOT / "research/pure_neural_v191/modelDesign.py")
     receiver = module.Receiver()
