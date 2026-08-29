@@ -15,6 +15,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--base", type=Path, required=True)
     parser.add_argument("--donor", type=Path, required=True)
     parser.add_argument("--experts", type=int, nargs="+", choices=range(8), required=True)
+    parser.add_argument(
+        "--components",
+        nargs="+",
+        choices=("encoder", "transmitter", "receiver"),
+        default=("encoder", "transmitter", "receiver"),
+    )
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
 
@@ -25,6 +31,11 @@ def main() -> None:
     replaced: dict[str, int] = {}
     for filename in WEIGHT_FILES:
         base = torch.load(args.base / filename, map_location="cpu", weights_only=True)
+        component = Path(filename).stem
+        if component not in args.components:
+            torch.save(base, args.output / filename)
+            replaced[filename] = 0
+            continue
         donor = torch.load(args.donor / filename, map_location="cpu", weights_only=True)
         if base.keys() != donor.keys():
             raise ValueError(f"incompatible state dictionaries for {filename}")
@@ -46,6 +57,7 @@ def main() -> None:
         "base": str(args.base.resolve()),
         "donor": str(args.donor.resolve()),
         "experts": sorted(set(args.experts)),
+        "components": sorted(set(args.components)),
         "output": str(args.output.resolve()),
         "replaced_tensors": replaced,
     }

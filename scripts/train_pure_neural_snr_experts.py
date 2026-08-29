@@ -30,6 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--tail-weight", type=float, default=0.0)
     parser.add_argument("--tail-fraction", type=float, default=0.2)
+    parser.add_argument("--context-weight", type=float, default=0.25)
     parser.add_argument("--validate-every", type=int, default=100)
     parser.add_argument("--validation-samples", type=int, default=256)
     parser.add_argument("--patience", type=int, default=8)
@@ -49,6 +50,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("--tail-weight must be non-negative")
     if not 0.0 < args.tail_fraction <= 1.0:
         parser.error("--tail-fraction must be in (0, 1]")
+    if not 0.0 <= args.context_weight <= 1.0:
+        parser.error("--context-weight must be in [0, 1]")
     return args
 
 
@@ -164,6 +167,31 @@ def score_aligned_bce(
     tail_count = max(1, math.ceil(tail_fraction * flat.numel()))
     tail_loss = torch.topk(flat, tail_count).values.mean()
     return (mean_loss + tail_weight * tail_loss) / (1.0 + tail_weight)
+
+
+def asymmetric_target_bce(
+    logits: torch.Tensor,
+    bits: torch.Tensor,
+    *,
+    context_weight: float,
+    tail_weight: float,
+    tail_fraction: float,
+) -> torch.Tensor:
+    batch_size = logits.shape[0]
+    rows = torch.arange(batch_size, device=logits.device)
+    target_users = rows % 2
+    context_users = 1 - target_users
+    target_loss = score_aligned_bce(
+        logits[rows, target_users].unsqueeze(1),
+        bits[rows, target_users].unsqueeze(1),
+        tail_weight=tail_weight,
+        tail_fraction=tail_fraction,
+    )
+    context_loss = nn.functional.binary_cross_entropy_with_logits(
+        logits[rows, context_users],
+        bits[rows, context_users],
+    )
+    return (target_loss + context_weight * context_loss) / (1.0 + context_weight)
 
 
 def sample_snr(
@@ -339,12 +367,21 @@ def main() -> None:
             generator=generator,
         )
         logits = link(channel, bits, snr, generator=generator)
-        loss = score_aligned_bce(
-            logits,
-            bits,
-            tail_weight=args.tail_weight,
-            tail_fraction=args.tail_fraction,
-        )
+        if args.stage == "asymmetric":
+            loss = asymmetric_target_bce(
+                logits,
+                bits,
+                context_weight=args.context_weight,
+                tail_weight=args.tail_weight,
+                tail_fraction=args.tail_fraction,
+            )
+        else:
+            loss = score_aligned_bce(
+                logits,
+                bits,
+                tail_weight=args.tail_weight,
+                tail_fraction=args.tail_fraction,
+            )
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(parameters, max_norm=1.0)
@@ -387,6 +424,7 @@ def main() -> None:
         "seed": args.seed,
         "tail_weight": args.tail_weight,
         "tail_fraction": args.tail_fraction,
+        "context_weight": args.context_weight if args.stage == "asymmetric" else None,
         "requested_steps": args.steps,
         "best_step": best_step,
         "best_validation": best,

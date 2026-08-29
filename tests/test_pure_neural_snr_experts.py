@@ -124,6 +124,25 @@ def test_asymmetric_sampling_alternates_the_band_target_user() -> None:
     assert bool(((snr >= -20.0) & (snr < 20.0)).all())
 
 
+def test_asymmetric_loss_downweights_the_context_user() -> None:
+    trainer = _load_module("pure_neural_v196_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    logits = torch.zeros((2, 2, 4), requires_grad=True)
+    bits = torch.ones_like(logits)
+    loss = trainer.asymmetric_target_bce(
+        logits,
+        bits,
+        context_weight=0.25,
+        tail_weight=0.0,
+        tail_fraction=0.5,
+    )
+    loss.backward()
+    assert logits.grad is not None
+    rows = torch.arange(2)
+    target_gradient = logits.grad[rows, rows % 2].abs().mean()
+    context_gradient = logits.grad[rows, 1 - rows % 2].abs().mean()
+    torch.testing.assert_close(target_gradient, 4.0 * context_gradient)
+
+
 def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
     module = _load_module("pure_neural_v193_prefix_test", ROOT / "research/pure_neural_v191/modelDesign.py")
     receiver = module.Receiver()

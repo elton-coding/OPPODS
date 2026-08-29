@@ -84,6 +84,7 @@
 - [V193 纯神经 SNR 专家输出前缀策略](experiments/pure-neural-prefix-policy-v193.md)
 - [V194 纯神经 logits 置信度输出（拒绝）](experiments/pure-neural-confidence-output-v194-rejected.md)
 - [V195 纯神经非对称上下文微调（未采用）](experiments/pure-neural-asymmetric-finetune-v195-rejected.md)
+- [V196 目标加权上下文与组件消融（未采用）](experiments/pure-neural-targeted-context-v196-rejected.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
