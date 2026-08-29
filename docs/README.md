@@ -82,6 +82,7 @@
 - [V191 赛题 baseline 纯神经 SNR 专家主线](experiments/pure-neural-snr-experts-v191.md)
 - [V192 纯神经专家组件级 SNR 路由](experiments/pure-neural-component-routing-v192.md)
 - [V193 纯神经 SNR 专家输出前缀策略](experiments/pure-neural-prefix-policy-v193.md)
+- [V194 纯神经 logits 置信度输出（拒绝）](experiments/pure-neural-confidence-output-v194-rejected.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)

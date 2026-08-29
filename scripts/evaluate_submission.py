@@ -83,6 +83,12 @@ def main() -> None:
     scores: list[float] = []
     lengths: list[int] = []
     prefix_scores: dict[int, list[float]] = {prefix: [] for prefix in PREFIXES}
+    prefix_confidences: dict[str, list[float]] = {
+        "mean_abs_1_132": [],
+        "mean_abs_132_1152": [],
+        "mean_abs_1_1152": [],
+        "q25_abs_132_1152": [],
+    }
     user_snrs: list[float] = []
     extension_diagnostics: dict[str, list[float | int]] = {
         key: []
@@ -282,6 +288,19 @@ def main() -> None:
                         prefix_scores[prefix].append(
                             100.0 * (float(prefix_correct) + 0.5 * (1152 - prefix)) / 1152
                         )
+                    absolute_llr = torch.abs(llr)
+                    prefix_confidences["mean_abs_1_132"].append(
+                        float(torch.mean(absolute_llr[:, 1:132]).item())
+                    )
+                    prefix_confidences["mean_abs_132_1152"].append(
+                        float(torch.mean(absolute_llr[:, 132:1152]).item())
+                    )
+                    prefix_confidences["mean_abs_1_1152"].append(
+                        float(torch.mean(absolute_llr[:, 1:1152]).item())
+                    )
+                    prefix_confidences["q25_abs_132_1152"].append(
+                        float(torch.quantile(absolute_llr[:, 132:1152], 0.25).item())
+                    )
             if args.progress_every and (sample_index + 1) % args.progress_every == 0:
                 print(
                     json.dumps(
@@ -337,6 +356,10 @@ def main() -> None:
                 args.prefix_scores_out,
                 snr=snrs,
                 **{f"score_{prefix}": values for prefix, values in arrays.items()},
+                **{
+                    name: np.asarray(values, dtype=np.float32)
+                    for name, values in prefix_confidences.items()
+                },
             )
         candidates = []
         for low_threshold in np.arange(-20.0, -4.99, 0.5):
