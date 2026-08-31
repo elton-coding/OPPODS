@@ -73,6 +73,8 @@
     "previous_stable_v62_seed1176_final": 62.45463541666666,
     "pure_neural_v193_mean_final": 62.425334,
     "pure_neural_v198_mean_final": 62.427394748263886,
-    "pure_neural_v198_blind_seed5193_final": 62.3961892361111
+    "pure_neural_v198_blind_seed5193_final": 62.3961892361111,
+    "pure_neural_v199_mean_final": 62.42938982928241,
+    "pure_neural_v199_blind_seed5193_final": 62.42312717013888
   }
 }
