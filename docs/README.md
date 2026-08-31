@@ -95,6 +95,7 @@
 - [V202 冻结 Receiver 的专家 5 微调（未采用）](experiments/pure-neural-frozen-receiver-e5-v202-rejected.md)
 - [V203 专家 2 低学习率二阶段精修（未采用）](experiments/pure-neural-e2-polish-v203-rejected.md)
 - [V204 V199 输出前缀联合复扫（未采用）](experiments/pure-neural-v199-prefix-rescan-v204-rejected.md)
+- [V205 V199 专家路由边界复扫（未采用）](experiments/pure-neural-routing-boundaries-v205-rejected.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
