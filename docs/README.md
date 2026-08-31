@@ -91,6 +91,7 @@
 - [V198 冻结 Receiver 的非对称微调](experiments/pure-neural-frozen-receiver-v198.md)
 - [V199 冻结 Receiver 的专家 1+2 叠加微调](experiments/pure-neural-frozen-receiver-e1e2-v199.md)
 - [V200 冻结 Receiver 的专家 3 微调（未采用）](experiments/pure-neural-frozen-receiver-e3-v200-rejected.md)
+- [V201 冻结 Receiver 的专家 4 微调（未采用）](experiments/pure-neural-frozen-receiver-e4-v201-rejected.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
