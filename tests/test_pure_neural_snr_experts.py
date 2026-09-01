@@ -107,6 +107,35 @@ def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
     assert tail_loss > mean_loss
 
 
+def test_payload_aligned_bce_ignores_inactive_suffix() -> None:
+    trainer = _load_module("pure_neural_payload_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    logits = torch.tensor([[[8.0, -8.0, -8.0, -8.0]]])
+    bits = torch.ones_like(logits)
+    snr = torch.tensor([[-10.0]])
+    loss = trainer.payload_aligned_bce(
+        logits,
+        bits,
+        snr,
+        policy=((-20.0, 20.0, 1),),
+        tail_weight=0.0,
+        tail_fraction=0.5,
+    )
+    assert loss < 0.001
+
+
+def test_payload_input_masking_zeros_only_the_inactive_suffix() -> None:
+    module = _load_module("pure_neural_payload_mask_test", ROOT / "research/pure_neural_v191/modelDesign.py")
+    module.PAYLOAD_INPUT_MASKING = True
+    module.OUTPUT_PREFIX_POLICY = ((-20.0, 0.0, 1), (0.0, 20.0, 1152))
+    bits = [torch.ones((2, 1152)), torch.ones((2, 1152))]
+    snr = torch.tensor([[-10.0, 10.0], [10.0, -10.0]])
+    masked = module._mask_payload_bits(bits, snr)
+    assert masked[0][0].sum() == 1
+    assert masked[0][1].sum() == 1152
+    assert masked[1][0].sum() == 1152
+    assert masked[1][1].sum() == 1
+
+
 def test_asymmetric_sampling_alternates_the_band_target_user() -> None:
     trainer = _load_module("pure_neural_v195_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
     generator = torch.Generator().manual_seed(195)

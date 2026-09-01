@@ -37,6 +37,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--tail-weight", type=float, default=0.0)
     parser.add_argument("--tail-fraction", type=float, default=0.2)
     parser.add_argument("--context-weight", type=float, default=0.25)
+    parser.add_argument(
+        "--payload-aware",
+        action="store_true",
+        help="Train and validate the SNR-dependent prefix declared by OUTPUT_PREFIX_POLICY",
+    )
     parser.add_argument("--validate-every", type=int, default=100)
     parser.add_argument("--validation-samples", type=int, default=256)
     parser.add_argument("--patience", type=int, default=8)
@@ -186,6 +191,45 @@ def score_aligned_bce(
     return (mean_loss + tail_weight * tail_loss) / (1.0 + tail_weight)
 
 
+def payload_lengths(
+    snr: torch.Tensor,
+    policy: tuple[tuple[float, float, int], ...],
+    max_bits: int,
+) -> torch.Tensor:
+    lengths = torch.full_like(snr, max_bits, dtype=torch.long)
+    for low_db, high_db, prefix_bits in policy:
+        if not 0 < prefix_bits <= max_bits:
+            raise ValueError(f"invalid payload prefix {prefix_bits}; expected 1..{max_bits}")
+        selected = (snr >= low_db) & (snr < high_db)
+        lengths = torch.where(selected, torch.full_like(lengths, prefix_bits), lengths)
+    return lengths
+
+
+def payload_aligned_bce(
+    logits: torch.Tensor,
+    bits: torch.Tensor,
+    snr: torch.Tensor,
+    *,
+    policy: tuple[tuple[float, float, int], ...],
+    tail_weight: float,
+    tail_fraction: float,
+) -> torch.Tensor:
+    max_bits = logits.shape[-1]
+    targets = bits[..., :max_bits]
+    lengths = payload_lengths(snr, policy, max_bits)
+    positions = torch.arange(max_bits, device=logits.device)
+    active = positions < lengths[..., None]
+    element_loss = nn.functional.binary_cross_entropy_with_logits(logits, targets, reduction="none")
+    per_link = (element_loss * active).sum(dim=-1) / lengths
+    mean_loss = per_link.mean()
+    if tail_weight == 0.0:
+        return mean_loss
+    flat = per_link.reshape(-1)
+    tail_count = max(1, math.ceil(tail_fraction * flat.numel()))
+    tail_loss = torch.topk(flat, tail_count).values.mean()
+    return (mean_loss + tail_weight * tail_loss) / (1.0 + tail_weight)
+
+
 def asymmetric_target_bce(
     logits: torch.Tensor,
     bits: torch.Tensor,
@@ -261,6 +305,7 @@ def evaluate(
     batch_size: int,
     device: torch.device,
     seed: int,
+    payload_policy: tuple[tuple[float, float, int], ...] | None = None,
 ) -> dict[str, float]:
     link.eval()
     criterion = nn.BCEWithLogitsLoss(reduction="sum")
@@ -292,8 +337,18 @@ def evaluate(
             targets = bits[..., : logits.shape[-1]]
             loss_sum += float(criterion(logits, targets).item())
             bit_count += targets.numel()
-            correct = ((logits >= 0) == (targets >= 0.5)).sum(dim=-1)
-            score_batches.append(100.0 * correct / targets.shape[-1])
+            correct_by_bit = (logits >= 0) == (targets >= 0.5)
+            if payload_policy is None:
+                correct = correct_by_bit.sum(dim=-1)
+                score_batches.append(100.0 * correct / targets.shape[-1])
+            else:
+                lengths = payload_lengths(snr, payload_policy, targets.shape[-1])
+                positions = torch.arange(targets.shape[-1], device=device)
+                active = positions < lengths[..., None]
+                correct = (correct_by_bit * active).sum(dim=-1)
+                score_batches.append(
+                    100.0 * (correct + 0.5 * (targets.shape[-1] - lengths)) / targets.shape[-1]
+                )
     scores = torch.cat(score_batches).cpu().numpy().reshape(-1)
     efficiency = float(np.mean(scores))
     fairness = float(np.percentile(scores, 10))
@@ -311,6 +366,9 @@ def main() -> None:
     np_rng = np.random.default_rng(args.seed)
     device = torch.device(args.device)
     module = load_model_design(args.model_design)
+    payload_policy = tuple(module.OUTPUT_PREFIX_POLICY) if args.payload_aware else None
+    if args.payload_aware and not getattr(module, "PAYLOAD_INPUT_MASKING", False):
+        raise ValueError("--payload-aware requires PAYLOAD_INPUT_MASKING = True in modelDesign.py")
     link = PureNeuralLink(module)
     existing = all(
         (args.output_dir / name).exists()
@@ -332,7 +390,7 @@ def main() -> None:
             "parameters": sum(parameter.numel() for parameter in link.parameters()),
             "output_dir": str(args.output_dir.resolve()),
         }
-        (args.output_dir.parent / "latest_training.json").write_text(
+        (args.output_dir / "latest_training.json").write_text(
             json.dumps(result, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
@@ -360,6 +418,7 @@ def main() -> None:
         batch_size=args.batch_size,
         device=device,
         seed=args.seed + 10_000,
+        payload_policy=payload_policy,
     )
     best_step = 0
     checks_without_improvement = 0
@@ -386,7 +445,16 @@ def main() -> None:
             generator=generator,
         )
         logits = link(channel, bits, snr, generator=generator)
-        if args.stage == "asymmetric":
+        if args.payload_aware:
+            loss = payload_aligned_bce(
+                logits,
+                bits,
+                snr,
+                policy=payload_policy,
+                tail_weight=args.tail_weight,
+                tail_fraction=args.tail_fraction,
+            )
+        elif args.stage == "asymmetric":
             loss = asymmetric_target_bce(
                 logits,
                 bits,
@@ -416,6 +484,7 @@ def main() -> None:
                 batch_size=args.batch_size,
                 device=device,
                 seed=args.seed + 10_000,
+                payload_policy=payload_policy,
             )
             record: dict[str, float | int] = {"step": step, **metrics}
             history.append(record)
@@ -445,6 +514,8 @@ def main() -> None:
         "tail_weight": args.tail_weight,
         "tail_fraction": args.tail_fraction,
         "context_weight": args.context_weight if args.stage == "asymmetric" else None,
+        "payload_aware": args.payload_aware,
+        "payload_policy": payload_policy,
         "requested_steps": args.steps,
         "best_step": best_step,
         "best_validation": best,
@@ -456,9 +527,9 @@ def main() -> None:
         report_name = f"{args.stage}_expert_{args.expert_index}.json"
     else:
         report_name = "calibration.json"
-    report_path = args.output_dir.parent / report_name
+    report_path = args.output_dir / report_name
     report_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    (args.output_dir.parent / "latest_training.json").write_text(
+    (args.output_dir / "latest_training.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )

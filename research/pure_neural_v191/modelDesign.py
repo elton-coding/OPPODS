@@ -19,6 +19,7 @@ OUTPUT_PREFIX_POLICY = (
     (-16.5, -14.5, 132),
     (-14.5, 20.0, 1152),
 )
+PAYLOAD_INPUT_MASKING = False
 # Compatibility constants used by the repository's diagnostics-capable evaluator.
 # The pure-neural baseline always emits all 1152 logits and does not use these gates.
 LOW_SNR_THRESHOLD_DB = -20.0
@@ -32,6 +33,25 @@ NUM_EXPERTS = len(SNR_EXPERT_EDGES_DB) - 1
 def _expert_indices(snr: torch.Tensor) -> torch.Tensor:
     boundaries = snr.new_tensor(SNR_EXPERT_BOUNDARIES_DB)
     return torch.bucketize(snr.contiguous(), boundaries, right=True).clamp(0, NUM_EXPERTS - 1)
+
+
+def _payload_lengths(snr: torch.Tensor) -> torch.Tensor:
+    lengths = torch.full_like(snr, NUM_BITS_PER_UE, dtype=torch.long)
+    for low_db, high_db, prefix_bits in OUTPUT_PREFIX_POLICY:
+        selected = (snr >= low_db) & (snr < high_db)
+        lengths = torch.where(selected, torch.full_like(lengths, prefix_bits), lengths)
+    return lengths
+
+
+def _mask_payload_bits(bits_list: list[torch.Tensor], snr_dl: torch.Tensor) -> list[torch.Tensor]:
+    if not PAYLOAD_INPUT_MASKING:
+        return bits_list
+    positions = torch.arange(NUM_BITS_PER_UE, device=snr_dl.device)
+    masked: list[torch.Tensor] = []
+    for user, bits in enumerate(bits_list):
+        active = positions[None, :] < _payload_lengths(snr_dl[user])[:, None]
+        masked.append(bits[:, :NUM_BITS_PER_UE] * active.to(bits.dtype))
+    return masked
 
 
 class PositionalEncoding(nn.Module):
@@ -329,6 +349,7 @@ class Transmitter(nn.Module):
         feedback_list: list[torch.Tensor],
         snr_dl: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
+        bits_list = _mask_payload_bits(bits_list, snr_dl)
         if TRANSMITTER_ROUTING == "whole_min":
             return self._whole_min_forward(bits_list, feedback_list, snr_dl)
         if TRANSMITTER_ROUTING == "per_user_components":
