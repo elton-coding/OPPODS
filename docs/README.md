@@ -101,6 +101,7 @@
 - [V206 冻结 Receiver 的专家 6 微调（未采用）](experiments/pure-neural-frozen-receiver-e6-v206-rejected.md)
 - [V207 专家 7 Transmitter-only 微调](experiments/pure-neural-transmitter-e7-v207.md)
 - [V208 专家 7 Transmitter 权重插值](experiments/pure-neural-transmitter-e7-interpolation-v208.md)
+- [V209 B 与 NUM_BITS_PER_RE 低载荷实验](experiments/pure-neural-bits-per-re-v209-rejected.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)

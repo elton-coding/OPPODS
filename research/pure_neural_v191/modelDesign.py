@@ -163,7 +163,7 @@ class TransmitterCore(nn.Module):
     @staticmethod
     def _modulate(bits: torch.Tensor, modulator: nn.Module) -> torch.Tensor:
         batch = bits.shape[0]
-        values = modulator(bits.reshape(batch, NUM_DL_SC, NUM_BITS_PER_SYMBOL))
+        values = modulator(bits[:, :NUM_BITS_PER_UE].reshape(batch, NUM_DL_SC, NUM_BITS_PER_SYMBOL))
         symbols = torch.complex(values[..., 0], values[..., 1])
         energy = torch.mean(torch.abs(symbols).square(), dim=1, keepdim=True)
         return (symbols / torch.sqrt(energy + 1e-9)).unsqueeze(1)

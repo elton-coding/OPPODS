@@ -112,7 +112,9 @@ class PureNeuralLink(nn.Module):
         torch.save(self.encoder.state_dict(), directory / "encoder.pth")
         torch.save(self.transmitter.state_dict(), directory / "transmitter.pth")
         torch.save(self.receiver.state_dict(), directory / "receiver.pth")
-        shutil.copy2(model_design, directory / "modelDesign.py")
+        destination = directory / "modelDesign.py"
+        if model_design.resolve() != destination.resolve():
+            shutil.copy2(model_design, destination)
 
     def forward(
         self,
@@ -173,6 +175,7 @@ def score_aligned_bce(
     tail_weight: float,
     tail_fraction: float,
 ) -> torch.Tensor:
+    bits = bits[..., : logits.shape[-1]]
     per_link = nn.functional.binary_cross_entropy_with_logits(logits, bits, reduction="none").mean(dim=-1)
     mean_loss = per_link.mean()
     if tail_weight == 0.0:
@@ -191,6 +194,7 @@ def asymmetric_target_bce(
     tail_weight: float,
     tail_fraction: float,
 ) -> torch.Tensor:
+    bits = bits[..., : logits.shape[-1]]
     batch_size = logits.shape[0]
     rows = torch.arange(batch_size, device=logits.device)
     target_users = rows % 2
@@ -285,10 +289,11 @@ def evaluate(
                 generator=generator,
             )
             logits = link(channel, bits, snr, generator=generator)
-            loss_sum += float(criterion(logits, bits).item())
-            bit_count += bits.numel()
-            correct = ((logits >= 0) == (bits >= 0.5)).sum(dim=-1)
-            score_batches.append(100.0 * correct / bits.shape[-1])
+            targets = bits[..., : logits.shape[-1]]
+            loss_sum += float(criterion(logits, targets).item())
+            bit_count += targets.numel()
+            correct = ((logits >= 0) == (targets >= 0.5)).sum(dim=-1)
+            score_batches.append(100.0 * correct / targets.shape[-1])
     scores = torch.cat(score_batches).cpu().numpy().reshape(-1)
     efficiency = float(np.mean(scores))
     fairness = float(np.percentile(scores, 10))
