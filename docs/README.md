@@ -77,6 +77,7 @@
 - [V190 提交说明](submission/V190_提交说明.md)
 - [V198 纯神经候选提交说明](submission/V198_纯神经候选提交说明.md)
 - [V199 纯神经候选提交说明](submission/V199_纯神经候选提交说明.md)
+- [V207 纯神经候选提交说明](submission/V207_纯神经候选提交说明.md)
 
 ## 实验记录
 
@@ -97,6 +98,7 @@
 - [V204 V199 输出前缀联合复扫（未采用）](experiments/pure-neural-v199-prefix-rescan-v204-rejected.md)
 - [V205 V199 专家路由边界复扫（未采用）](experiments/pure-neural-routing-boundaries-v205-rejected.md)
 - [V206 冻结 Receiver 的专家 6 微调（未采用）](experiments/pure-neural-frozen-receiver-e6-v206-rejected.md)
+- [V207 专家 7 Transmitter-only 微调](experiments/pure-neural-transmitter-e7-v207.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "competition": "DataFountain_1176",
-  "updated_at": "2026-08-29",
+  "updated_at": "2026-09-01",
   "promotion_metric": "mean final score across seeds 1176, 1177 and 1178",
   "protocol": {
     "evaluator": "official-compatible batch_size=1 local evaluator",
@@ -75,6 +75,8 @@
     "pure_neural_v198_mean_final": 62.427394748263886,
     "pure_neural_v198_blind_seed5193_final": 62.3961892361111,
     "pure_neural_v199_mean_final": 62.42938982928241,
-    "pure_neural_v199_blind_seed5193_final": 62.42312717013888
+    "pure_neural_v199_blind_seed5193_final": 62.42312717013888,
+    "pure_neural_v207_mean_final": 62.43321289062499,
+    "pure_neural_v207_blind_seed5193_final": 62.42396267361111
   }
 }
