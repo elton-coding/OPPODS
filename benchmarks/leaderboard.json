@@ -77,6 +77,8 @@
     "pure_neural_v199_mean_final": 62.42938982928241,
     "pure_neural_v199_blind_seed5193_final": 62.42312717013888,
     "pure_neural_v207_mean_final": 62.43321289062499,
-    "pure_neural_v207_blind_seed5193_final": 62.42396267361111
+    "pure_neural_v207_blind_seed5193_final": 62.42396267361111,
+    "pure_neural_v208_mean_final": 62.433709129050925,
+    "pure_neural_v208_blind_seed5193_final": 62.42487413194444
   }
 }

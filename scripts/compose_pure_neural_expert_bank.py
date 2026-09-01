@@ -21,8 +21,12 @@ def parse_args() -> argparse.Namespace:
         choices=("encoder", "transmitter", "receiver"),
         default=("encoder", "transmitter", "receiver"),
     )
+    parser.add_argument("--alpha", type=float, default=1.0)
     parser.add_argument("--output", type=Path, required=True)
-    return parser.parse_args()
+    args = parser.parse_args()
+    if not 0.0 <= args.alpha <= 1.0:
+        parser.error("--alpha must be in [0, 1]")
+    return args
 
 
 def main() -> None:
@@ -48,7 +52,10 @@ def main() -> None:
             for name in names:
                 if base[name].shape != donor[name].shape or base[name].dtype != donor[name].dtype:
                     raise ValueError(f"incompatible tensor {name} in {filename}")
-                base[name] = donor[name].clone()
+                if base[name].is_floating_point() or base[name].is_complex():
+                    base[name] = base[name].lerp(donor[name], args.alpha)
+                elif args.alpha == 1.0:
+                    base[name] = donor[name].clone()
                 count += 1
         torch.save(base, args.output / filename)
         replaced[filename] = count
@@ -58,6 +65,7 @@ def main() -> None:
         "donor": str(args.donor.resolve()),
         "experts": sorted(set(args.experts)),
         "components": sorted(set(args.components)),
+        "alpha": args.alpha,
         "output": str(args.output.resolve()),
         "replaced_tensors": replaced,
     }
