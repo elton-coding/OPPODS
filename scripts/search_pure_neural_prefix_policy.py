@@ -8,7 +8,8 @@ import numpy as np
 
 from oppods.metrics import summarize_scores
 
-PREFIXES = (132, 264, 396, 528, 660, 792, 924, 1056)
+PREFIXES = (32, 64, 96, 128, 132, 160, 192, 224, 256, 264, 396, 528, 660, 792, 924, 1008, 1056)
+HIGH_PREFIXES = (924, 1008, 1056, 1152)
 
 
 def parse_args() -> argparse.Namespace:
@@ -17,6 +18,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--baseline-low", type=float, default=-16.5)
     parser.add_argument("--baseline-middle-prefix", type=int, default=132)
     parser.add_argument("--baseline-high", type=float, default=-14.5)
+    parser.add_argument("--baseline-high-prefix", type=int, default=1152, choices=HIGH_PREFIXES)
     parser.add_argument("--output", type=Path)
     return parser.parse_args()
 
@@ -26,11 +28,16 @@ def policy_scores(
     low_threshold: float,
     middle_prefix: int,
     high_threshold: float,
+    high_prefix: int,
 ) -> np.ndarray:
     return np.where(
         data["snr"] < low_threshold,
         data["score_1"],
-        np.where(data["snr"] < high_threshold, data[f"score_{middle_prefix}"], data["score_1152"]),
+        np.where(
+            data["snr"] < high_threshold,
+            data[f"score_{middle_prefix}"],
+            data[f"score_{high_prefix}"],
+        ),
     )
 
 
@@ -42,7 +49,13 @@ def main() -> None:
             datasets.append({name: loaded[name].copy() for name in loaded.files})
     baselines = [
         summarize_scores(
-            policy_scores(data, args.baseline_low, args.baseline_middle_prefix, args.baseline_high)
+            policy_scores(
+                data,
+                args.baseline_low,
+                args.baseline_middle_prefix,
+                args.baseline_high,
+                args.baseline_high_prefix,
+            )
         ).final
         for data in datasets
     ]
@@ -50,24 +63,28 @@ def main() -> None:
     for low_threshold in np.arange(-20.0, -4.99, 0.5):
         for middle_prefix in PREFIXES:
             for high_threshold in np.arange(low_threshold + 0.5, 0.01, 0.5):
-                finals = [
-                    summarize_scores(policy_scores(data, low_threshold, middle_prefix, high_threshold)).final
-                    for data in datasets
-                ]
-                deltas = [final - baseline for final, baseline in zip(finals, baselines, strict=True)]
-                candidates.append(
-                    {
-                        "low_threshold_db": float(low_threshold),
-                        "middle_prefix": middle_prefix,
-                        "high_threshold_db": float(high_threshold),
-                        "finals": finals,
-                        "deltas": deltas,
-                        "mean_final": float(np.mean(finals)),
-                        "mean_delta": float(np.mean(deltas)),
-                        "min_delta": float(np.min(deltas)),
-                        "win_count": int(np.sum(np.asarray(deltas) > 0.0)),
-                    }
-                )
+                for high_prefix in HIGH_PREFIXES:
+                    finals = [
+                        summarize_scores(
+                            policy_scores(data, low_threshold, middle_prefix, high_threshold, high_prefix)
+                        ).final
+                        for data in datasets
+                    ]
+                    deltas = [final - baseline for final, baseline in zip(finals, baselines, strict=True)]
+                    candidates.append(
+                        {
+                            "low_threshold_db": float(low_threshold),
+                            "middle_prefix": middle_prefix,
+                            "high_threshold_db": float(high_threshold),
+                            "high_prefix": high_prefix,
+                            "finals": finals,
+                            "deltas": deltas,
+                            "mean_final": float(np.mean(finals)),
+                            "mean_delta": float(np.mean(deltas)),
+                            "min_delta": float(np.min(deltas)),
+                            "win_count": int(np.sum(np.asarray(deltas) > 0.0)),
+                        }
+                    )
     by_mean = sorted(candidates, key=lambda item: (item["mean_delta"], item["min_delta"]), reverse=True)
     by_worst = sorted(candidates, key=lambda item: (item["min_delta"], item["mean_delta"]), reverse=True)
     result = {
@@ -76,6 +93,7 @@ def main() -> None:
             "low_threshold_db": args.baseline_low,
             "middle_prefix": args.baseline_middle_prefix,
             "high_threshold_db": args.baseline_high,
+            "high_prefix": args.baseline_high_prefix,
             "finals": baselines,
             "mean_final": float(np.mean(baselines)),
         },

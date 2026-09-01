@@ -14,7 +14,7 @@ import torch
 from oppods.data import ChannelMemmap, deterministic_split_indices
 from oppods.metrics import summarize_scores
 
-PREFIXES = (1, 132, 264, 396, 528, 660, 792, 924, 1056, 1152)
+PREFIXES = (1, 32, 64, 96, 128, 132, 160, 192, 224, 256, 264, 396, 528, 660, 792, 924, 1008, 1056, 1152)
 
 
 def load_model_design(path: Path) -> ModuleType:
