@@ -181,6 +181,19 @@ def main() -> None:
     history: list[dict[str, float | int]] = []
     started = time.perf_counter()
 
+    if args.resume:
+        best = evaluate(
+            link,
+            data,
+            validation_indices,
+            batch_size=args.validation_batch_size,
+            device=device,
+            seed=args.seed + 10_000,
+        )
+        history.append({"step": start_step, "resumed": 1, **best})
+        save_model(link, args.output_dir, args.model_design)
+        print(json.dumps(history[-1], ensure_ascii=False), flush=True)
+
     for step in range(start_step + 1, args.steps + 1):
         link.train()
         selected = np_rng.choice(train_indices, args.batch_size, replace=False)

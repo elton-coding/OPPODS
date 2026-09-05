@@ -7,6 +7,8 @@ from torch.nn import Linear
 
 NUM_BITS_PER_RE = 8
 PAYLOAD_BITS = 144 * NUM_BITS_PER_RE
+# Compatibility-only value read by the repository evaluator's optional prefix diagnostics.
+MIDDLE_PREFIX_BITS = 924
 
 
 # ======================================================================================================================

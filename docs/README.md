@@ -81,6 +81,7 @@
 - [消融实验总表与组合路线](experiments/ablation-registry.md)
 - [消融实验记录模板](experiments/ablation-template.md)
 - [2026-08-24 持续优化总结](experiments/2026-08-24-continuous-optimization-summary.md)
+- [V212 官方纯神经 baseline 的 B 与 NUM_BITS_PER_RE 从头训练消融](experiments/official-baseline-b-bpr-v212.md)
 - [离散 SNR 去噪专家银行](experiments/snr-expert-bank.md)
 - [SNR 分段 Receiver 物理参数专家](experiments/snr-receiver-physical-profiles.md)
 - [中低 SNR 输出策略扫描](experiments/snr-output-policy-sweep.md)
