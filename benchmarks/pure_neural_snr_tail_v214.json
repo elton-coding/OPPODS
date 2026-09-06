@@ -1,0 +1,11 @@
+{
+  "version": "V214",
+  "experts": 16,
+  "interval_width_db": 2.5,
+  "full_expert_seed1176_2000": 61.838107638888886,
+  "global_calibrated_seed1176_2000": 62.51661241319446,
+  "v213_seed1176_2000": 62.45860460069444,
+  "global_calibrated_delta": 0.05800781250002,
+  "promote_to_main": false,
+  "reason": "large local same-interval gains do not transfer robustly to mixed-user SNR routing"
+}

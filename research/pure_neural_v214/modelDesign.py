@@ -10,20 +10,18 @@ NUM_UL_RE = 96
 NUM_DL_SC = 144
 NUM_TX = 16
 NUM_CTRL = 5
-NUM_BITS_PER_SYMBOL = 8
+NUM_BITS_PER_SYMBOL = 7
 NUM_BITS_PER_UE = NUM_DL_SC * NUM_BITS_PER_SYMBOL
+NUM_BITS_PER_RE = NUM_BITS_PER_SYMBOL
+PAYLOAD_BITS = NUM_BITS_PER_UE
 TRANSMITTER_ROUTING = "per_user_components"
-OUTPUT_PREFIX_POLICY = (
-    (-20.0, -16.5, 1),
-    (-16.5, -14.5, 132),
-    (-14.5, 20.0, 1152),
-)
+OUTPUT_PREFIX_POLICY = ((-20.0, 20.0, NUM_BITS_PER_UE),)
 # Compatibility constants used by the repository's diagnostics-capable evaluator.
 # The pure-neural baseline always emits all 1152 logits and does not use these gates.
 LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_BITS = 924
-SNR_EXPERT_EDGES_DB = (-20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0)
+SNR_EXPERT_EDGES_DB = tuple(-20.0 + 2.5 * index for index in range(17))
 SNR_EXPERT_BOUNDARIES_DB = SNR_EXPERT_EDGES_DB[1:-1]
 NUM_EXPERTS = len(SNR_EXPERT_EDGES_DB) - 1
 
@@ -162,7 +160,7 @@ class TransmitterCore(nn.Module):
     @staticmethod
     def _modulate(bits: torch.Tensor, modulator: nn.Module) -> torch.Tensor:
         batch = bits.shape[0]
-        values = modulator(bits.reshape(batch, NUM_DL_SC, NUM_BITS_PER_SYMBOL))
+        values = modulator(bits[:, :NUM_BITS_PER_UE].reshape(batch, NUM_DL_SC, NUM_BITS_PER_SYMBOL))
         symbols = torch.complex(values[..., 0], values[..., 1])
         energy = torch.mean(torch.abs(symbols).square(), dim=1, keepdim=True)
         return (symbols / torch.sqrt(energy + 1e-9)).unsqueeze(1)
