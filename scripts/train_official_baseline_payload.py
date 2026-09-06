@@ -39,12 +39,19 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--resume-best",
+        action="store_true",
+        help="Resume optimizer/step from last checkpoint but model weights from the saved best files",
+    )
     args = parser.parse_args()
     capacity = 144 * args.bits_per_re
     if not 0 < args.payload_bits <= capacity:
         parser.error(f"--payload-bits must be in [1, {capacity}]")
     if args.steps <= 0 or args.batch_size <= 0:
         parser.error("--steps and --batch-size must be positive")
+    if args.resume_best and not args.resume:
+        parser.error("--resume-best requires --resume")
     return args
 
 
@@ -169,6 +176,18 @@ def main() -> None:
         checkpoint = torch.load(args.output_dir / "last_checkpoint.pth", map_location=device, weights_only=True)
         link.load_state_dict(checkpoint["model"])
         optimizer.load_state_dict(checkpoint["optimizer"])
+        for parameter_group in optimizer.param_groups:
+            parameter_group["lr"] = args.learning_rate
+        if args.resume_best:
+            link.encoder.load_state_dict(
+                torch.load(args.output_dir / "encoder.pth", map_location=device, weights_only=True)
+            )
+            link.transmitter.load_state_dict(
+                torch.load(args.output_dir / "transmitter.pth", map_location=device, weights_only=True)
+            )
+            link.receiver.load_state_dict(
+                torch.load(args.output_dir / "receiver.pth", map_location=device, weights_only=True)
+            )
         start_step = int(checkpoint["step"])
 
     data = ChannelMemmap(args.data)
@@ -249,6 +268,7 @@ def main() -> None:
         "seed": args.seed,
         "batch_size": args.batch_size,
         "learning_rate": args.learning_rate,
+        "resume_best": args.resume_best,
         "requested_steps": args.steps,
         "best_step": best_step,
         "best_validation": best,

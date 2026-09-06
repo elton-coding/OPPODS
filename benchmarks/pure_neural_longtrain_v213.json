@@ -1,0 +1,17 @@
+{
+  "version": "V213",
+  "method": "pure-neural k7/B1008 low-learning-rate continuation",
+  "best_validation_step": 50000,
+  "stopped_step": 60000,
+  "exact_evaluation": {
+    "samples_per_seed": 2000,
+    "scores_per_seed": 4000,
+    "seed_1176": 62.45860460069444,
+    "seed_1177": 62.637827690972216,
+    "seed_1178": 62.777710503472214,
+    "mean": 62.62471426504629
+  },
+  "baseline_v212_mean": 62.44460648148148,
+  "delta_vs_v212": 0.18010778356481,
+  "promote_to_main": false
+}
