@@ -21,7 +21,7 @@ OUTPUT_PREFIX_POLICY = ((-20.0, 20.0, NUM_BITS_PER_UE),)
 LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_BITS = 924
-SNR_EXPERT_EDGES_DB = tuple(-20.0 + 2.5 * index for index in range(17))
+SNR_EXPERT_EDGES_DB = (-20.0, 20.0)
 SNR_EXPERT_BOUNDARIES_DB = SNR_EXPERT_EDGES_DB[1:-1]
 NUM_EXPERTS = len(SNR_EXPERT_EDGES_DB) - 1
 
@@ -187,14 +187,39 @@ class TransmitterCore(nn.Module):
         return signal, control
 
 
+class MixerBlock(nn.Module):
+    def __init__(self, tokens: int, width: int):
+        super().__init__()
+        self.token_mlp = nn.Sequential(
+            nn.Linear(tokens, 2 * tokens),
+            nn.GELU(),
+            nn.Linear(2 * tokens, tokens),
+        )
+        self.channel_mlp = nn.Sequential(
+            nn.Linear(width, 2 * width),
+            nn.GELU(),
+            nn.Linear(2 * width, width),
+        )
+        self.token_scale = nn.Parameter(torch.tensor(0.1))
+        self.channel_scale = nn.Parameter(torch.tensor(0.1))
+        self.token_norm = nn.LayerNorm(width)
+        self.channel_norm = nn.LayerNorm(width)
+
+    def forward(self, values: torch.Tensor) -> torch.Tensor:
+        token_update = self.token_mlp(values.transpose(1, 2)).transpose(1, 2)
+        values = self.token_norm(values + self.token_scale * token_update)
+        channel_update = self.channel_mlp(values)
+        return self.channel_norm(values + self.channel_scale * channel_update)
+
+
 class ReceiverCore(nn.Module):
     def __init__(self):
         super().__init__()
-        width = 128
+        width = 256
         input_features = 2 * 2 + 2 * 2 * NUM_TX + 1
         self._embed = nn.Linear(input_features, width)
         self._pos = PositionalEncoding(NUM_DL_SC, width)
-        self._tfm = _transformer(width, heads=4, layers=6)
+        self._mixer = nn.ModuleList([MixerBlock(NUM_DL_SC, width) for _ in range(8)])
         self._norm = nn.LayerNorm(width)
         self._fc_out = nn.Linear(width, NUM_BITS_PER_SYMBOL)
 
@@ -214,7 +239,10 @@ class ReceiverCore(nn.Module):
         noise_feature = torch.log10(torch.pow(10.0, -snr / 10.0) + 1e-9)[:, None, None]
         noise_feature = noise_feature.expand(batch, NUM_DL_SC, 1)
         values = self._embed(torch.cat([y_features, h_features, noise_feature], dim=-1))
-        values = self._norm(self._tfm(self._pos(values)))
+        values = self._pos(values)
+        for block in self._mixer:
+            values = block(values)
+        values = self._norm(values)
         return self._fc_out(values).reshape(batch, NUM_BITS_PER_UE)
 
 
@@ -340,7 +368,12 @@ class Receiver(nn.Module):
 
     def initialize_from_baseline(self, state_dict: dict[str, torch.Tensor]) -> None:
         for expert in self.experts:
-            expert.load_state_dict(state_dict)
+            compatible = {
+                name: value
+                for name, value in state_dict.items()
+                if name in expert.state_dict() and expert.state_dict()[name].shape == value.shape
+            }
+            expert.load_state_dict(compatible, strict=False)
 
     def forward(
         self,

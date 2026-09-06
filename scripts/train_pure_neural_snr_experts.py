@@ -18,9 +18,9 @@ from oppods.data import ChannelMemmap, deterministic_split_indices
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train the V214 pure-neural 2.5 dB SNR expert bank")
+    parser = argparse.ArgumentParser(description="Train the V215 pure-neural MLP-Mixer link")
     parser.add_argument("--stage", choices=("initialize", "pretrain", "asymmetric", "calibrate"), required=True)
-    parser.add_argument("--expert-index", type=int, choices=range(16))
+    parser.add_argument("--expert-index", type=int, choices=range(1))
     parser.add_argument(
         "--train-components",
         nargs="+",
@@ -32,6 +32,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--tail-weight", type=float, default=0.0)
     parser.add_argument("--tail-fraction", type=float, default=0.2)
+    parser.add_argument(
+        "--loss-kind",
+        choices=("bce", "hinge_bce", "wrong_side"),
+        default="bce",
+    )
+    parser.add_argument("--margin", type=float, default=0.5)
     parser.add_argument("--context-weight", type=float, default=0.25)
     parser.add_argument(
         "--shared-frontend",
@@ -45,8 +51,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
-    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v214/modelDesign.py"))
-    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v214/modelSubmit"))
+    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v215/modelDesign.py"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v215/modelSubmit"))
     args = parser.parse_args()
     if args.stage in {"pretrain", "asymmetric"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
@@ -54,6 +60,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("--expert-index is only valid for expert training")
     if args.tail_weight < 0.0:
         parser.error("--tail-weight must be non-negative")
+    if args.margin < 0.0:
+        parser.error("--margin must be non-negative")
     if not 0.0 < args.tail_fraction <= 1.0:
         parser.error("--tail-fraction must be in (0, 1]")
     if not 0.0 <= args.context_weight <= 1.0:
@@ -64,7 +72,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_model_design(path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location("pure_neural_v214_model_design", path)
+    spec = importlib.util.spec_from_file_location("pure_neural_v215_model_design", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import model design from {path}")
     module = importlib.util.module_from_spec(spec)
@@ -211,6 +219,37 @@ def asymmetric_target_bce(
         logits[rows, context_users], targets[rows, context_users]
     )
     return (target_loss + context_weight * context_loss) / (1.0 + context_weight)
+
+
+def score_aligned_loss(
+    logits: torch.Tensor,
+    bits: torch.Tensor,
+    *,
+    loss_kind: str,
+    margin: float,
+    tail_weight: float,
+    tail_fraction: float,
+) -> torch.Tensor:
+    targets = bits[..., : logits.shape[-1]]
+    signed_logits = (2.0 * targets - 1.0) * logits
+    if loss_kind == "bce":
+        element_loss = nn.functional.softplus(-signed_logits)
+    elif loss_kind == "hinge_bce":
+        bce = nn.functional.softplus(-signed_logits)
+        hinge = nn.functional.relu(margin - signed_logits)
+        element_loss = 0.5 * bce + 0.5 * hinge
+    elif loss_kind == "wrong_side":
+        element_loss = nn.functional.relu(-signed_logits)
+    else:
+        raise ValueError(f"unknown loss kind {loss_kind!r}")
+    per_link = element_loss.mean(dim=-1)
+    mean_loss = per_link.mean()
+    if tail_weight == 0.0:
+        return mean_loss
+    flat = per_link.reshape(-1)
+    tail_count = max(1, math.ceil(tail_fraction * flat.numel()))
+    tail_loss = torch.topk(flat, tail_count).values.mean()
+    return (mean_loss + tail_weight * tail_loss) / (1.0 + tail_weight)
 
 
 def sample_snr(
@@ -401,9 +440,11 @@ def main() -> None:
                 tail_fraction=args.tail_fraction,
             )
         else:
-            loss = score_aligned_bce(
+            loss = score_aligned_loss(
                 logits,
                 bits,
+                loss_kind=args.loss_kind,
+                margin=args.margin,
                 tail_weight=args.tail_weight,
                 tail_fraction=args.tail_fraction,
             )
@@ -451,6 +492,8 @@ def main() -> None:
         "seed": args.seed,
         "tail_weight": args.tail_weight,
         "tail_fraction": args.tail_fraction,
+        "loss_kind": args.loss_kind,
+        "margin": args.margin,
         "context_weight": args.context_weight if args.stage == "asymmetric" else None,
         "shared_frontend": args.shared_frontend,
         "requested_steps": args.steps,

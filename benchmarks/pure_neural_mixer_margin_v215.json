@@ -1,0 +1,10 @@
+{
+  "version": "V215",
+  "receiver": "8-block width-256 post-norm MLP-Mixer",
+  "receiver_bce_25k_validation": 62.20448379516601,
+  "receiver_hinge_bce_5k_validation": 62.34696712493896,
+  "end_to_end_10k_validation": 62.51074447631836,
+  "exact_seed1176_2000": 62.40778428819445,
+  "v213_seed1176_2000": 62.45860460069444,
+  "promote_to_main": false
+}
