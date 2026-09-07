@@ -106,3 +106,19 @@ def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
     assert receiver(received, channel, control, torch.tensor([0.0])).shape == (1, 1008)
     receiver.train()
     assert receiver(received, channel, control, torch.tensor([-18.0])).shape == (1, 1008)
+
+
+def test_focused_sampling_stays_in_the_requested_low_snr_range() -> None:
+    trainer = _load_module("pure_neural_v221_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    generator = torch.Generator().manual_seed(221)
+    snr = trainer.sample_snr(
+        256,
+        stage="calibrate",
+        expert_index=None,
+        device=torch.device("cpu"),
+        generator=generator,
+        focus_snr_high=-8.0,
+        focus_prob=1.0,
+    )
+    assert torch.all(snr >= -20.0)
+    assert torch.all(snr < -8.0)

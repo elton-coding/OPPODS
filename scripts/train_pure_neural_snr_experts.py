@@ -44,6 +44,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--margin", type=float, default=0.5)
     parser.add_argument("--context-weight", type=float, default=0.25)
     parser.add_argument(
+        "--focus-snr-high",
+        type=float,
+        default=20.0,
+        help="Upper bound of the focused low-SNR replay interval",
+    )
+    parser.add_argument(
+        "--focus-prob",
+        type=float,
+        default=0.0,
+        help="Per-user probability of sampling SNR from [-20, focus-snr-high]",
+    )
+    parser.add_argument(
         "--shared-frontend",
         action="store_true",
         help="Use expert 0 as an identical shared Encoder/Transmitter frontend during training",
@@ -70,6 +82,10 @@ def parse_args() -> argparse.Namespace:
         parser.error("--tail-fraction must be in (0, 1]")
     if not 0.0 <= args.context_weight <= 1.0:
         parser.error("--context-weight must be in [0, 1]")
+    if not -20.0 < args.focus_snr_high <= 20.0:
+        parser.error("--focus-snr-high must be in (-20, 20]")
+    if not 0.0 <= args.focus_prob <= 1.0:
+        parser.error("--focus-prob must be in [0, 1]")
     if args.shared_frontend and set(args.train_components) != {"receiver"}:
         parser.error("--shared-frontend requires --train-components receiver")
     return args
@@ -264,6 +280,8 @@ def sample_snr(
     expert_index: int | None,
     device: torch.device,
     generator: torch.Generator,
+    focus_snr_high: float = 20.0,
+    focus_prob: float = 0.0,
 ) -> torch.Tensor:
     if stage == "pretrain":
         assert expert_index is not None
@@ -295,7 +313,14 @@ def sample_snr(
         snr[rows, minimum_user] = minimum
         snr[rows, 1 - minimum_user] = partner
         return snr
-    return -20.0 + 40.0 * torch.rand((batch_size, 2), device=device, generator=generator)
+    snr = -20.0 + 40.0 * torch.rand((batch_size, 2), device=device, generator=generator)
+    if focus_prob > 0.0:
+        focus_mask = torch.rand((batch_size, 2), device=device, generator=generator) < focus_prob
+        focused = -20.0 + (focus_snr_high + 20.0) * torch.rand(
+            (batch_size, 2), device=device, generator=generator
+        )
+        snr = torch.where(focus_mask, focused, snr)
+    return snr
 
 
 def evaluate(
@@ -441,6 +466,8 @@ def main() -> None:
             expert_index=args.expert_index,
             device=device,
             generator=generator,
+            focus_snr_high=args.focus_snr_high,
+            focus_prob=args.focus_prob,
         )
         logits = link(
             channel,
@@ -513,6 +540,8 @@ def main() -> None:
         "loss_kind": args.loss_kind,
         "margin": args.margin,
         "context_weight": args.context_weight if args.stage == "asymmetric" else None,
+        "focus_snr_high": args.focus_snr_high,
+        "focus_prob": args.focus_prob,
         "shared_frontend": args.shared_frontend,
         "requested_steps": args.steps,
         "best_step": best_step,
