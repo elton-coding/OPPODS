@@ -122,3 +122,14 @@ def test_focused_sampling_stays_in_the_requested_low_snr_range() -> None:
     )
     assert torch.all(snr >= -20.0)
     assert torch.all(snr < -8.0)
+
+
+def test_v222_control_encodes_the_pair_maximum_snr() -> None:
+    module = _load_module("pure_neural_v222_control_test", ROOT / "research/pure_neural_v222/modelDesign.py")
+    transmitter = module.Transmitter()
+    batch = 2
+    bits = [torch.zeros(batch, 1152) for _ in range(2)]
+    feedback = [torch.zeros(batch, 96, dtype=torch.complex64) for _ in range(2)]
+    _, control = transmitter(bits, feedback, torch.tensor([[-19.0, 5.0], [-10.0, 19.0]]))
+    powers = torch.pow(2, torch.arange(module.NUM_CTRL))
+    assert torch.sum(control.long() * powers, dim=1).tolist() == [8, 31]

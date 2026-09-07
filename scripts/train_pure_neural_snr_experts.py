@@ -18,7 +18,7 @@ from oppods.data import ChannelMemmap, deterministic_split_indices
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train the V220 wide residual-MLP link")
+    parser = argparse.ArgumentParser(description="Train the V222 control-aware wide residual-MLP link")
     parser.add_argument(
         "--stage",
         choices=("initialize", "pretrain", "asymmetric", "profile", "calibrate"),
@@ -67,8 +67,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
-    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v220/modelDesign.py"))
-    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v220/modelSubmit"))
+    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v222/modelDesign.py"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v222/modelSubmit"))
     args = parser.parse_args()
     if args.stage in {"pretrain", "asymmetric", "profile"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
@@ -92,7 +92,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_model_design(path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location("pure_neural_v220_model_design", path)
+    spec = importlib.util.spec_from_file_location("pure_neural_v222_model_design", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import model design from {path}")
     module = importlib.util.module_from_spec(spec)
@@ -132,11 +132,15 @@ class PureNeuralLink(nn.Module):
         self.receiver.initialize_from_baseline(core_state("receiver.pth"))
 
     def load_submission(self, directory: Path) -> None:
-        self.encoder.load_state_dict(torch.load(directory / "encoder.pth", map_location="cpu", weights_only=True))
-        self.transmitter.load_state_dict(
-            torch.load(directory / "transmitter.pth", map_location="cpu", weights_only=True)
+        self.encoder.load_state_dict(
+            torch.load(directory / "encoder.pth", map_location="cpu", weights_only=True), strict=False
         )
-        self.receiver.load_state_dict(torch.load(directory / "receiver.pth", map_location="cpu", weights_only=True))
+        self.transmitter.load_state_dict(
+            torch.load(directory / "transmitter.pth", map_location="cpu", weights_only=True), strict=False
+        )
+        self.receiver.load_state_dict(
+            torch.load(directory / "receiver.pth", map_location="cpu", weights_only=True), strict=False
+        )
 
     def save_submission(self, directory: Path, model_design: Path) -> None:
         directory.mkdir(parents=True, exist_ok=True)
