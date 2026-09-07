@@ -1,0 +1,14 @@
+{
+  "version": "V222",
+  "control": "5-bit quantized pair maximum SNR",
+  "validation_initial": 65.88636360168456,
+  "validation_best": 65.90685005187989,
+  "exact_seed1176_2000": {
+    "efficiency": 71.402734375,
+    "fairness": 53.03819444444444,
+    "final": 65.89337239583332
+  },
+  "delta_vs_v220": -0.00286024305557,
+  "accepted": false,
+  "promote_to_main": false
+}
