@@ -21,7 +21,7 @@ OUTPUT_PREFIX_POLICY = ((-20.0, 20.0, NUM_BITS_PER_UE),)
 LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_BITS = 924
-SNR_EXPERT_EDGES_DB = tuple(-20.0 + 2.5 * index for index in range(17))
+SNR_EXPERT_EDGES_DB = (-20.0, 20.0)
 SNR_EXPERT_BOUNDARIES_DB = SNR_EXPERT_EDGES_DB[1:-1]
 NUM_EXPERTS = len(SNR_EXPERT_EDGES_DB) - 1
 
@@ -102,9 +102,9 @@ class TransmitterCore(nn.Module):
             [nn.Sequential(nn.Linear(NUM_UL_RE * 2 + 1, 512), nn.GELU(), nn.Linear(512, NUM_DL_SC * 16))
              for _ in range(NUM_UE)]
         )
-        width = 256
+        width = 512
         self._embed = nn.Linear(NUM_UE * (32 + 16) + NUM_UE, width)
-        self._blocks = nn.ModuleList([ResidualMLPBlock(width) for _ in range(8)])
+        self._blocks = nn.ModuleList([ResidualMLPBlock(width) for _ in range(10)])
         self._out = nn.Linear(width, NUM_TX * 2)
 
     def forward(
@@ -140,10 +140,10 @@ class TransmitterCore(nn.Module):
 class ReceiverCore(nn.Module):
     def __init__(self):
         super().__init__()
-        width = 256
+        width = 512
         input_features = 2 * 2 + 2 * 2 * NUM_TX + 1
         self._embed = nn.Linear(input_features, width)
-        self._blocks = nn.ModuleList([ResidualMLPBlock(width) for _ in range(8)])
+        self._blocks = nn.ModuleList([ResidualMLPBlock(width) for _ in range(10)])
         self._norm = nn.LayerNorm(width)
         self._fc_out = nn.Linear(width, NUM_BITS_PER_SYMBOL)
 

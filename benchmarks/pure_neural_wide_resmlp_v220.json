@@ -1,0 +1,21 @@
+{
+  "version": "V220",
+  "architecture": "wide per-subcarrier residual MLP",
+  "parameters": 24496763,
+  "b": 1008,
+  "num_bits_per_re": 7,
+  "validation": {
+    "bce_10k": 64.61666221618653,
+    "hinge_bce_8k": 65.61718406677247,
+    "long_tail_best_step": 12000,
+    "long_tail": 66.05910263061523
+  },
+  "exact_seed1176_2000": {
+    "efficiency": 71.36961805555556,
+    "fairness": 53.125,
+    "final": 65.89623263888889
+  },
+  "v216_same_seed": 65.1252907986111,
+  "delta_vs_v216": 0.77094184027779,
+  "promote_to_main": false
+}

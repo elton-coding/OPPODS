@@ -18,9 +18,9 @@ def _load_module(name: str, path: Path) -> ModuleType:
 
 
 def test_snr_expert_boundaries() -> None:
-    module = _load_module("v218_boundaries", ROOT / "research/pure_neural_v218/modelDesign.py")
+    module = _load_module("v220_boundaries", ROOT / "research/pure_neural_v220/modelDesign.py")
     snr = torch.tensor([-20.0, -17.5, -15.0, 0.0, 17.49, 20.0])
-    assert module._expert_indices(snr).tolist() == [0, 1, 2, 8, 14, 15]
+    assert module._expert_indices(snr).tolist() == [0, 0, 0, 0, 0, 0]
 
 
 def test_v216_components_obey_the_submission_shapes() -> None:
@@ -31,7 +31,7 @@ def test_v216_components_obey_the_submission_shapes() -> None:
     )
     baseline.NUM_BITS_PER_RE = 7
     baseline.PAYLOAD_BITS = 1008
-    experts = _load_module("pure_neural_v218_test", ROOT / "research/pure_neural_v218/modelDesign.py")
+    experts = _load_module("pure_neural_v220_test", ROOT / "research/pure_neural_v220/modelDesign.py")
 
     baseline_encoder = baseline.Encoder().eval()
     baseline_transmitter = baseline.Transmitter().eval()
@@ -80,13 +80,13 @@ def test_v216_components_obey_the_submission_shapes() -> None:
 
 
 def test_mixed_snr_routes_gradients_to_selected_experts() -> None:
-    module = _load_module("pure_neural_v218_grad_test", ROOT / "research/pure_neural_v218/modelDesign.py")
+    module = _load_module("pure_neural_v220_grad_test", ROOT / "research/pure_neural_v220/modelDesign.py")
     encoder = module.Encoder()
     channel = torch.complex(torch.randn(2, 2, 16, 144), torch.randn(2, 2, 16, 144))
     feedback = encoder(channel, torch.tensor([-19.0, 19.0]))
     feedback.abs().mean().backward()
     assert any(parameter.grad is not None for parameter in encoder.experts[0].parameters())
-    assert any(parameter.grad is not None for parameter in encoder.experts[15].parameters())
+    assert any(parameter.grad is not None for parameter in encoder.experts[0].parameters())
 def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
     trainer = _load_module("pure_neural_v191_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
     logits = torch.tensor([[[4.0, 4.0], [-4.0, -4.0]]])
@@ -95,7 +95,7 @@ def test_tail_weighted_bce_emphasizes_the_worst_link() -> None:
     tail_loss = trainer.score_aligned_bce(logits, bits, tail_weight=1.0, tail_fraction=0.5)
     assert tail_loss > mean_loss
 def test_eval_mode_uses_the_registered_snr_prefix_policy() -> None:
-    module = _load_module("pure_neural_v218_prefix_test", ROOT / "research/pure_neural_v218/modelDesign.py")
+    module = _load_module("pure_neural_v220_prefix_test", ROOT / "research/pure_neural_v220/modelDesign.py")
     receiver = module.Receiver()
     received = torch.complex(torch.randn(1, 2, 144), torch.randn(1, 2, 144))
     channel = torch.complex(torch.randn(1, 2, 16, 144), torch.randn(1, 2, 16, 144))
