@@ -18,9 +18,9 @@ from oppods.data import ChannelMemmap, deterministic_split_indices
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train the V216 subcarrier residual-MLP link")
+    parser = argparse.ArgumentParser(description="Train the V217 SNR-expert residual-MLP link")
     parser.add_argument("--stage", choices=("initialize", "pretrain", "asymmetric", "calibrate"), required=True)
-    parser.add_argument("--expert-index", type=int, choices=range(1))
+    parser.add_argument("--expert-index", type=int, choices=range(16))
     parser.add_argument(
         "--train-components",
         nargs="+",
@@ -51,8 +51,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
-    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v216/modelDesign.py"))
-    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v216/modelSubmit"))
+    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v217/modelDesign.py"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v217/modelSubmit"))
     args = parser.parse_args()
     if args.stage in {"pretrain", "asymmetric"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
@@ -72,7 +72,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_model_design(path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location("pure_neural_v216_model_design", path)
+    spec = importlib.util.spec_from_file_location("pure_neural_v217_model_design", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import model design from {path}")
     module = importlib.util.module_from_spec(spec)
@@ -100,15 +100,16 @@ class PureNeuralLink(nn.Module):
         self.receiver = module.Receiver()
 
     def initialize_from_baseline(self, baseline_dir: Path) -> None:
-        self.encoder.initialize_from_baseline(
-            torch.load(baseline_dir / "encoder.pth", map_location="cpu", weights_only=True)
-        )
-        self.transmitter.initialize_from_baseline(
-            torch.load(baseline_dir / "transmitter.pth", map_location="cpu", weights_only=True)
-        )
-        self.receiver.initialize_from_baseline(
-            torch.load(baseline_dir / "receiver.pth", map_location="cpu", weights_only=True)
-        )
+        def core_state(filename: str) -> dict[str, torch.Tensor]:
+            state = torch.load(baseline_dir / filename, map_location="cpu", weights_only=True)
+            prefix = "experts.0."
+            if state and all(name.startswith(prefix) for name in state):
+                return {name[len(prefix):]: value for name, value in state.items()}
+            return state
+
+        self.encoder.initialize_from_baseline(core_state("encoder.pth"))
+        self.transmitter.initialize_from_baseline(core_state("transmitter.pth"))
+        self.receiver.initialize_from_baseline(core_state("receiver.pth"))
 
     def load_submission(self, directory: Path) -> None:
         self.encoder.load_state_dict(torch.load(directory / "encoder.pth", map_location="cpu", weights_only=True))
