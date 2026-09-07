@@ -18,7 +18,7 @@ from oppods.data import ChannelMemmap, deterministic_split_indices
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train the V215 pure-neural MLP-Mixer link")
+    parser = argparse.ArgumentParser(description="Train the V216 subcarrier residual-MLP link")
     parser.add_argument("--stage", choices=("initialize", "pretrain", "asymmetric", "calibrate"), required=True)
     parser.add_argument("--expert-index", type=int, choices=range(1))
     parser.add_argument(
@@ -51,8 +51,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
-    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v215/modelDesign.py"))
-    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v215/modelSubmit"))
+    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v216/modelDesign.py"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v216/modelSubmit"))
     args = parser.parse_args()
     if args.stage in {"pretrain", "asymmetric"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
@@ -72,7 +72,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_model_design(path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location("pure_neural_v215_model_design", path)
+    spec = importlib.util.spec_from_file_location("pure_neural_v216_model_design", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import model design from {path}")
     module = importlib.util.module_from_spec(spec)

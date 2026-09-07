@@ -14,7 +14,7 @@ NUM_BITS_PER_SYMBOL = 7
 NUM_BITS_PER_UE = NUM_DL_SC * NUM_BITS_PER_SYMBOL
 NUM_BITS_PER_RE = NUM_BITS_PER_SYMBOL
 PAYLOAD_BITS = NUM_BITS_PER_UE
-TRANSMITTER_ROUTING = "per_user_components"
+TRANSMITTER_ROUTING = "whole_min"
 OUTPUT_PREFIX_POLICY = ((-20.0, 20.0, NUM_BITS_PER_UE),)
 # Compatibility constants used by the repository's diagnostics-capable evaluator.
 # The pure-neural baseline always emits all 1152 logits and does not use these gates.
@@ -57,113 +57,55 @@ def _transformer(width: int, heads: int, layers: int) -> nn.TransformerEncoder:
 
 
 class EncoderCore(nn.Module):
-    """The organizer baseline Encoder, kept deliberately free of physical priors."""
-
     def __init__(self):
         super().__init__()
-        self._num_re = NUM_UL_RE
-        self._num_sc_per_sb = 48
-        self._num_subbands = NUM_DL_SC // self._num_sc_per_sb
-        width = 128
-        self._sb_conv = nn.Conv1d(2 * 16 * 2, width, kernel_size=3, padding=1)
-        self._pos = PositionalEncoding(self._num_subbands, width)
-        self._tfm = _transformer(width, heads=4, layers=3)
-        self._norm = nn.LayerNorm(width)
-        self._fc_out = nn.Linear(width * self._num_subbands, self._num_re * 2)
+        self._subbands = 3
+        self._subband_width = 48
+        self._compress = nn.Sequential(
+            nn.Linear(2 * NUM_TX * self._subband_width * 2 + 1, 256),
+            nn.GELU(),
+            nn.Linear(256, 64),
+        )
 
     def forward(self, h: torch.Tensor, snr: torch.Tensor) -> torch.Tensor:
-        del snr
         batch = h.shape[0]
         values = torch.stack([h.real, h.imag], dim=-1)
-        values = values.reshape(batch, 2, 16, self._num_subbands, self._num_sc_per_sb, 2)
-        values = values.permute(0, 3, 1, 2, 5, 4).reshape(
-            batch * self._num_subbands,
-            2 * 16 * 2,
-            self._num_sc_per_sb,
-        )
-        values = self._sb_conv(values).mean(dim=-1).reshape(batch, self._num_subbands, -1)
-        values = self._norm(self._tfm(self._pos(values))).reshape(batch, -1)
-        values = self._fc_out(values)
-        return torch.complex(values[:, : self._num_re], values[:, self._num_re :])
+        values = values.reshape(batch, 2, NUM_TX, self._subbands, self._subband_width, 2)
+        values = values.permute(0, 3, 1, 2, 4, 5).reshape(batch, self._subbands, -1)
+        snr_feature = (snr / 20.0)[:, None, None].expand(-1, self._subbands, 1)
+        values = self._compress(torch.cat([values, snr_feature], dim=-1)).reshape(batch, -1)
+        return torch.complex(values[:, :NUM_UL_RE], values[:, NUM_UL_RE:])
 
 
-class DecoderCore(nn.Module):
-    def __init__(self):
+class ResidualMLPBlock(nn.Module):
+    def __init__(self, width: int):
         super().__init__()
-        self._num_subbands = 3
-        self._num_rx_ant = 2
-        self._num_tx_ant = 16
-        width = 128
-        self._fc_in = nn.Linear(NUM_UL_RE * 2, width * self._num_subbands)
-        self._pos = PositionalEncoding(self._num_subbands, width)
-        self._tfm = _transformer(width, heads=4, layers=3)
-        self._norm = nn.LayerNorm(width)
-        self._fc_out = nn.Linear(width, self._num_rx_ant * self._num_tx_ant * 2)
-
-    def forward(self, feedback: torch.Tensor) -> torch.Tensor:
-        batch = feedback.shape[0]
-        values = torch.cat([feedback.real, feedback.imag], dim=-1)
-        values = self._fc_in(values).reshape(batch, self._num_subbands, -1)
-        values = self._norm(self._tfm(self._pos(values)))
-        values = self._fc_out(values).reshape(batch, self._num_subbands, 2, 16, 2)
-        return torch.complex(values[..., 0], values[..., 1])
-
-
-class PrecoderCore(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self._num_ue = NUM_UE
-        self._num_subbands = 3
-        width = 128
-        self._embed = nn.Linear(2 * 16 * 2 + 1, width)
-        self._prc_token = nn.Parameter(torch.randn(1, 1, width) * 0.02)
-        self._pos = PositionalEncoding(self._num_ue * self._num_subbands + 1, width)
-        self._tfm = _transformer(width, heads=4, layers=3)
-        self._norm = nn.LayerNorm(width)
-        self._fc_out = nn.Linear(width, self._num_subbands * NUM_TX * self._num_ue * 2)
-
-    def forward(self, h_hat: torch.Tensor, noise: torch.Tensor) -> torch.Tensor:
-        batch = h_hat.shape[0]
-        values = torch.stack([h_hat.real, h_hat.imag], dim=-1).reshape(
-            batch,
-            self._num_ue * self._num_subbands,
-            2 * 16 * 2,
+        self._mlp = nn.Sequential(
+            nn.Linear(width, 2 * width),
+            nn.GELU(),
+            nn.Linear(2 * width, width),
         )
-        noise_feature = torch.log10(noise + 1e-9)
-        noise_feature = noise_feature[:, :, None].expand(-1, -1, self._num_subbands)
-        noise_feature = noise_feature.reshape(batch, self._num_ue * self._num_subbands, 1)
-        values = self._embed(torch.cat([values, noise_feature], dim=-1))
-        values = torch.cat([self._prc_token.expand(batch, -1, -1), values], dim=1)
-        pooled = self._norm(self._tfm(self._pos(values)))[:, 0]
-        values = self._fc_out(pooled).reshape(batch, self._num_subbands, NUM_TX, self._num_ue, 2)
-        precoder = torch.complex(values[..., 0], values[..., 1])
-        energy = torch.sum(torch.abs(precoder).square(), dim=(2, 3), keepdim=True)
-        return precoder / torch.sqrt(energy + 1e-9)
+        self._scale = nn.Parameter(torch.tensor(0.1))
+        self._norm = nn.LayerNorm(width)
+
+    def forward(self, values: torch.Tensor) -> torch.Tensor:
+        return self._norm(values + self._scale * self._mlp(values))
 
 
 class TransmitterCore(nn.Module):
     def __init__(self):
         super().__init__()
-        self._mod = nn.ModuleList(
-            [
-                nn.Sequential(
-                    nn.Linear(NUM_BITS_PER_SYMBOL, 64),
-                    nn.ReLU(),
-                    nn.Linear(64, 2),
-                )
-                for _ in range(NUM_UE)
-            ]
+        self._bit_embed = nn.ModuleList(
+            [nn.Linear(NUM_BITS_PER_SYMBOL, 32) for _ in range(NUM_UE)]
         )
-        self._decoder = DecoderCore()
-        self._precoder = PrecoderCore()
-
-    @staticmethod
-    def _modulate(bits: torch.Tensor, modulator: nn.Module) -> torch.Tensor:
-        batch = bits.shape[0]
-        values = modulator(bits[:, :NUM_BITS_PER_UE].reshape(batch, NUM_DL_SC, NUM_BITS_PER_SYMBOL))
-        symbols = torch.complex(values[..., 0], values[..., 1])
-        energy = torch.mean(torch.abs(symbols).square(), dim=1, keepdim=True)
-        return (symbols / torch.sqrt(energy + 1e-9)).unsqueeze(1)
+        self._feedback_expand = nn.ModuleList(
+            [nn.Sequential(nn.Linear(NUM_UL_RE * 2 + 1, 512), nn.GELU(), nn.Linear(512, NUM_DL_SC * 16))
+             for _ in range(NUM_UE)]
+        )
+        width = 256
+        self._embed = nn.Linear(NUM_UE * (32 + 16) + NUM_UE, width)
+        self._blocks = nn.ModuleList([ResidualMLPBlock(width) for _ in range(8)])
+        self._out = nn.Linear(width, NUM_TX * 2)
 
     def forward(
         self,
@@ -171,14 +113,22 @@ class TransmitterCore(nn.Module):
         feedback_list: list[torch.Tensor],
         snr_dl: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        symbols = torch.cat(
-            [self._modulate(bits_list[user], self._mod[user]) for user in range(NUM_UE)],
-            dim=1,
-        ).permute(0, 2, 1)
-        h_hat = torch.stack([self._decoder(feedback_list[user]) for user in range(NUM_UE)], dim=1)
-        noise = torch.pow(10.0, -snr_dl.transpose(0, 1) / 10.0)
-        precoder = self._precoder(h_hat, noise).repeat_interleave(48, dim=1)
-        signal = torch.matmul(precoder, symbols.unsqueeze(-1)).squeeze(-1).permute(0, 2, 1)
+        batch = bits_list[0].shape[0]
+        features: list[torch.Tensor] = []
+        for user in range(NUM_UE):
+            bits = bits_list[user][:, :NUM_BITS_PER_UE].reshape(
+                batch, NUM_DL_SC, NUM_BITS_PER_SYMBOL
+            )
+            features.append(self._bit_embed[user](bits))
+            feedback = torch.cat([feedback_list[user].real, feedback_list[user].imag], dim=-1)
+            feedback = torch.cat([feedback, (snr_dl[user] / 20.0)[:, None]], dim=-1)
+            features.append(self._feedback_expand[user](feedback).reshape(batch, NUM_DL_SC, 16))
+        snr_feature = (snr_dl.transpose(0, 1) / 20.0)[:, None, :].expand(-1, NUM_DL_SC, -1)
+        values = self._embed(torch.cat([*features, snr_feature], dim=-1))
+        for block in self._blocks:
+            values = block(values)
+        values = self._out(values)
+        signal = torch.complex(values[..., :NUM_TX], values[..., NUM_TX:]).permute(0, 2, 1)
         control = torch.ones(
             (bits_list[0].shape[0], NUM_CTRL),
             device=signal.device,
@@ -187,39 +137,13 @@ class TransmitterCore(nn.Module):
         return signal, control
 
 
-class MixerBlock(nn.Module):
-    def __init__(self, tokens: int, width: int):
-        super().__init__()
-        self.token_mlp = nn.Sequential(
-            nn.Linear(tokens, 2 * tokens),
-            nn.GELU(),
-            nn.Linear(2 * tokens, tokens),
-        )
-        self.channel_mlp = nn.Sequential(
-            nn.Linear(width, 2 * width),
-            nn.GELU(),
-            nn.Linear(2 * width, width),
-        )
-        self.token_scale = nn.Parameter(torch.tensor(0.1))
-        self.channel_scale = nn.Parameter(torch.tensor(0.1))
-        self.token_norm = nn.LayerNorm(width)
-        self.channel_norm = nn.LayerNorm(width)
-
-    def forward(self, values: torch.Tensor) -> torch.Tensor:
-        token_update = self.token_mlp(values.transpose(1, 2)).transpose(1, 2)
-        values = self.token_norm(values + self.token_scale * token_update)
-        channel_update = self.channel_mlp(values)
-        return self.channel_norm(values + self.channel_scale * channel_update)
-
-
 class ReceiverCore(nn.Module):
     def __init__(self):
         super().__init__()
         width = 256
         input_features = 2 * 2 + 2 * 2 * NUM_TX + 1
         self._embed = nn.Linear(input_features, width)
-        self._pos = PositionalEncoding(NUM_DL_SC, width)
-        self._mixer = nn.ModuleList([MixerBlock(NUM_DL_SC, width) for _ in range(8)])
+        self._blocks = nn.ModuleList([ResidualMLPBlock(width) for _ in range(8)])
         self._norm = nn.LayerNorm(width)
         self._fc_out = nn.Linear(width, NUM_BITS_PER_SYMBOL)
 
@@ -239,8 +163,7 @@ class ReceiverCore(nn.Module):
         noise_feature = torch.log10(torch.pow(10.0, -snr / 10.0) + 1e-9)[:, None, None]
         noise_feature = noise_feature.expand(batch, NUM_DL_SC, 1)
         values = self._embed(torch.cat([y_features, h_features, noise_feature], dim=-1))
-        values = self._pos(values)
-        for block in self._mixer:
+        for block in self._blocks:
             values = block(values)
         values = self._norm(values)
         return self._fc_out(values).reshape(batch, NUM_BITS_PER_UE)
@@ -253,7 +176,12 @@ class Encoder(nn.Module):
 
     def initialize_from_baseline(self, state_dict: dict[str, torch.Tensor]) -> None:
         for expert in self.experts:
-            expert.load_state_dict(state_dict)
+            compatible = {
+                name: value
+                for name, value in state_dict.items()
+                if name in expert.state_dict() and expert.state_dict()[name].shape == value.shape
+            }
+            expert.load_state_dict(compatible, strict=False)
 
     def forward(self, h: torch.Tensor, snr: torch.Tensor) -> torch.Tensor:
         indices = _expert_indices(snr)
@@ -272,7 +200,12 @@ class Transmitter(nn.Module):
 
     def initialize_from_baseline(self, state_dict: dict[str, torch.Tensor]) -> None:
         for expert in self.experts:
-            expert.load_state_dict(state_dict)
+            compatible = {
+                name: value
+                for name, value in state_dict.items()
+                if name in expert.state_dict() and expert.state_dict()[name].shape == value.shape
+            }
+            expert.load_state_dict(compatible, strict=False)
 
     def _whole_min_forward(
         self,

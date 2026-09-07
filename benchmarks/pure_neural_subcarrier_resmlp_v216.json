@@ -1,0 +1,14 @@
+{
+  "version": "V216",
+  "parameters": 7635063,
+  "bce_20k_validation": 64.55978660583496,
+  "hinge_6k_validation": 65.32924003601073,
+  "exact_seed1176_2000": {
+    "efficiency": 70.78910590277778,
+    "fairness": 51.90972222222222,
+    "final": 65.1252907986111
+  },
+  "delta_vs_v213_same_seed": 2.66668619791666,
+  "promote_to_main": false,
+  "reason": "awaiting SNR-expert extension and three-seed confirmation"
+}
