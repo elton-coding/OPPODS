@@ -1,0 +1,11 @@
+{
+  "version": "V221",
+  "initial_validation": 65.9678482055664,
+  "focus_interval_db": [-20.0, -8.0],
+  "focus_probability": 0.75,
+  "best_step": 0,
+  "best_validation": 65.9678482055664,
+  "last_validation": 65.74866065979003,
+  "accepted": false,
+  "promote_to_main": false
+}
