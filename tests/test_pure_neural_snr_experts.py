@@ -133,3 +133,31 @@ def test_v222_control_encodes_the_pair_maximum_snr() -> None:
     _, control = transmitter(bits, feedback, torch.tensor([[-19.0, 5.0], [-10.0, 19.0]]))
     powers = torch.pow(2, torch.arange(module.NUM_CTRL))
     assert torch.sum(control.long() * powers, dim=1).tolist() == [8, 31]
+
+
+def test_calibration_sampling_supports_a_high_snr_training_interval() -> None:
+    trainer = _load_module("pure_neural_v223_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    generator = torch.Generator().manual_seed(223)
+    snr = trainer.sample_snr(
+        256,
+        stage="calibrate",
+        expert_index=None,
+        device=torch.device("cpu"),
+        generator=generator,
+        train_snr_low=5.0,
+        train_snr_high=20.0,
+    )
+    assert torch.all(snr >= 5.0)
+    assert torch.all(snr < 20.0)
+
+
+def test_v223_k8_uses_the_complete_1152_bit_payload() -> None:
+    module = _load_module("pure_neural_v223_k8_test", ROOT / "research/pure_neural_v223_k8/modelDesign.py")
+    assert module.NUM_BITS_PER_RE == 8
+    assert module.PAYLOAD_BITS == 1152
+    assert module.ReceiverCore()(
+        torch.complex(torch.randn(1, 2, 144), torch.randn(1, 2, 144)),
+        torch.complex(torch.randn(1, 2, 16, 144), torch.randn(1, 2, 16, 144)),
+        torch.ones(1, 5),
+        torch.tensor([10.0]),
+    ).shape == (1, 1152)

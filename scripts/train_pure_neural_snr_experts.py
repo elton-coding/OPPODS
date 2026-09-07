@@ -55,6 +55,13 @@ def parse_args() -> argparse.Namespace:
         default=0.0,
         help="Per-user probability of sampling SNR from [-20, focus-snr-high]",
     )
+    parser.add_argument("--train-snr-low", type=float, default=-20.0)
+    parser.add_argument("--train-snr-high", type=float, default=20.0)
+    parser.add_argument(
+        "--validation-match-train-snr",
+        action="store_true",
+        help="Validate on the requested training SNR interval instead of the full range",
+    )
     parser.add_argument(
         "--shared-frontend",
         action="store_true",
@@ -86,6 +93,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("--focus-snr-high must be in (-20, 20]")
     if not 0.0 <= args.focus_prob <= 1.0:
         parser.error("--focus-prob must be in [0, 1]")
+    if not -20.0 <= args.train_snr_low < args.train_snr_high <= 20.0:
+        parser.error("training SNR bounds must satisfy -20 <= low < high <= 20")
     if args.shared_frontend and set(args.train_components) != {"receiver"}:
         parser.error("--shared-frontend requires --train-components receiver")
     return args
@@ -286,6 +295,8 @@ def sample_snr(
     generator: torch.Generator,
     focus_snr_high: float = 20.0,
     focus_prob: float = 0.0,
+    train_snr_low: float = -20.0,
+    train_snr_high: float = 20.0,
 ) -> torch.Tensor:
     if stage == "pretrain":
         assert expert_index is not None
@@ -317,7 +328,9 @@ def sample_snr(
         snr[rows, minimum_user] = minimum
         snr[rows, 1 - minimum_user] = partner
         return snr
-    snr = -20.0 + 40.0 * torch.rand((batch_size, 2), device=device, generator=generator)
+    snr = train_snr_low + (train_snr_high - train_snr_low) * torch.rand(
+        (batch_size, 2), device=device, generator=generator
+    )
     if focus_prob > 0.0:
         focus_mask = torch.rand((batch_size, 2), device=device, generator=generator) < focus_prob
         focused = -20.0 + (focus_snr_high + 20.0) * torch.rand(
@@ -338,6 +351,8 @@ def evaluate(
     device: torch.device,
     seed: int,
     shared_frontend: bool = False,
+    snr_low: float = -20.0,
+    snr_high: float = 20.0,
 ) -> dict[str, float]:
     link.eval()
     criterion = nn.BCEWithLogitsLoss(reduction="sum")
@@ -364,6 +379,8 @@ def evaluate(
                 expert_index=expert_index,
                 device=device,
                 generator=generator,
+                train_snr_low=snr_low,
+                train_snr_high=snr_high,
             )
             logits = link(channel, bits, snr, generator=generator, shared_frontend=shared_frontend)
             targets = bits[..., : logits.shape[-1]]
@@ -446,6 +463,8 @@ def main() -> None:
         device=device,
         seed=args.seed + 10_000,
         shared_frontend=args.shared_frontend,
+        snr_low=args.train_snr_low if args.validation_match_train_snr else -20.0,
+        snr_high=args.train_snr_high if args.validation_match_train_snr else 20.0,
     )
     best_step = 0
     checks_without_improvement = 0
@@ -472,6 +491,8 @@ def main() -> None:
             generator=generator,
             focus_snr_high=args.focus_snr_high,
             focus_prob=args.focus_prob,
+            train_snr_low=args.train_snr_low,
+            train_snr_high=args.train_snr_high,
         )
         logits = link(
             channel,
@@ -513,6 +534,8 @@ def main() -> None:
                 device=device,
                 seed=args.seed + 10_000,
                 shared_frontend=args.shared_frontend,
+                snr_low=args.train_snr_low if args.validation_match_train_snr else -20.0,
+                snr_high=args.train_snr_high if args.validation_match_train_snr else 20.0,
             )
             record: dict[str, float | int] = {"step": step, **metrics}
             history.append(record)
@@ -546,6 +569,8 @@ def main() -> None:
         "context_weight": args.context_weight if args.stage == "asymmetric" else None,
         "focus_snr_high": args.focus_snr_high,
         "focus_prob": args.focus_prob,
+        "train_snr_interval": [args.train_snr_low, args.train_snr_high],
+        "validation_match_train_snr": args.validation_match_train_snr,
         "shared_frontend": args.shared_frontend,
         "requested_steps": args.steps,
         "best_step": best_step,
