@@ -18,8 +18,12 @@ from oppods.data import ChannelMemmap, deterministic_split_indices
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train the V217 SNR-expert residual-MLP link")
-    parser.add_argument("--stage", choices=("initialize", "pretrain", "asymmetric", "calibrate"), required=True)
+    parser = argparse.ArgumentParser(description="Train the V218 joint-profile residual-MLP link")
+    parser.add_argument(
+        "--stage",
+        choices=("initialize", "pretrain", "asymmetric", "profile", "calibrate"),
+        required=True,
+    )
     parser.add_argument("--expert-index", type=int, choices=range(16))
     parser.add_argument(
         "--train-components",
@@ -51,12 +55,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
-    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v217/modelDesign.py"))
-    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v217/modelSubmit"))
+    parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v218/modelDesign.py"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v218/modelSubmit"))
     args = parser.parse_args()
-    if args.stage in {"pretrain", "asymmetric"} and args.expert_index is None:
+    if args.stage in {"pretrain", "asymmetric", "profile"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
-    if args.stage not in {"pretrain", "asymmetric"} and args.expert_index is not None:
+    if args.stage not in {"pretrain", "asymmetric", "profile"} and args.expert_index is not None:
         parser.error("--expert-index is only valid for expert training")
     if args.tail_weight < 0.0:
         parser.error("--tail-weight must be non-negative")
@@ -72,7 +76,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_model_design(path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location("pure_neural_v217_model_design", path)
+    spec = importlib.util.spec_from_file_location("pure_neural_v218_model_design", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import model design from {path}")
     module = importlib.util.module_from_spec(spec)
@@ -278,6 +282,19 @@ def sample_snr(
             batch_size, device=device, generator=generator
         )
         return snr
+    if stage == "profile":
+        assert expert_index is not None
+        rows = torch.arange(batch_size, device=device)
+        low_db = -20.0 + 2.5 * expert_index
+        minimum = low_db + 2.5 * torch.rand(batch_size, device=device, generator=generator)
+        partner = minimum + (20.0 - minimum) * torch.rand(
+            batch_size, device=device, generator=generator
+        )
+        snr = torch.empty((batch_size, 2), device=device)
+        minimum_user = rows % 2
+        snr[rows, minimum_user] = minimum
+        snr[rows, 1 - minimum_user] = partner
+        return snr
     return -20.0 + 40.0 * torch.rand((batch_size, 2), device=device, generator=generator)
 
 
@@ -375,7 +392,7 @@ def main() -> None:
     split = deterministic_split_indices(len(data), seed=1176)
     validation_indices = split["validation"][: args.validation_samples]
     train_indices = split["train"]
-    if args.stage in {"pretrain", "asymmetric"}:
+    if args.stage in {"pretrain", "asymmetric", "profile"}:
         assert args.expert_index is not None
         parameters = list(expert_parameters(link, args.expert_index, args.train_components))
     else:
@@ -506,7 +523,7 @@ def main() -> None:
     }
     report_path = args.output_dir.parent / (
         f"{args.stage}_expert_{args.expert_index}.json"
-        if args.stage in {"pretrain", "asymmetric"}
+        if args.stage in {"pretrain", "asymmetric", "profile"}
         else "calibration.json"
     )
     report_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")

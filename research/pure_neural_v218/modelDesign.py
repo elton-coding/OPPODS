@@ -227,7 +227,11 @@ class Transmitter(nn.Module):
                     snr_dl[:, selected],
                 )
                 signal[selected] = expert_signal
-                control[selected] = expert_control
+                del expert_control
+                profile_bits = bits_list[0].new_tensor(
+                    [(expert_index >> bit) & 1 for bit in range(NUM_CTRL)]
+                )
+                control[selected] = profile_bits.expand(int(selected.sum().item()), -1)
         return signal, control
 
     def _component_forward(
@@ -315,7 +319,9 @@ class Receiver(nn.Module):
         ctrl_bits: torch.Tensor,
         snr: torch.Tensor,
     ) -> torch.Tensor:
-        indices = _expert_indices(snr)
+        powers = torch.pow(2, torch.arange(NUM_CTRL, device=ctrl_bits.device))
+        indices = torch.sum(torch.round(ctrl_bits).long() * powers[None, :], dim=1)
+        indices = indices.clamp(0, NUM_EXPERTS - 1)
         output = torch.empty((y.shape[0], NUM_BITS_PER_UE), device=y.device, dtype=torch.float32)
         for expert_index, expert in enumerate(self.experts):
             selected = indices == expert_index

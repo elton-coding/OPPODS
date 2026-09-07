@@ -1,0 +1,13 @@
+{
+  "version": "V218",
+  "profiles": 16,
+  "routing": "pair minimum SNR with 5-bit profile control",
+  "exact_seed1176_2000": {
+    "efficiency": 70.861328125,
+    "fairness": 51.99652777777778,
+    "final": 65.20188802083334
+  },
+  "v216_same_seed": 65.1252907986111,
+  "delta": 0.07659722222224,
+  "promote_to_main": false
+}
