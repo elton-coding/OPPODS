@@ -177,7 +177,10 @@ class PureNeuralLink(nn.Module):
                 core = {key[len(prefix):]: value for key, value in state.items() if key.startswith(prefix)}
                 if not core:
                     raise ValueError(f"source {name} has no expert {source_index}")
-                expert.load_state_dict(core, strict=True)
+                if hasattr(expert, "load_parent_state"):
+                    expert.load_parent_state(core)
+                else:
+                    expert.load_state_dict(core, strict=True)
 
     def load_submission(self, directory: Path) -> None:
         self.encoder.load_state_dict(
