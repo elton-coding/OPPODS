@@ -1,0 +1,111 @@
+{
+  "stage": "calibrate",
+  "expert_index": null,
+  "train_components": [
+    "transmitter",
+    "receiver"
+  ],
+  "optimize_expert_index": 0,
+  "trainable_parameters": 23693948,
+  "learning_rate": 5e-06,
+  "batch_size": 100,
+  "validation_samples": 2000,
+  "snr_interval_db": [
+    -20.0,
+    20.0
+  ],
+  "initialization": "baseline replicated into 2 experts",
+  "seed": 15234,
+  "tail_weight": 0.0,
+  "tail_fraction": 0.1,
+  "loss_kind": "hard_rank_score",
+  "margin": 0.5,
+  "score_temperature": 0.5,
+  "quantile_bandwidth": 0.025,
+  "score_bce_weight": 0.05,
+  "score_fairness_weight": 0.3,
+  "context_weight": null,
+  "focus_snr_high": 20.0,
+  "focus_prob": 0.0,
+  "train_snr_interval": [
+    -20.0,
+    20.0
+  ],
+  "validation_match_train_snr": false,
+  "shared_frontend": false,
+  "requested_steps": 6000,
+  "best_step": 4500,
+  "best_validation": {
+    "loss": 0.5650027262369791,
+    "efficiency": 73.34624481201172,
+    "fairness": 55.29513931274414,
+    "final": 67.93091316223145
+  },
+  "history": [
+    {
+      "step": 0,
+      "loss": 0.5666661258273654,
+      "efficiency": 73.23455047607422,
+      "fairness": 55.29513931274414,
+      "final": 67.8527271270752
+    },
+    {
+      "step": 750,
+      "loss": 0.567009760538737,
+      "efficiency": 73.30078125,
+      "fairness": 55.20833206176758,
+      "final": 67.87304649353027
+    },
+    {
+      "step": 1500,
+      "loss": 0.5655648413764106,
+      "efficiency": 73.32174682617188,
+      "fairness": 55.20833206176758,
+      "final": 67.88772239685058
+    },
+    {
+      "step": 2250,
+      "loss": 0.5653949008517796,
+      "efficiency": 73.32332611083984,
+      "fairness": 55.20833206176758,
+      "final": 67.88882789611816
+    },
+    {
+      "step": 3000,
+      "loss": 0.5659341701931424,
+      "efficiency": 73.3343276977539,
+      "fairness": 55.20833206176758,
+      "final": 67.896529006958
+    },
+    {
+      "step": 3750,
+      "loss": 0.5656772935655382,
+      "efficiency": 73.3406753540039,
+      "fairness": 55.20833206176758,
+      "final": 67.90097236633301
+    },
+    {
+      "step": 4500,
+      "loss": 0.5650027262369791,
+      "efficiency": 73.34624481201172,
+      "fairness": 55.29513931274414,
+      "final": 67.93091316223145
+    },
+    {
+      "step": 5250,
+      "loss": 0.5639918178982205,
+      "efficiency": 73.36022186279297,
+      "fairness": 55.20833206176758,
+      "final": 67.91465492248534
+    },
+    {
+      "step": 6000,
+      "loss": 0.5652740410698784,
+      "efficiency": 73.35504150390625,
+      "fairness": 55.20833206176758,
+      "final": 67.91102867126465
+    }
+  ],
+  "elapsed_seconds": 570.3443149998784,
+  "output_dir": "D:\\Source\\OPPODS\\artifacts\\pure_neural_v229\\joint_hard"
+}
