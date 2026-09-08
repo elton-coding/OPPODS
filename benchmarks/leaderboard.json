@@ -13,7 +13,7 @@
   "champion": {
     "solution": "FATE-MIMO pure-neural k8/B1152 with differentiable official-score loss",
     "version": "V224",
-    "source_commit": "pending-promotion-commit",
+    "source_commit": "0d6ac65",
     "local_validation": {
       "1176": {"efficiency": 73.40078125, "fairness_p10": 55.03472222222222, "final": 67.89096354166666},
       "1177": {"efficiency": 73.7873046875, "fairness_p10": 55.295138888888886, "final": 68.23965494791666},
