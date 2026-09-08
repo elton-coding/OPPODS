@@ -20,7 +20,11 @@
       "1178": {"efficiency": 72.40384114583334, "fairness_p10": 55.38194444444444, "final": 67.29727213541668},
       "mean_final": 67.24261284722223
     },
-    "online_leaderboard": null,
+    "online_leaderboard": {
+      "score": 67.01164987745,
+      "reported_by": "user",
+      "recorded_at": "2026-09-08"
+    },
     "submission_archive": {
       "name": "FATE_MIMO_submission_pure_neural_k8_v223_official.zip",
       "bytes": 90994494,
