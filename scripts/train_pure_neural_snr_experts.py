@@ -26,6 +26,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--expert-index", type=int, choices=range(1))
     parser.add_argument(
+        "--optimize-expert-index", type=int,
+        help="Update only this expert in selected components; retain full calibration SNR sampling",
+    )
+    parser.add_argument(
         "--train-components",
         nargs="+",
         choices=("encoder", "transmitter", "receiver"),
@@ -81,6 +85,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v222/modelDesign.py"))
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v222/modelSubmit"))
     args = parser.parse_args()
+    if args.optimize_expert_index is not None:
+        if args.stage != "calibrate" or args.optimize_expert_index < 0:
+            parser.error("--optimize-expert-index requires calibrate and a non-negative index")
     if args.stage in {"pretrain", "asymmetric", "profile"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
     if args.stage not in {"pretrain", "asymmetric", "profile"} and args.expert_index is not None:
@@ -223,6 +230,24 @@ def expert_parameters(
         yield from link.transmitter.experts[expert_index].parameters()
     if "receiver" in selected:
         yield from link.receiver.experts[expert_index].parameters()
+
+
+def select_trainable_parameters(
+    link: PureNeuralLink, components: Iterable[str], expert_index: int | None = None,
+) -> list[nn.Parameter]:
+    """Freeze unselected weights, not just exclude them from the optimizer."""
+    selected = []
+    for name in components:
+        component = getattr(link, name)
+        if expert_index is not None:
+            if not 0 <= expert_index < len(component.experts):
+                raise ValueError(f"{name} has no expert {expert_index}")
+            component = component.experts[expert_index]
+        selected.extend(component.parameters())
+    link.requires_grad_(False)
+    for parameter in selected:
+        parameter.requires_grad_(True)
+    return selected
 
 
 def score_aligned_bce(
@@ -468,18 +493,11 @@ def main() -> None:
     split = deterministic_split_indices(len(data), seed=1176)
     validation_indices = split["validation"][: args.validation_samples]
     train_indices = split["train"]
-    if args.stage in {"pretrain", "asymmetric", "profile"}:
-        assert args.expert_index is not None
-        parameters = list(expert_parameters(link, args.expert_index, args.train_components))
-    else:
-        selected = set(args.train_components)
-        parameters = []
-        if "encoder" in selected:
-            parameters.extend(link.encoder.parameters())
-        if "transmitter" in selected:
-            parameters.extend(link.transmitter.parameters())
-        if "receiver" in selected:
-            parameters.extend(link.receiver.parameters())
+    optimize_index = (
+        args.expert_index if args.stage in {"pretrain", "asymmetric", "profile"}
+        else args.optimize_expert_index
+    )
+    parameters = select_trainable_parameters(link, args.train_components, optimize_index)
     optimizer = torch.optim.Adam(parameters, lr=args.learning_rate)
     generator = torch.Generator(device=device).manual_seed(args.seed)
 
@@ -500,6 +518,7 @@ def main() -> None:
     checks_without_improvement = 0
     link.save_submission(args.output_dir, args.model_design)
     history: list[dict[str, float | int]] = [{"step": 0, **best}]
+    print(json.dumps(history[0], ensure_ascii=False), flush=True)
     started = time.perf_counter()
     link.train()
     for step in range(1, args.steps + 1):
@@ -553,9 +572,11 @@ def main() -> None:
                 score_fairness_weight=args.score_fairness_weight,
             )
         optimizer.zero_grad(set_to_none=True)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(parameters, max_norm=1.0)
-        optimizer.step()
+        # Small batches can contain only the frozen profile.
+        if loss.requires_grad:
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(parameters, max_norm=1.0)
+            optimizer.step()
 
         if step % args.validate_every == 0 or step == args.steps:
             metrics = evaluate(
@@ -588,7 +609,12 @@ def main() -> None:
     result = {
         "stage": args.stage,
         "expert_index": args.expert_index,
-        "train_components": list(args.train_components) if args.expert_index is not None else None,
+        "train_components": list(args.train_components),
+        "optimize_expert_index": optimize_index,
+        "trainable_parameters": sum(parameter.numel() for parameter in parameters),
+        "learning_rate": args.learning_rate,
+        "batch_size": args.batch_size,
+        "validation_samples": len(validation_indices),
         "snr_interval_db": (
             [-20.0 + 2.5 * args.expert_index, -17.5 + 2.5 * args.expert_index]
             if args.expert_index is not None
@@ -623,6 +649,9 @@ def main() -> None:
         else "calibration.json"
     )
     report_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    (args.output_dir / "training_report.json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8",
+    )
     (args.output_dir.parent / "latest_training.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2),
         encoding="utf-8",
