@@ -1,0 +1,445 @@
+{
+  "group_mean_final": {
+    "C": 68.11979669100444,
+    "A": 68.15484448757171,
+    "B": 68.12734063831965,
+    "AB": 68.14398585049311
+  },
+  "contrasts_vs_control": {
+    "A": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "benchmarks\\v227_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.36961805820465,
+            "p10": 55.20833206176758,
+            "final": 67.92123225927352
+          },
+          "candidate": {
+            "efficiency": 73.44911026000976,
+            "p10": 55.12152862548828,
+            "final": 67.95083576965331
+          },
+          "delta": {
+            "efficiency": 0.07949220180510963,
+            "p10": -0.08680343627929688,
+            "final": 0.029603510379786258
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.040226948865135434,
+            "[-15,-10)": -0.06058307488759359,
+            "[-10,-5)": 0.009663225569815005,
+            "[-5,0)": 0.22124199838808944,
+            "[0,5)": 0.22260262321504912,
+            "[5,10)": 0.1103460505857306,
+            "[10,15)": 0.07038710090551484,
+            "[15,20)": 0.12174386305433091
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 3.1250038146972656
+        },
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "benchmarks\\v227_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 73.67341580677032,
+            "p10": 55.29513931274414,
+            "final": 68.15993285856247
+          },
+          "candidate": {
+            "efficiency": 73.74748265171051,
+            "p10": 55.29513931274414,
+            "final": 68.2117796500206
+          },
+          "delta": {
+            "efficiency": 0.07406684494019089,
+            "p10": 0.0,
+            "final": 0.0518467914581322
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.043766013747977416,
+            "[-15,-10)": -0.052049091346635386,
+            "[-10,-5)": -0.03243697018633476,
+            "[-5,0)": 0.13800296891614486,
+            "[0,5)": 0.1858678408240903,
+            "[5,10)": 0.14340280151367188,
+            "[10,15)": 0.14105924727424743,
+            "[15,20)": 0.09506423270654099
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 3.125
+        },
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "benchmarks\\v227_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 73.8424045162201,
+            "p10": 55.29513931274414,
+            "final": 68.27822495517731
+          },
+          "candidate": {
+            "efficiency": 73.91345489215851,
+            "p10": 55.20833206176758,
+            "final": 68.30191804304123
+          },
+          "delta": {
+            "efficiency": 0.07105037593841246,
+            "p10": -0.0868072509765625,
+            "final": 0.02369308786391855
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.03615328443283114,
+            "[-15,-10)": -0.08802079772949219,
+            "[-10,-5)": -0.04156876377896284,
+            "[-5,0)": 0.21905639498841528,
+            "[0,5)": 0.26156983203634593,
+            "[5,10)": 0.10138887786865235,
+            "[10,15)": 0.06557137625558036,
+            "[15,20)": 0.06431329395124304
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 1.9965286254882812
+        }
+      ],
+      "baseline_mean_final": 68.11979669100444,
+      "candidate_mean_final": 68.15484448757171,
+      "mean_delta": 0.035047796567279,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        0.018269359265168462,
+        0.06783148052294337
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    },
+    "B": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "benchmarks\\v228hard_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.36961805820465,
+            "p10": 55.20833206176758,
+            "final": 67.92123225927352
+          },
+          "candidate": {
+            "efficiency": 73.37337242412568,
+            "p10": 55.12152862548828,
+            "final": 67.89781928453445
+          },
+          "delta": {
+            "efficiency": 0.0037543659210257374,
+            "p10": -0.08680343627929688,
+            "final": -0.02341297473907389
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.0003257808721087887,
+            "[-15,-10)": 0.03942412535349528,
+            "[-10,-5)": 0.044385571749705185,
+            "[-5,0)": 0.05159996897278439,
+            "[0,5)": 0.012667209805337145,
+            "[5,10)": -0.041379637637380826,
+            "[10,15)": -0.03316171338942167,
+            "[15,20)": -0.04538379368445685
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 1.6493072509765625
+        },
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "benchmarks\\v228hard_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 73.67341580677032,
+            "p10": 55.29513931274414,
+            "final": 68.15993285856247
+          },
+          "candidate": {
+            "efficiency": 73.67630207538605,
+            "p10": 55.37326240539551,
+            "final": 68.18539017438889
+          },
+          "delta": {
+            "efficiency": 0.0028862686157253847,
+            "p10": 0.07812309265136719,
+            "final": 0.025457315826415083
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.006174470590248267,
+            "[-15,-10)": 0.028079113781569742,
+            "[-10,-5)": 0.025617773618920845,
+            "[-5,0)": 0.04003882453211764,
+            "[0,5)": 0.0339163627108015,
+            "[5,10)": 0.00416656494140625,
+            "[10,15)": -0.04770846593947638,
+            "[15,20)": -0.05781199188850187
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 2.2569503784179688
+        },
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "benchmarks\\v228hard_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 73.8424045162201,
+            "p10": 55.29513931274414,
+            "final": 68.27822495517731
+          },
+          "candidate": {
+            "efficiency": 73.83461375904083,
+            "p10": 55.38194274902344,
+            "final": 68.29881245603562
+          },
+          "delta": {
+            "efficiency": -0.007790757179265029,
+            "p10": 0.08680343627929688,
+            "final": 0.02058750085831207
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.015063834035215565,
+            "[-15,-10)": 0.013888900756835937,
+            "[-10,-5)": 0.0504764963683468,
+            "[-5,0)": 0.03880727431353401,
+            "[0,5)": 0.011695145203447433,
+            "[5,10)": -0.02552098846435547,
+            "[10,15)": -0.07372525806762935,
+            "[15,20)": -0.06431340206007242
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 2.170135498046875
+        }
+      ],
+      "baseline_mean_final": 68.11979669100444,
+      "candidate_mean_final": 68.12734063831965,
+      "mean_delta": 0.007543947315217754,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        -0.016267426617143123,
+        0.028037255577242938
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    },
+    "AB": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "benchmarks\\v229_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.36961805820465,
+            "p10": 55.20833206176758,
+            "final": 67.92123225927352
+          },
+          "candidate": {
+            "efficiency": 73.43747829914093,
+            "p10": 55.12152862548828,
+            "final": 67.94269339704513
+          },
+          "delta": {
+            "efficiency": 0.06786024093628384,
+            "p10": -0.08680343627929688,
+            "final": 0.02146113777160963
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.045764307591078655,
+            "[-15,-10)": -0.018265334765116374,
+            "[-10,-5)": 0.021291840751216096,
+            "[-5,0)": 0.22555634515659947,
+            "[0,5)": 0.2101218833432177,
+            "[5,10)": 0.0759549706669177,
+            "[10,15)": 0.029097632075963397,
+            "[15,20)": 0.0633931615045951
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 3.1250038146972656
+        },
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "benchmarks\\v229_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 73.67341580677032,
+            "p10": 55.29513931274414,
+            "final": 68.15993285856247
+          },
+          "candidate": {
+            "efficiency": 73.74053820419311,
+            "p10": 55.29513931274414,
+            "final": 68.20691853675842
+          },
+          "delta": {
+            "efficiency": 0.0671223974227928,
+            "p10": 0.0,
+            "final": 0.04698567819595212
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.024516261272350615,
+            "[-15,-10)": -0.06043858876124877,
+            "[-10,-5)": -0.01806147387073298,
+            "[-5,0)": 0.17393946512435018,
+            "[0,5)": 0.17814434796744666,
+            "[5,10)": 0.1295138702392578,
+            "[10,15)": 0.08284442386929951,
+            "[15,20)": 0.058163059867828
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 3.125
+        },
+        {
+          "baseline_file": "benchmarks\\v228soft_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "benchmarks\\v229_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 73.8424045162201,
+            "p10": 55.29513931274414,
+            "final": 68.27822495517731
+          },
+          "candidate": {
+            "efficiency": 73.8892144317627,
+            "p10": 55.19965171813965,
+            "final": 68.28234561767579
+          },
+          "delta": {
+            "efficiency": 0.04680991554259606,
+            "p10": -0.09548759460449219,
+            "final": 0.004120662498479533
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.1058236409681738,
+            "[-15,-10)": -0.14149300384521485,
+            "[-10,-5)": -0.02707208522128867,
+            "[-5,0)": 0.2229711794385723,
+            "[0,5)": 0.2579461157435032,
+            "[5,10)": 0.08854163360595703,
+            "[10,15)": 0.027859346274060514,
+            "[15,20)": 0.024424780718228113
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 1.9965286254882812
+        }
+      ],
+      "baseline_mean_final": 68.11979669100444,
+      "candidate_mean_final": 68.14398585049311,
+      "mean_delta": 0.024189159488680428,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        -0.0029647461048761888,
+        0.05122605402469654
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    }
+  },
+  "hard_rank_effect_with_joint_experts_AB_minus_A": {
+    "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+    "per_seed": [
+      {
+        "baseline_file": "benchmarks\\v227_holdout1176_offset2000_noise22701.npz",
+        "candidate_file": "benchmarks\\v229_holdout1176_offset2000_noise22701.npz",
+        "noise_seed": 22701,
+        "baseline": {
+          "efficiency": 73.44911026000976,
+          "p10": 55.12152862548828,
+          "final": 67.95083576965331
+        },
+        "candidate": {
+          "efficiency": 73.43747829914093,
+          "p10": 55.12152862548828,
+          "final": 67.94269339704513
+        },
+        "delta": {
+          "efficiency": -0.011631960868825786,
+          "p10": 0.0,
+          "final": -0.008142372608176629
+        },
+        "mean_score_delta_by_own_snr": {
+          "[-20,-15)": -0.005537358725943216,
+          "[-15,-10)": 0.042317740122477215,
+          "[-10,-5)": 0.01162861518140109,
+          "[-5,0)": 0.0043143467685100335,
+          "[0,5)": -0.01248073987183141,
+          "[5,10)": -0.0343910799188129,
+          "[10,15)": -0.04128946882955144,
+          "[15,20)": -0.0583507015497358
+        },
+        "pair_min_ge_minus10_max_absolute_score_delta": 0.0
+      },
+      {
+        "baseline_file": "benchmarks\\v227_holdout1176_offset2000_noise22702.npz",
+        "candidate_file": "benchmarks\\v229_holdout1176_offset2000_noise22702.npz",
+        "noise_seed": 22702,
+        "baseline": {
+          "efficiency": 73.74748265171051,
+          "p10": 55.29513931274414,
+          "final": 68.2117796500206
+        },
+        "candidate": {
+          "efficiency": 73.74053820419311,
+          "p10": 55.29513931274414,
+          "final": 68.20691853675842
+        },
+        "delta": {
+          "efficiency": -0.006944447517398089,
+          "p10": 0.0,
+          "final": -0.0048611132621800834
+        },
+        "mean_score_delta_by_own_snr": {
+          "[-20,-15)": 0.019249752475626797,
+          "[-15,-10)": -0.008389497414613381,
+          "[-10,-5)": 0.014375496315601779,
+          "[-5,0)": 0.03593649620820534,
+          "[0,5)": -0.007723492856643647,
+          "[5,10)": -0.013888931274414063,
+          "[10,15)": -0.058214823404947914,
+          "[15,20)": -0.03690117283871299
+        },
+        "pair_min_ge_minus10_max_absolute_score_delta": 0.0
+      },
+      {
+        "baseline_file": "benchmarks\\v227_holdout1176_offset2000_noise22703.npz",
+        "candidate_file": "benchmarks\\v229_holdout1176_offset2000_noise22703.npz",
+        "noise_seed": 22703,
+        "baseline": {
+          "efficiency": 73.91345489215851,
+          "p10": 55.20833206176758,
+          "final": 68.30191804304123
+        },
+        "candidate": {
+          "efficiency": 73.8892144317627,
+          "p10": 55.19965171813965,
+          "final": 68.28234561767579
+        },
+        "delta": {
+          "efficiency": -0.0242404603958164,
+          "p10": -0.008680343627929688,
+          "final": -0.019572425365439017
+        },
+        "mean_score_delta_by_own_snr": {
+          "[-20,-15)": -0.06967035653534266,
+          "[-15,-10)": -0.053472206115722655,
+          "[-10,-5)": 0.01449667855767417,
+          "[-5,0)": 0.003914784450157016,
+          "[0,5)": -0.0036237162928427417,
+          "[5,10)": -0.012847244262695312,
+          "[10,15)": -0.037712029981519846,
+          "[15,20)": -0.03988851323301493
+        },
+        "pair_min_ge_minus10_max_absolute_score_delta": 0.0
+      }
+    ],
+    "baseline_mean_final": 68.15484448757171,
+    "candidate_mean_final": 68.14398585049311,
+    "mean_delta": -0.010858637078598576,
+    "bootstrap_repeats": 2000,
+    "paired_delta_95_percentile_interval": [
+      -0.041377842272130275,
+      0.007118706949547243
+    ],
+    "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+  },
+  "interaction_AB_minus_A_minus_B_plus_C": -0.018402584393811594,
+  "interaction_paired_95_interval": [
+    -0.05539366990010706,
+    0.00945707857449348
+  ],
+  "bootstrap_repeats": 2000,
+  "caveat": "method-level factors; same-input audit comparison, not online or selection-adjusted inference"
+}
