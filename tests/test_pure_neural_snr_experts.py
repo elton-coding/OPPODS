@@ -231,3 +231,13 @@ def test_soft_score_fairness_weight_changes_the_tail_gradient() -> None:
     ).backward()
     assert tail_focused.grad is not None and mean_focused.grad is not None
     assert tail_focused.grad[0, 0, 0].abs() > mean_focused.grad[0, 0, 0].abs()
+
+
+def test_v226_adds_zero_residual_deep_blocks() -> None:
+    module = _load_module("pure_neural_v226_depth_test", ROOT / "research/pure_neural_v226/modelDesign.py")
+    transmitter = module.TransmitterCore()
+    receiver = module.ReceiverCore()
+    assert len(transmitter._blocks) == 16
+    assert len(receiver._blocks) == 16
+    assert all(block._scale.item() == 0.0 for block in transmitter._blocks)
+    assert all(block._scale.item() == 0.0 for block in receiver._blocks)
