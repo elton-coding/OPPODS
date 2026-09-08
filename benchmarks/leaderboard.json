@@ -17,6 +17,7 @@
     "solution": "FATE-MIMO pure-neural k8/B1152 joint low-SNR Tx/Rx experts, shared frozen Encoder and soft-score loss",
     "version": "V227",
     "source_commit": "ffaa902",
+    "promotion_commit": "862a894",
     "local_validation": {
       "22701": {"efficiency": 73.44911024305556, "fairness_p10": 55.12152777777778, "final": 67.95083550347222},
       "22702": {"efficiency": 73.74748263888891, "fairness_p10": 55.295138888888886, "final": 68.2117795138889},
