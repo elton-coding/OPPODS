@@ -231,3 +231,11 @@ def test_soft_score_fairness_weight_changes_the_tail_gradient() -> None:
     ).backward()
     assert tail_focused.grad is not None and mean_focused.grad is not None
     assert tail_focused.grad[0, 0, 0].abs() > mean_focused.grad[0, 0, 0].abs()
+
+
+def test_v225_receiver_routes_each_user_by_its_own_snr() -> None:
+    module = _load_module("pure_neural_v225_receiver_test", ROOT / "research/pure_neural_v225/modelDesign.py")
+    assert module.NUM_EXPERTS == 1
+    assert module.NUM_RECEIVER_EXPERTS == 2
+    snr = torch.tensor([-20.0, -0.01, 0.0, 19.99])
+    assert module._receiver_expert_indices(snr).tolist() == [0, 0, 1, 1]
