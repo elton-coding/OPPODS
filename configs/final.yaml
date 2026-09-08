@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V230C
+solution_version: V230E
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -12,18 +12,18 @@ data:
 model:
   family: pure_neural_black_box
   architecture: per_subcarrier_wide_residual_mlp_joint_snr_experts
-  parameters: 48191288
+  parameters: 190354976
   residual_width: 512
   residual_blocks: 10
   num_bits_per_re: 8
   payload_bits_per_ue: 1152
   uplink_complex_symbols: 96
   shared_encoder: true
-  joint_tx_rx_expert_edges_db: [-20.0, -10.0, 20.0]
+  joint_tx_rx_expert_edges_db: [-20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0]
   routing_statistic: minimum_of_two_user_snr
 training:
-  initialization: V227 exact two-expert bank mapping [0, 1]
-  source_report: benchmarks/v230_control_audit_offset2000.json
+  initialization: V227 exact eight-expert bank mapping [0, 0, 1, 1, 1, 1, 1, 1]
+  source_report: benchmarks/v230_eight_audit_offset2000.json
   train_components: [transmitter, receiver]
   frozen_components: [encoder]
   seed: 15240
@@ -43,10 +43,10 @@ evaluation:
   test_offset: 2000
   seeds: [22701, 22702, 22703]
   samples_per_seed: 2000
-  mean_final: 68.3138990162037
+  mean_final: 68.36046440972221
   online_score: null
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v230_control_official.zip
-  sha256: 6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v230_eight_official.zip
+  sha256: 1E923E1CEAF1B3B11A2C6D5902099F000606AC4C2F977AABA115E3A3AC375856

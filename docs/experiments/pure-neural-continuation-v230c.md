@@ -1,5 +1,7 @@
 # V230C：两专家同预算续训，68.313899
 
+> 历史冠军，已由V230E接替。V230C固定版本包保留；canonical提交包随主干变化，当前内容以configs/final.yaml为准。
+
 ## 结论
 
 V230C（V230-control）在三组固定留出噪声下均超过V227，均分由68.154844提高到68.313899，配对增益0.159055，信道聚类bootstrap 95%区间[0.119363,0.181460]。三组P10、效率均改善。它是本轮单因素实验的同训练预算对照，**不是**八专家或新门控带来的收益；网络结构未变。
@@ -29,6 +31,6 @@ V230C（V230-control）在三组固定留出噪声下均超过V227，均分由68
 
 ## 提交与主干
 
-提交包artifacts/FATE_MIMO_submission_pure_neural_v230_control_official.zip，共178999997字节，低于1GB；SHA256为6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3。canonical文件为artifacts/FATE_MIMO_submission.zip，同一字节内容；V227版本包和原始权重保留可回退。
+本版本固定提交包artifacts/FATE_MIMO_submission_pure_neural_v230_control_official.zip，共178999997字节，低于1GB；SHA256为6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3。发布时canonical文件与它相同；canonical现随主干更新。V227版本包和原始权重也保留可回退。
 
 控制字段5bit、上行96复符号、纯神经模型参数48191288均不变。只复制已评测的四份文件进行部署，并校验包内文件与元数据一致。其余V230-eight/V231/V232/V233/V234保持独立实验，不混入本版本推理。

@@ -4,7 +4,8 @@
 
 ## 综合报告
 
-- [V230C 同预算续训](experiments/pure-neural-continuation-v230c.md)：当前冠军，固定留出集均分68.313899，尚未达到69，线上未确认。
+- [V230E 八段SNR专家](experiments/pure-neural-eight-snr-v230.md)：当前冠军，固定留出集均分68.360464，尚未达到69，线上未确认。
+- [V230C 同预算续训](experiments/pure-neural-continuation-v230c.md)：同预算对照与历史冠军，固定留出集均分68.313899。
 - [V230—V234实验组](experiments/pure-neural-v230-v233-cohort.md)：八专家、温度、接收端条件、伙伴SNR、发射端门控的独立尝试。
 - [V227 联合 SNR 专家](experiments/pure-neural-joint-snr-v227.md)：历史冠军与本轮初始化，固定留出集均分68.154844。
 - [V229 四组组合消融](experiments/pure-neural-joint-hard-rank-v229.md)：组合不超过单独联合专家；不得相加单项收益。

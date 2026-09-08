@@ -14,36 +14,38 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 two joint-SNR experts, all Tx/Rx continued with frozen Encoder and soft-score loss",
-    "version": "V230C",
-    "source_commit": "ee3cf38",
-    "promotion_commit": "3c33814",
+    "solution": "FATE-MIMO pure-neural k8/B1152 eight joint-SNR experts at 5dB intervals, frozen shared Encoder and soft-score loss",
+    "version": "V230E",
+    "source_commit": "103d79a",
+    "promotion_commit": null,
     "local_validation": {
-      "22701": {"efficiency": 73.57411024305556, "fairness_p10": 55.295138888888886, "final": 68.09041883680555},
-      "22702": {"efficiency": 73.89377170138889, "fairness_p10": 55.46875, "final": 68.36626519097221},
-      "22703": {"efficiency": 74.06341145833335, "fairness_p10": 55.46875, "final": 68.48501302083335},
-      "mean_final": 68.3138990162037
+      "22701": {"efficiency": 73.65379774305555, "fairness_p10": 55.38194444444444, "final": 68.1722417534722},
+      "22702": {"efficiency": 73.94898003472223, "fairness_p10": 55.38194444444444, "final": 68.37886935763889},
+      "22703": {"efficiency": 74.12808159722222, "fairness_p10": 55.46875, "final": 68.53028211805555},
+      "mean_final": 68.36046440972221
     },
     "online_leaderboard": null,
     "paired_gain": {
-      "vs_v227": 0.15905456965764606,
-      "paired_delta_95_interval": [0.11936295726696512, 0.18145970542113024],
-      "attribution": "Additional training only; this is the matched-budget control, not evidence for more experts or new gates.",
-      "p10_caveat": "P10 improves on all three audit noise seeds; unseen and online confirmation remain outstanding."
+      "vs_v227": 0.20561959708531674,
+      "vs_same_budget_v230c": 0.04656502742767069,
+      "paired_delta_vs_v230c_95_interval": [0.01834574714819522, 0.07653560777425725],
+      "attribution": "Only 0.046565 is net eight-expert gain after matched continuation, not the full gain over V227.",
+      "p10_caveat": "noise22702 P10 decreases by 0.086806 versus V230C; all three total scores improve. Unseen and online confirmation remain outstanding."
     },
     "sha256": {
-      "modelDesign.py": "D8B1E579D36E5023630712F0FEBD7A22C89A6B458F8487DC8A8C49D44FBC20A6",
+      "modelDesign.py": "8F61993AE1DD6767C4096D0E45DD6D4FEE6E0823ED2A2FC224BACC375C45B632",
       "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
-      "transmitter.pth": "2B1EA959DE6AC4F2BA216FA284EC8576D176BA27A81399EDD5173B7EF3131AC6",
-      "receiver.pth": "3B3564CD6FFFE907BF46D52ECA68C692438F4F3CB304C8A3C3ECC47A47C938F9"
+      "transmitter.pth": "C938BC76270E8E7F783AEDD5B125CFC4BBEE139820DB4766A1FF1BDEE3C6BE89",
+      "receiver.pth": "0F6730BEC62BF851639AFBED9011E13683A6C8D1B1901AA125B2EC3FD4665027"
     },
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_v230_control_official.zip",
-      "bytes": 178999997,
-      "sha256": "6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3"
+      "name": "FATE_MIMO_submission_pure_neural_v230_eight_official.zip",
+      "bytes": 707015358,
+      "sha256": "1E923E1CEAF1B3B11A2C6D5902099F000606AC4C2F977AABA115E3A3AC375856"
     }
   },
   "references": {
+    "previous_champion_v230c_fixed_holdout_mean_final": 68.3138990162037,
     "previous_champion_v227_fixed_holdout_mean_final": 68.15484447337963,
     "previous_champion_v224_fixed_holdout_mean_final": 68.06993344907407,
     "previous_champion_v224_legacy_mean_final": 68.06502604166666,

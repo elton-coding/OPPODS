@@ -1,8 +1,8 @@
-# V230—V233：冲击69分的单因素实验组
+# V230—V236：冲击69分的单因素实验组
 
 ## 目标与证据边界
 
-当前已复核的V227为本地68.154844，而用户已反馈的线上结果是V223的67.01164987745。二者不能直接相减解释提升。目标仍是超过69；训练验证峰值、既有audit与未参与选型的确认集分开记录，线上分数必须由实际提交确认。
+本实验组开始时已复核的V227为本地68.154844，而用户已反馈的线上结果是V223的67.01164987745。二者不能直接相减解释提升。当前结果见下表，目标仍是超过69；训练验证峰值、既有audit与未参与选型的确认集分开记录，线上分数必须由实际提交确认。
 
 参考本仓库[2025获奖视频精读](../research/2025获奖方案视频精读.md)中的分区训练、评分代理、条件注入及控制语义。本轮保持纯神经黑盒，不采用该旧文中对物理主线的历史建议。
 
@@ -12,13 +12,14 @@
 
 | 组 | 唯一方法变化 | 输出目录 | 状态 |
 |---|---|---|---|
-| V230-control / V230C | 无：两专家同预算续训 | artifacts/pure_neural_v230/two_control_clean | 完成；audit 68.313899；晋级 |
-| V230-eight | 2→8个联合Tx/Rx专家，每段5dB，按最低SNR选组 | artifacts/pure_neural_v230/eight | 训练中 |
+| V230-control / V230C | 无：两专家同预算续训 | artifacts/pure_neural_v230/two_control_clean | 完成；audit 68.313899；同预算对照 |
+| V230-eight / V230E | 2→8个联合Tx/Rx专家，每段5dB，按最低SNR选组 | artifacts/pure_neural_v230/eight | 完成；audit 68.360464；晋级 |
 | V231 | 软判决温度0.5→0.1 | artifacts/pure_neural_v231/temperature01 | 完成；audit68.228263，净负收益，拒绝 |
-| V232 | H与SNR驱动的通用神经特征缩放/偏移 | artifacts/pure_neural_v232/context | 训练中 |
-| V233 | 5bit内传模式及双用户SNR之和，Rx加入伙伴SNR嵌入 | artifacts/pure_neural_v233/partner | 排队 |
+| V232 | H与SNR驱动的通用神经特征缩放/偏移 | artifacts/pure_neural_v232/context | 训练完成，待audit |
+| V233 | 5bit内传模式及双用户SNR之和，Rx加入伙伴SNR嵌入 | artifacts/pure_neural_v233/partner | 训练中 |
 | V234（后续） | 反馈驱动的Tx比特特征神经门控 | artifacts/pure_neural_v234/feedback | 已排队，在V235后执行 |
-| V235（后续） | 仅将共享Encoder由冻结改为可训练 | artifacts/pure_neural_v235/end_to_end | 已排队，在八专家完成及复评后执行 |
+| V235（后续） | 仅将共享Encoder由冻结改为可训练 | artifacts/pure_neural_v235/end_to_end | 训练中 |
+| V236（后续） | 自身SNR<-15时k4/B576，强用户仍k8/B1152 | artifacts/pure_neural_v236/low_k4 | 代码及CPU冒烟通过，尚未排队 |
 
 八专家映射父模型[0,0,1,1,1,1,1,1]；其他组映射[0,1]。新增门控/嵌入的输出初始化为零，非新增参数全部严格加载。各组起始数值经过检查；分组矩阵乘法允许浮点级差异，不允许随机重置核心权重。
 
@@ -39,4 +40,8 @@
 
 V230C已通过三噪声配对audit与发布检查，均分68.313899，较V227提高0.159055，95%区间[0.119363,0.181460]；其余候选尚未完成，不能声称已经超过69。V230C是本实验组的同预算对照，后续各单因子必须超过它才有净方法收益。
 
-两专家完整对照耗时1571.5秒，最佳checkpoint为11000步，固定validation为68.174618（起点68.023285）。训练曲线并不单调。ZIP为artifacts/FATE_MIMO_submission_pure_neural_v230_control_official.zip，178999997字节，SHA256=6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3，canonical提交包已同步；从modelSubmit重打包也逐字节一致。发布检查75项测试通过、10项旧物理方案测试跳过，Ruff全仓通过。
+随后V230E完成并净超过V230C：68.360464，净增0.046565，95%区间[0.018346,0.076536]，第二噪声P10回落。它成为当前主干候选；后续单因素仍与V230C做方法归因，但晋级还必须超过当前主干V230E，不能仅超过旧对照就发布。69目标仍未达到。
+
+两专家完整对照耗时1571.5秒，最佳checkpoint为11000步，固定validation为68.174618（起点68.023285）。训练曲线并不单调。其固定ZIP为artifacts/FATE_MIMO_submission_pure_neural_v230_control_official.zip，178999997字节，SHA256=6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3；V230C发布时canonical与它一致，现随主干更新为V230E。
+
+V230E发布检查：80项测试通过、10项旧物理方案测试跳过，Ruff全仓通过；707015358字节的固定包、canonical包、modelSubmit重打包三者逐字节一致。
