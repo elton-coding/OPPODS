@@ -160,13 +160,13 @@ class PureNeuralLink(nn.Module):
 
     def load_submission(self, directory: Path) -> None:
         self.encoder.load_state_dict(
-            torch.load(directory / "encoder.pth", map_location="cpu", weights_only=True), strict=False
+            torch.load(directory / "encoder.pth", map_location="cpu", weights_only=True), strict=True
         )
         self.transmitter.load_state_dict(
-            torch.load(directory / "transmitter.pth", map_location="cpu", weights_only=True), strict=False
+            torch.load(directory / "transmitter.pth", map_location="cpu", weights_only=True), strict=True
         )
         self.receiver.load_state_dict(
-            torch.load(directory / "receiver.pth", map_location="cpu", weights_only=True), strict=False
+            torch.load(directory / "receiver.pth", map_location="cpu", weights_only=True), strict=True
         )
 
     def save_submission(self, directory: Path, model_design: Path) -> None:
