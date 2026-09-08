@@ -1,0 +1,71 @@
+{
+  "stage": "calibrate",
+  "expert_index": null,
+  "train_components": [
+    "transmitter",
+    "receiver"
+  ],
+  "optimize_expert_index": null,
+  "trainable_parameters": 173535480,
+  "variable_payload": false,
+  "learning_rate": 1e-05,
+  "batch_size": 100,
+  "validation_samples": 4,
+  "snr_interval_db": [
+    -20.0,
+    20.0
+  ],
+  "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 1]",
+  "baseline_expert_map": [
+    0,
+    1
+  ],
+  "seed": 15240,
+  "tail_weight": 0.0,
+  "tail_fraction": 0.1,
+  "loss_kind": "soft_score",
+  "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+  "margin": 0.5,
+  "score_temperature": 0.5,
+  "quantile_bandwidth": 0.025,
+  "score_bce_weight": 0.05,
+  "score_fairness_weight": 0.3,
+  "context_weight": null,
+  "focus_snr_high": 20.0,
+  "focus_prob": 0.0,
+  "train_snr_interval": [
+    -20.0,
+    20.0
+  ],
+  "validation_match_train_snr": false,
+  "shared_frontend": false,
+  "requested_steps": 2,
+  "best_step": 0,
+  "best_validation": {
+    "loss": 0.6931719779968262,
+    "efficiency": 67.1115493774414,
+    "fairness": 54.670139694213866,
+    "final": 63.379126472473146
+  },
+  "history": [
+    {
+      "step": 0,
+      "loss": 0.6931719779968262,
+      "efficiency": 67.1115493774414,
+      "fairness": 54.670139694213866,
+      "final": 63.379126472473146
+    },
+    {
+      "step": 2,
+      "loss": 0.6912076208326552,
+      "efficiency": 67.04644775390625,
+      "fairness": 54.2708324432373,
+      "final": 63.21376316070556
+    }
+  ],
+  "elapsed_seconds": 1.2269194000400603,
+  "gpu_memory_fraction": 0.4,
+  "gpu_peak_allocated_bytes": 4991523328,
+  "gpu_peak_reserved_bytes": 5899288576,
+  "output_dir": "D:\\Source\\OPPODS\\artifacts\\resource_probe\\v238\\gpu_batch100"
+}
