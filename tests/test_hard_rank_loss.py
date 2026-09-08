@@ -1,5 +1,6 @@
 import importlib.util
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -10,6 +11,13 @@ spec = importlib.util.spec_from_file_location(
 )
 trainer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(trainer)
+
+
+def test_resuming_an_incomplete_checkpoint_fails(tmp_path):
+    link = SimpleNamespace(encoder=torch.nn.Linear(2, 2))
+    torch.save({}, tmp_path / "encoder.pth")
+    with pytest.raises(RuntimeError, match="Missing key"):
+        trainer.PureNeuralLink.load_submission(link, tmp_path)
 
 
 @pytest.mark.parametrize("output_bits", [12, 16])

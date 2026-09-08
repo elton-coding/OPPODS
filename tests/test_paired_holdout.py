@@ -13,10 +13,10 @@ spec.loader.exec_module(comparison)
 
 def test_identical_candidates_have_zero_paired_uncertainty_and_mismatches_fail(tmp_path):
     path = tmp_path / "base.npz"
-    values = dict(
-        data_index=np.repeat(np.arange(100), 2), snr=np.linspace(-20, 19.99, 200),
-        score=np.linspace(50, 99, 200), split_seed=1176, noise_seed=22701, test_offset=2000,
-    )
+    values = {
+        "data_index": np.repeat(np.arange(100), 2), "snr": np.linspace(-20, 19.99, 200),
+        "score": np.linspace(50, 99, 200), "split_seed": 1176, "noise_seed": 22701, "test_offset": 2000,
+    }
     np.savez(path, **values)
     result = comparison.compare([path], [path], repeats=20)
     assert result["mean_delta"] == 0
