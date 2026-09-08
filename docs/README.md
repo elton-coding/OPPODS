@@ -77,6 +77,7 @@
 - [V189 提交说明](submission/V189_提交说明.md)
 - [V190 提交说明](submission/V190_提交说明.md)
 - [V223 提交说明](submission/V223_提交说明.md)
+- [V224 提交说明](submission/V224_提交说明.md)
 
 ## 实验记录
 
@@ -122,6 +123,7 @@
 - [V221 低 SNR 聚焦回放（拒绝）](experiments/pure-neural-low-snr-replay-v221.md)
 - [V222 配对 SNR 控制信令（拒绝）](experiments/pure-neural-control-snr-v222.md)
 - [V223 纯神经 k8/1152 自适应满载方案](experiments/pure-neural-adaptive-k8-v223.md)
+- [V224 可导官方评分代理损失](experiments/pure-neural-soft-score-loss-v224.md)
 
 ## 外部方案研究
 

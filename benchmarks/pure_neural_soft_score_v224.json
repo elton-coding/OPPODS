@@ -1,0 +1,32 @@
+{
+  "version": "V224",
+  "loss": {
+    "kind": "soft_score",
+    "mean_weight": 0.7,
+    "soft_p10_weight": 0.3,
+    "temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "bce_weight": 0.05
+  },
+  "local_validation": {
+    "1176": {"efficiency": 73.40078125, "fairness": 55.03472222222222, "final": 67.89096354166666},
+    "1177": {"efficiency": 73.7873046875, "fairness": 55.295138888888886, "final": 68.23965494791666},
+    "1178": {"efficiency": 73.6486328125, "fairness": 55.03472222222222, "final": 68.06445963541667},
+    "mean_efficiency": 73.61223958333334,
+    "mean_fairness": 55.12152777777777,
+    "mean_final": 68.06502604166666
+  },
+  "delta_vs_v223": 0.82241319444443,
+  "files": {
+    "modelDesign.py": "7919AAE0A3BE54BF5CE36E0A42A13AAB7EECEDA96444B2ACA83301DA3E983463",
+    "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
+    "transmitter.pth": "A0929B1D8B2FE3D7C52EFF2811259A7BFB0184164214B5ACBEE6EEABF648960B",
+    "receiver.pth": "9CE7180213B1A97197884837168D977094885CF09BA29FC8866FA2E5FDCA5B3E"
+  },
+  "archive": {
+    "name": "FATE_MIMO_submission_pure_neural_soft_score_v224_official.zip",
+    "bytes": 90994058,
+    "sha256": "221E6D2F84C9995B6F417B3D79048D2FD39408D5E354A730B9739E13C84B840B"
+  },
+  "promote_to_main": true
+}

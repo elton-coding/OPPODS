@@ -11,28 +11,26 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 wide residual MLP",
-    "version": "V223",
-    "source_commit": "ee14c55fa431cb8c4992976b551d1017e827e17e",
+    "solution": "FATE-MIMO pure-neural k8/B1152 with differentiable official-score loss",
+    "version": "V224",
+    "source_commit": "pending-promotion-commit",
     "local_validation": {
-      "1176": {"efficiency": 72.03828125, "fairness_p10": 55.295138888888886, "final": 67.01533854166667},
-      "1177": {"efficiency": 72.4607421875, "fairness_p10": 55.642361111111114, "final": 67.41522786458333},
-      "1178": {"efficiency": 72.40384114583334, "fairness_p10": 55.38194444444444, "final": 67.29727213541668},
-      "mean_final": 67.24261284722223
+      "1176": {"efficiency": 73.40078125, "fairness_p10": 55.03472222222222, "final": 67.89096354166666},
+      "1177": {"efficiency": 73.7873046875, "fairness_p10": 55.295138888888886, "final": 68.23965494791666},
+      "1178": {"efficiency": 73.6486328125, "fairness_p10": 55.03472222222222, "final": 68.06445963541667},
+      "mean_final": 68.06502604166666
     },
-    "online_leaderboard": {
-      "score": 67.01164987745,
-      "reported_by": "user",
-      "recorded_at": "2026-09-08"
-    },
+    "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_k8_v223_official.zip",
-      "bytes": 90994494,
-      "sha256": "D0818A60A3257690D9B0E7518C6462765EC364A294EE9300B0D342B0B6EF81DD"
+      "name": "FATE_MIMO_submission_pure_neural_soft_score_v224_official.zip",
+      "bytes": 90994058,
+      "sha256": "221E6D2F84C9995B6F417B3D79048D2FD39408D5E354A730B9739E13C84B840B"
     }
   },
   "references": {
     "previous_champion_v190_mean_final": 63.21795030381944,
+    "previous_champion_v223_mean_final": 67.24261284722223,
+    "v223_online_score": 67.01164987745,
     "v220_k7_b1008_seed1176_final": 65.89623263888889,
     "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064
   }
