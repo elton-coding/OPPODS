@@ -1,0 +1,28 @@
+{
+  "version": "V223",
+  "architecture": "pure-neural per-subcarrier wide residual MLP",
+  "parameters": 24497340,
+  "b": 1152,
+  "num_bits_per_re": 8,
+  "local_validation": {
+    "1176": {"efficiency": 72.03828125, "fairness": 55.295138888888886, "final": 67.01533854166667, "seconds": 22.20227},
+    "1177": {"efficiency": 72.4607421875, "fairness": 55.642361111111114, "final": 67.41522786458333, "seconds": 22.183966},
+    "1178": {"efficiency": 72.40384114583334, "fairness": 55.38194444444444, "final": 67.29727213541668, "seconds": 22.261345},
+    "mean_efficiency": 72.30095486111111,
+    "mean_fairness": 55.43981481481482,
+    "mean_final": 67.24261284722223
+  },
+  "delta_vs_v190": 4.02466254340279,
+  "files": {
+    "modelDesign.py": "6B401293626FC12B48170D39FE1AB3502B31C01176A9DB494A0ABA96743EB0AA",
+    "encoder.pth": "4E13AB72E3F87D648B9D2CAE0887D224C4C4121CB51F416348C1623F839D91DD",
+    "transmitter.pth": "01C9882D687C6635FFB1C99670BCEE88DF81FFEF6C990228177898070CBA8C11",
+    "receiver.pth": "A7307A91BF434C917DCE90081BDDA778A2E88BC8AE5D5B7160897444E0A9D641"
+  },
+  "archive": {
+    "name": "FATE_MIMO_submission_pure_neural_k8_v223_official.zip",
+    "bytes": 90994494,
+    "sha256": "D0818A60A3257690D9B0E7518C6462765EC364A294EE9300B0D342B0B6EF81DD"
+  },
+  "promote_to_main": true
+}

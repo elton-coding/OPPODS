@@ -1,7 +1,9 @@
 from pathlib import Path
 
+import pytest
 import torch
 
+from modelSubmit import modelDesign
 from modelSubmit.modelDesign import Encoder, Receiver, Transmitter
 
 
@@ -36,6 +38,8 @@ def test_submission_low_snr_tail_guard_is_disabled() -> None:
 
 
 def test_submission_walsh_pilot_profile_targets_weaker_user() -> None:
+    if not hasattr(modelDesign, "_pilot_assignment"):
+        pytest.skip("Walsh pilot profiles only apply to the hybrid champion")
     root = Path(__file__).resolve().parents[1]
     encoder = Encoder()
     transmitter = Transmitter()

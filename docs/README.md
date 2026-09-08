@@ -4,7 +4,8 @@
 
 ## 综合报告
 
-- [FATE-MIMO V190 技术方案与消融实验总报告](reports/FATE-MIMO_V190_技术方案与消融实验总报告.md)：当前端到端方案、SNR 专家、版本演进、成功与失败消融、固定种子和冻结盲测结果的统一说明。
+- [FATE-MIMO V223 纯神经 k8/1152 技术与消融报告](experiments/pure-neural-adaptive-k8-v223.md)：当前冠军，三 seed 本地均分 67.242613。
+- [FATE-MIMO V190 技术方案与消融实验总报告](reports/FATE-MIMO_V190_技术方案与消融实验总报告.md)：历史混合方案、SNR 专家与消融记录。
 
 ## 赛题资料
 
@@ -75,6 +76,7 @@
 - [V156 提交说明](submission/V156_提交说明.md)
 - [V189 提交说明](submission/V189_提交说明.md)
 - [V190 提交说明](submission/V190_提交说明.md)
+- [V223 提交说明](submission/V223_提交说明.md)
 
 ## 实验记录
 
@@ -116,6 +118,10 @@
 - [V188 Wiener × 置信度 IC 因子组合（拒绝）](experiments/wiener-confidence-factorial-v188-rejected.md)
 - [V189 弱用户保护 Wiener 专家](experiments/wiener-weak-user-guard-v189.md)
 - [V190 安全 Wiener 与置信度 IC 组合](experiments/wiener-confidence-safe-combo-v190.md)
+- [V220 24.5M 宽残差 MLP](experiments/pure-neural-wide-resmlp-v220.md)
+- [V221 低 SNR 聚焦回放（拒绝）](experiments/pure-neural-low-snr-replay-v221.md)
+- [V222 配对 SNR 控制信令（拒绝）](experiments/pure-neural-control-snr-v222.md)
+- [V223 纯神经 k8/1152 自适应满载方案](experiments/pure-neural-adaptive-k8-v223.md)
 
 ## 外部方案研究
 

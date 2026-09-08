@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V190
+solution_version: V223
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -9,127 +9,27 @@ environment:
 data:
   path: ziliao/data_train/H_train.npz
   split_seed: 1176
-feedback:
-  frequency_group_size: 12
-  delay_mode_order: [0, 1, 2, 3, 11, 10]
+model:
+  family: pure_neural_black_box
+  architecture: per_subcarrier_wide_residual_mlp
+  parameters: 24497340
+  residual_width: 512
+  residual_blocks: 10
+  num_bits_per_re: 8
+  payload_bits_per_ue: 1152
   uplink_complex_symbols: 96
-  wiener_noise_scale: 0.75
-  wiener_noise_scale_any_user_intervals:
-    - {snr_db: [2.75, 11.25], value: 0.875}
-  wiener_noise_scale_min_user_snr_db: 3.75
-  denoiser_width: 128
-  denoiser_layers: 3
-  denoiser_heads: 4
-  final_checkpoint: checkpoints/sparse_denoiser_task_reg000439453125_rec08_ft1e5.pt
-  task_finetune_regularization_scale: 0.00439453125
-  task_finetune_learning_rate: 1.0e-5
-  task_finetune_steps: 2000
-  task_finetune_reconstruction_weight: 0.8
-  task_finetune_tail_weight: 0.1
-precoding:
-  type: robust_rzf
-  regularization_scale: 1.5
-  pilot_profile_regularization_scale: 0.45
-  pilot_profile_regularization_any_user_intervals:
-    - {snr_db: [-10.0, -2.75], value: 0.35}
-  pilot_profile_regularization_all_user_intervals:
-    - {snr_db: [-0.75, 20.0], value: 0.9}
-    - {snr_db: [4.0, 20.0], value: 1.8}
-    - {snr_db: [8.5, 20.0], value: 4.0}
-    - {snr_db: [16.75, 20.0], value: 8.0}
-modulation:
-  type: layered_gray_256qam
-  central_boost: -0.5
-receiver:
-  decision_directed_iterations: 15
-profiles:
-  reserved_pilot_when_max_snr_below_db: 20.0
-  reserved_pilot_amplitude: 1.5
-  reserved_pilot_offset_within_group: 5
-  reserved_pilot_separator: alternating_walsh_tri3
-  reserved_pilot_covariance_loading_scale: 4.0
-  reserved_pilot_covariance_loading_scale_intervals:
-    - {snr_db: [1.5, 5.75], value: 3.0}
-    - {snr_db: [8.75, 20.0], value: 5.0}
-    - {snr_db: [11.65, 20.0], value: 7.0}
-    - {snr_db: [14.75, 19.0], value: 8.0}
-  reserved_pilot_gain_refinement_iterations: 4
-  reserved_pilot_gain_refinement_min_snr_db: -10.0
-  reserved_pilot_gain_refinement_rate: 0.3125
-  reserved_pilot_identity_mode: hybrid_local_threshold
-  reserved_pilot_identity_margin: 0.3
-  reserved_pilot_identity_margin_snr_slope_per_db: -0.02
-  reserved_pilot_gain_interpolation: linear_post_dd
-  reserved_pilot_gain_interpolation_scale: 0.5
-  reserved_pilot_gain_interpolation_scale_intervals:
-    - {snr_db: [-17.5, -15.0], value: 0.75}
-    - {snr_db: [-10.0, -7.5], value: 0.75}
-    - {snr_db: [15.0, 20.0], value: 0.75}
-  reserved_pilot_steering_shrinkage: 0.0375
-  reserved_pilot_data_gain_refinement_scale: 0.2
-  reserved_pilot_data_gain_refinement_radius: 2
-  reserved_pilot_data_gain_refinement_min_snr_db: -5.0
-  reserved_pilot_data_gain_refinement_iterations: 4
-  reserved_pilot_data_gain_refinement_snr_slope_per_db: 0.01
-  reserved_pilot_data_gain_soft_temperature: 0.5
-  reserved_pilot_data_gain_soft_temperature_intervals:
-    - {snr_db: [-2.5, 0.0], value: 0.3}
-    - {snr_db: [2.5, 5.0], value: 0.3}
-    - {snr_db: [10.5, 15.75], value: 0.6}
-  reserved_pilot_data_gain_residual_mode: current_after_vector_update
-  reserved_pilot_data_vector_refinement_scale: 0.2
-  reserved_pilot_data_vector_refinement_min_snr_db: -12.5
-  reserved_pilot_data_vector_soft_temperature: 3.0
-  reserved_pilot_data_vector_soft_temperature_intervals:
-    - {snr_db: [0.0, 2.5], value: 2.0}
-    - {snr_db: [5.0, 7.5], value: 2.0}
-  reserved_pilot_interference_cancellation_scale: 0.2
-  reserved_pilot_interference_cancellation_scale_intervals:
-    - {snr_db: [-7.75, -5.0], value: 0.25}
-    - {snr_db: [-0.25, 2.75], value: 0.25}
-    - {snr_db: [8.0, 18.0], value: 0.25}
-  reserved_pilot_interference_cancellation_temperature: 0.3
-  reserved_pilot_interference_cancellation_min_snr_db: -10.0
-  reserved_pilot_interference_cancellation_snr_slope: -0.005
-  reserved_pilot_interference_cancellation_confidence_gain: 0.0
-  reserved_pilot_interference_cancellation_confidence_gain_intervals:
-    - {snr_db: [10.0, 20.0], value: -0.1}
-  reserved_pilot_interference_cancellation_confidence_floor: 0.1
-  reserved_pilot_interference_cancellation_disabled_intervals_db:
-    - [-8.5, -8.0]
-  reserved_pilot_phase_bit_min_snr_db: 2.5
-  reserved_pilot_phase_schedule:
-    - {min_snr_db: 2.5, bits_per_ue: 2, constellation: qpsk}
-    - {min_snr_db: 7.5, bits_per_ue: 3, constellation: 8psk}
-    - {min_snr_db: 12.5, bits_per_ue: 4, constellation: 16psk}
-    - {min_snr_db: 18.75, bits_per_ue: 5, constellation: 32psk}
-  control_dual_high_snr_gate_db: 10.25
-  control_dual_high_tail_codewords: 1
-  control_threshold_codewords: 31
-  control_threshold_range_db: [-20.0, 10.25]
-  control_threshold_constrained_tail_vq: true
-  control_threshold_tail_codewords: 31
-  control_threshold_tail_max_bits: 228
-  control_threshold_tail_roles: low_user_only
-  control_threshold_tail_codebook: walsh
-  control_threshold_walsh_start: 65
-  reserved_profile_bits_per_ue: 1056
-  blind_profile_bits_per_ue: 1152
-  tail_guard_snr_db: -20.0
-  tail_guard_bits_per_ue: 924
-  middle_prefix_snr_db: -2.5
-  middle_prefix_bits_per_ue: 924
-  middle_extension_bits_per_ue: 1056
-  middle_extension_confidence_statistic: clipped_mean_abs_llr
-  middle_extension_confidence_clip: 1.0
-  middle_extension_snr_bin_edges_db: [-20.0, -17.5, -15.0, -12.5, -10.0, -7.5, -5.0, -2.5]
-  middle_extension_snr_bin_thresholds: [0.246, 0.246, 0.246, 0.124, 0.101, 0.260, 0.296287667183649]
-  middle_extension_snr_interval_thresholds:
-    - {snr_db: [-3.95, -3.4], value: 0.55}
-    - {snr_db: [-2.75, -2.5], value: 0.45}
-  middle_bare_prefix_extension_min_snr_db: -7.5
+training:
+  initialization: V220 compatible weights except k8 input/output heads
+  stages:
+    - {snr_db: [5.0, 20.0], loss: bce, learning_rate: 1.0e-4, best_step: 8000}
+    - {snr_db: [-8.0, 20.0], loss: hinge_bce, learning_rate: 3.0e-5, best_step: 10000}
+    - {snr_db: [-8.0, 20.0], loss: hinge_bce, learning_rate: 1.0e-5, best_step: 4500}
+evaluation:
+  seeds: [1176, 1177, 1178]
+  samples_per_seed: 2000
+  mean_final: 67.24261284722223
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_wiener_confidence_safe_v190_official.zip
-  sha256: D53E8E059D1641BF0E04659DB1755DAB5F86F4754AD6EA7C6C082544B0617268
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_k8_v223_official.zip
+  sha256: D0818A60A3257690D9B0E7518C6462765EC364A294EE9300B0D342B0B6EF81DD

@@ -1,17 +1,24 @@
+import pytest
 import torch
 
-from modelSubmit.modelDesign import (
-    DATA_GAIN_SOFT_TEMPERATURE,
-    DATA_GAIN_SOFT_TEMPERATURE_INTERVALS,
-    INTERFERENCE_CANCELLATION_SCALE,
-    INTERFERENCE_CANCELLATION_SCALE_INTERVALS,
-    WIENER_NOISE_SCALE,
-    WIENER_NOISE_SCALE_ANY_USER_INTERVALS,
-    WIENER_NOISE_SCALE_MIN_USER_SNR_DB,
-    _snr_interval_override,
-    _snr_interval_value,
-    _snr_pair_interval_value,
+from modelSubmit import modelDesign
+
+pytestmark = pytest.mark.skipif(
+    not hasattr(modelDesign, "DATA_GAIN_SOFT_TEMPERATURE"),
+    reason="physical-profile tests only apply when the current champion is the hybrid architecture",
 )
+
+if hasattr(modelDesign, "DATA_GAIN_SOFT_TEMPERATURE"):
+    DATA_GAIN_SOFT_TEMPERATURE = modelDesign.DATA_GAIN_SOFT_TEMPERATURE
+    DATA_GAIN_SOFT_TEMPERATURE_INTERVALS = modelDesign.DATA_GAIN_SOFT_TEMPERATURE_INTERVALS
+    INTERFERENCE_CANCELLATION_SCALE = modelDesign.INTERFERENCE_CANCELLATION_SCALE
+    INTERFERENCE_CANCELLATION_SCALE_INTERVALS = modelDesign.INTERFERENCE_CANCELLATION_SCALE_INTERVALS
+    WIENER_NOISE_SCALE = modelDesign.WIENER_NOISE_SCALE
+    WIENER_NOISE_SCALE_ANY_USER_INTERVALS = modelDesign.WIENER_NOISE_SCALE_ANY_USER_INTERVALS
+    WIENER_NOISE_SCALE_MIN_USER_SNR_DB = modelDesign.WIENER_NOISE_SCALE_MIN_USER_SNR_DB
+    _snr_interval_override = modelDesign._snr_interval_override
+    _snr_interval_value = modelDesign._snr_interval_value
+    _snr_pair_interval_value = modelDesign._snr_pair_interval_value
 
 
 def test_middle_extension_threshold_subinterval_override_is_half_open() -> None:

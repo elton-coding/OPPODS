@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "competition": "DataFountain_1176",
-  "updated_at": "2026-08-27",
+  "updated_at": "2026-09-08",
   "promotion_metric": "mean final score across seeds 1176, 1177 and 1178",
   "protocol": {
     "evaluator": "official-compatible batch_size=1 local evaluator",
@@ -11,65 +11,25 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO weak-user-protected Wiener and confidence-aware IC experts",
-    "version": "V190",
-    "source_commit": "1a7a9cfefd9efd6e8e2ffb6f06a9e5f66e57966f",
+    "solution": "FATE-MIMO pure-neural k8/B1152 wide residual MLP",
+    "version": "V223",
+    "source_commit": "pending-promotion-commit",
     "local_validation": {
-      "1176": {
-        "efficiency": 68.38725043402776,
-        "fairness_p10": 50.69444444444444,
-        "final": 63.07940863715277
-      },
-      "1177": {
-        "efficiency": 68.69189453125,
-        "fairness_p10": 50.78125,
-        "final": 63.318701171875
-      },
-      "1178": {
-        "efficiency": 68.67635633680557,
-        "fairness_p10": 50.607638888888886,
-        "final": 63.25574110243056
-      },
-      "mean_final": 63.21795030381944
+      "1176": {"efficiency": 72.03828125, "fairness_p10": 55.295138888888886, "final": 67.01533854166667},
+      "1177": {"efficiency": 72.4607421875, "fairness_p10": 55.642361111111114, "final": 67.41522786458333},
+      "1178": {"efficiency": 72.40384114583334, "fairness_p10": 55.38194444444444, "final": 67.29727213541668},
+      "mean_final": 67.24261284722223
     },
     "online_leaderboard": null,
     "submission_archive": {
-      "name": "FATE_MIMO_submission_wiener_confidence_safe_v190_official.zip",
-      "sha256": "D53E8E059D1641BF0E04659DB1755DAB5F86F4754AD6EA7C6C082544B0617268"
+      "name": "FATE_MIMO_submission_pure_neural_k8_v223_official.zip",
+      "bytes": 90994494,
+      "sha256": "D0818A60A3257690D9B0E7518C6462765EC364A294EE9300B0D342B0B6EF81DD"
     }
   },
   "references": {
-    "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064,
-    "previous_champion_v117_mean_final": 63.07745840567129,
-    "previous_champion_v118_mean_final": 63.080435836226855,
-    "previous_champion_v119_mean_final": 63.08210177951389,
-    "previous_champion_v120_mean_final": 63.08815285011574,
-    "previous_champion_v121_mean_final": 63.114685691550925,
-    "previous_champion_v122_mean_final": 63.13517469618055,
-    "previous_champion_v123_mean_final": 63.138096426504625,
-    "previous_champion_v124_mean_final": 63.13980794270833,
-    "previous_champion_v125_mean_final": 63.14062319155092,
-    "previous_champion_v126_mean_final": 63.14286132812499,
-    "previous_champion_v127_mean_final": 63.142881582754626,
-    "previous_champion_v128_mean_final": 63.14754014756943,
-    "previous_champion_v129_mean_final": 63.170944372106476,
-    "previous_champion_v130_mean_final": 63.17621563946759,
-    "previous_champion_v131_mean_final": 63.182793330439814,
-    "previous_champion_v132_mean_final": 63.18970522280093,
-    "previous_champion_v133_mean_final": 63.194059968171295,
-    "previous_champion_v134_mean_final": 63.19565502025463,
-    "previous_champion_v135_mean_final": 63.19689561631944,
-    "previous_champion_v137_mean_final": 63.198040002893514,
-    "previous_champion_v138_mean_final": 63.204648075810184,
-    "previous_champion_v139_mean_final": 63.204941767939815,
-    "previous_champion_v143_mean_final": 63.21051685474537,
-    "previous_champion_v147_mean_final": 63.21305374710648,
-    "previous_champion_v149_mean_final": 63.21349934895833,
-    "previous_champion_v152_mean_final": 63.21385380497686,
-    "previous_champion_v153_mean_final": 63.213970269097224,
-    "previous_champion_v156_mean_final": 63.21402596932871,
-    "previous_champion_v189_mean_final": 63.21704897280093,
-    "previous_champion_v115_mean_final": 62.82743706597222,
-    "previous_stable_v62_seed1176_final": 62.45463541666666
+    "previous_champion_v190_mean_final": 63.21795030381944,
+    "v220_k7_b1008_seed1176_final": 65.89623263888889,
+    "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064
   }
 }
