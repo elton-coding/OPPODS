@@ -21,13 +21,13 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 & $python -m pytest
 ```
 
-## 当前冠军方案（V227）
+## 当前冠军方案（V230C）
 
-V227 是纯神经黑盒链路：共享 Encoder 压缩为96个复反馈符号；按双用户最低SNR=-10dB划分两组联合Transmitter/Receiver专家，均使用宽512、10块逐子载波MLP。低模式从V224联合训练，高模式和Encoder冻结。每RE8bit、每UE完整1152bit，使用 `0.7×效率+0.3×P10` 的软评分代理及少量BCE。
+V230C 是纯神经黑盒链路：共享 Encoder 压缩为96个复反馈符号；按双用户最低SNR=-10dB划分两组联合Transmitter/Receiver专家，均使用宽512、10块逐子载波MLP。它从V227继续训练全部Tx/Rx，Encoder冻结；网络结构不变。每RE8bit、每UE完整1152bit，使用 `0.7×效率+0.3×P10` 的软评分代理及少量BCE。
 
-固定留出集（split1176、offset2000、noise22701/22702/22703）本地总分为 `67.950836/68.211780/68.301918`，均值 **`68.154844`**；同口径V224为68.069933。相比同预算普通续训，分区方法净增0.035048。P10有小幅回落，并非所有区间都改善；尚未达到69，线上尚未确认。历史评测交叉问题见[划分审计](docs/experiments/evaluation-partition-audit-v227.md)。
+固定留出集（split1176、offset2000、noise22701/22702/22703）本地总分为 `68.090419/68.366265/68.485013`，均值 **`68.313899`**；相比V227提高0.159055，配对95%区间[0.119363,0.181460]，三组效率和P10均改善。该版本是同预算续训对照，其收益不能归于尚在训练的八专家、温度或门控改动。尚未达到69，线上尚未确认。历史评测交叉问题见[划分审计](docs/experiments/evaluation-partition-audit-v227.md)。
 
-完整设计见[V227实验报告](docs/experiments/pure-neural-joint-snr-v227.md)，四组消融见[V229组合报告](docs/experiments/pure-neural-joint-hard-rank-v229.md)，冻结参数见[final.yaml](configs/final.yaml)，成绩见[冠军基准表](benchmarks/leaderboard.json)。
+当前结果见[V230C报告](docs/experiments/pure-neural-continuation-v230c.md)，在训消融见[V230—V234实验组](docs/experiments/pure-neural-v230-v233-cohort.md)，架构来源见[V227实验报告](docs/experiments/pure-neural-joint-snr-v227.md)，冻结参数见[final.yaml](configs/final.yaml)，成绩见[冠军基准表](benchmarks/leaderboard.json)。
 
 ## Git 与版本纪律
 

@@ -14,35 +14,37 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 joint low-SNR Tx/Rx experts, shared frozen Encoder and soft-score loss",
-    "version": "V227",
-    "source_commit": "ffaa902",
-    "promotion_commit": "862a894",
+    "solution": "FATE-MIMO pure-neural k8/B1152 two joint-SNR experts, all Tx/Rx continued with frozen Encoder and soft-score loss",
+    "version": "V230C",
+    "source_commit": "ee3cf38",
+    "promotion_commit": null,
     "local_validation": {
-      "22701": {"efficiency": 73.44911024305556, "fairness_p10": 55.12152777777778, "final": 67.95083550347222},
-      "22702": {"efficiency": 73.74748263888891, "fairness_p10": 55.295138888888886, "final": 68.2117795138889},
-      "22703": {"efficiency": 73.91345486111109, "fairness_p10": 55.208333333333336, "final": 68.30191840277776},
-      "mean_final": 68.15484447337963
+      "22701": {"efficiency": 73.57411024305556, "fairness_p10": 55.295138888888886, "final": 68.09041883680555},
+      "22702": {"efficiency": 73.89377170138889, "fairness_p10": 55.46875, "final": 68.36626519097221},
+      "22703": {"efficiency": 74.06341145833335, "fairness_p10": 55.46875, "final": 68.48501302083335},
+      "mean_final": 68.3138990162037
     },
     "online_leaderboard": null,
     "paired_gain": {
-      "vs_v224": 0.08491086514790425,
-      "vs_same_budget_soft_control": 0.035047796567279,
-      "p10_caveat": "noise22703 P10 decreases by 0.086806; promotion follows the requested highest official total, not a no-P10-regression guarantee"
+      "vs_v227": 0.15905456965764606,
+      "paired_delta_95_interval": [0.11936295726696512, 0.18145970542113024],
+      "attribution": "Additional training only; this is the matched-budget control, not evidence for more experts or new gates.",
+      "p10_caveat": "P10 improves on all three audit noise seeds; unseen and online confirmation remain outstanding."
     },
     "sha256": {
-      "modelDesign.py": "CD05060B02093432B6881ECF8BFC357F02811FF831044BC73BADBC40A46044E4",
+      "modelDesign.py": "D8B1E579D36E5023630712F0FEBD7A22C89A6B458F8487DC8A8C49D44FBC20A6",
       "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
-      "transmitter.pth": "09F5A29263B69AA556F7E02638C004554384BCD7DDB4E095CBC094AAFFB79CF5",
-      "receiver.pth": "79702014A8B9176EC1660EF7ABA5FAE28A3BE876020095F3515E10438C1B41C0"
+      "transmitter.pth": "2B1EA959DE6AC4F2BA216FA284EC8576D176BA27A81399EDD5173B7EF3131AC6",
+      "receiver.pth": "3B3564CD6FFFE907BF46D52ECA68C692438F4F3CB304C8A3C3ECC47A47C938F9"
     },
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_joint_snr_v227_official.zip",
-      "bytes": 179000048,
-      "sha256": "80F9C8BE57ABEAE5C236DE30571C3A15A165249AB1ACB7508E25CAC7BC9F1068"
+      "name": "FATE_MIMO_submission_pure_neural_v230_control_official.zip",
+      "bytes": 178999997,
+      "sha256": "6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3"
     }
   },
   "references": {
+    "previous_champion_v227_fixed_holdout_mean_final": 68.15484447337963,
     "previous_champion_v224_fixed_holdout_mean_final": 68.06993344907407,
     "previous_champion_v224_legacy_mean_final": 68.06502604166666,
     "previous_champion_v190_mean_final": 63.21795030381944,

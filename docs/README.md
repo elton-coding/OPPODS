@@ -4,7 +4,9 @@
 
 ## 综合报告
 
-- [V227 联合 SNR 专家](experiments/pure-neural-joint-snr-v227.md)：当前冠军，固定留出集均分68.154844，线上未确认。
+- [V230C 同预算续训](experiments/pure-neural-continuation-v230c.md)：当前冠军，固定留出集均分68.313899，尚未达到69，线上未确认。
+- [V230—V234实验组](experiments/pure-neural-v230-v233-cohort.md)：八专家、温度、接收端条件、伙伴SNR、发射端门控的独立尝试。
+- [V227 联合 SNR 专家](experiments/pure-neural-joint-snr-v227.md)：历史冠军与本轮初始化，固定留出集均分68.154844。
 - [V229 四组组合消融](experiments/pure-neural-joint-hard-rank-v229.md)：组合不超过单独联合专家；不得相加单项收益。
 - [V224 评分代理损失](experiments/pure-neural-soft-score-loss-v224.md)：历史初始化版本，修订后固定留出集均分68.069933。
 - [V228 硬排名损失消融](experiments/pure-neural-hard-rank-loss-v228.md)：同初始化、同样本和预算的损失对照。
