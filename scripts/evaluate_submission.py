@@ -32,6 +32,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--samples", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=1176)
+    parser.add_argument(
+        "--split-seed", type=int,
+        help="Fixed data partition seed, independent of noise/SNR seed; omitted preserves legacy behavior",
+    )
+    parser.add_argument("--test-offset", type=int, default=0)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--progress-every", type=int, default=200)
     parser.add_argument("--threshold", type=float)
@@ -51,6 +56,18 @@ def parse_args() -> argparse.Namespace:
         help="Override a modelDesign module constant before constructing submission modules",
     )
     return parser.parse_args()
+
+
+def evaluation_indices(num_samples: int, *, seed: int, split_seed: int | None,
+                       offset: int, samples: int) -> np.ndarray:
+    if offset < 0 or samples <= 0:
+        raise ValueError("test-offset must be non-negative and samples must be positive")
+    indices = deterministic_split_indices(
+        num_samples, seed=seed if split_seed is None else split_seed,
+    )["test"]
+    if offset + samples > len(indices):
+        raise ValueError("requested evaluation window exceeds the test partition")
+    return indices[offset:offset + samples]
 
 
 def main() -> None:
@@ -77,7 +94,10 @@ def main() -> None:
     receiver.eval()
 
     data = ChannelMemmap(args.data)
-    indices = deterministic_split_indices(len(data), seed=args.seed)["test"][: args.samples]
+    indices = evaluation_indices(
+        len(data), seed=args.seed, split_seed=args.split_seed,
+        offset=args.test_offset, samples=args.samples,
+    )
     rng = np.random.default_rng(args.seed)
     torch.manual_seed(args.seed)
     scores: list[float] = []
@@ -301,6 +321,9 @@ def main() -> None:
             snr=np.asarray(user_snrs, dtype=np.float32),
             length=np.asarray(lengths, dtype=np.int16),
             data_index=np.repeat(indices.astype(np.int64), 2),
+            split_seed=np.asarray(args.seed if args.split_seed is None else args.split_seed),
+            noise_seed=np.asarray(args.seed),
+            test_offset=np.asarray(args.test_offset),
         )
     if args.extension_diagnostics_out is not None:
         args.extension_diagnostics_out.parent.mkdir(parents=True, exist_ok=True)
@@ -318,6 +341,9 @@ def main() -> None:
             prefix_scores=np.asarray(extension_prefix_scores, dtype=np.float32),
         )
     result: dict[str, object] = {
+                "seed": args.seed,
+                "split_seed": args.seed if args.split_seed is None else args.split_seed,
+                "test_offset": args.test_offset,
                 "samples": len(indices),
                 "scores": len(scores),
                 "efficiency": summary.efficiency,
