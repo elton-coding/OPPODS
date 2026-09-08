@@ -669,6 +669,7 @@ def main() -> None:
         "tail_weight": args.tail_weight,
         "tail_fraction": args.tail_fraction,
         "loss_kind": args.loss_kind,
+        "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
         "margin": args.margin,
         "score_temperature": args.score_temperature,
         "quantile_bandwidth": args.quantile_bandwidth,
