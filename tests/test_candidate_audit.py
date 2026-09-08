@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import pytest
+import numpy as np
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
@@ -28,3 +29,12 @@ def test_score_paths_bind_split_offset_and_noise(tmp_path):
     assert result[1].name.endswith("noise22702.npz")
     with pytest.raises(ValueError):
         audit.score_paths(tmp_path, "../escape", [22701], 2000)
+
+
+def test_pair_min_bins_report_empty_groups_without_nan():
+    from compare_paired_holdout import paired_snr_bins
+
+    result = paired_snr_bins(np.array([1., 3., -2., 0.]), np.array([-18., -18., 11., 11.]))
+    assert result["[-20,-15)"] == {"ue_count": 2, "mean_score_delta": 2.}
+    assert result["[10,15)"] == {"ue_count": 2, "mean_score_delta": -1.}
+    assert result["[-15,-10)"] == {"ue_count": 0, "mean_score_delta": None}

@@ -14,6 +14,19 @@ def metrics(scores: np.ndarray) -> dict[str, float]:
     return {"efficiency": efficiency, "p10": fairness, "final": .7 * efficiency + .3 * fairness}
 
 
+def paired_snr_bins(delta: np.ndarray, snr: np.ndarray) -> dict:
+    """Descriptive per-UE gains; these conditional means are not global P10 gains."""
+    result = {}
+    for lo in range(-20, 20, 5):
+        selected = (snr >= lo) & (snr < lo + 5)
+        count = int(selected.sum())
+        result[f"[{lo},{lo + 5})"] = {
+            "ue_count": count,
+            "mean_score_delta": float(delta[selected].mean()) if count else None,
+        }
+    return result
+
+
 def compare(baseline_paths: list[Path], candidate_paths: list[Path], repeats: int = 2000) -> dict:
     if not baseline_paths or len(baseline_paths) != len(candidate_paths):
         raise ValueError("need matching nonempty baseline and candidate lists")
@@ -44,6 +57,7 @@ def compare(baseline_paths: list[Path], candidate_paths: list[Path], repeats: in
                     f"[{lo},{lo + 5})": float((cs - bs)[(snr >= lo) & (snr < lo + 5)].mean())
                     for lo in range(-20, 20, 5)
                 },
+                "paired_min_snr_bins": paired_snr_bins(cs - bs, pair_min),
                 "pair_min_ge_minus10_max_absolute_score_delta": float(np.max(
                     np.abs((cs - bs)[pair_min >= -10]), initial=0,
                 )),
