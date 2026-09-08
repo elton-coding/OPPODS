@@ -1,0 +1,31 @@
+{
+  "device": "cpu",
+  "synthetic_seed": 238,
+  "link_noise_seed": 15240,
+  "snr": [
+    [
+      -18.0,
+      12.0
+    ],
+    [
+      -8.0,
+      3.0
+    ],
+    [
+      15.0,
+      19.0
+    ]
+  ],
+  "logits": 6912,
+  "maximum_absolute_logit_difference": 6.321072578430176e-05,
+  "mean_absolute_logit_difference": 9.453805205339449e-07,
+  "hard_decision_disagreements": 0,
+  "parameters": 174338872,
+  "input_sha256": {
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0",
+    "research\\pure_neural_v238\\modelDesign.py": "e01cf76d67330268a34f5f16d69716929ffc909523ebfcfbf159122e8c817ad9"
+  },
+  "caveat": "Synthetic input CPU warm-start parity only; not validation, a trained result, or competition score."
+}
