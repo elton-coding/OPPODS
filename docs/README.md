@@ -4,7 +4,11 @@
 
 ## 综合报告
 
-- [FATE-MIMO V223 纯神经 k8/1152 技术与消融报告](experiments/pure-neural-adaptive-k8-v223.md)：当前冠军，三 seed 本地均分 67.242613。
+- [V224 评分代理损失](experiments/pure-neural-soft-score-loss-v224.md)：当前发布版，修订后固定留出集均分68.069933，线上未确认。
+- [V227 联合 SNR 专家](experiments/pure-neural-joint-snr-v227.md)：已复核候选，固定留出集均分68.154844；晋级状态以冠军基准表为准。
+- [V228 硬排名损失消融](experiments/pure-neural-hard-rank-loss-v228.md)：同初始化、同样本和预算的损失对照。
+- [评测划分审计](experiments/evaluation-partition-audit-v227.md)：旧种子复评的训练通道交叉问题及修订协议。
+- [FATE-MIMO V223 纯神经 k8/1152 技术与消融报告](experiments/pure-neural-adaptive-k8-v223.md)：历史版本，用户回报线上67.01164987745；历史本地三种子均分67.242613不属于固定留出协议。
 - [FATE-MIMO V190 技术方案与消融实验总报告](reports/FATE-MIMO_V190_技术方案与消融实验总报告.md)：历史混合方案、SNR 专家与消融记录。
 
 ## 赛题资料

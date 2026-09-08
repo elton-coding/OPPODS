@@ -1,0 +1,107 @@
+{
+  "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+  "per_seed": [
+    {
+      "baseline_file": "benchmarks\\v224_holdout1176_offset2000_noise22701.npz",
+      "candidate_file": "benchmarks\\v228hard_holdout1176_offset2000_noise22701.npz",
+      "noise_seed": 22701,
+      "baseline": {
+        "efficiency": 73.31310762882232,
+        "p10": 55.12152862548828,
+        "final": 67.85563392782211
+      },
+      "candidate": {
+        "efficiency": 73.37337242412568,
+        "p10": 55.12152862548828,
+        "final": 67.89781928453445
+      },
+      "delta": {
+        "efficiency": 0.060264795303353935,
+        "p10": 0.0,
+        "final": 0.04218535671233781
+      },
+      "mean_score_delta_by_own_snr": {
+        "[-20,-15)": 0.0065144937883845865,
+        "[-15,-10)": 0.04539210796356201,
+        "[-10,-5)": 0.08041810089687132,
+        "[-5,0)": 0.06626893606621986,
+        "[0,5)": 0.03855956572831445,
+        "[5,10)": 0.05719609987937798,
+        "[10,15)": 0.0983472102590268,
+        "[15,20)": 0.08788620090088904
+      },
+      "pair_min_ge_minus10_max_absolute_score_delta": 2.777782440185547
+    },
+    {
+      "baseline_file": "benchmarks\\v224_holdout1176_offset2000_noise22702.npz",
+      "candidate_file": "benchmarks\\v228hard_holdout1176_offset2000_noise22702.npz",
+      "noise_seed": 22702,
+      "baseline": {
+        "efficiency": 73.61751304244996,
+        "p10": 55.29513931274414,
+        "final": 68.12080092353821
+      },
+      "candidate": {
+        "efficiency": 73.67630207538605,
+        "p10": 55.37326240539551,
+        "final": 68.18539017438889
+      },
+      "delta": {
+        "efficiency": 0.05878903293609028,
+        "p10": 0.07812309265136719,
+        "final": 0.06458925085067335
+      },
+      "mean_score_delta_by_own_snr": {
+        "[-20,-15)": 0.019976149044276283,
+        "[-15,-10)": 0.038523190590521755,
+        "[-10,-5)": 0.09086022508625266,
+        "[-5,0)": 0.07121646066243797,
+        "[0,5)": 0.018637363869170847,
+        "[5,10)": 0.05364570617675781,
+        "[10,15)": 0.1007564105684795,
+        "[15,20)": 0.07766801625610846
+      },
+      "pair_min_ge_minus10_max_absolute_score_delta": 2.9513893127441406
+    },
+    {
+      "baseline_file": "benchmarks\\v224_holdout1176_offset2000_noise22703.npz",
+      "candidate_file": "benchmarks\\v228hard_holdout1176_offset2000_noise22703.npz",
+      "noise_seed": 22703,
+      "baseline": {
+        "efficiency": 73.77832031726837,
+        "p10": 55.29513931274414,
+        "final": 68.2333660159111
+      },
+      "candidate": {
+        "efficiency": 73.83461375904083,
+        "p10": 55.38194274902344,
+        "final": 68.29881245603562
+      },
+      "delta": {
+        "efficiency": 0.056293441772467645,
+        "p10": 0.08680343627929688,
+        "final": 0.06544644012451784
+      },
+      "mean_score_delta_by_own_snr": {
+        "[-20,-15)": 0.018453213242801823,
+        "[-15,-10)": 0.03159737396240234,
+        "[-10,-5)": 0.1140523254271724,
+        "[-5,0)": 0.019403644636565565,
+        "[0,5)": 0.01861302992876838,
+        "[5,10)": 0.06493046569824219,
+        "[10,15)": 0.08629591730942698,
+        "[15,20)": 0.09699751201428865
+      },
+      "pair_min_ge_minus10_max_absolute_score_delta": 2.604167938232422
+    }
+  ],
+  "baseline_mean_final": 68.06993362242382,
+  "candidate_mean_final": 68.12734063831965,
+  "mean_delta": 0.057407015895842996,
+  "bootstrap_repeats": 2000,
+  "paired_delta_95_percentile_interval": [
+    0.027870844475422513,
+    0.07870751873730991
+  ],
+  "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+}
