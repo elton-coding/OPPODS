@@ -23,6 +23,8 @@ def main():
     torch.cuda.set_per_process_memory_fraction(.08, torch.cuda.current_device())
     device = torch.device("cuda")
     link = PureNeuralLink(load_model_design(args.submission / "modelDesign.py"))
+    if link._payload_length_fn is not None:
+        raise ValueError("this logit-scale diagnostic requires fixed payload; use the payload-aware official evaluator")
     link.load_submission(args.submission)
     link.to(device).eval()
     data = ChannelMemmap(Path("ziliao/data_train/H_train.npz"))

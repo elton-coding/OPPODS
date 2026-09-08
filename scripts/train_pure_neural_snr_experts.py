@@ -152,6 +152,10 @@ class PureNeuralLink(nn.Module):
         self.encoder = module.Encoder()
         self.transmitter = module.Transmitter()
         self.receiver = module.Receiver()
+        self._payload_length_fn = getattr(module, "payload_lengths", None)
+
+    def payload_lengths(self, snr: torch.Tensor) -> torch.Tensor | None:
+        return None if self._payload_length_fn is None else self._payload_length_fn(snr)
 
     def initialize_from_baseline(self, baseline_dir: Path) -> None:
         def core_state(filename: str) -> dict[str, torch.Tensor]:
@@ -240,7 +244,10 @@ class PureNeuralLink(nn.Module):
             received = received + downlink_noise * torch.sqrt(
                 torch.pow(10.0, -snr_dl[:, user] / 10.0)
             )[:, None, None]
-            output.append(self.receiver(received, channel[:, user], control, snr_dl[:, user]))
+            decoded = self.receiver(received, channel[:, user], control, snr_dl[:, user])
+            if self._payload_length_fn is not None and decoded.shape[-1] < bits.shape[-1]:
+                decoded = nn.functional.pad(decoded, (0, bits.shape[-1] - decoded.shape[-1]))
+            output.append(decoded)
         return torch.stack(output, dim=1)
 
 
@@ -318,6 +325,28 @@ def asymmetric_target_bce(
     return (target_loss + context_weight * context_loss) / (1.0 + context_weight)
 
 
+def payload_mask(logits: torch.Tensor, lengths: torch.Tensor) -> torch.Tensor:
+    if lengths.shape != logits.shape[:-1]:
+        raise ValueError("payload lengths must match the batch and UE dimensions")
+    if bool(((lengths < 1) | (lengths > logits.shape[-1])).any().item()):
+        raise ValueError("payload lengths must be positive and fit in the logits")
+    return torch.arange(logits.shape[-1], device=logits.device) < lengths[..., None]
+
+
+def official_scores_from_logits(
+    logits: torch.Tensor, bits: torch.Tensor, lengths: torch.Tensor | None = None,
+) -> torch.Tensor:
+    targets = bits[..., :logits.shape[-1]]
+    decisions = (logits >= 0) == (targets >= .5)
+    if lengths is None:
+        correct = decisions.sum(dim=-1)
+        missing = bits.shape[-1] - targets.shape[-1]
+    else:
+        correct = (decisions & payload_mask(logits, lengths)).sum(dim=-1)
+        missing = bits.shape[-1] - lengths
+    return 100.0 * (correct + .5 * missing) / bits.shape[-1]
+
+
 def score_aligned_loss(
     logits: torch.Tensor,
     bits: torch.Tensor,
@@ -330,14 +359,20 @@ def score_aligned_loss(
     quantile_bandwidth: float = 0.025,
     score_bce_weight: float = 0.05,
     score_fairness_weight: float = 0.3,
+    valid_lengths: torch.Tensor | None = None,
 ) -> torch.Tensor:
     targets = bits[..., : logits.shape[-1]]
     signed_logits = (2.0 * targets - 1.0) * logits
+    valid = None if valid_lengths is None else payload_mask(logits, valid_lengths)
+    if valid is not None:
+        signed_logits = torch.where(valid, signed_logits, torch.zeros_like(signed_logits))
     if loss_kind in {"soft_score", "hard_rank_score"}:
         soft_correct = torch.sigmoid(signed_logits / score_temperature)
         if loss_kind == "hard_rank_score":
             # Exact official decision convention, including logit == 0 for target 0.
             hard_correct = ((logits >= 0) == (targets >= 0.5)).to(logits.dtype)
+            if valid is not None:
+                hard_correct = torch.where(valid, hard_correct, torch.full_like(hard_correct, .5))
             soft_correct = hard_correct + (soft_correct - soft_correct.detach())
         missing = bits.shape[-1] - logits.shape[-1]
         per_link_score = (soft_correct.sum(dim=-1) + 0.5 * missing) / bits.shape[-1]
@@ -476,9 +511,7 @@ def evaluate(
             targets = bits[..., : logits.shape[-1]]
             loss_sum += float(criterion(logits, targets).item())
             bit_count += targets.numel()
-            correct = ((logits >= 0) == (targets >= 0.5)).sum(dim=-1)
-            missing = bits.shape[-1] - targets.shape[-1]
-            score_batches.append(100.0 * (correct + 0.5 * missing) / bits.shape[-1])
+            score_batches.append(official_scores_from_logits(logits, bits, link.payload_lengths(snr)))
     scores = torch.cat(score_batches).cpu().numpy().reshape(-1)
     efficiency = float(np.mean(scores))
     fairness = float(np.percentile(scores, 10))
@@ -502,6 +535,9 @@ def main() -> None:
         torch.cuda.set_per_process_memory_fraction(args.gpu_memory_fraction, device_index)
     module = load_model_design(args.model_design)
     link = PureNeuralLink(module)
+    if (link._payload_length_fn is not None and args.stage != "initialize"
+            and (args.stage != "calibrate" or args.loss_kind not in {"soft_score", "hard_rank_score"})):
+        raise ValueError("variable payload training requires calibrate with a score-aligned loss")
     existing = all(
         (args.output_dir / name).exists()
         for name in ("encoder.pth", "transmitter.pth", "receiver.pth")
@@ -613,6 +649,7 @@ def main() -> None:
                 quantile_bandwidth=args.quantile_bandwidth,
                 score_bce_weight=args.score_bce_weight,
                 score_fairness_weight=args.score_fairness_weight,
+                valid_lengths=link.payload_lengths(snr),
             )
         optimizer.zero_grad(set_to_none=True)
         # Small batches can contain only the frozen profile.
@@ -655,6 +692,7 @@ def main() -> None:
         "train_components": list(args.train_components),
         "optimize_expert_index": optimize_index,
         "trainable_parameters": sum(parameter.numel() for parameter in parameters),
+        "variable_payload": link._payload_length_fn is not None,
         "learning_rate": args.learning_rate,
         "batch_size": args.batch_size,
         "validation_samples": len(validation_indices),
