@@ -85,9 +85,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v222/modelDesign.py"))
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v222/modelSubmit"))
     args = parser.parse_args()
-    if args.optimize_expert_index is not None:
-        if args.stage != "calibrate" or args.optimize_expert_index < 0:
-            parser.error("--optimize-expert-index requires calibrate and a non-negative index")
+    if args.optimize_expert_index is not None and (args.stage != "calibrate" or args.optimize_expert_index < 0):
+        parser.error("--optimize-expert-index requires calibrate and a non-negative index")
     if args.stage in {"pretrain", "asymmetric", "profile"} and args.expert_index is None:
         parser.error(f"--stage {args.stage} requires --expert-index")
     if args.stage not in {"pretrain", "asymmetric", "profile"} and args.expert_index is not None:
