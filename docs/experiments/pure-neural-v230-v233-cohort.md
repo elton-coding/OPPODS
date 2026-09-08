@@ -12,11 +12,12 @@
 
 | 组 | 唯一方法变化 | 输出目录 | 状态 |
 |---|---|---|---|
-| V230-control | 无：两专家同预算续训 | artifacts/pure_neural_v230/two_control_clean | 训练中 |
+| V230-control | 无：两专家同预算续训 | artifacts/pure_neural_v230/two_control_clean | 12000步完成，audit中 |
 | V230-eight | 2→8个联合Tx/Rx专家，每段5dB，按最低SNR选组 | artifacts/pure_neural_v230/eight | 训练中 |
-| V231 | 软判决温度0.5→0.1 | artifacts/pure_neural_v231/temperature01 | 排队 |
+| V231 | 软判决温度0.5→0.1 | artifacts/pure_neural_v231/temperature01 | 训练中 |
 | V232 | H与SNR驱动的通用神经特征缩放/偏移 | artifacts/pure_neural_v232/context | 排队 |
 | V233 | 5bit内传模式及双用户SNR之和，Rx加入伙伴SNR嵌入 | artifacts/pure_neural_v233/partner | 排队 |
+| V234（后续） | 反馈驱动的Tx比特特征神经门控 | artifacts/pure_neural_v234/feedback | 代码就绪，尚未训练 |
 
 八专家映射父模型[0,0,1,1,1,1,1,1]；其他组映射[0,1]。新增门控/嵌入的输出初始化为零，非新增参数全部严格加载。各组起始数值经过检查；分组矩阵乘法允许浮点级差异，不允许随机重置核心权重。
 
@@ -36,3 +37,5 @@
 6. 晋级前检查模型接口、控制bit数、ZIP小于1GB及推理耗时。只有验证更优且符合约束的权重进入main。
 
 目前无新候选通过上述完整流程，不能声称已经超过69。
+
+两专家完整对照耗时1571.5秒，最佳checkpoint为11000步，固定validation为68.174618（起点68.023285）。训练曲线并不单调。候选ZIP为artifacts/FATE_MIMO_submission_pure_neural_v230_control_official.zip，178999997字节，SHA256=6C59BCB2A1A77C0443325D64EDFBB9A1DBCD23420A671DF7F495DB84AE6009B3。尚未替换canonical提交包。
