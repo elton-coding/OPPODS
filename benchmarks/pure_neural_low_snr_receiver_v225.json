@@ -1,0 +1,11 @@
+{
+  "version": "V225",
+  "receiver_boundary_db": 0.0,
+  "low_interval_validation_initial": 60.140813446044916,
+  "low_interval_validation_best": 60.18176765441895,
+  "exact_seed1176_2000": 67.87660807291667,
+  "v224_same_seed": 67.89096354166666,
+  "delta": -0.01435546874999,
+  "accepted": false,
+  "promote_to_main": false
+}
