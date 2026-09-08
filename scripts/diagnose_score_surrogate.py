@@ -61,6 +61,9 @@ def main():
     result = {"submission": str(args.submission), "partition": "split1176 validation only",
               "seed": 25240, "samples": len(indices), "batch_size": args.batch_size,
               "hard_score": scores(hard_scores), "temperature_diagnostics": comparisons,
+              "absolute_logit_quantiles": {
+                  str(q): float(torch.quantile(signed.abs().flatten(), q)) for q in (.1, .5, .9, .99)},
+              "absolute_logit_mean": float(signed.abs().mean()),
               "confident_wrong_fraction_by_own_snr": {
                   f"[{lo},{lo+5})": float((signed[(own_snr >= lo) & (own_snr < lo+5)] < -1).float().mean())
                   for lo in range(-20, 20, 5)},
