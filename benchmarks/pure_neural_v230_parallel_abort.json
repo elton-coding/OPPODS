@@ -1,0 +1,13 @@
+{
+  "experiment": "V230 two-expert parallel control",
+  "status": "interrupted_resource_contention_not_a_final_ablation",
+  "output_dir": "artifacts/pure_neural_v230/two_control",
+  "process_id": 58100,
+  "seed": 15240,
+  "requested_steps": 12000,
+  "observed_validation_final": {"0": 68.02328529357911, "1000": 68.02776069641112, "2000": 68.06544952392578, "3000": 68.11337738037109},
+  "checkpoint_step": "not verified; do not use for the final comparison",
+  "reason": "near-full VRAM, very unequal GPU engine allocation (control93%, eight-expert6%), and extended lack of checkpoint progress; exact driver-level cause unproven",
+  "preserved": "all existing files; no experiment files deleted",
+  "replacement": "rerun from the same V227 parent in artifacts/pure_neural_v230/two_control_clean after the eight-expert run exits"
+}
