@@ -161,3 +161,45 @@ def test_v223_k8_uses_the_complete_1152_bit_payload() -> None:
         torch.ones(1, 5),
         torch.tensor([10.0]),
     ).shape == (1, 1152)
+
+
+def test_soft_score_loss_rewards_higher_official_surrogate_score() -> None:
+    trainer = _load_module("pure_neural_v224_trainer_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    bits = torch.ones(8, 2, 16)
+    weak_logits = torch.full_like(bits, 0.25)
+    strong_logits = torch.full_like(bits, 1.25)
+    weak_loss = trainer.score_aligned_loss(
+        weak_logits,
+        bits,
+        loss_kind="soft_score",
+        margin=0.5,
+        tail_weight=0.0,
+        tail_fraction=0.1,
+    )
+    strong_loss = trainer.score_aligned_loss(
+        strong_logits,
+        bits,
+        loss_kind="soft_score",
+        margin=0.5,
+        tail_weight=0.0,
+        tail_fraction=0.1,
+    )
+    assert strong_loss < weak_loss
+
+
+def test_soft_score_loss_backpropagates_through_mean_and_p10_terms() -> None:
+    trainer = _load_module("pure_neural_v224_gradient_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    logits = torch.linspace(-1.0, 1.0, 20).reshape(10, 2, 1).requires_grad_()
+    bits = torch.ones_like(logits)
+    loss = trainer.score_aligned_loss(
+        logits,
+        bits,
+        loss_kind="soft_score",
+        margin=0.5,
+        tail_weight=0.0,
+        tail_fraction=0.1,
+    )
+    loss.backward()
+    assert logits.grad is not None
+    assert torch.isfinite(logits.grad).all()
+    assert torch.count_nonzero(logits.grad) == logits.numel()

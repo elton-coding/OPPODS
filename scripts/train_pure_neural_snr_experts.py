@@ -38,10 +38,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--tail-fraction", type=float, default=0.2)
     parser.add_argument(
         "--loss-kind",
-        choices=("bce", "hinge_bce", "wrong_side"),
+        choices=("bce", "hinge_bce", "wrong_side", "soft_score"),
         default="bce",
     )
     parser.add_argument("--margin", type=float, default=0.5)
+    parser.add_argument("--score-temperature", type=float, default=0.5)
+    parser.add_argument("--quantile-bandwidth", type=float, default=0.025)
+    parser.add_argument("--score-bce-weight", type=float, default=0.05)
     parser.add_argument("--context-weight", type=float, default=0.25)
     parser.add_argument(
         "--focus-snr-high",
@@ -85,6 +88,12 @@ def parse_args() -> argparse.Namespace:
         parser.error("--tail-weight must be non-negative")
     if args.margin < 0.0:
         parser.error("--margin must be non-negative")
+    if args.score_temperature <= 0.0:
+        parser.error("--score-temperature must be positive")
+    if args.quantile_bandwidth <= 0.0:
+        parser.error("--quantile-bandwidth must be positive")
+    if args.score_bce_weight < 0.0:
+        parser.error("--score-bce-weight must be non-negative")
     if not 0.0 < args.tail_fraction <= 1.0:
         parser.error("--tail-fraction must be in (0, 1]")
     if not 0.0 <= args.context_weight <= 1.0:
@@ -263,9 +272,26 @@ def score_aligned_loss(
     margin: float,
     tail_weight: float,
     tail_fraction: float,
+    score_temperature: float = 0.5,
+    quantile_bandwidth: float = 0.025,
+    score_bce_weight: float = 0.05,
 ) -> torch.Tensor:
     targets = bits[..., : logits.shape[-1]]
     signed_logits = (2.0 * targets - 1.0) * logits
+    if loss_kind == "soft_score":
+        soft_correct = torch.sigmoid(signed_logits / score_temperature)
+        missing = bits.shape[-1] - logits.shape[-1]
+        per_link_score = (soft_correct.sum(dim=-1) + 0.5 * missing) / bits.shape[-1]
+        flat_scores = per_link_score.reshape(-1)
+        sorted_scores = torch.sort(flat_scores).values
+        ranks = torch.arange(sorted_scores.numel(), device=logits.device, dtype=logits.dtype)
+        target_rank = tail_fraction * max(0, sorted_scores.numel() - 1)
+        rank_scale = max(1.0, quantile_bandwidth * sorted_scores.numel())
+        quantile_weights = torch.softmax(-0.5 * ((ranks - target_rank) / rank_scale).square(), dim=0)
+        soft_p10 = torch.sum(sorted_scores * quantile_weights)
+        official_score = 0.7 * flat_scores.mean() + 0.3 * soft_p10
+        bce = nn.functional.softplus(-signed_logits).mean()
+        return -official_score + score_bce_weight * bce
     if loss_kind == "bce":
         element_loss = nn.functional.softplus(-signed_logits)
     elif loss_kind == "hinge_bce":
@@ -517,6 +543,9 @@ def main() -> None:
                 margin=args.margin,
                 tail_weight=args.tail_weight,
                 tail_fraction=args.tail_fraction,
+                score_temperature=args.score_temperature,
+                quantile_bandwidth=args.quantile_bandwidth,
+                score_bce_weight=args.score_bce_weight,
             )
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
@@ -566,6 +595,9 @@ def main() -> None:
         "tail_fraction": args.tail_fraction,
         "loss_kind": args.loss_kind,
         "margin": args.margin,
+        "score_temperature": args.score_temperature,
+        "quantile_bandwidth": args.quantile_bandwidth,
+        "score_bce_weight": args.score_bce_weight,
         "context_weight": args.context_weight if args.stage == "asymmetric" else None,
         "focus_snr_high": args.focus_snr_high,
         "focus_prob": args.focus_prob,
