@@ -24,3 +24,5 @@
 八专家继续原进程，不改变梯度、随机流或批量。正式两专家对照将在其结束后从相同父模型完整重跑到 `artifacts/pure_neural_v230/two_control_clean`；原 `two_control` 仅是中断实验。摘要见 `benchmarks/pure_neural_v230_parallel_abort.json`。
 
 最终结果待训练。
+
+资源补充：两步独立探针的活跃显存峰值仅7.19GB，而之前对照进程保留约19.7GB显存；缓存膨胀是可干预因素。新增 `--gpu-memory-fraction 0.4` 后探针通过，批量和数值精度不变。完整对照从父模型重跑到two_control_clean，并限制单进程缓存约13GB；与八专家合计保留安全余量。中断片段不续接、不参与统计。此设置只限制分配器，不改变模型/损失/数据/训练预算。

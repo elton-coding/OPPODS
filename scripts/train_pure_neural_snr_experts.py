@@ -80,6 +80,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--patience", type=int, default=8)
     parser.add_argument("--seed", type=int, default=1191)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--gpu-memory-fraction", type=float, help="Optional CUDA allocator cap to prevent multi-process VRAM contention")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
     parser.add_argument(
@@ -89,6 +90,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v222/modelDesign.py"))
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v222/modelSubmit"))
     args = parser.parse_args()
+    if args.gpu_memory_fraction is not None and not 0.0 < args.gpu_memory_fraction <= 1.0:
+        parser.error("--gpu-memory-fraction must be in (0, 1]")
     if args.optimize_expert_index is not None and (args.stage != "calibrate" or args.optimize_expert_index < 0):
         parser.error("--optimize-expert-index requires calibrate and a non-negative index")
     if args.stage in {"pretrain", "asymmetric", "profile"} and args.expert_index is None:
@@ -492,6 +495,11 @@ def main() -> None:
     torch.manual_seed(args.seed)
     np_rng = np.random.default_rng(args.seed)
     device = torch.device(args.device)
+    if args.gpu_memory_fraction is not None:
+        if device.type != "cuda":
+            raise ValueError("--gpu-memory-fraction requires CUDA")
+        device_index = device.index if device.index is not None else torch.cuda.current_device()
+        torch.cuda.set_per_process_memory_fraction(args.gpu_memory_fraction, device_index)
     module = load_model_design(args.model_design)
     link = PureNeuralLink(module)
     existing = all(
@@ -677,6 +685,9 @@ def main() -> None:
         "best_validation": best,
         "history": history,
         "elapsed_seconds": time.perf_counter() - started,
+        "gpu_memory_fraction": args.gpu_memory_fraction,
+        "gpu_peak_allocated_bytes": torch.cuda.max_memory_allocated(device) if device.type == "cuda" else 0,
+        "gpu_peak_reserved_bytes": torch.cuda.max_memory_reserved(device) if device.type == "cuda" else 0,
         "output_dir": str(args.output_dir.resolve()),
     }
     report_path = args.output_dir.parent / (
