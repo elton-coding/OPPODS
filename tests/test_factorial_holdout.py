@@ -23,3 +23,5 @@ def test_factorial_reports_interaction_not_sum_of_individual_gains(tmp_path, mon
     result = module.factorial(paths, repeats=20)
     assert result["interaction_AB_minus_A_minus_B_plus_C"] == pytest.approx(1)
     assert result["interaction_paired_95_interval"] == pytest.approx([1, 1])
+    assert result["factor_B_effect_with_A_AB_minus_A"]["mean_delta"] == pytest.approx(3)
+    assert result["factor_labels"] == {"A": "factor_A", "B": "factor_B"}
