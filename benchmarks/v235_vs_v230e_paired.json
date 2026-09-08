@@ -1,0 +1,209 @@
+{
+  "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+  "per_seed": [
+    {
+      "baseline_file": "benchmarks\\v230_eight_holdout1176_offset2000_noise22701.npz",
+      "candidate_file": "benchmarks\\v235_end_to_end_holdout1176_offset2000_noise22701.npz",
+      "noise_seed": 22701,
+      "baseline": {
+        "efficiency": 73.6537977361679,
+        "p10": 55.38194274902344,
+        "final": 68.17224124002456
+      },
+      "candidate": {
+        "efficiency": 73.58652342796326,
+        "p10": 55.29513931274414,
+        "final": 68.09910819339753
+      },
+      "delta": {
+        "efficiency": -0.0672743082046452,
+        "p10": -0.08680343627929688,
+        "final": -0.07313304662703501
+      },
+      "mean_score_delta_by_own_snr": {
+        "[-20,-15)": 0.02980377168637503,
+        "[-15,-10)": -0.015190895398457844,
+        "[-10,-5)": 0.22094459533691407,
+        "[-5,0)": 0.15065857904331822,
+        "[0,5)": -0.11865902356323767,
+        "[5,10)": -0.32662441770909195,
+        "[10,15)": -0.34738464212596193,
+        "[15,20)": -0.1568624171973264
+      },
+      "paired_min_snr_bins": {
+        "[-20,-15)": {
+          "ue_count": 986,
+          "mean_score_delta": 0.030373072285681178
+        },
+        "[-15,-10)": {
+          "ue_count": 768,
+          "mean_score_delta": 0.08759681383768718
+        },
+        "[-10,-5)": {
+          "ue_count": 712,
+          "mean_score_delta": -0.3006496483020568
+        },
+        "[-5,0)": {
+          "ue_count": 582,
+          "mean_score_delta": -0.11216113165891457
+        },
+        "[0,5)": {
+          "ue_count": 402,
+          "mean_score_delta": -0.07406525113689366
+        },
+        "[5,10)": {
+          "ue_count": 276,
+          "mean_score_delta": -0.03554005553756935
+        },
+        "[10,15)": {
+          "ue_count": 212,
+          "mean_score_delta": -0.18753278480385835
+        },
+        "[15,20)": {
+          "ue_count": 62,
+          "mean_score_delta": -0.12320758450415827
+        }
+      },
+      "pair_min_ge_minus10_max_absolute_score_delta": 5.121528625488281
+    },
+    {
+      "baseline_file": "benchmarks\\v230_eight_holdout1176_offset2000_noise22702.npz",
+      "candidate_file": "benchmarks\\v235_end_to_end_holdout1176_offset2000_noise22702.npz",
+      "noise_seed": 22702,
+      "baseline": {
+        "efficiency": 73.94898006153106,
+        "p10": 55.38194274902344,
+        "final": 68.37886886777878
+      },
+      "candidate": {
+        "efficiency": 73.89574656105042,
+        "p10": 55.46875,
+        "final": 68.3676475927353
+      },
+      "delta": {
+        "efficiency": -0.053233500480644125,
+        "p10": 0.0868072509765625,
+        "final": -0.011221275043482137
+      },
+      "mean_score_delta_by_own_snr": {
+        "[-20,-15)": 0.04776123876850974,
+        "[-15,-10)": -0.04708391298674032,
+        "[-10,-5)": 0.20512636350724853,
+        "[-5,0)": 0.1865744780051911,
+        "[0,5)": -0.15228731904315765,
+        "[5,10)": -0.28715282440185547,
+        "[10,15)": -0.19651817897009471,
+        "[15,20)": -0.17378669615216583
+      },
+      "paired_min_snr_bins": {
+        "[-20,-15)": {
+          "ue_count": 890,
+          "mean_score_delta": 0.06173928935876053
+        },
+        "[-15,-10)": {
+          "ue_count": 826,
+          "mean_score_delta": 0.03688714348375076
+        },
+        "[-10,-5)": {
+          "ue_count": 664,
+          "mean_score_delta": -0.30081253741160935
+        },
+        "[-5,0)": {
+          "ue_count": 604,
+          "mean_score_delta": -0.09039845371877911
+        },
+        "[0,5)": {
+          "ue_count": 474,
+          "mean_score_delta": -0.058603061402397315
+        },
+        "[5,10)": {
+          "ue_count": 300,
+          "mean_score_delta": -0.0020256805419921874
+        },
+        "[10,15)": {
+          "ue_count": 180,
+          "mean_score_delta": -0.03713349236382379
+        },
+        "[15,20)": {
+          "ue_count": 62,
+          "mean_score_delta": -0.1442092772453062
+        }
+      },
+      "pair_min_ge_minus10_max_absolute_score_delta": 6.510414123535156
+    },
+    {
+      "baseline_file": "benchmarks\\v230_eight_holdout1176_offset2000_noise22703.npz",
+      "candidate_file": "benchmarks\\v235_end_to_end_holdout1176_offset2000_noise22703.npz",
+      "noise_seed": 22703,
+      "baseline": {
+        "efficiency": 74.12808163738251,
+        "p10": 55.46875,
+        "final": 68.53028214616775
+      },
+      "candidate": {
+        "efficiency": 74.07743051052094,
+        "p10": 55.38194274902344,
+        "final": 68.46878418207169
+      },
+      "delta": {
+        "efficiency": -0.05065112686156681,
+        "p10": -0.0868072509765625,
+        "final": -0.061497964096062674
+      },
+      "mean_score_delta_by_own_snr": {
+        "[-20,-15)": 0.032763913500076264,
+        "[-15,-10)": -0.0029514541625976563,
+        "[-10,-5)": 0.17954954151176591,
+        "[-5,0)": 0.21633292553471584,
+        "[0,5)": -0.09537099298987488,
+        "[5,10)": -0.30850691986083983,
+        "[10,15)": -0.2908244496922204,
+        "[15,20)": -0.12686961865135532
+      },
+      "paired_min_snr_bins": {
+        "[-20,-15)": {
+          "ue_count": 876,
+          "mean_score_delta": 0.05707761250674452
+        },
+        "[-15,-10)": {
+          "ue_count": 810,
+          "mean_score_delta": 0.07362388799219956
+        },
+        "[-10,-5)": {
+          "ue_count": 704,
+          "mean_score_delta": -0.35770307887684216
+        },
+        "[-5,0)": {
+          "ue_count": 624,
+          "mean_score_delta": -0.04604604916694837
+        },
+        "[0,5)": {
+          "ue_count": 446,
+          "mean_score_delta": -0.05021502405004116
+        },
+        "[5,10)": {
+          "ue_count": 292,
+          "mean_score_delta": 0.031214165360960243
+        },
+        "[10,15)": {
+          "ue_count": 190,
+          "mean_score_delta": -0.1338633888646176
+        },
+        "[15,20)": {
+          "ue_count": 58,
+          "mean_score_delta": 0.1212287113584321
+        }
+      },
+      "pair_min_ge_minus10_max_absolute_score_delta": 4.9479217529296875
+    }
+  ],
+  "baseline_mean_final": 68.36046408465704,
+  "candidate_mean_final": 68.31184665606817,
+  "mean_delta": -0.048617428588859944,
+  "bootstrap_repeats": 2000,
+  "paired_delta_95_percentile_interval": [
+    -0.06802089418252646,
+    -0.008778421521980476
+  ],
+  "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+}
