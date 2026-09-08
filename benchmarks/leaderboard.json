@@ -13,7 +13,7 @@
   "champion": {
     "solution": "FATE-MIMO pure-neural k8/B1152 wide residual MLP",
     "version": "V223",
-    "source_commit": "pending-promotion-commit",
+    "source_commit": "ee14c55fa431cb8c4992976b551d1017e827e17e",
     "local_validation": {
       "1176": {"efficiency": 72.03828125, "fairness_p10": 55.295138888888886, "final": 67.01533854166667},
       "1177": {"efficiency": 72.4607421875, "fairness_p10": 55.642361111111114, "final": 67.41522786458333},
