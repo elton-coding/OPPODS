@@ -203,3 +203,31 @@ def test_soft_score_loss_backpropagates_through_mean_and_p10_terms() -> None:
     assert logits.grad is not None
     assert torch.isfinite(logits.grad).all()
     assert torch.count_nonzero(logits.grad) == logits.numel()
+
+
+def test_soft_score_fairness_weight_changes_the_tail_gradient() -> None:
+    trainer = _load_module("pure_neural_v224_fairness_test", ROOT / "scripts/train_pure_neural_snr_experts.py")
+    bits = torch.ones(10, 2, 1)
+    logits = torch.linspace(-1.0, 1.0, 20).reshape(10, 2, 1)
+    mean_focused = logits.clone().requires_grad_()
+    tail_focused = logits.clone().requires_grad_()
+    trainer.score_aligned_loss(
+        mean_focused,
+        bits,
+        loss_kind="soft_score",
+        margin=0.5,
+        tail_weight=0.0,
+        tail_fraction=0.1,
+        score_fairness_weight=0.3,
+    ).backward()
+    trainer.score_aligned_loss(
+        tail_focused,
+        bits,
+        loss_kind="soft_score",
+        margin=0.5,
+        tail_weight=0.0,
+        tail_fraction=0.1,
+        score_fairness_weight=0.5,
+    ).backward()
+    assert tail_focused.grad is not None and mean_focused.grad is not None
+    assert tail_focused.grad[0, 0, 0].abs() > mean_focused.grad[0, 0, 0].abs()
