@@ -17,7 +17,8 @@
 | V231 | 软判决温度0.5→0.1 | artifacts/pure_neural_v231/temperature01 | 训练中 |
 | V232 | H与SNR驱动的通用神经特征缩放/偏移 | artifacts/pure_neural_v232/context | 排队 |
 | V233 | 5bit内传模式及双用户SNR之和，Rx加入伙伴SNR嵌入 | artifacts/pure_neural_v233/partner | 排队 |
-| V234（后续） | 反馈驱动的Tx比特特征神经门控 | artifacts/pure_neural_v234/feedback | 代码就绪，尚未训练 |
+| V234（后续） | 反馈驱动的Tx比特特征神经门控 | artifacts/pure_neural_v234/feedback | 已排队，在V235后执行 |
+| V235（后续） | 仅将共享Encoder由冻结改为可训练 | artifacts/pure_neural_v235/end_to_end | 已排队，在八专家完成及复评后执行 |
 
 八专家映射父模型[0,0,1,1,1,1,1,1]；其他组映射[0,1]。新增门控/嵌入的输出初始化为零，非新增参数全部严格加载。各组起始数值经过检查；分组矩阵乘法允许浮点级差异，不允许随机重置核心权重。
 
