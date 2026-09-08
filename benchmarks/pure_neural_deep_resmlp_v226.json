@@ -1,0 +1,9 @@
+{
+  "version": "V226",
+  "parameters": 37110984,
+  "blocks": 16,
+  "low_lr_delta": 0.03507690429689,
+  "unlock_lr_delta": 0.02004669189452,
+  "accepted": false,
+  "promote_to_main": false
+}
