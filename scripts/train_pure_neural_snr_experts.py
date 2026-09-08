@@ -42,7 +42,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--tail-fraction", type=float, default=0.2)
     parser.add_argument(
         "--loss-kind",
-        choices=("bce", "hinge_bce", "wrong_side", "soft_score"),
+        choices=("bce", "hinge_bce", "wrong_side", "soft_score", "hard_rank_score"),
         default="bce",
     )
     parser.add_argument("--margin", type=float, default=0.5)
@@ -306,8 +306,12 @@ def score_aligned_loss(
 ) -> torch.Tensor:
     targets = bits[..., : logits.shape[-1]]
     signed_logits = (2.0 * targets - 1.0) * logits
-    if loss_kind == "soft_score":
+    if loss_kind in {"soft_score", "hard_rank_score"}:
         soft_correct = torch.sigmoid(signed_logits / score_temperature)
+        if loss_kind == "hard_rank_score":
+            # Exact official decision convention, including logit == 0 for target 0.
+            hard_correct = ((logits >= 0) == (targets >= 0.5)).to(logits.dtype)
+            soft_correct = hard_correct + (soft_correct - soft_correct.detach())
         missing = bits.shape[-1] - logits.shape[-1]
         per_link_score = (soft_correct.sum(dim=-1) + 0.5 * missing) / bits.shape[-1]
         flat_scores = per_link_score.reshape(-1)
@@ -317,6 +321,11 @@ def score_aligned_loss(
         rank_scale = max(1.0, quantile_bandwidth * sorted_scores.numel())
         quantile_weights = torch.softmax(-0.5 * ((ranks - target_rank) / rank_scale).square(), dim=0)
         soft_p10 = torch.sum(sorted_scores * quantile_weights)
+        if loss_kind == "hard_rank_score":
+            # Forward: exact linear-interpolated P10. Backward: smooth rank-local
+            # gradient around the actual hard-score tail, avoiding two-row-only gradients.
+            hard_p10 = torch.quantile(flat_scores.detach(), tail_fraction)
+            soft_p10 = hard_p10 + (soft_p10 - soft_p10.detach())
         official_score = (1.0 - score_fairness_weight) * flat_scores.mean() + score_fairness_weight * soft_p10
         bce = nn.functional.softplus(-signed_logits).mean()
         return -official_score + score_bce_weight * bce
