@@ -7,9 +7,9 @@ from pathlib import Path
 
 import numpy as np
 import torch
+from train_pure_neural_snr_experts import PureNeuralLink, load_model_design, sample_snr
 
 from oppods.data import ChannelMemmap, deterministic_split_indices
-from train_pure_neural_snr_experts import PureNeuralLink, load_model_design, sample_snr
 
 
 def main():
