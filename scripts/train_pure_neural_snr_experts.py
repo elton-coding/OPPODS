@@ -82,6 +82,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data", type=Path, default=Path("ziliao/data_train/H_train.npz"))
     parser.add_argument("--baseline-dir", type=Path, default=Path("ziliao/modelSubmit"))
+    parser.add_argument(
+        "--baseline-expert-map", nargs="+", type=int,
+        help="For exact bank initialization, source Tx/Rx expert index for each target expert; shared Encoder uses source 0",
+    )
     parser.add_argument("--model-design", type=Path, default=Path("research/pure_neural_v222/modelDesign.py"))
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/pure_neural_v222/modelSubmit"))
     args = parser.parse_args()
@@ -152,11 +156,28 @@ class PureNeuralLink(nn.Module):
             prefix = "experts.0."
             if state and all(name.startswith(prefix) for name in state):
                 return {name[len(prefix):]: value for name, value in state.items()}
+            if any(name.startswith("experts.") for name in state):
+                raise ValueError("multi-expert baseline needs --baseline-expert-map; refusing empty partial initialization")
             return state
 
         self.encoder.initialize_from_baseline(core_state("encoder.pth"))
         self.transmitter.initialize_from_baseline(core_state("transmitter.pth"))
         self.receiver.initialize_from_baseline(core_state("receiver.pth"))
+
+    def initialize_from_expert_bank(self, baseline_dir: Path, expert_map: list[int]) -> None:
+        """Exact warm start: routing refinements inherit the source model for that interval."""
+        for name in ("encoder", "transmitter", "receiver"):
+            component = getattr(self, name)
+            state = torch.load(baseline_dir / f"{name}.pth", map_location="cpu", weights_only=True)
+            mapping = [0] if name == "encoder" and len(component.experts) == 1 else expert_map
+            if len(mapping) != len(component.experts) or any(index < 0 for index in mapping):
+                raise ValueError(f"invalid baseline expert map for {name}")
+            for expert, source_index in zip(component.experts, mapping, strict=True):
+                prefix = f"experts.{source_index}."
+                core = {key[len(prefix):]: value for key, value in state.items() if key.startswith(prefix)}
+                if not core:
+                    raise ValueError(f"source {name} has no expert {source_index}")
+                expert.load_state_dict(core, strict=True)
 
     def load_submission(self, directory: Path) -> None:
         self.encoder.load_state_dict(
@@ -477,6 +498,9 @@ def main() -> None:
     if existing:
         link.load_submission(args.output_dir)
         initialization = "existing expert bank"
+    elif args.baseline_expert_map is not None:
+        link.initialize_from_expert_bank(args.baseline_dir, args.baseline_expert_map)
+        initialization = f"exact bank mapping from {args.baseline_dir}: {args.baseline_expert_map}"
     else:
         link.initialize_from_baseline(args.baseline_dir)
         initialization = f"baseline replicated into {module.NUM_EXPERTS} experts"
@@ -602,7 +626,7 @@ def main() -> None:
             )
             record: dict[str, float | int] = {"step": step, **metrics}
             history.append(record)
-            print(json.dumps(record, ensure_ascii=False))
+            print(json.dumps(record, ensure_ascii=False), flush=True)
             if metrics["final"] > best["final"]:
                 best = metrics
                 best_step = step
@@ -629,6 +653,7 @@ def main() -> None:
             else [-20.0, 20.0]
         ),
         "initialization": initialization,
+        "baseline_expert_map": args.baseline_expert_map,
         "seed": args.seed,
         "tail_weight": args.tail_weight,
         "tail_fraction": args.tail_fraction,
