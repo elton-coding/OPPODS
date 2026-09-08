@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "competition": "DataFountain_1176",
-  "updated_at": "2026-09-08",
+  "updated_at": "2026-09-09",
   "promotion_metric": "paired final score on fixed split_seed1176 test offset2000, noise seeds22701/22702/22703; inspect uncertainty before promotion",
   "protocol": {
     "evaluator": "official-compatible batch_size=1 local evaluator",
@@ -10,33 +10,40 @@
     "seeds": [22701, 22702, 22703],
     "split_seed": 1176,
     "test_offset": 2000,
-    "legacy_caveat": "local_validation retains historical changing-partition scores; seeds1177/1178 overlap the fixed training partition",
+    "legacy_caveat": "Historical changing-partition seeds1177/1178 overlap training; current local_validation uses the fixed partition. This viewed window is now audit, not blind.",
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 with differentiable official-score loss",
-    "version": "V224",
-    "source_commit": "0d6ac65",
+    "solution": "FATE-MIMO pure-neural k8/B1152 joint low-SNR Tx/Rx experts, shared frozen Encoder and soft-score loss",
+    "version": "V227",
+    "source_commit": "ffaa902",
     "local_validation": {
-      "1176": {"efficiency": 73.40078125, "fairness_p10": 55.03472222222222, "final": 67.89096354166666},
-      "1177": {"efficiency": 73.7873046875, "fairness_p10": 55.295138888888886, "final": 68.23965494791666},
-      "1178": {"efficiency": 73.6486328125, "fairness_p10": 55.03472222222222, "final": 68.06445963541667},
-      "mean_final": 68.06502604166666
+      "22701": {"efficiency": 73.44911024305556, "fairness_p10": 55.12152777777778, "final": 67.95083550347222},
+      "22702": {"efficiency": 73.74748263888891, "fairness_p10": 55.295138888888886, "final": 68.2117795138889},
+      "22703": {"efficiency": 73.91345486111109, "fairness_p10": 55.208333333333336, "final": 68.30191840277776},
+      "mean_final": 68.15484447337963
     },
     "online_leaderboard": null,
-    "fixed_holdout_validation": {
-      "22701": {"efficiency": 73.3131076388889, "fairness_p10": 55.12152777777778, "final": 67.85563368055556},
-      "22702": {"efficiency": 73.61751302083333, "fairness_p10": 55.295138888888886, "final": 68.12080078125},
-      "22703": {"efficiency": 73.7783203125, "fairness_p10": 55.295138888888886, "final": 68.23336588541666},
-      "mean_final": 68.06993344907407
+    "paired_gain": {
+      "vs_v224": 0.08491086514790425,
+      "vs_same_budget_soft_control": 0.035047796567279,
+      "p10_caveat": "noise22703 P10 decreases by 0.086806; promotion follows the requested highest official total, not a no-P10-regression guarantee"
+    },
+    "sha256": {
+      "modelDesign.py": "CD05060B02093432B6881ECF8BFC357F02811FF831044BC73BADBC40A46044E4",
+      "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
+      "transmitter.pth": "09F5A29263B69AA556F7E02638C004554384BCD7DDB4E095CBC094AAFFB79CF5",
+      "receiver.pth": "79702014A8B9176EC1660EF7ABA5FAE28A3BE876020095F3515E10438C1B41C0"
     },
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_soft_score_v224_official.zip",
-      "bytes": 90994058,
-      "sha256": "221E6D2F84C9995B6F417B3D79048D2FD39408D5E354A730B9739E13C84B840B"
+      "name": "FATE_MIMO_submission_pure_neural_joint_snr_v227_official.zip",
+      "bytes": 179000048,
+      "sha256": "80F9C8BE57ABEAE5C236DE30571C3A15A165249AB1ACB7508E25CAC7BC9F1068"
     }
   },
   "references": {
+    "previous_champion_v224_fixed_holdout_mean_final": 68.06993344907407,
+    "previous_champion_v224_legacy_mean_final": 68.06502604166666,
     "previous_champion_v190_mean_final": 63.21795030381944,
     "previous_champion_v223_mean_final": 67.24261284722223,
     "v223_online_score": 67.01164987745,

@@ -21,7 +21,7 @@ OUTPUT_PREFIX_POLICY = ((-20.0, 20.0, NUM_BITS_PER_UE),)
 LOW_SNR_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_THRESHOLD_DB = -20.0
 MIDDLE_PREFIX_BITS = 924
-SNR_EXPERT_EDGES_DB = (-20.0, 20.0)
+SNR_EXPERT_EDGES_DB = (-20.0, -10.0, 20.0)
 SNR_EXPERT_BOUNDARIES_DB = SNR_EXPERT_EDGES_DB[1:-1]
 NUM_EXPERTS = len(SNR_EXPERT_EDGES_DB) - 1
 
@@ -172,7 +172,8 @@ class ReceiverCore(nn.Module):
 class Encoder(nn.Module):
     def __init__(self):
         super().__init__()
-        self.experts = nn.ModuleList([EncoderCore() for _ in range(NUM_EXPERTS)])
+        # Shared feedback is needed before the transmitter knows the pair profile.
+        self.experts = nn.ModuleList([EncoderCore()])
 
     def initialize_from_baseline(self, state_dict: dict[str, torch.Tensor]) -> None:
         for expert in self.experts:
@@ -184,13 +185,7 @@ class Encoder(nn.Module):
             expert.load_state_dict(compatible, strict=False)
 
     def forward(self, h: torch.Tensor, snr: torch.Tensor) -> torch.Tensor:
-        indices = _expert_indices(snr)
-        output = torch.empty((h.shape[0], NUM_UL_RE), device=h.device, dtype=h.dtype)
-        for expert_index, expert in enumerate(self.experts):
-            selected = indices == expert_index
-            if bool(selected.any().item()):
-                output[selected] = expert(h[selected], snr[selected])
-        return output
+        return self.experts[0](h, snr)
 
 
 class Transmitter(nn.Module):

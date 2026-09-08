@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V224
+solution_version: V227
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -11,27 +11,42 @@ data:
   split_seed: 1176
 model:
   family: pure_neural_black_box
-  architecture: per_subcarrier_wide_residual_mlp
-  parameters: 24497340
+  architecture: per_subcarrier_wide_residual_mlp_joint_snr_experts
+  parameters: 48191288
   residual_width: 512
   residual_blocks: 10
   num_bits_per_re: 8
   payload_bits_per_ue: 1152
   uplink_complex_symbols: 96
+  shared_encoder: true
+  joint_tx_rx_expert_edges_db: [-20.0, -10.0, 20.0]
+  routing_statistic: minimum_of_two_user_snr
 training:
-  initialization: V220 compatible weights except k8 input/output heads
-  stages:
-    - {snr_db: [5.0, 20.0], loss: bce, learning_rate: 1.0e-4, best_step: 8000}
-    - {snr_db: [-8.0, 20.0], loss: hinge_bce, learning_rate: 3.0e-5, best_step: 10000}
-    - {snr_db: [-8.0, 20.0], loss: hinge_bce, learning_rate: 1.0e-5, best_step: 4500}
-    - {snr_db: [-20.0, 20.0], loss: soft_score, learning_rate: 5.0e-6, best_step: 6000}
-    - {snr_db: [-20.0, 20.0], loss: soft_score, learning_rate: 2.0e-6, best_step: 8000}
+  initialization: V224 full weights replicated into Tx/Rx profiles
+  source_report: benchmarks/pure_neural_joint_snr_v227_training.json
+  train_components: [transmitter.experts.0, receiver.experts.0]
+  frozen_components: [encoder, transmitter.experts.1, receiver.experts.1]
+  seed: 15234
+  batch_size: 100
+  learning_rate: 5.0e-6
+  requested_steps: 6000
+  best_step: 5250
+  snr_db: [-20.0, 20.0]
+  loss: soft_score
+  score_temperature: 0.5
+  quantile_bandwidth: 0.025
+  score_bce_weight: 0.05
+  score_fairness_weight: 0.3
+  tail_fraction: 0.1
 evaluation:
-  seeds: [1176, 1177, 1178]
+  split_seed: 1176
+  test_offset: 2000
+  seeds: [22701, 22702, 22703]
   samples_per_seed: 2000
-  mean_final: 68.06502604166666
+  mean_final: 68.15484447337963
+  online_score: null
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_soft_score_v224_official.zip
-  sha256: 221E6D2F84C9995B6F417B3D79048D2FD39408D5E354A730B9739E13C84B840B
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_joint_snr_v227_official.zip
+  sha256: 80F9C8BE57ABEAE5C236DE30571C3A15A165249AB1ACB7508E25CAC7BC9F1068

@@ -4,3 +4,5 @@
 *.jpg binary
 *.jpeg binary
 *.zip binary
+# Preserve the exact audited submission source bytes across Windows checkouts.
+modelSubmit/modelDesign.py -text
