@@ -14,8 +14,8 @@
 |---|---|---|---|
 | V230-control / V230C | 无：两专家同预算续训 | artifacts/pure_neural_v230/two_control_clean | 完成；audit 68.313899；晋级 |
 | V230-eight | 2→8个联合Tx/Rx专家，每段5dB，按最低SNR选组 | artifacts/pure_neural_v230/eight | 训练中 |
-| V231 | 软判决温度0.5→0.1 | artifacts/pure_neural_v231/temperature01 | 训练中 |
-| V232 | H与SNR驱动的通用神经特征缩放/偏移 | artifacts/pure_neural_v232/context | 排队 |
+| V231 | 软判决温度0.5→0.1 | artifacts/pure_neural_v231/temperature01 | 完成；audit68.228263，净负收益，拒绝 |
+| V232 | H与SNR驱动的通用神经特征缩放/偏移 | artifacts/pure_neural_v232/context | 训练中 |
 | V233 | 5bit内传模式及双用户SNR之和，Rx加入伙伴SNR嵌入 | artifacts/pure_neural_v233/partner | 排队 |
 | V234（后续） | 反馈驱动的Tx比特特征神经门控 | artifacts/pure_neural_v234/feedback | 已排队，在V235后执行 |
 | V235（后续） | 仅将共享Encoder由冻结改为可训练 | artifacts/pure_neural_v235/end_to_end | 已排队，在八专家完成及复评后执行 |

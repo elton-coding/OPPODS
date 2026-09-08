@@ -1,0 +1,76 @@
+{
+  "submission": "artifacts\\pure_neural_v231\\temperature01",
+  "partition": "split1176 validation only",
+  "seed": 25240,
+  "samples": 512,
+  "batch_size": 8,
+  "hard_score": {
+    "efficiency": 73.46903228759766,
+    "p10": 55.29513931274414,
+    "final": 68.0168643951416
+  },
+  "temperature_diagnostics": [
+    {
+      "temperature": 0.5,
+      "global_soft_score": {
+        "efficiency": 71.19656372070312,
+        "p10": 53.210065841674805,
+        "final": 65.80061435699463
+      },
+      "per_ue_score_mae": 2.2847578525543213,
+      "per_ue_pearson": 0.9964026626432287,
+      "mean_sigmoid_derivative": 0.20757073163986206
+    },
+    {
+      "temperature": 0.25,
+      "global_soft_score": {
+        "efficiency": 72.90414428710938,
+        "p10": 54.66295623779297,
+        "final": 67.43178787231444
+      },
+      "per_ue_score_mae": 0.5876433253288269,
+      "per_ue_pearson": 0.9995945062358834,
+      "mean_sigmoid_derivative": 0.18972468376159668
+    },
+    {
+      "temperature": 0.1,
+      "global_soft_score": {
+        "efficiency": 73.44570922851562,
+        "p10": 55.324971771240236,
+        "final": 68.009487991333
+      },
+      "per_ue_score_mae": 0.13851109147071838,
+      "per_ue_pearson": 0.9999311283279287,
+      "mean_sigmoid_derivative": 0.1038636863231659
+    },
+    {
+      "temperature": 0.05,
+      "global_soft_score": {
+        "efficiency": 73.47125244140625,
+        "p10": 55.35086212158203,
+        "final": 68.03513534545898
+      },
+      "per_ue_score_mae": 0.0944974273443222,
+      "per_ue_pearson": 0.9999668489202658,
+      "mean_sigmoid_derivative": 0.09139801561832428
+    }
+  ],
+  "absolute_logit_quantiles": {
+    "0.1": 0.44643932580947876,
+    "0.5": 0.9023874998092651,
+    "0.9": 5.493343353271484,
+    "0.99": 9.325864791870117
+  },
+  "absolute_logit_mean": 2.00101637840271,
+  "confident_wrong_fraction_by_own_snr": {
+    "[-20,-15)": 0.0035558128729462624,
+    "[-15,-10)": 0.0090249078348279,
+    "[-10,-5)": 0.02527901716530323,
+    "[-5,0)": 0.056089743971824646,
+    "[0,5)": 0.07397481054067612,
+    "[5,10)": 0.06815551221370697,
+    "[10,15)": 0.047191910445690155,
+    "[15,20)": 0.05016013979911804
+  },
+  "caveat": "Diagnostic only, not official batch1 evaluation. Temperature changes do not change this frozen model's hard scores; quantiles here are global, not minibatch rank-smoothed training loss."
+}
