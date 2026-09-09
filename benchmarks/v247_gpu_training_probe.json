@@ -1,0 +1,80 @@
+{
+  "purpose": "resource/runtime only, not score evidence",
+  "report": {
+    "stage": "calibrate",
+    "expert_index": null,
+    "train_components": [
+      "transmitter",
+      "receiver"
+    ],
+    "optimize_expert_index": null,
+    "trainable_parameters": 47387896,
+    "variable_payload": false,
+    "learning_rate": 5e-05,
+    "batch_size": 400,
+    "validation_samples": 4,
+    "snr_interval_db": [
+      -20.0,
+      20.0
+    ],
+    "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 1]",
+    "baseline_expert_map": [
+      0,
+      1
+    ],
+    "seed": 15240,
+    "tail_weight": 0.0,
+    "tail_fraction": 0.1,
+    "loss_kind": "soft_score",
+    "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+    "margin": 0.5,
+    "score_temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "score_bce_weight": 0.05,
+    "score_fairness_weight": 0.3,
+    "context_weight": null,
+    "focus_snr_high": 20.0,
+    "focus_prob": 0.0,
+    "train_snr_interval": [
+      -20.0,
+      20.0
+    ],
+    "validation_match_train_snr": false,
+    "shared_frontend": false,
+    "requested_steps": 2,
+    "best_step": 0,
+    "best_validation": {
+      "loss": 0.6931719250149198,
+      "efficiency": 67.1115493774414,
+      "fairness": 54.670139694213866,
+      "final": 63.379126472473146
+    },
+    "history": [
+      {
+        "step": 0,
+        "loss": 0.6931719250149198,
+        "efficiency": 67.1115493774414,
+        "fairness": 54.670139694213866,
+        "final": 63.379126472473146
+      },
+      {
+        "step": 2,
+        "loss": 0.6914946238199869,
+        "efficiency": 66.82942962646484,
+        "fairness": 54.72222213745117,
+        "final": 63.19726737976073
+      }
+    ],
+    "elapsed_seconds": 1.9555497001856565,
+    "gpu_memory_fraction": 0.4,
+    "gpu_peak_allocated_bytes": 7329462784,
+    "gpu_peak_reserved_bytes": 10169090048,
+    "output_dir": "D:\\Source\\OPPODS\\artifacts\\resource_probe\\v247\\cuda_batch400_lr5",
+    "microbatch_size": 100,
+    "validation_batch_size": 100,
+    "global_loss_ue_count": 800,
+    "training_channel_draws": 800,
+    "activation_checkpointing": "nonreentrant; explicit per-chunk generator replay",
+    "random_stream_caveat": "batch grouping and microbatch channel-noise draws differ from batch100 control"
+  }
+}
