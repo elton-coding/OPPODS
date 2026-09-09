@@ -1,0 +1,17 @@
+{
+  "purpose": "gradient/runtime equivalence only; synthetic channels, no score evaluation",
+  "global_batch": 4,
+  "microbatch": 2,
+  "trainable_parameters": 47387896,
+  "max_logit_delta": 0.0,
+  "max_gradient_delta": 0.0,
+  "backward_preserves_generator": true,
+  "input_sha256": {
+    "research\\pure_neural_v227\\modelDesign.py": "d8b1e579d36e5023630712f0febd7a22c89a6b458f8487dc8a8c49d44fbc20a6",
+    "scripts\\train_pure_neural_global_batch_v246.py": "1e4a5449eba2bac5b4bacb578c3483dbc2758bd925681a8a0c73a0424988f02a",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0"
+  }
+}

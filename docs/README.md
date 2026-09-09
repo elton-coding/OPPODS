@@ -138,6 +138,7 @@
 - [V224 可导官方评分代理损失](experiments/pure-neural-soft-score-loss-v224.md)
 
 - [V245 BCE辅助权重单因素消融](experiments/pure-neural-bce-weight-v245.md)
+- [V246 大批次全局P10、同样本预算消融](experiments/pure-neural-global-batch-v246.md)
 
 ## 外部方案研究
 
