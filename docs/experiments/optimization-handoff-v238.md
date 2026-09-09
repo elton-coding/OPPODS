@@ -1,4 +1,6 @@
-# 持续优化交接：V234—V249
+# 持续优化交接：V234—V250
+
+2026-09-09 13:45最新覆盖：V250八专家RMS预算36k→72k已正式启动，训练PID10620、父66420、会话80145。原V227重跑，非36k权重重启；前36k共37点须复现；完成自动audit对V242E及V241。全套测试通过10跳过、新增4测试/Ruff通过，预登记dc22fdb已推送codex/pure-neural-long-budget-v250。计划artifacts/pure_neural_v250/eight/execution_plan.json已冻结原V242输入、自身/共享依赖及完整数据哈希，运行中勿修改。当前仅一项GPU训练，不重复启动。细节见pure-neural-long-budget-v250.md；main/origin main仍09e0ca7的V242E，未达69。历史会话均关闭。
 
 更新时间：2026-09-09 13:33检查后。此页是恢复工作的索引，不替代实时进程检查。
 
