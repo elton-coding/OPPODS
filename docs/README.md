@@ -5,6 +5,7 @@
 ## 综合报告
 
 - [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：当前冠军，两专家36k固定audit均分68.439628，尚未达到69，线上未确认；[提交说明](submission/V240C_提交说明.md)。
+- [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，低于当前冠军；[V242 RMS×长预算](experiments/pure-neural-rms-budget-v242.md)继续测试两项改进能否组合。
 - [V230E 八段SNR专家](experiments/pure-neural-eight-snr-v230.md)：历史冠军，固定留出集均分68.360464。
 - [V230C 同预算续训](experiments/pure-neural-continuation-v230c.md)：同预算对照与历史冠军，固定留出集均分68.313899。
 - [V230—V234实验组](experiments/pure-neural-v230-v233-cohort.md)：八专家、温度、接收端条件、伙伴SNR、发射端门控的独立尝试。

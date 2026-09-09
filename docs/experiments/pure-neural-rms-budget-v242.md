@@ -22,3 +22,5 @@ V241八专家RMS在12k预算下为68.395108，相对八专家soft_score的68.360
 脚本scripts/run_pure_neural_rms_budget_v242.py。两专家利用V241释放的槽立即训练；八专家等待V240-eight完整36k和三噪声audit完成再启动，等待不占GPU。最多两项GPU训练；若依赖已经达到69则暂缓新训练、优先冻结确认。等待超时6小时需要诊断，不删产物重跑。
 
 输出artifacts/pure_neural_v242/{two,eight}/steps36000，audit标签v242_two_rms_36k和v242_eight_rms_36k。固定split1176、offset2000、noise22701/22702/22703、每噪声2000通道逐样本评测，保留效率/P10、三组总分、哈希和通道配对区间。多次查看的audit不是盲测，达到69附近后冻结并独立窗口确认。此次不改冠军部署，不保证分数单调或必达69。
+
+2026-09-09 08:35：99项测试通过、10项跳过，Ruff通过；特性分支codex/pure-neural-rms-budget-v242预登记已推送2f6e8c8。two已正式开始训练，step0与V239逐值相同；eight等待器已启动，等待V240-eight完整audit释放槽。详细PID/会话见optimization-handoff-v238.md。没有新的最终效果分数。
