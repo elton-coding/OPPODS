@@ -1,4 +1,10 @@
-# 持续优化交接：V234—V251
+# 持续优化交接：V234—V252
+
+2026-09-09 14:11最新覆盖：V252代码/CPU探针已完成并在8c9a6d2推送codex/pure-neural-balanced-routing-v252，全套测试通过10跳过，新增7项及Ruff通过。正式等待器PID23084、会话85397已启动，等待V251完整36k三噪声audit（v251_eight_rms_fair50_36k），此时不占第三项GPU训练。计划artifacts/pure_neural_v252/eight/execution_plan.json已冻结；所有绑定依赖勿改，尤其V250/V251 helpers、RMS入口、审计/评测/配对脚本。不要重复启动等待器。完成前驱后先GPU batch100/验证2000两步probe及初始指标门控，再独立原V227正式36k；不是从probe续训。前驱>=69则暂缓确认。
+
+V252仅调整八专家min-SNR分段，保留-10父分界，映射[0,0,0,0,1,1,1,1]。CPU真实父模型8路由/16UE逐样本logits精确一致，批处理最大差0.0005235672（首个atol1e-4检查失败后分离检查），硬判决差0、loss差0、聚合输出头梯度差<5.36e-9、1296梯度张量有限；不把CPU探针当成绩，GPU完整初始验证仍待门控。证据v252_cpu_runtime_probe.json，详情pure-neural-balanced-routing-v252.md。正式输出artifacts/pure_neural_v252/eight/balanced_steps36000。
+
+当前GPU仍两项：V250会话80145/PID10620/父66420（最新见5000步validation68.170903）；V251会话67102/PID55488/父7836（最新见4000步validation68.094411）。两项仍正常训练，不重启；14:11显存28077/32607MiB。V252只是等待器。测试99410已完成，不再轮询。main仍09e0ca7的V242E，未达69，无新正式audit或新提交包。
 
 2026-09-09 13:49最新覆盖：V251正式36k训练已启动，训练PID55488、父7836、会话67102；原V227八专家RMS，只改代理公平权重0.3→0.5，官方验证/audit仍0.7效率+0.3P10。初始四项验证完全复现V242E，功能预登记0969652已推送codex/pure-neural-fairness-v251；全套测试通过10跳过，新增4测试/Ruff通过。输出artifacts/pure_neural_v251/eight/fair50_steps36000；完整36k后自动audit仅对同预算V242E，不和V250混合。源/父/数据/审计依赖均冻结，运行中勿改。详见pure-neural-fairness-v251.md。
 
