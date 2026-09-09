@@ -139,6 +139,7 @@
 
 - [V245 BCE辅助权重单因素消融](experiments/pure-neural-bce-weight-v245.md)
 - [V246 大批次全局P10、同样本预算消融](experiments/pure-neural-global-batch-v246.md)
+- [V247 批次×学习率完整因子实验](experiments/pure-neural-batch-lr-v247.md)
 
 ## 外部方案研究
 
