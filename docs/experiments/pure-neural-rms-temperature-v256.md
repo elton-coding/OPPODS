@@ -22,7 +22,9 @@ CPU专项覆盖完整batch100×2UE×1152在零/近零/通常/大幅logits下的�
 
 正式目录artifacts/pure_neural_v256/eight/temperature025_steps72000，探针artifacts/resource_probe/v256/eight_temperature025，标签v256_eight_rms_temperature025_72k。此预登记时仅代码/专项测试完成编写，尚未运行GPU探针、正式训练或等待队列；最终测试及启动状态另记。
 
-2026-09-09 23:01执行前检查：9项新专项及Ruff通过；CPU隐藏CUDA的完整测试会话92695正常exit0，234项中224通过、10跳过。原有两项GPU训练未受打断，未启动第三项GPU任务。本次代码/协议先提交推送，之后才启动只等待V255的排队进程；队列实际启动另行记录。
+2026-09-09 23:00执行前检查：9项新专项及Ruff通过；CPU隐藏CUDA的完整测试会话92695正常exit0，234项中224通过、10跳过（collect-only另核对234项）。原有两项GPU训练未受打断，未启动第三项GPU任务。
+
+2026-09-09 23:01启动复核：代码/协议在a802e6c提交并先推送，随后真实启动等待会话85414，Python PID52552、父PowerShell17316，等待上限86400秒。artifacts/pure_neural_v256/eight/execution_plan.json排他创建，冻结63项输入，启动后重查全部SHA256一致；运行器SHA7f47ab49e5a6235d1aa5194f2df441b2414b21f6f090f8c366147573025eec33。当前只等待V255完整审计，无V256 GPU探针、正式模型或分数，不重复启动。超时应核对真实前驱进程，不能由超时推定训练失败。main仍f3630cd的V250，不修改冠军包。
 
 ## 评分与采纳
 

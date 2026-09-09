@@ -11,7 +11,7 @@
 - [V253 联合min/max SNR分段](experiments/pure-neural-pair-routing-v253.md)：完整36k固定均分68.562225；优于同概率V252，但对同预算V242E净增区间跨0，低于现冠军V250，不晋级。
 - [V254 十六个2.5dB联合专家](experiments/pure-neural-sixteen-experts-v254.md)：原父模型完整72k重训中，另预登记专家数×存储精度四组消融；八专家half存储CPU转换完成但尚未评分，不以超限完整精度包或源模型分数替代转换后的验证。
 - [V255 后半程余弦学习率](experiments/pure-neural-cosine-v255.md)：仅将固定学习率改为前36k保持、后36k衰减；CPU完整72k更新证明及GPU初始检查已通过，正式独立72k训练中，不同时改变Adam/损失/专家架构，尚无新成绩。
-- [V256 RMS温度减半](experiments/pure-neural-rms-temperature-v256.md)：相对V250只改归一化评分代理温度0.5→0.25，恒定学习率和72k预算不变；9项专项、完整224通过10跳过及Ruff通过，待排队，尚未训练或评分。
+- [V256 RMS温度减半](experiments/pure-neural-rms-temperature-v256.md)：相对V250只改归一化评分代理温度0.5→0.25，恒定学习率和72k预算不变；9项专项、完整224通过10跳过及Ruff通过，63项来源冻结并已排队等待V255完成，尚未训练或评分。
 - [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：历史冠军，两专家36k固定audit均分68.439628；[提交说明](submission/V240C_提交说明.md)。
 - [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，历史短预算对照。
 - [V244 跨子载波残差](experiments/pure-neural-token-context-v244.md)：完整audit68.299965，未证明净收益，不采纳。
