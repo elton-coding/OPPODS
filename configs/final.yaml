@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V240C
+solution_version: V242E
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -12,18 +12,18 @@ data:
 model:
   family: pure_neural_black_box
   architecture: per_subcarrier_wide_residual_mlp_joint_snr_experts
-  parameters: 48191288
+  parameters: 190354976
   residual_width: 512
   residual_blocks: 10
   num_bits_per_re: 8
   payload_bits_per_ue: 1152
   uplink_complex_symbols: 96
   shared_encoder: true
-  joint_tx_rx_expert_edges_db: [-20.0, -10.0, 20.0]
+  joint_tx_rx_expert_edges_db: [-20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0]
   routing_statistic: minimum_of_two_user_snr
 training:
-  initialization: V227 exact two-expert bank mapping [0, 1]
-  source_report: benchmarks/v240_two_36k_audit_offset2000.json
+  initialization: V227 exact eight-expert bank mapping [0, 0, 1, 1, 1, 1, 1, 1]
+  source_report: benchmarks/v242_eight_rms_36k_audit_offset2000.json
   train_components: [transmitter, receiver]
   frozen_components: [encoder]
   seed: 15240
@@ -32,7 +32,9 @@ training:
   requested_steps: 36000
   best_step: 36000
   snr_db: [-20.0, 20.0]
-  loss: soft_score
+  loss: rms_score
+  rms_normalization: per_UE_logits_differentiable_RMS_before_soft_proxy
+  bce_logits: raw_unnormalized
   score_temperature: 0.5
   quantile_bandwidth: 0.025
   score_bce_weight: 0.05
@@ -43,10 +45,21 @@ evaluation:
   test_offset: 2000
   seeds: [22701, 22702, 22703]
   samples_per_seed: 2000
-  mean_final: 68.43962818287036
+  mean_final: 68.53162543402779
   online_score: null
+confirmation:
+  report: benchmarks/v242e_confirm_audit_offset4000.json
+  split_seed: 1176
+  test_offset: 4000
+  seeds: [32701, 32702, 32703]
+  samples_per_seed: 2000
+  mean_final: 68.51278428819444
+  paired_gain_vs_v240c: 0.08166943000157308
+  scope: conditional_current_cohort_confirmation_with_historical_overlap
+  whole_project_blindness_certified: false
+  ancestor_training_provenance_certified: false
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v240_two_36k_official.zip
-  sha256: 6F701E57D2F089D3412646CFFCEAD31191EEAAD3BFA8E0064AFF33EA3943F288
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v242_eight_rms_36k_official.zip
+  sha256: C39E000CA8EF905563FBB95AAA7E7220B69CC94D5742FBBA6541F3616866DD7C

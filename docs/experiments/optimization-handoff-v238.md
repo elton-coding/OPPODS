@@ -1,6 +1,12 @@
 # 持续优化交接：V234—V249
 
-更新时间：2026-09-09 13:00检查后。此页是恢复工作的索引，不替代实时进程检查。
+更新时间：2026-09-09 13:26检查后。此页是恢复工作的索引，不替代实时进程检查。
+
+13:26发布准备覆盖：V242E确认全部完成，均分68.51278428819444，比V240C +0.081669430，CI[0.063592213,0.127998089]，三噪声总分/效率/P10均升，预登记判定通过；会话94884/PID4836结束，不再轮询。计划全部源hash重新核对不变。当前分支codex/promote-v242e，已将精确冻结4文件复制到modelSubmit及707021014字节固定ZIP复制为canonical；旧V240C不可变ZIP哈希已核对并保留。configs/final.yaml、leaderboard、README、V242E提交说明已更新，尚待Git发布完成及后续状态覆盖。
+
+完整测试重跑通过、10项跳过；最初两个manifest测试失败是leaderboard里modelDesign哈希漏写一个E，实际部署4文件从始至终匹配冻结源，已修正元数据并全套重跑通过（会话1126关闭）。不要为这些已修复历史失败重训或改模型。新manifest测试同时绑定原audit、确认audit、部署文件、canonical和来源限制。确认结果属于有历史交叉/祖先缺口的条件性验证，线上仍未确认且未达69。
+
+V249已完整12k、best12000 validation68.171787，原会话85473/父9284在自动audit，已见noise22701 68.086727，尚未完整结论。V248会话68158/父63120仍训练，最新11000步validation68.154599。两者自动audit对照仍旧V240C及各自C/V235，完成后必须补新冠军V242E的原offset2000配对，不复用确认窗口调整候选。当前没有新训练排队；先完成发布和两项最终消融记录。
 
 13:05兼容性准备覆盖：V242E候选CPU25组SNR/50UE接口和8路由检查通过，证据v242e_candidate_contract.json；候选固定包FATE_MIMO_submission_pure_neural_v242_eight_rms_36k_official.zip已生成707021014字节，SHA256 c39e000ca8ef905563fbb95aaa7e7220b69cc94d5742fbba6541f3616866dd7c，CRC/四成员/解压hash全部与audit一致，证据v242e_candidate_package.json。打包会话27155已关闭，不再轮询；没有改变modelSubmit或canonical/main，仍待完整冻结确认。
 

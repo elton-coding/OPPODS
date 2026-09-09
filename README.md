@@ -21,13 +21,15 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 & $python -m pytest
 ```
 
-## 当前冠军方案（V240C）
+## 当前本地冠军方案（V242E）
 
-V240C 是纯神经黑盒链路：共享 Encoder 压缩为96个复反馈符号；按双用户最低SNR以-10dB为界，选择两组联合Transmitter/Receiver专家，均使用宽512、10块逐子载波MLP。从V227初始化后训练全部Tx/Rx共36000步，Encoder冻结。每RE8bit、每UE完整1152bit，使用 `0.7×效率+0.3×P10` 的软评分代理及少量BCE，温度仍0.5。
+V242E 是纯神经黑盒链路：共享Encoder压缩为96个复反馈符号；按双用户最低SNR将[-20,20]dB分为八个5dB区间，选择对应联合Transmitter/Receiver专家，均使用宽512、10块逐子载波MLP。从V227复制初始化后训练全部Tx/Rx共36000步，Encoder冻结。每RE8bit、每UE完整1152bit；损失先按UE对logits作可导RMS归一化，再计算 `0.7×软效率+0.3×软P10`，另外保留原始logits上的0.05 BCE，温度0.5。RMS只用于训练损失，不改变推理接口。
 
-固定留出集（split1176、offset2000、noise22701/22702/22703）本地总分为 `68.209171/68.514516/68.595197`，均值 **`68.439628`**；相比原冠军V230E提高0.079164，配对95%区间[0.047651,0.112285]。相对两专家12k对照V230C提高0.125729，前12k验证轨迹逐值相同，支持增加训练预算有效。同预算八专家候选已完成68.442320，相对V240C仅+0.002692、区间跨0，未确认可靠提升，暂不晋级。179MB提交包低于1GB；尚未达到69，线上未确认。此窗口已用于选型，不是盲测，历史评测交叉问题见[划分审计](docs/experiments/evaluation-partition-audit-v227.md)。
+固定选型audit（split1176、offset2000、noise22701/22702/22703）本地总分为 `68.301981/68.596806/68.696089`，均值 **`68.531625`**；相比原冠军V240C提高0.091998，配对95%区间[0.068086,0.128838]。同36k八专家对照隔离RMS损失净收益0.089306，完整损失×预算消融已保留。冻结后的offset4000确认均值68.512784，相对V240C提高0.081669，区间[0.063592,0.127998]，三组均提升。
 
-当前结果见[V240长预算报告](docs/experiments/pure-neural-long-budget-v240.md)与[提交说明](docs/submission/V240C_提交说明.md)，历史八专家见[V230E报告](docs/experiments/pure-neural-eight-snr-v230.md)，消融见[总表](docs/experiments/ablation-registry.md)，冻结参数见[final.yaml](configs/final.yaml)，成绩见[冠军基准表](benchmarks/leaderboard.json)。
+约707MB提交包低于1GB；尚未达到69，线上未确认。确认窗口未用于本轮候选选型，但与更早历史评测有1779/2000通道交叉，祖先训练谱系记录也未完全补齐，不能称全项目盲测或已证明全谱系无泄漏。详见[冻结确认及限制](docs/experiments/frozen-confirmation-v242e.md)和[划分审计](docs/experiments/evaluation-partition-audit-v227.md)。
+
+当前结果见[V242消融报告](docs/experiments/pure-neural-rms-budget-v242.md)与[提交说明](docs/submission/V242E_提交说明.md)，旧V240C固定包和原始权重保留，消融见[总表](docs/experiments/ablation-registry.md)，冻结参数见[final.yaml](configs/final.yaml)，成绩见[冠军基准表](benchmarks/leaderboard.json)。
 
 ## Git 与版本纪律
 

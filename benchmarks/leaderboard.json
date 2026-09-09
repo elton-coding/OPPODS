@@ -14,38 +14,54 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 two joint-SNR experts, frozen shared Encoder and soft-score loss, nested 36000-step budget",
-    "version": "V240C",
-    "source_commit": "f7b86ba",
-    "promotion_commit": "28a4bb1",
+    "solution": "FATE-MIMO pure-neural k8/B1152 eight 5dB joint-SNR experts, frozen shared Encoder and RMS-normalized score loss, nested 36000-step budget",
+    "version": "V242E",
+    "source_commit": "8f1c564",
+    "promotion_commit": null,
     "local_validation": {
-      "22701": {"efficiency": 73.70655381944444, "fairness_p10": 55.38194444444444, "final": 68.20917100694444},
-      "22702": {"efficiency": 74.03487413194443, "fairness_p10": 55.633680555555564, "final": 68.51451605902777},
-      "22703": {"efficiency": 74.18361545138889, "fairness_p10": 55.55555555555556, "final": 68.59519748263888},
-      "mean_final": 68.43962818287036
+      "22701": {"efficiency": 73.76473524305557, "fairness_p10": 55.55555555555556, "final": 68.30198133680557},
+      "22702": {"efficiency": 74.07430555555557, "fairness_p10": 55.81597222222222, "final": 68.59680555555556},
+      "22703": {"efficiency": 74.2533420138889, "fairness_p10": 55.729166666666664, "final": 68.69608940972222},
+      "mean_final": 68.53162543402779
     },
     "online_leaderboard": null,
     "paired_gain": {
-      "vs_previous_champion_v230e": 0.07916405318578275,
-      "paired_delta_vs_v230e_95_interval": [0.047650944235326405, 0.11228484069506722],
-      "vs_short_budget_v230c": 0.12572908061345345,
-      "paired_delta_vs_v230c_95_interval": [0.09682082490125966, 0.15791881509542258],
-      "attribution": "The controlled change versus V230C is budget 12000 to 36000. V230E used only 12000 steps; this does not prove two experts outperform eight at equal budget.",
-      "p10_caveat": "All three totals improve versus V230E, P10 is equal on noise22701 and higher on the other two. This viewed audit is not blind; online confirmation is outstanding."
+      "vs_previous_champion_v240c": 0.091997521909074,
+      "paired_delta_vs_v240c_95_interval": [0.06808636579195712, 0.12883801155328004],
+      "vs_same_budget_eight_soft_v240": 0.08930557877222611,
+      "paired_delta_vs_same_budget_eight_soft_95_interval": [0.0553174693290354, 0.1278397779583942],
+      "vs_short_budget_eight_rms_v241": 0.13651781826018805,
+      "attribution": "Same-eight-expert 36k comparison isolates RMS loss; same-RMS eight-expert 12k comparison measures the budget increment. Full loss-by-budget factorial retained.",
+      "p10_caveat": "All three efficiency/P10/total metrics improve versus V240C on the viewed audit. Same-RMS two-expert comparison has a third-seed P10 decrease. No universal fairness or online claim."
+    },
+    "conditional_confirmation": {
+      "report": "benchmarks/v242e_confirm_audit_offset4000.json",
+      "split_seed": 1176,
+      "test_offset": 4000,
+      "noise_seeds": [32701, 32702, 32703],
+      "mean_final": 68.51278428819444,
+      "baseline_mean_final": 68.43111472800926,
+      "paired_gain": 0.08166943000157308,
+      "paired_95_interval": [0.06359221281051906, 0.12799808899561166],
+      "all_three_total_deltas_positive": true,
+      "whole_project_blindness_certified": false,
+      "ancestor_training_provenance_certified": false,
+      "caveat": "Preregistered window unused for current cohort selection; 1779/2000 channels appeared in older historical evaluations. Not whole-project blind or online confirmation."
     },
     "sha256": {
-      "modelDesign.py": "D8B1E579D36E5023630712F0FEBD7A22C89A6B458F8487DC8A8C49D44FBC20A6",
+      "modelDesign.py": "8F61993AE1DD6767C4096D0E45DD6D4FEE6E0823ED2A2FC224BACC375C45B632",
       "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
-      "transmitter.pth": "728EAC2240CEFA66895F74B7739033644C7360C3E51F7B5E33334103B150D509",
-      "receiver.pth": "F3BE5D7499E6EF7C1A42E6718076E41C8F55FAAC3981B6E8B642D50AB0C65251"
+      "transmitter.pth": "BEF020E67D0E48DEAB3B24187B596399409AFED60BADE4F5F575CE2E9EC2E084",
+      "receiver.pth": "773A97A4C8CB0352631FC17CAE9486F41F2E4BF15F4BB12918F7108A929BE175"
     },
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_v240_two_36k_official.zip",
-      "bytes": 179001720,
-      "sha256": "6F701E57D2F089D3412646CFFCEAD31191EEAAD3BFA8E0064AFF33EA3943F288"
+      "name": "FATE_MIMO_submission_pure_neural_v242_eight_rms_36k_official.zip",
+      "bytes": 707021014,
+      "sha256": "C39E000CA8EF905563FBB95AAA7E7220B69CC94D5742FBBA6541F3616866DD7C"
     }
   },
   "references": {
+    "previous_champion_v240c_fixed_holdout_mean_final": 68.43962818287036,
     "previous_champion_v230e_fixed_holdout_mean_final": 68.36046440972221,
     "previous_champion_v230c_fixed_holdout_mean_final": 68.3138990162037,
     "previous_champion_v227_fixed_holdout_mean_final": 68.15484447337963,
