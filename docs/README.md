@@ -10,6 +10,7 @@
 - [V252 近等频SNR分段](experiments/pure-neural-balanced-routing-v252.md)：68.483786，相对V242E配对区间为负，不采纳。
 - [V253 联合min/max SNR分段](experiments/pure-neural-pair-routing-v253.md)：保持V252理论路由概率改变区域形状，独立36k训练中；实时进度见[交接记录](experiments/optimization-handoff-v238.md)。
 - [V254 十六个2.5dB联合专家](experiments/pure-neural-sixteen-experts-v254.md)：原父模型完整72k重训中，另预登记专家数×存储精度四组消融；八专家half存储CPU转换完成但尚未评分，不以超限完整精度包或源模型分数替代转换后的验证。
+- [V255 后半程余弦学习率](experiments/pure-neural-cosine-v255.md)：仅将固定学习率改为前36k保持、后36k衰减，CPU完整72k更新证明已通过；等待V253完整审计后独立重训，不同时改变Adam/损失/专家架构，尚无新成绩。
 - [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：历史冠军，两专家36k固定audit均分68.439628；[提交说明](submission/V240C_提交说明.md)。
 - [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，历史短预算对照。
 - [V244 跨子载波残差](experiments/pure-neural-token-context-v244.md)：完整audit68.299965，未证明净收益，不采纳。

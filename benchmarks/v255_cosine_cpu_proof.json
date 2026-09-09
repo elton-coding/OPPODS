@@ -1,0 +1,336 @@
+{
+  "passed": true,
+  "device": "cpu",
+  "parameters": 4,
+  "updates_checked": 72000,
+  "constant_prefix_parameter_and_adam_state_exact_updates": 36000,
+  "manual_schedule_parameter_and_adam_state_exact_updates": 72000,
+  "global_and_local_rng_unchanged": true,
+  "input_sha256": {
+    "scripts\\probe_pure_neural_cosine_v255.py": "bac47e7e10f5ea15b98597ce1be2a57279ef6cf30499d0e8a470d3b89f44b78b",
+    "scripts\\train_pure_neural_cosine_v255.py": "2cca9e8c58d60c86db58d492c63f51fcaefc6e19048f4b476035150d15e5811e",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4"
+  },
+  "actual_schedule": {
+    "kind": "constant_then_cosine",
+    "hold_updates": 36000,
+    "total_updates": 72000,
+    "initial_learning_rate": 1e-05,
+    "minimum_ratio": 0.1,
+    "applied_before_optimizer_step": true,
+    "optimizer_state_restart": false,
+    "probe_uses_full72000_schedule_not_two_step_decay": true,
+    "completed_updates": 72000,
+    "last_applied_rate": 1.0000000000000002e-06,
+    "applied_rates_float64_le_sha256": "3f8394fcf93598dbf5f38c00b863e805480c840b93ea43cc9ff1b9a30bb96744",
+    "trace": [
+      {
+        "update": 1,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 2,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 1000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 2000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 3000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 4000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 5000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 6000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 7000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 8000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 9000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 10000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 11000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 12000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 13000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 14000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 15000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 16000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 17000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 18000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 19000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 20000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 21000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 22000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 23000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 24000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 25000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 26000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 27000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 28000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 29000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 30000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 31000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 32000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 33000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 34000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 35000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 36000,
+        "learning_rate": 1e-05
+      },
+      {
+        "update": 36001,
+        "learning_rate": 9.999999982865271e-06
+      },
+      {
+        "update": 37000,
+        "learning_rate": 9.982876141412857e-06
+      },
+      {
+        "update": 38000,
+        "learning_rate": 9.931634888554937e-06
+      },
+      {
+        "update": 39000,
+        "learning_rate": 9.846666218300808e-06
+      },
+      {
+        "update": 40000,
+        "learning_rate": 9.728616793536588e-06
+      },
+      {
+        "update": 41000,
+        "learning_rate": 9.578385041664926e-06
+      },
+      {
+        "update": 42000,
+        "learning_rate": 9.397114317029975e-06
+      },
+      {
+        "update": 43000,
+        "learning_rate": 9.186184199300464e-06
+      },
+      {
+        "update": 44000,
+        "learning_rate": 8.947199994035402e-06
+      },
+      {
+        "update": 45000,
+        "learning_rate": 8.681980515339464e-06
+      },
+      {
+        "update": 46000,
+        "learning_rate": 8.392544243589428e-06
+      },
+      {
+        "update": 47000,
+        "learning_rate": 8.081093963579707e-06
+      },
+      {
+        "update": 48000,
+        "learning_rate": 7.75e-06
+      },
+      {
+        "update": 49000,
+        "learning_rate": 7.401782177833148e-06
+      },
+      {
+        "update": 50000,
+        "learning_rate": 7.0390906449655104e-06
+      },
+      {
+        "update": 51000,
+        "learning_rate": 6.664685702961344e-06
+      },
+      {
+        "update": 52000,
+        "learning_rate": 6.281416799501188e-06
+      },
+      {
+        "update": 53000,
+        "learning_rate": 5.892200842364463e-06
+      },
+      {
+        "update": 54000,
+        "learning_rate": 5.500000000000001e-06
+      },
+      {
+        "update": 55000,
+        "learning_rate": 5.107799157635538e-06
+      },
+      {
+        "update": 56000,
+        "learning_rate": 4.718583200498814e-06
+      },
+      {
+        "update": 57000,
+        "learning_rate": 4.335314297038656e-06
+      },
+      {
+        "update": 58000,
+        "learning_rate": 3.960909355034491e-06
+      },
+      {
+        "update": 59000,
+        "learning_rate": 3.598217822166854e-06
+      },
+      {
+        "update": 60000,
+        "learning_rate": 3.2500000000000015e-06
+      },
+      {
+        "update": 61000,
+        "learning_rate": 2.9189060364202944e-06
+      },
+      {
+        "update": 62000,
+        "learning_rate": 2.607455756410573e-06
+      },
+      {
+        "update": 63000,
+        "learning_rate": 2.3180194846605367e-06
+      },
+      {
+        "update": 64000,
+        "learning_rate": 2.0528000059646e-06
+      },
+      {
+        "update": 65000,
+        "learning_rate": 1.8138158006995366e-06
+      },
+      {
+        "update": 66000,
+        "learning_rate": 1.602885682970026e-06
+      },
+      {
+        "update": 67000,
+        "learning_rate": 1.4216149583350756e-06
+      },
+      {
+        "update": 68000,
+        "learning_rate": 1.2713832064634127e-06
+      },
+      {
+        "update": 69000,
+        "learning_rate": 1.1533337816991932e-06
+      },
+      {
+        "update": 70000,
+        "learning_rate": 1.0683651114450641e-06
+      },
+      {
+        "update": 71000,
+        "learning_rate": 1.0171238585871451e-06
+      },
+      {
+        "update": 72000,
+        "learning_rate": 1.0000000000000002e-06
+      }
+    ]
+  },
+  "final_max_parameter_difference_vs_constant": 0.0012020394206047058,
+  "elapsed_seconds": 30.469406000338495,
+  "torch_version": "2.10.0+cu128",
+  "model_score_evaluated": false,
+  "caveat": "four-parameter CPU Adam proof only; actual model still requires initialization/full-prefix checks"
+}
