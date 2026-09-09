@@ -1,0 +1,117 @@
+{
+  "sources": [
+    {
+      "source_audit": "benchmarks\\v240_two_36k_audit_offset2000.json",
+      "label": "v240c_confirm_v242e",
+      "directory": "artifacts/pure_neural_v240/two/steps36000",
+      "files": {
+        "modelDesign.py": {
+          "sha256": "d8b1e579d36e5023630712f0febd7a22c89a6b458f8487dc8a8c49d44fbc20a6",
+          "bytes": 13899
+        },
+        "encoder.pth": {
+          "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+          "bytes": 3216093
+        },
+        "transmitter.pth": {
+          "sha256": "728eac2240cefa66895f74b7739033644c7360c3e51f7b5e33334103b150d509",
+          "bytes": 105196207
+        },
+        "receiver.pth": {
+          "sha256": "f3be5d7499e6ef7c1a42e6718076e41c8f55faac3981b6e8b642d50ab0c65251",
+          "bytes": 84473773
+        }
+      }
+    },
+    {
+      "source_audit": "benchmarks\\v242_eight_rms_36k_audit_offset2000.json",
+      "label": "v242e_confirm",
+      "directory": "artifacts/pure_neural_v242/eight/steps36000",
+      "files": {
+        "modelDesign.py": {
+          "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+          "bytes": 13933
+        },
+        "encoder.pth": {
+          "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+          "bytes": 3216093
+        },
+        "transmitter.pth": {
+          "sha256": "bef020e67d0e48deab3b24187b596399409afed60bade4f5f575ce2e9ec2e084",
+          "bytes": 420783351
+        },
+        "receiver.pth": {
+          "sha256": "773a97a4c8cb0352631fc17cae9486f41f2e4bf15f4bb12918f7108a929be175",
+          "bytes": 337893605
+        }
+      }
+    }
+  ],
+  "input_sha256": {
+    "scripts\\run_frozen_confirmation_v242e.py": "77bc12f97a7a3491374d7896264ef9b592b3e23c710f3c7b790b55717e854204",
+    "scripts\\audit_pure_neural_candidate.py": "6095d40b7b7ec4efeb5161807da254af1ec3071fa57e4024a810baf8faf646c1",
+    "scripts\\evaluate_submission.py": "0a323055c4f2789f8bec70738ddbaa7a28b2527ca42ebe4641203b93ccc6caa6",
+    "scripts\\compare_paired_holdout.py": "b4640d37ea503f6a2cae6ad5a7b6b506ff373f1aa83dafc15bce02318871f307",
+    "scripts\\run_pure_neural_rms_budget_v242.py": "55a7a7fe8c93ced5020720c9dac15ad7056797e07af5005f566cf3bef9ac2a9a",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "benchmarks\\confirmation_channel_inventory_20260909_0925.json": "9f3394f05bb53849884f5932bc11b3d96cf2c2baa821dffa6764c8b7abf8a30b",
+    "benchmarks\\v240_two_36k_audit_offset2000.json": "30195ee1f83bfa7b12a29b7ec03b3b5724a1a76f6945fb4ada786ca2dee8b976",
+    "benchmarks\\v242_eight_rms_36k_audit_offset2000.json": "7bab8e0843745bcb48b7e72278cf65b7588180c28687236e1b59e310b022591f"
+  },
+  "protocol": {
+    "split_seed": 1176,
+    "test_offset": 4000,
+    "samples": 2000,
+    "noise_seeds": [
+      32701,
+      32702,
+      32703
+    ]
+  },
+  "commands": [
+    [
+      "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+      "-u",
+      "scripts/audit_pure_neural_candidate.py",
+      "--submission",
+      "artifacts/pure_neural_v240/two/steps36000",
+      "--label",
+      "v240c_confirm_v242e",
+      "--baseline-label",
+      "",
+      "--test-offset",
+      "4000",
+      "--samples",
+      "2000",
+      "--noise-seeds",
+      "32701",
+      "32702",
+      "32703"
+    ],
+    [
+      "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+      "-u",
+      "scripts/audit_pure_neural_candidate.py",
+      "--submission",
+      "artifacts/pure_neural_v242/eight/steps36000",
+      "--label",
+      "v242e_confirm",
+      "--baseline-label",
+      "v240c_confirm_v242e",
+      "--test-offset",
+      "4000",
+      "--samples",
+      "2000",
+      "--noise-seeds",
+      "32701",
+      "32702",
+      "32703"
+    ]
+  ],
+  "criteria": "all three paired total deltas > 0 and channel-bootstrap 95% lower bound > 0",
+  "scope": "unused for this V230+ cohort's offset2000 selection, NOT whole-project unseen",
+  "historical_channel_overlap": 1779,
+  "whole_project_blindness_certified": false,
+  "ancestor_training_provenance_certified": false,
+  "online_confirmation": false
+}
