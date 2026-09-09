@@ -22,9 +22,9 @@ def test_default_parameterization_loads_official_weights() -> None:
     encoder = candidate.Encoder()
     transmitter = candidate.Transmitter()
     receiver = candidate.Receiver()
-    encoder.load_state_dict(torch.load(ROOT / "ziliao/modelSubmit/encoder.pth", weights_only=True))
-    transmitter.load_state_dict(torch.load(ROOT / "ziliao/modelSubmit/transmitter.pth", weights_only=True))
-    receiver.load_state_dict(torch.load(ROOT / "ziliao/modelSubmit/receiver.pth", weights_only=True))
+    encoder.load_state_dict(torch.load(ROOT / "ziliao/modelSubmit/encoder.pth", map_location="cpu", weights_only=True))
+    transmitter.load_state_dict(torch.load(ROOT / "ziliao/modelSubmit/transmitter.pth", map_location="cpu", weights_only=True))
+    receiver.load_state_dict(torch.load(ROOT / "ziliao/modelSubmit/receiver.pth", map_location="cpu", weights_only=True))
 
 
 def test_bits_per_re_and_payload_control_only_the_expected_shapes() -> None:

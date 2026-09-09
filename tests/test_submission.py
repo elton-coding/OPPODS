@@ -12,9 +12,9 @@ def test_submission_components_match_official_contract() -> None:
     encoder = Encoder()
     transmitter = Transmitter()
     receiver = Receiver()
-    encoder.load_state_dict(torch.load(root / "modelSubmit/encoder.pth", weights_only=True))
-    transmitter.load_state_dict(torch.load(root / "modelSubmit/transmitter.pth", weights_only=True))
-    receiver.load_state_dict(torch.load(root / "modelSubmit/receiver.pth", weights_only=True))
+    encoder.load_state_dict(torch.load(root / "modelSubmit/encoder.pth", map_location="cpu", weights_only=True))
+    transmitter.load_state_dict(torch.load(root / "modelSubmit/transmitter.pth", map_location="cpu", weights_only=True))
+    receiver.load_state_dict(torch.load(root / "modelSubmit/receiver.pth", map_location="cpu", weights_only=True))
     channel = torch.complex(torch.randn(1, 2, 2, 16, 144), torch.randn(1, 2, 2, 16, 144))
     bits = [torch.randint(0, 2, (1, 1152), dtype=torch.float32) for _ in range(2)]
     snr = torch.tensor([[0.0], [20.0]])
@@ -44,8 +44,8 @@ def test_submission_walsh_pilot_profile_targets_weaker_user() -> None:
     encoder = Encoder()
     transmitter = Transmitter()
     receiver = Receiver()
-    transmitter.load_state_dict(torch.load(root / "modelSubmit/transmitter.pth", weights_only=True))
-    receiver.load_state_dict(torch.load(root / "modelSubmit/receiver.pth", weights_only=True))
+    transmitter.load_state_dict(torch.load(root / "modelSubmit/transmitter.pth", map_location="cpu", weights_only=True))
+    receiver.load_state_dict(torch.load(root / "modelSubmit/receiver.pth", map_location="cpu", weights_only=True))
     channel = torch.complex(torch.randn(1, 2, 2, 16, 144), torch.randn(1, 2, 2, 16, 144))
     bits = [torch.randint(0, 2, (1, 1152), dtype=torch.float32) for _ in range(2)]
     snr = torch.tensor([[0.0], [5.0]])
