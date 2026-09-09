@@ -2,6 +2,8 @@
 
 更新时间：2026-09-09 12:18检查后。此页是恢复工作的索引，不替代实时进程检查。
 
+12:22只读来源核查补充：V227冻结Encoder0/Tx1/Rx1与V224 soft_score_long分别4/4、86/86、76/76个张量精确相同，另两个V224目录均0匹配；具体哈希和证据边界见confirmation-overlap-audit-v243.md。现存V224/calibration.json属于fairness0.5/带宽0.01实验，不能套用到long。仅证明对应冻结组件，不补填V227低专家或更早训练历史；没有运行新确认窗口模型评分。两项GPU训练与V248等待器继续，未改绑定依赖。
+
 12:18最新覆盖：当前分支codex/pure-neural-temperature-v248，功能预登记47b8f57已推送。新增V248仅把C的评分温度0.5→1.0，仍原V227两专家、batch100/12k/Adam1e-5/BCE0.05，不叠加RMS或大批次。全套测试通过、10项跳过，新增代码Ruff通过；探针尚未运行，没有效果分数。
 
 V248等待器PID63120、会话68158已运行，等待V242-eight完整36k三噪声audit，不占第三项GPU训练。它将先自动生成v242_eight_rms_vs_soft_36k_paired.json和v242_eight_loss_budget_factorial.json，**不要再手工重复创建这两个预留输出**；完成前驱分析后如其<69，GPU batch100两步probe再正式12k。依赖若>=69则暂缓并冻结确认。执行计划artifacts/pure_neural_v248/execution_plan.json绑定自身脚本、V242/V237 helper、基础训练器、父权重和C audit及两个比较脚本，启动后勿修改这些依赖。详见pure-neural-temperature-v248.md。
