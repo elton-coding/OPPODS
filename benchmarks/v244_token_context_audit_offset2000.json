@@ -1,0 +1,700 @@
+{
+  "label": "v244_token_context",
+  "submission": "D:\\Source\\OPPODS\\artifacts\\pure_neural_v244\\context",
+  "files": {
+    "modelDesign.py": {
+      "sha256": "2eef97276104e2aee330781944779a969172a6f9e827a82f15c5db1fa8eb0d2e",
+      "bytes": 15246
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "3743d0165a3964138225d1e3fc2f72e5306184991fc59c51160565c0c173b7f1",
+      "bytes": 105904267
+    },
+    "receiver.pth": {
+      "sha256": "29ec4bbd50832aa57c5ed0ac536fc7d6e2b95ccd90538c6340b151047101a8ef",
+      "bytes": 85181791
+    }
+  },
+  "training_report": {
+    "stage": "calibrate",
+    "expert_index": null,
+    "train_components": [
+      "transmitter",
+      "receiver"
+    ],
+    "optimize_expert_index": null,
+    "trainable_parameters": 47739384,
+    "variable_payload": false,
+    "learning_rate": 1e-05,
+    "batch_size": 100,
+    "validation_samples": 2000,
+    "snr_interval_db": [
+      -20.0,
+      20.0
+    ],
+    "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 1]",
+    "baseline_expert_map": [
+      0,
+      1
+    ],
+    "seed": 15240,
+    "tail_weight": 0.0,
+    "tail_fraction": 0.1,
+    "loss_kind": "soft_score",
+    "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+    "margin": 0.5,
+    "score_temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "score_bce_weight": 0.05,
+    "score_fairness_weight": 0.3,
+    "context_weight": null,
+    "focus_snr_high": 20.0,
+    "focus_prob": 0.0,
+    "train_snr_interval": [
+      -20.0,
+      20.0
+    ],
+    "validation_match_train_snr": false,
+    "shared_frontend": false,
+    "requested_steps": 12000,
+    "best_step": 11000,
+    "best_validation": {
+      "loss": 0.5551072065565321,
+      "efficiency": 73.77498626708984,
+      "fairness": 55.12152862548828,
+      "final": 68.17894897460937
+    },
+    "history": [
+      {
+        "step": 0,
+        "loss": 0.5584146067301432,
+        "efficiency": 73.62701416015625,
+        "fairness": 54.94791793823242,
+        "final": 68.02328529357911
+      },
+      {
+        "step": 1000,
+        "loss": 0.5548965131971572,
+        "efficiency": 73.65007019042969,
+        "fairness": 54.94791793823242,
+        "final": 68.0394245147705
+      },
+      {
+        "step": 2000,
+        "loss": 0.5549391801622179,
+        "efficiency": 73.65533447265625,
+        "fairness": 54.94791793823242,
+        "final": 68.0431095123291
+      },
+      {
+        "step": 3000,
+        "loss": 0.5559652099609375,
+        "efficiency": 73.68641662597656,
+        "fairness": 55.03472137451172,
+        "final": 68.09090805053711
+      },
+      {
+        "step": 4000,
+        "loss": 0.5538507605658637,
+        "efficiency": 73.69954681396484,
+        "fairness": 54.94791793823242,
+        "final": 68.07405815124511
+      },
+      {
+        "step": 5000,
+        "loss": 0.5551106567382813,
+        "efficiency": 73.7069091796875,
+        "fairness": 55.03472137451172,
+        "final": 68.10525283813476
+      },
+      {
+        "step": 6000,
+        "loss": 0.5552459428575304,
+        "efficiency": 73.71067810058594,
+        "fairness": 55.03472137451172,
+        "final": 68.10789108276367
+      },
+      {
+        "step": 7000,
+        "loss": 0.5548696543375651,
+        "efficiency": 73.7352523803711,
+        "fairness": 55.03472137451172,
+        "final": 68.12509307861328
+      },
+      {
+        "step": 8000,
+        "loss": 0.553657955593533,
+        "efficiency": 73.74578857421875,
+        "fairness": 55.12152862548828,
+        "final": 68.1585105895996
+      },
+      {
+        "step": 9000,
+        "loss": 0.554714611477322,
+        "efficiency": 73.77040100097656,
+        "fairness": 55.03472137451172,
+        "final": 68.1496971130371
+      },
+      {
+        "step": 10000,
+        "loss": 0.5557836727566189,
+        "efficiency": 73.75401306152344,
+        "fairness": 55.12152862548828,
+        "final": 68.16426773071288
+      },
+      {
+        "step": 11000,
+        "loss": 0.5551072065565321,
+        "efficiency": 73.77498626708984,
+        "fairness": 55.12152862548828,
+        "final": 68.17894897460937
+      },
+      {
+        "step": 12000,
+        "loss": 0.5545540483262804,
+        "efficiency": 73.77970123291016,
+        "fairness": 55.03472137451172,
+        "final": 68.15620727539061
+      }
+    ],
+    "elapsed_seconds": 1631.6472074999474,
+    "gpu_memory_fraction": 0.4,
+    "gpu_peak_allocated_bytes": 7563674112,
+    "gpu_peak_reserved_bytes": 13654556672,
+    "output_dir": "D:\\Source\\OPPODS\\artifacts\\pure_neural_v244\\context"
+  },
+  "protocol": {
+    "split_seed": 1176,
+    "test_offset": 2000,
+    "samples": 2000,
+    "noise_seeds": [
+      22701,
+      22702,
+      22703
+    ]
+  },
+  "per_seed": [
+    {
+      "command": [
+        "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+        "D:\\Source\\OPPODS\\scripts\\evaluate_submission.py",
+        "--submission",
+        "D:\\Source\\OPPODS\\artifacts\\pure_neural_v244\\context",
+        "--samples",
+        "2000",
+        "--split-seed",
+        "1176",
+        "--test-offset",
+        "2000",
+        "--seed",
+        "22701",
+        "--progress-every",
+        "0",
+        "--scores-out",
+        "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22701.npz"
+      ],
+      "seed": 22701,
+      "split_seed": 1176,
+      "test_offset": 2000,
+      "samples": 2000,
+      "scores": 4000,
+      "efficiency": 73.56888020833334,
+      "fairness": 55.295138888888886,
+      "final": 68.0867578125,
+      "elapsed_seconds": 46.04279289999977,
+      "short_outputs": 0,
+      "min_output_length": 1152,
+      "max_output_length": 1152
+    },
+    {
+      "command": [
+        "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+        "D:\\Source\\OPPODS\\scripts\\evaluate_submission.py",
+        "--submission",
+        "D:\\Source\\OPPODS\\artifacts\\pure_neural_v244\\context",
+        "--samples",
+        "2000",
+        "--split-seed",
+        "1176",
+        "--test-offset",
+        "2000",
+        "--seed",
+        "22702",
+        "--progress-every",
+        "0",
+        "--scores-out",
+        "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22702.npz"
+      ],
+      "seed": 22702,
+      "split_seed": 1176,
+      "test_offset": 2000,
+      "samples": 2000,
+      "scores": 4000,
+      "efficiency": 73.88196614583333,
+      "fairness": 55.38194444444444,
+      "final": 68.33195963541667,
+      "elapsed_seconds": 46.86801639990881,
+      "short_outputs": 0,
+      "min_output_length": 1152,
+      "max_output_length": 1152
+    },
+    {
+      "command": [
+        "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+        "D:\\Source\\OPPODS\\scripts\\evaluate_submission.py",
+        "--submission",
+        "D:\\Source\\OPPODS\\artifacts\\pure_neural_v244\\context",
+        "--samples",
+        "2000",
+        "--split-seed",
+        "1176",
+        "--test-offset",
+        "2000",
+        "--seed",
+        "22703",
+        "--progress-every",
+        "0",
+        "--scores-out",
+        "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22703.npz"
+      ],
+      "seed": 22703,
+      "split_seed": 1176,
+      "test_offset": 2000,
+      "samples": 2000,
+      "scores": 4000,
+      "efficiency": 74.06165364583333,
+      "fairness": 55.46006944444445,
+      "final": 68.48117838541665,
+      "elapsed_seconds": 46.91527780005708,
+      "short_outputs": 0,
+      "min_output_length": 1152,
+      "max_output_length": 1152
+    }
+  ],
+  "exact_mean_final": 68.29996527777777,
+  "comparisons": {
+    "v240_two_36k": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v240_two_36k_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.70655376529693,
+            "p10": 55.38194274902344,
+            "final": 68.20917046041488
+          },
+          "candidate": {
+            "efficiency": 73.56888025188447,
+            "p10": 55.29513931274414,
+            "final": 68.08675797014237
+          },
+          "delta": {
+            "efficiency": -0.1376735134124658,
+            "p10": -0.08680343627929688,
+            "final": -0.12241249027250944
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.11090925978898555,
+            "[-15,-10)": -0.11501727898915609,
+            "[-10,-5)": -0.17230079219026387,
+            "[-5,0)": -0.35533308935449803,
+            "[0,5)": -0.017137601140231024,
+            "[5,10)": -0.03862083564370365,
+            "[10,15)": -0.08420424872123347,
+            "[15,20)": -0.19738368275749238
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 986,
+              "mean_score_delta": -0.11119214613103963
+            },
+            "[-15,-10)": {
+              "ue_count": 768,
+              "mean_score_delta": -0.1291909565528234
+            },
+            "[-10,-5)": {
+              "ue_count": 712,
+              "mean_score_delta": -0.14227806584218913
+            },
+            "[-5,0)": {
+              "ue_count": 582,
+              "mean_score_delta": -0.14900100026343696
+            },
+            "[0,5)": {
+              "ue_count": 402,
+              "mean_score_delta": -0.13474311638827347
+            },
+            "[5,10)": {
+              "ue_count": 276,
+              "mean_score_delta": -0.24531982256018597
+            },
+            "[10,15)": {
+              "ue_count": 212,
+              "mean_score_delta": -0.11505807120845003
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.12180746755292339
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 3.90625
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v240_two_36k_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 74.03487409687042,
+            "p10": 55.63368034362793,
+            "final": 68.51451597089768
+          },
+          "candidate": {
+            "efficiency": 73.88196611785888,
+            "p10": 55.38194274902344,
+            "final": 68.33195910720825
+          },
+          "delta": {
+            "efficiency": -0.15290797901154463,
+            "p10": -0.2517375946044922,
+            "final": -0.18255686368942747
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.07663586349168083,
+            "[-15,-10)": -0.07293722239236625,
+            "[-10,-5)": -0.1983072884270087,
+            "[-5,0)": -0.29717356315857973,
+            "[0,5)": -0.1391913083812485,
+            "[5,10)": -0.03246540832519531,
+            "[10,15)": -0.19651805029975045,
+            "[15,20)": -0.20278045716073348
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 890,
+              "mean_score_delta": -0.08622032336974411
+            },
+            "[-15,-10)": {
+              "ue_count": 826,
+              "mean_score_delta": -0.12032973448820322
+            },
+            "[-10,-5)": {
+              "ue_count": 664,
+              "mean_score_delta": -0.12602486093360257
+            },
+            "[-5,0)": {
+              "ue_count": 604,
+              "mean_score_delta": -0.17677285655444822
+            },
+            "[0,5)": {
+              "ue_count": 474,
+              "mean_score_delta": -0.26829146534078735
+            },
+            "[5,10)": {
+              "ue_count": 300,
+              "mean_score_delta": -0.23784740447998046
+            },
+            "[10,15)": {
+              "ue_count": 180,
+              "mean_score_delta": -0.19917076958550348
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.1722103241951235
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 8.940975189208984
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v240_two_36k_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 74.1836154384613,
+            "p10": 55.55555725097656,
+            "final": 68.59519798221588
+          },
+          "candidate": {
+            "efficiency": 74.06165362071991,
+            "p10": 55.460069274902345,
+            "final": 68.48117831697463
+          },
+          "delta": {
+            "efficiency": -0.12196181774139347,
+            "p10": -0.09548797607421733,
+            "final": -0.11401966524124418
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.13896419996811873,
+            "[-15,-10)": -0.039236190795898435,
+            "[-10,-5)": -0.2057484601824816,
+            "[-5,0)": -0.24645972158394608,
+            "[0,5)": -0.06473359573045763,
+            "[5,10)": 0.013888984680175782,
+            "[10,15)": -0.10362292175890182,
+            "[15,20)": -0.1945218846865511
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 876,
+              "mean_score_delta": -0.10711969088201653
+            },
+            "[-15,-10)": {
+              "ue_count": 810,
+              "mean_score_delta": -0.0662294081699701
+            },
+            "[-10,-5)": {
+              "ue_count": 704,
+              "mean_score_delta": -0.12527624043551358
+            },
+            "[-5,0)": {
+              "ue_count": 624,
+              "mean_score_delta": -0.14356299547048715
+            },
+            "[0,5)": {
+              "ue_count": 446,
+              "mean_score_delta": -0.21487303592698992
+            },
+            "[5,10)": {
+              "ue_count": 292,
+              "mean_score_delta": -0.13972126947690364
+            },
+            "[10,15)": {
+              "ue_count": 190,
+              "mean_score_delta": -0.12061390123869244
+            },
+            "[15,20)": {
+              "ue_count": 58,
+              "mean_score_delta": -0.05238263360385237
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 4.861114501953125
+        }
+      ],
+      "baseline_mean_final": 68.43962813784282,
+      "candidate_mean_final": 68.29996513144175,
+      "mean_delta": -0.13966300640106036,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        -0.17046125582933674,
+        -0.10946226693153663
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    },
+    "v230_control": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v230_control_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.57411025714875,
+            "p10": 55.29513931274414,
+            "final": 68.09041897382737
+          },
+          "candidate": {
+            "efficiency": 73.56888025188447,
+            "p10": 55.29513931274414,
+            "final": 68.08675797014237
+          },
+          "delta": {
+            "efficiency": -0.005230005264280635,
+            "p10": 0.0,
+            "final": -0.0036610036849964445
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.05667615249948699,
+            "[-15,-10)": -0.026584116617838542,
+            "[-10,-5)": -0.05028166860904334,
+            "[-5,0)": -0.018983442788095644,
+            "[0,5)": -0.003911906557533362,
+            "[5,10)": 0.009379629361427437,
+            "[10,15)": 0.06144690781496884,
+            "[15,20)": 0.04736476122591011
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 986,
+              "mean_score_delta": -0.041994156750414
+            },
+            "[-15,-10)": {
+              "ue_count": 768,
+              "mean_score_delta": -0.01571079095204671
+            },
+            "[-10,-5)": {
+              "ue_count": 712,
+              "mean_score_delta": -0.011094463005494536
+            },
+            "[-5,0)": {
+              "ue_count": 582,
+              "mean_score_delta": 0.029830100200430223
+            },
+            "[0,5)": {
+              "ue_count": 402,
+              "mean_score_delta": 0.031742133904452345
+            },
+            "[5,10)": {
+              "ue_count": 276,
+              "mean_score_delta": 0.011322463768115942
+            },
+            "[10,15)": {
+              "ue_count": 212,
+              "mean_score_delta": 0.03521370437909972
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.004199981689453125
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 2.6041717529296875
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v230_control_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 73.89377166175842,
+            "p10": 55.46875,
+            "final": 68.36626516323089
+          },
+          "candidate": {
+            "efficiency": 73.88196611785888,
+            "p10": 55.38194274902344,
+            "final": 68.33195910720825
+          },
+          "delta": {
+            "efficiency": -0.011805543899541249,
+            "p10": -0.0868072509765625,
+            "final": -0.03430605602264336
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.048487603415006374,
+            "[-15,-10)": -0.027394356812245748,
+            "[-10,-5)": -0.059344694619472366,
+            "[-5,0)": -0.007220154673931504,
+            "[0,5)": -0.05003484582070917,
+            "[5,10)": 0.039757095336914065,
+            "[10,15)": 0.01860113749428401,
+            "[15,20)": 0.03690110334017981
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 890,
+              "mean_score_delta": -0.046036169502172576
+            },
+            "[-15,-10)": {
+              "ue_count": 826,
+              "mean_score_delta": -0.008092053577339966
+            },
+            "[-10,-5)": {
+              "ue_count": 664,
+              "mean_score_delta": -0.004183407289436065
+            },
+            "[-5,0)": {
+              "ue_count": 604,
+              "mean_score_delta": 0.025007014243018547
+            },
+            "[0,5)": {
+              "ue_count": 474,
+              "mean_score_delta": -0.006775843946239616
+            },
+            "[5,10)": {
+              "ue_count": 300,
+              "mean_score_delta": -0.010416844685872395
+            },
+            "[10,15)": {
+              "ue_count": 180,
+              "mean_score_delta": -0.0236305660671658
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.02100156968639743
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 4.774303436279297
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v230_control_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v244_token_context_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 74.0634114780426,
+            "p10": 55.46875,
+            "final": 68.48501303462982
+          },
+          "candidate": {
+            "efficiency": 74.06165362071991,
+            "p10": 55.460069274902345,
+            "final": 68.48117831697463
+          },
+          "delta": {
+            "efficiency": -0.001757857322687073,
+            "p10": -0.008680725097654829,
+            "final": -0.0038347176551809525
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": -0.030692665282143948,
+            "[-15,-10)": -0.023263931274414062,
+            "[-10,-5)": -0.08610691247091927,
+            "[-5,0)": -0.021616326126397824,
+            "[0,5)": -0.008071291378824716,
+            "[5,10)": 0.045833328247070315,
+            "[10,15)": 0.059625786111312834,
+            "[15,20)": 0.04744422387497628
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 876,
+              "mean_score_delta": -0.03943911426143559
+            },
+            "[-15,-10)": {
+              "ue_count": 810,
+              "mean_score_delta": -0.02357685418776524
+            },
+            "[-10,-5)": {
+              "ue_count": 704,
+              "mean_score_delta": -0.0012331279841336336
+            },
+            "[-5,0)": {
+              "ue_count": 624,
+              "mean_score_delta": 0.02225782932379307
+            },
+            "[0,5)": {
+              "ue_count": 446,
+              "mean_score_delta": 0.009926124538541374
+            },
+            "[5,10)": {
+              "ue_count": 292,
+              "mean_score_delta": 0.06629303710101402
+            },
+            "[10,15)": {
+              "ue_count": 190,
+              "mean_score_delta": 0.06578955399362664
+            },
+            "[15,20)": {
+              "ue_count": 58,
+              "mean_score_delta": -0.04639500585095636
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 2.4305496215820312
+        }
+      ],
+      "baseline_mean_final": 68.31389905722936,
+      "candidate_mean_final": 68.29996513144175,
+      "mean_delta": -0.013933925787606919,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        -0.037517728203934904,
+        0.01104021927595105
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    }
+  },
+  "caveat": "Local repeated-selection audit, not an unseen confirmation or an online score."
+}
