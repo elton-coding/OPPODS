@@ -14,6 +14,7 @@
 - [V224 评分代理损失](experiments/pure-neural-soft-score-loss-v224.md)：历史初始化版本，修订后固定留出集均分68.069933。
 - [V228 硬排名损失消融](experiments/pure-neural-hard-rank-loss-v228.md)：同初始化、同样本和预算的损失对照。
 - [评测划分审计](experiments/evaluation-partition-audit-v227.md)：旧种子复评的训练通道交叉问题及修订协议。
+- [V243确认窗口交叉审计](experiments/confirmation-overlap-audit-v243.md)：1590个归档的通道ID清查；后续窗口与当前训练不交叉，但大部分曾被早期评测，不能称全项目未见盲测。
 - [FATE-MIMO V223 纯神经 k8/1152 技术与消融报告](experiments/pure-neural-adaptive-k8-v223.md)：历史版本，用户回报线上67.01164987745；历史本地三种子均分67.242613不属于固定留出协议。
 - [FATE-MIMO V190 技术方案与消融实验总报告](reports/FATE-MIMO_V190_技术方案与消融实验总报告.md)：历史混合方案、SNR 专家与消融记录。
 
