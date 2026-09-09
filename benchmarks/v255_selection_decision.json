@@ -1,0 +1,32 @@
+{
+  "label": "v255_eight_rms_cosine_72k",
+  "control": "v250_eight_rms_72k",
+  "decision_date": "2026-09-10",
+  "audit": "benchmarks/v255_eight_rms_cosine_72k_audit_offset2000.json",
+  "preregistered_gate_source": "docs/experiments/pure-neural-cosine-v255.md",
+  "candidate_exact_mean_final": 68.64515335648147,
+  "control_exact_mean_final": 68.60602864583332,
+  "paired_cache_mean_delta": 0.039125021870934994,
+  "paired_delta_95_percentile_interval": [0.012652995179494416, 0.06550187599738373],
+  "noise_seeds": [22701, 22702, 22703],
+  "paired_cache_final_deltas": [-0.0068179960250773775, 0.09893048076629896, 0.025262580871583395],
+  "gates": {
+    "complete_72000_step_training": true,
+    "all_73_validation_points_present": true,
+    "all_37_control_prefix_points_identical": true,
+    "applied_learning_rate_schedule_verified": true,
+    "completed_model_files_match_audit": true,
+    "paired_interval_lower_bound_positive": true,
+    "all_three_noise_final_deltas_positive": false,
+    "local_mean_at_least_69": false
+  },
+  "eligible_for_new_frozen_confirmation": false,
+  "promote_to_main": false,
+  "reason": "Positive average signal but noise22701 final regressed; do not relax the preregistered all-three-positive gate after observing results.",
+  "new_confirmation_evaluated": false,
+  "submission_package_created": false,
+  "online_score_known": false,
+  "global_blindness_certified": false,
+  "historical_ancestor_provenance_certified": false,
+  "caveat": "Finite-channel paired interval does not adjust for repeated selection or online shift. Preserve this result for future separately preregistered hypotheses; do not add its gain to another experiment."
+}
