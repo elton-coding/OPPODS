@@ -1,5 +1,13 @@
 # 持续优化交接：V234—V254
 
+2026-09-09 21:34最新覆盖：**V254存储四组执行器已经实现、测试、推送并启动**，不再是待实现事项。scripts/run_storage_factorial_v254.py在550a9de预登记推送，SHA e6e9910fc522aafda0c4ef7fe4e37f4b04a91359e80c91821a33d94fa1e508bf。会话34137、PID51848、父PowerShell62440，计划artifacts/pure_neural_v254/storage/execution_plan.json已排他创建，冻结51项输入；正在等v254_sixteen_rms_72k完整72k审计，最长24小时。仅CPU等待，不是第三项GPU训练。不要修改这些51项生产依赖/重启或复制队列，文档和新独立实验仍可变更。失败会保留failure.json及部分产物、不隐式恢复；超时不等于训练停止。
+
+流程：验证现有B和C及A冻结计划，等A完整73点/四文件/报告/缓存后单独冻结A→仅执行现有converter --arm sixteen生成AB→等待GPU空槽，分别audit B/AB→复用C/A及B/AB共12份固定缓存做四组配对/交互、每seed两块描述及SNR分箱→A/B/AB实际ZIP CRC/四成员哈希/大小→输出benchmarks/v254_expert_storage_factorial.json及storage/decision.json。AB三seed正且配对95%下界正、ZIP<=1e9才有资格另做冻结确认，不自动晋级/上线。不把源FP32历史/验证指标说成压缩后重训或新评分；不以A分数代替AB。若届时main变化，root另对当时冠军补充缓存配对，不能更换四组C。offset4000/6000已见，后续确认重新登记；历史通道交叉和祖先来源缺口仍需披露。
+
+15项新专项通过；最后完整CPU回归会话18374正常exit0，**202通过10跳过，38.96秒**，Ruff通过；较早85214的200通过10跳过也已关闭，勿再轮询。C源文件、B证明、V253/V254的27/31项输入复核均未变。当前仅3个活跃工具会话：**70145 V253训练**（PID14816/父47048）、**19900 V254训练**（PID9064/父60480）、**34137存储四组等待器**（PID51848）。V253最新23000步验证68.3978042602539，为已见最佳，目标36000；V254最新3000步验证68.05691146850586，目标72000。A/B/AB正式新成绩均未产生。V253完成后仍需在它自动对V242E/V252审计以外追加对现冠军V250缓存配对；不可改冻结V253运行器。
+
+主干仍f3630cd V250，本地固定三噪声68.60602864583332；仅V223线上67.01164987745已知，未达69。当前特性分支codex/pure-neural-sixteen-experts-v254，代码预登记提交550a9de已推送。下面所有“存储执行器未实现”“只有两个会话”等段落都是历史记录，已由本段覆盖；无V255。
+
 2026-09-09 21:15最新覆盖：V254存储转换代码已在0c20c37推送并完成eight/B组CPU转换（会话28139 exit0）。B目录artifacts/pure_neural_v254/storage/eight_fp16已经存在，证据benchmarks/v254_eight_fp16_storage_conversion.json；禁止覆盖/重转。source为冻结V250 best71000，新增训练0步，报告明确保留的是源float32训练历史/验证指标，不是B重训或B新验证。设计/Enc字节不变；Tx210508151字节SHA8b40fdbb0bf46df042faa4c60fc3d1efb3a46098c4ca3d370ffcb92cc665e6e4，Rx169047973字节SHA5720ee3233487b65a3d15cf471b2938e33d6c7e3daabe3c7c6db8bff60e5108a；两组件参数往返max误差0.00048828125。真实加载参数float32且逐张量等于half存储提升值；固定合成8路由/16UE maxlogit差0.0740709900856018、5/18432硬判决变化，有限输出。不把此误差称无损，也不把CPU探针当成绩。尚无B评分或ZIP，AB未转换。
 
 新脚本scripts/convert_storage_v254.py支持--arm eight/sixteen，转换器自身SHA b41cdceb4798dd189a05768632312b3b83b40fdde86e0de7fb17d26c1f162cdd已绑定B转换证据，后续不能随意修改导致证明过期。12项专项测试通过。为不占第三份GPU资源，只将tests/test_official_baseline_payload.py及tests/test_submission.py的权重载入改为map_location=cpu，不改断言或生产代码；CUDA隐藏下完整187通过10跳过，Ruff通过，测试24152已关闭。此前CUDA隐藏的2个旧测试失败已由CPU载入修复，未来可以安全在CPU执行完整测试。
