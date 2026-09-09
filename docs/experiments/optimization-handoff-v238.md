@@ -1,5 +1,9 @@
 # 持续优化交接：V234—V252
 
+2026-09-09 14:25诊断补充：只读9份既有offset2000缓存（V242E/V240-eight/V241 × 3噪声）完成champion-snr-tradeoffs-v242e.md。低尾91.35%自身SNR<-10；RMS相对soft36k改善弱UE而损伤混合配对的强UE，双方≥5dB反而均值+0.066966，不能把自身高SNR退步归因为高min-SNR路由专家欠训。纯描述性、非独立显著性或新评测，不改此前预登记V252边界，不访问offset4000调参。
+
+14:25原会话确认仍正常：V25080145最新8000步validation68.177844；V25167102最新已见6000步68.146296；V25285397仍等V251。没有新模型结果/主干变更，不重启训练或等待器。14:21实时PID与14:11相同，显存28080/32607MiB、温度69°C，工作树此前干净。
+
 2026-09-09 14:11最新覆盖：V252代码/CPU探针已完成并在8c9a6d2推送codex/pure-neural-balanced-routing-v252，全套测试通过10跳过，新增7项及Ruff通过。正式等待器PID23084、会话85397已启动，等待V251完整36k三噪声audit（v251_eight_rms_fair50_36k），此时不占第三项GPU训练。计划artifacts/pure_neural_v252/eight/execution_plan.json已冻结；所有绑定依赖勿改，尤其V250/V251 helpers、RMS入口、审计/评测/配对脚本。不要重复启动等待器。完成前驱后先GPU batch100/验证2000两步probe及初始指标门控，再独立原V227正式36k；不是从probe续训。前驱>=69则暂缓确认。
 
 V252仅调整八专家min-SNR分段，保留-10父分界，映射[0,0,0,0,1,1,1,1]。CPU真实父模型8路由/16UE逐样本logits精确一致，批处理最大差0.0005235672（首个atol1e-4检查失败后分离检查），硬判决差0、loss差0、聚合输出头梯度差<5.36e-9、1296梯度张量有限；不把CPU探针当成绩，GPU完整初始验证仍待门控。证据v252_cpu_runtime_probe.json，详情pure-neural-balanced-routing-v252.md。正式输出artifacts/pure_neural_v252/eight/balanced_steps36000。
