@@ -4,9 +4,14 @@
 
 ## 综合报告
 
-- [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：当前冠军，两专家36k固定audit均分68.439628，尚未达到69，线上未确认；[提交说明](submission/V240C_提交说明.md)。
-- [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，低于当前冠军；[V242 RMS×长预算](experiments/pure-neural-rms-budget-v242.md)继续测试两项改进能否组合。
-- [V244 跨子载波残差](experiments/pure-neural-token-context-v244.md)：保留父模型初始输出，联合增加收发上下文；已通过CPU探针，等待训练槽位，无正式效果结果。
+- [V250 八专家RMS长预算](experiments/pure-neural-long-budget-v250.md)：当前本地冠军，72k固定audit均分68.606029；[冻结确认](experiments/frozen-confirmation-v250.md)对V242E净增0.088250，仍未达69、线上未确认；[提交说明](submission/V250_提交说明.md)。
+- [V242 RMS×长预算](experiments/pure-neural-rms-budget-v242.md)：历史冠军V242E，八专家36k均分68.531625，完整损失×预算消融保留。
+- [V251 公平损失权重](experiments/pure-neural-fairness-v251.md)：68.518753，净收益未获支持，不采纳。
+- [V252 近等频SNR分段](experiments/pure-neural-balanced-routing-v252.md)：68.483786，相对V242E配对区间为负，不采纳。
+- [V253 联合min/max SNR分段](experiments/pure-neural-pair-routing-v253.md)：保持V252理论路由概率改变区域形状，独立36k训练中；实时进度见[交接记录](experiments/optimization-handoff-v238.md)。
+- [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：历史冠军，两专家36k固定audit均分68.439628；[提交说明](submission/V240C_提交说明.md)。
+- [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，历史短预算对照。
+- [V244 跨子载波残差](experiments/pure-neural-token-context-v244.md)：完整audit68.299965，未证明净收益，不采纳。
 - [V230E 八段SNR专家](experiments/pure-neural-eight-snr-v230.md)：历史冠军，固定留出集均分68.360464。
 - [V230C 同预算续训](experiments/pure-neural-continuation-v230c.md)：同预算对照与历史冠军，固定留出集均分68.313899。
 - [V230—V234实验组](experiments/pure-neural-v230-v233-cohort.md)：八专家、温度、接收端条件、伙伴SNR、发射端门控的独立尝试。

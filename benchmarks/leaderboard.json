@@ -14,53 +14,55 @@
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 eight 5dB joint-SNR experts, frozen shared Encoder and RMS-normalized score loss, nested 36000-step budget",
-    "version": "V242E",
-    "source_commit": "8f1c564",
-    "promotion_commit": "bb137e4",
+    "solution": "FATE-MIMO pure-neural k8/B1152 eight 5dB joint-SNR experts, frozen shared Encoder and RMS-normalized score loss, nested 72000-step budget",
+    "version": "V250",
+    "source_commit": "45dabee",
+    "promotion_commit": null,
     "local_validation": {
-      "22701": {"efficiency": 73.76473524305557, "fairness_p10": 55.55555555555556, "final": 68.30198133680557},
-      "22702": {"efficiency": 74.07430555555557, "fairness_p10": 55.81597222222222, "final": 68.59680555555556},
-      "22703": {"efficiency": 74.2533420138889, "fairness_p10": 55.729166666666664, "final": 68.69608940972222},
-      "mean_final": 68.53162543402779
+      "22701": {"efficiency": 73.89131944444443, "fairness_p10": 55.633680555555564, "final": 68.41402777777778},
+      "22702": {"efficiency": 74.1863064236111, "fairness_p10": 55.642361111111114, "final": 68.6231228298611},
+      "22703": {"efficiency": 74.33734809027779, "fairness_p10": 55.81597222222222, "final": 68.78093532986111},
+      "mean_final": 68.60602864583332
     },
     "online_leaderboard": null,
     "paired_gain": {
-      "vs_previous_champion_v240c": 0.091997521909074,
-      "paired_delta_vs_v240c_95_interval": [0.06808636579195712, 0.12883801155328004],
-      "vs_same_budget_eight_soft_v240": 0.08930557877222611,
-      "paired_delta_vs_same_budget_eight_soft_95_interval": [0.0553174693290354, 0.1278397779583942],
-      "vs_short_budget_eight_rms_v241": 0.13651781826018805,
-      "attribution": "Same-eight-expert 36k comparison isolates RMS loss; same-RMS eight-expert 12k comparison measures the budget increment. Full loss-by-budget factorial retained.",
-      "p10_caveat": "All three efficiency/P10/total metrics improve versus V240C on the viewed audit. Same-RMS two-expert comparison has a third-seed P10 decrease. No universal fairness or online claim."
+      "vs_previous_champion_v242e": 0.07440282541910885,
+      "paired_delta_vs_v242e_95_interval": [0.04144848991712079, 0.10341786909262703],
+      "vs_short_budget_eight_rms_v241": 0.2109206436792969,
+      "paired_delta_vs_v241_95_interval": [0.1818401400534301, 0.2534896111607465],
+      "attribution": "Only budget extended 36k to 72k; all 37 validation checkpoints through 36k match exactly. Same architecture, initialization, optimizer protocol and RMS loss. Best checkpoint selected at 71k on validation, not test.",
+      "p10_caveat": "All three efficiency and total metrics improve versus V242E on viewed audit; noise22702 P10 decreases by 0.173611. Confirmation P10 improves twice and is unchanged once. No universal fairness or online claim."
     },
     "conditional_confirmation": {
-      "report": "benchmarks/v242e_confirm_audit_offset4000.json",
+      "report": "benchmarks/v250_confirm_audit_offset6000.json",
+      "baseline_label": "v242e_confirm_v250",
+      "decision_report": "benchmarks/v250_confirmation_decision.json",
       "split_seed": 1176,
-      "test_offset": 4000,
-      "noise_seeds": [32701, 32702, 32703],
-      "mean_final": 68.51278428819444,
-      "baseline_mean_final": 68.43111472800926,
-      "paired_gain": 0.08166943000157308,
-      "paired_95_interval": [0.06359221281051906, 0.12799808899561166],
+      "test_offset": 6000,
+      "noise_seeds": [42701, 42702, 42703],
+      "mean_final": 68.42686197916667,
+      "baseline_mean_final": 68.33861255787038,
+      "paired_gain": 0.08824978062311573,
+      "paired_95_interval": [0.053780640635488076, 0.1183295914125409],
       "all_three_total_deltas_positive": true,
       "whole_project_blindness_certified": false,
       "ancestor_training_provenance_certified": false,
-      "caveat": "Preregistered window unused for current cohort selection; 1779/2000 channels appeared in older historical evaluations. Not whole-project blind or online confirmation."
+      "caveat": "Preregistered offset6000 window unused for current cohort selection; 1792/2000 channels appeared in older historical evaluations. Previously used offset4000 not reused. Not whole-project blind or online confirmation."
     },
     "sha256": {
       "modelDesign.py": "8F61993AE1DD6767C4096D0E45DD6D4FEE6E0823ED2A2FC224BACC375C45B632",
       "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
-      "transmitter.pth": "BEF020E67D0E48DEAB3B24187B596399409AFED60BADE4F5F575CE2E9EC2E084",
-      "receiver.pth": "773A97A4C8CB0352631FC17CAE9486F41F2E4BF15F4BB12918F7108A929BE175"
+      "transmitter.pth": "3CE3DE8C2C39EB6CB854E483A4330CB5352063AA1965DF7FF6C5F03D1C812BBD",
+      "receiver.pth": "BA162EA1D198DCCA036EFEA475E59AFB333873F0EDDBECF1624B80D0094ED3FA"
     },
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_v242_eight_rms_36k_official.zip",
-      "bytes": 707021014,
-      "sha256": "C39E000CA8EF905563FBB95AAA7E7220B69CC94D5742FBBA6541F3616866DD7C"
+      "name": "FATE_MIMO_submission_pure_neural_v250_eight_rms_72k_official.zip",
+      "bytes": 707033064,
+      "sha256": "48A83CB6FB47F25FF9DCE7DD88D3A934C88924CE8532A076BFF162BDDCE5B719"
     }
   },
   "references": {
+    "previous_champion_v242e_fixed_holdout_mean_final": 68.53162543402779,
     "previous_champion_v240c_fixed_holdout_mean_final": 68.43962818287036,
     "previous_champion_v230e_fixed_holdout_mean_final": 68.36046440972221,
     "previous_champion_v230c_fixed_holdout_mean_final": 68.3138990162037,

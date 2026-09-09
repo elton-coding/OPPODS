@@ -1,0 +1,159 @@
+{
+  "archive": "artifacts\\FATE_MIMO_submission_pure_neural_v250_eight_rms_72k_official.zip",
+  "archive_bytes": 707033064,
+  "archive_sha256": "48a83cb6fb47f25ff9dce7dd88d3a934c88924ce8532a076bff162bddce5b719",
+  "members": {
+    "submit_pt/modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "submit_pt/modelSubmit/encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "submit_pt/modelSubmit/transmitter.pth": {
+      "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+      "bytes": 420783351
+    },
+    "submit_pt/modelSubmit/receiver.pth": {
+      "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+      "bytes": 337893605
+    }
+  },
+  "crc_passed": true,
+  "files": {
+    "modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+      "bytes": 420783351
+    },
+    "receiver.pth": {
+      "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+      "bytes": 337893605
+    }
+  },
+  "cpu_contract_snr_pairs": [
+    [
+      -20.0,
+      -20.0
+    ],
+    [
+      -15.0,
+      -15.0
+    ],
+    [
+      -10.0,
+      -10.0
+    ],
+    [
+      -5.0,
+      -5.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      5.0,
+      5.0
+    ],
+    [
+      10.0,
+      10.0
+    ],
+    [
+      15.0,
+      15.0
+    ],
+    [
+      20.0,
+      20.0
+    ],
+    [
+      -20.0,
+      -10.0
+    ],
+    [
+      -20.0,
+      0.0
+    ],
+    [
+      -20.0,
+      20.0
+    ],
+    [
+      -10.0,
+      -20.0
+    ],
+    [
+      -10.0,
+      0.0
+    ],
+    [
+      -10.0,
+      20.0
+    ],
+    [
+      0.0,
+      -20.0
+    ],
+    [
+      0.0,
+      -10.0
+    ],
+    [
+      0.0,
+      20.0
+    ],
+    [
+      20.0,
+      -20.0
+    ],
+    [
+      20.0,
+      -10.0
+    ],
+    [
+      20.0,
+      0.0
+    ],
+    [
+      -19.0,
+      -1.0
+    ],
+    [
+      -1.0,
+      -19.0
+    ],
+    [
+      6.0,
+      19.0
+    ],
+    [
+      19.0,
+      6.0
+    ]
+  ],
+  "ue_outputs_checked": 50,
+  "routes_checked": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "torch": "2.10.0+cu128",
+  "organizer_inference_time_certified": false,
+  "online_confirmation": false,
+  "scope": "synthetic CPU contract plus frozen archive identity; not score or organizer timing"
+}

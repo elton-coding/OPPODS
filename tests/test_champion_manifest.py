@@ -51,9 +51,15 @@ def test_current_champion_confirmation_preserves_scope_and_frozen_weights():
     assert audit["protocol"]["test_offset"] == confirmation["test_offset"]
     assert audit["protocol"]["noise_seeds"] == confirmation["noise_seeds"]
     assert {name: item["sha256"].upper() for name, item in audit["files"].items()} == board["champion"]["sha256"]
-    paired = audit["comparisons"]["v240c_confirm_v242e"]
+    paired = audit["comparisons"][confirmation["baseline_label"]]
     assert paired["paired_delta_95_percentile_interval"][0] > 0
     assert all(row["delta"]["final"] > 0 for row in paired["per_seed"])
     assert not confirmation["whole_project_blindness_certified"]
     assert not confirmation["ancestor_training_provenance_certified"]
     assert board["champion"]["online_leaderboard"] is None
+    decision = json.loads((ROOT / confirmation["decision_report"]).read_text(encoding="utf-8"))
+    assert decision["supports_current_cohort_promotion"]
+    assert decision["candidate_exact_mean_final"] == pytest.approx(audit["exact_mean_final"])
+    assert not decision["online_confirmation"]
+    assert not decision["whole_project_blindness_certified"]
+    assert not decision["ancestor_training_provenance_certified"]

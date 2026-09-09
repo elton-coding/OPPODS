@@ -21,15 +21,15 @@ $python = 'D:\Tools\Anaconda\envs\oppods-df1176\python.exe'
 & $python -m pytest
 ```
 
-## 当前本地冠军方案（V242E）
+## 当前本地冠军方案（V250）
 
-V242E 是纯神经黑盒链路：共享Encoder压缩为96个复反馈符号；按双用户最低SNR将[-20,20]dB分为八个5dB区间，选择对应联合Transmitter/Receiver专家，均使用宽512、10块逐子载波MLP。从V227复制初始化后训练全部Tx/Rx共36000步，Encoder冻结。每RE8bit、每UE完整1152bit；损失先按UE对logits作可导RMS归一化，再计算 `0.7×软效率+0.3×软P10`，另外保留原始logits上的0.05 BCE，温度0.5。RMS只用于训练损失，不改变推理接口。
+V250 是纯神经黑盒链路：共享Encoder压缩为96个复反馈符号；按双用户最低SNR将[-20,20]dB分为八个5dB区间，选择对应联合Transmitter/Receiver专家，均使用宽512、10块逐子载波MLP。从V227复制初始化后训练全部Tx/Rx共72000步，最佳验证检查点为71000步，Encoder冻结。每RE8bit、每UE完整1152bit；损失先按UE对logits作可导RMS归一化，再计算 `0.7×软效率+0.3×软P10`，另外保留原始logits上的0.05 BCE，温度0.5。RMS只用于训练损失，不改变推理接口。
 
-固定选型audit（split1176、offset2000、noise22701/22702/22703）本地总分为 `68.301981/68.596806/68.696089`，均值 **`68.531625`**；相比原冠军V240C提高0.091998，配对95%区间[0.068086,0.128838]。同36k八专家对照隔离RMS损失净收益0.089306，完整损失×预算消融已保留。冻结后的offset4000确认均值68.512784，相对V240C提高0.081669，区间[0.063592,0.127998]，三组均提升。
+固定选型audit（split1176、offset2000、noise22701/22702/22703）本地总分为 `68.414028/68.623123/68.780935`，均值 **`68.606029`**；相比原冠军V242E提高0.074403，配对95%区间[0.041448,0.103418]。唯一改动是训练预算36k→72k，前36k全部37个验证点四项指标差0。三组总分/效率均升，一组P10下降0.173611。冻结后的offset6000确认均值68.426862，同窗口对照68.338613，净增0.088250、区间[0.053781,0.118330]，三组总分均升、P10两升一平；不同窗口绝对均分不可直接比较。
 
-约707MB提交包低于1GB；尚未达到69，线上未确认。确认窗口未用于本轮候选选型，但与更早历史评测有1779/2000通道交叉，祖先训练谱系记录也未完全补齐，不能称全项目盲测或已证明全谱系无泄漏。详见[冻结确认及限制](docs/experiments/frozen-confirmation-v242e.md)和[划分审计](docs/experiments/evaluation-partition-audit-v227.md)。
+约707MB提交包低于1GB；尚未达到69，线上未确认。确认窗口未用于本轮候选选型，但与更早历史评测有1792/2000通道交叉，祖先训练谱系记录也未完全补齐，不能称全项目盲测或已证明全谱系无泄漏。详见[冻结确认及限制](docs/experiments/frozen-confirmation-v250.md)和[划分审计](docs/experiments/evaluation-partition-audit-v227.md)。
 
-当前结果见[V242消融报告](docs/experiments/pure-neural-rms-budget-v242.md)与[提交说明](docs/submission/V242E_提交说明.md)，旧V240C固定包和原始权重保留，消融见[总表](docs/experiments/ablation-registry.md)，冻结参数见[final.yaml](configs/final.yaml)，成绩见[冠军基准表](benchmarks/leaderboard.json)。
+当前结果见[V250预算消融](docs/experiments/pure-neural-long-budget-v250.md)与[提交说明](docs/submission/V250_提交说明.md)，旧V242E/V240C固定包和原始权重保留，消融见[总表](docs/experiments/ablation-registry.md)，冻结参数见[final.yaml](configs/final.yaml)，成绩见[冠军基准表](benchmarks/leaderboard.json)。
 
 ## Git 与版本纪律
 

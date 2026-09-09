@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V242E
+solution_version: V250
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -23,14 +23,14 @@ model:
   routing_statistic: minimum_of_two_user_snr
 training:
   initialization: V227 exact eight-expert bank mapping [0, 0, 1, 1, 1, 1, 1, 1]
-  source_report: benchmarks/v242_eight_rms_36k_audit_offset2000.json
+  source_report: benchmarks/v250_eight_rms_72k_audit_offset2000.json
   train_components: [transmitter, receiver]
   frozen_components: [encoder]
   seed: 15240
   batch_size: 100
   learning_rate: 1.0e-5
-  requested_steps: 36000
-  best_step: 36000
+  requested_steps: 72000
+  best_step: 71000
   snr_db: [-20.0, 20.0]
   loss: rms_score
   rms_normalization: per_UE_logits_differentiable_RMS_before_soft_proxy
@@ -45,21 +45,21 @@ evaluation:
   test_offset: 2000
   seeds: [22701, 22702, 22703]
   samples_per_seed: 2000
-  mean_final: 68.53162543402779
+  mean_final: 68.60602864583332
   online_score: null
 confirmation:
-  report: benchmarks/v242e_confirm_audit_offset4000.json
+  report: benchmarks/v250_confirm_audit_offset6000.json
   split_seed: 1176
-  test_offset: 4000
-  seeds: [32701, 32702, 32703]
+  test_offset: 6000
+  seeds: [42701, 42702, 42703]
   samples_per_seed: 2000
-  mean_final: 68.51278428819444
-  paired_gain_vs_v240c: 0.08166943000157308
+  mean_final: 68.42686197916667
+  paired_gain_vs_v242e: 0.08824978062311573
   scope: conditional_current_cohort_confirmation_with_historical_overlap
   whole_project_blindness_certified: false
   ancestor_training_provenance_certified: false
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v242_eight_rms_36k_official.zip
-  sha256: C39E000CA8EF905563FBB95AAA7E7220B69CC94D5742FBBA6541F3616866DD7C
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v250_eight_rms_72k_official.zip
+  sha256: 48A83CB6FB47F25FF9DCE7DD88D3A934C88924CE8532A076BFF162BDDCE5B719
