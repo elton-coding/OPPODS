@@ -1,6 +1,12 @@
-# 持续优化交接：V234—V248
+# 持续优化交接：V234—V249
 
-更新时间：2026-09-09 12:18检查后。此页是恢复工作的索引，不替代实时进程检查。
+更新时间：2026-09-09 12:43检查后。此页是恢复工作的索引，不替代实时进程检查。
+
+12:43最新覆盖：当前分支codex/pure-neural-encoder-lr-v249，18b8736功能预登记已推送。新增V249相对V235只提高Encoder学习率1e-5→5e-5，Tx/Rx仍1e-5，全三组件训练、原V227、batch100/12k/soft_score其余不变。全套测试通过（10跳过），新增5项测试及Ruff通过，CPU真实父模型batch2两步通过并记录benchmarks/v249_cpu_runtime_probe.json；不是效果证据，GPU探针尚未跑。
+
+V249等待器PID9284、会话85473已启动，等V247完整3k三噪声audit释放槽，先GPU batch100两步probe再独立12k。正式目录artifacts/pure_neural_v249/encoder_lr5，label v249_encoder_lr5，对照v235_end_to_end和V240C；不得从前驱/probe继续。plan绑定CPU测试入口、原父权重、共享训练器、V237/V246/V242 helpers、自身脚本及V235 audit，勿修改。若前驱>=69则暂缓，冻结确认。详见pure-neural-encoder-lr-v249.md。
+
+当前GPU仍只2项：V242-eight PID29764/父42960/会话60032（最新34000步；已见最佳33000的validation68.360083），V247 PID55928/父63044/会话59304（最新2500步、validation68.178719）。V248等待器PID63120/会话68158仍等V242，负责V242-eight两项预留比较输出，不手工重复生成。两个等待器各接一个前驱，不另开第三项GPU训练。主干仍V240C，无新audit冠军，旧V246会话72666已关闭。CPU探针与测试会话44957已正常结束，不再轮询。
 
 12:22只读来源核查补充：V227冻结Encoder0/Tx1/Rx1与V224 soft_score_long分别4/4、86/86、76/76个张量精确相同，另两个V224目录均0匹配；具体哈希和证据边界见confirmation-overlap-audit-v243.md。现存V224/calibration.json属于fairness0.5/带宽0.01实验，不能套用到long。仅证明对应冻结组件，不补填V227低专家或更早训练历史；没有运行新确认窗口模型评分。两项GPU训练与V248等待器继续，未改绑定依赖。
 
