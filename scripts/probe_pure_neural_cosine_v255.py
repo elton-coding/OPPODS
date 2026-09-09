@@ -52,11 +52,10 @@ def main():
         for key in optimizers[0].state[actual]:
             if not torch.equal(optimizers[0].state[actual][key], optimizers[1].state[reference][key]):
                 raise ValueError(f"manual-reference Adam state diverged: {key}, update{update}")
-        if update <= 36000:
-            if not torch.equal(actual, constant) or any(not torch.equal(
-                    optimizers[0].state[actual][key], optimizers[2].state[constant][key])
-                    for key in optimizers[0].state[actual]):
-                raise ValueError(f"constant-control prefix diverged at {update}")
+        if update <= 36000 and (not torch.equal(actual, constant) or any(not torch.equal(
+                optimizers[0].state[actual][key], optimizers[2].state[constant][key])
+                for key in optimizers[0].state[actual])):
+            raise ValueError(f"constant-control prefix diverged at {update}")
         if update % 12000 == 0:
             print(json.dumps({"cpu_verified_updates": update}), flush=True)
     rates = recorder.evidence()
