@@ -1,0 +1,94 @@
+{
+  "purpose": "initial validation and runtime, not performance",
+  "report": {
+    "stage": "calibrate",
+    "expert_index": null,
+    "train_components": [
+      "transmitter",
+      "receiver"
+    ],
+    "optimize_expert_index": null,
+    "trainable_parameters": 379103168,
+    "variable_payload": false,
+    "learning_rate": 1e-05,
+    "batch_size": 100,
+    "validation_samples": 2000,
+    "snr_interval_db": [
+      -20.0,
+      20.0
+    ],
+    "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]",
+    "baseline_expert_map": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "seed": 15240,
+    "tail_weight": 0.0,
+    "tail_fraction": 0.1,
+    "loss_kind": "rms_score",
+    "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+    "margin": 0.5,
+    "score_temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "score_bce_weight": 0.05,
+    "score_fairness_weight": 0.3,
+    "context_weight": null,
+    "focus_snr_high": 20.0,
+    "focus_prob": 0.0,
+    "train_snr_interval": [
+      -20.0,
+      20.0
+    ],
+    "validation_match_train_snr": false,
+    "shared_frontend": false,
+    "requested_steps": 2,
+    "best_step": 0,
+    "best_validation": {
+      "loss": 0.5584146033393013,
+      "efficiency": 73.6270751953125,
+      "fairness": 54.94791793823242,
+      "final": 68.02332801818847
+    },
+    "history": [
+      {
+        "step": 0,
+        "loss": 0.5584146033393013,
+        "efficiency": 73.6270751953125,
+        "fairness": 54.94791793823242,
+        "final": 68.02332801818847
+      },
+      {
+        "step": 2,
+        "loss": 0.5560742831759983,
+        "efficiency": 73.62296295166016,
+        "fairness": 54.93923721313477,
+        "final": 68.01784523010254
+      }
+    ],
+    "elapsed_seconds": 6.462265400215983,
+    "gpu_memory_fraction": 0.5,
+    "gpu_peak_allocated_bytes": 12489325056,
+    "gpu_peak_reserved_bytes": 12723421184,
+    "output_dir": "D:\\Source\\OPPODS\\artifacts\\resource_probe\\v254\\sixteen_batch100"
+  },
+  "initial_validation_differences": {
+    "loss": 5.08626296635839e-09,
+    "efficiency": 3.814697265625e-05,
+    "fairness": 0.0,
+    "final": 2.6702880859375e-05
+  }
+}
