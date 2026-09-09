@@ -1,0 +1,104 @@
+{
+  "purpose": "CPU initialization and gradient/runtime only, not score evidence",
+  "matched": true,
+  "input_sha256": {
+    "research\\pure_neural_v252\\modelDesign.py": "d5e1958e2fe449ef08dde31d4b1a5da1bdc03f9a911f368f2cb1aa626d60b0db",
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_routing_v252.py": "6a33165b18ee39de6d43dfac995a31406c79aa34fb5f4851d7a37fc08fec7721",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0"
+  },
+  "split_seed": 1176,
+  "train_data_indices": [
+    83391,
+    95379,
+    58244,
+    48864,
+    19126,
+    18433,
+    24795,
+    88669
+  ],
+  "snr": [
+    [
+      -18.87458610534668,
+      20.0
+    ],
+    [
+      20.0,
+      -16.552255630493164
+    ],
+    [
+      -14.071266174316406,
+      20.0
+    ],
+    [
+      20.0,
+      -11.393596649169922
+    ],
+    [
+      -7.990381240844727,
+      20.0
+    ],
+    [
+      20.0,
+      -3.596982717514038
+    ],
+    [
+      1.8933982849121094,
+      20.0
+    ],
+    [
+      20.0,
+      12.5
+    ]
+  ],
+  "routes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "mapping": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1
+  ],
+  "parameters": 190354976,
+  "maximum_logit_difference": 0.0005235671997070312,
+  "loss_difference": 0.0,
+  "maximum_grouped_head_gradient_difference": {
+    "transmitter_0": 5.3551048040390015e-09,
+    "transmitter_1": 0.0,
+    "receiver_0": 2.7939677238464355e-09,
+    "receiver_1": 0.0
+  },
+  "finite_gradient_tensors": 1296,
+  "same_channel_rng_state": true,
+  "rounding_diagnostics": {
+    "single_sample_maximum_difference": 0.0,
+    "batched_maximum_difference": 0.0005235671997070312,
+    "batched_hard_decision_disagreements": 0,
+    "maximum_grouped_gradient_difference": {
+      "transmitter_0": 5.3551048040390015e-09,
+      "transmitter_1": 0.0,
+      "receiver_0": 2.7939677238464355e-09,
+      "receiver_1": 0.0
+    }
+  },
+  "earlier_batched_atol1e-4_check_failed": true,
+  "identity_gate": "bitwise batch1 logits; batched hard decisions equal; bounded rounding and grouped gradients"
+}
