@@ -1,0 +1,98 @@
+{
+  "purpose": "CPU real-parent two-step runtime only, not score evidence",
+  "report": {
+    "stage": "calibrate",
+    "expert_index": null,
+    "train_components": [
+      "encoder",
+      "transmitter",
+      "receiver"
+    ],
+    "optimize_expert_index": null,
+    "trainable_parameters": 48191288,
+    "variable_payload": false,
+    "learning_rate": 0.00001,
+    "batch_size": 2,
+    "validation_samples": 4,
+    "snr_interval_db": [
+      -20,
+      20
+    ],
+    "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 1]",
+    "baseline_expert_map": [
+      0,
+      1
+    ],
+    "seed": 15240,
+    "tail_weight": 0,
+    "tail_fraction": 0.1,
+    "loss_kind": "soft_score",
+    "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+    "margin": 0.5,
+    "score_temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "score_bce_weight": 0.05,
+    "score_fairness_weight": 0.3,
+    "context_weight": null,
+    "focus_snr_high": 20,
+    "focus_prob": 0,
+    "train_snr_interval": [
+      -20,
+      20
+    ],
+    "validation_match_train_snr": false,
+    "shared_frontend": false,
+    "requested_steps": 2,
+    "best_step": 2,
+    "best_validation": {
+      "loss": 0.7507672044965956,
+      "efficiency": 63.7803840637207,
+      "fairness": 54.75694313049316,
+      "final": 61.07335178375244
+    },
+    "history": [
+      {
+        "step": 0,
+        "loss": 0.7497143745422363,
+        "efficiency": 63.69357681274414,
+        "fairness": 54.869791412353514,
+        "final": 61.04644119262694
+      },
+      {
+        "step": 2,
+        "loss": 0.7507672044965956,
+        "efficiency": 63.7803840637207,
+        "fairness": 54.75694313049316,
+        "final": 61.07335178375244
+      }
+    ],
+    "elapsed_seconds": 1.2009708997793496,
+    "gpu_memory_fraction": null,
+    "gpu_peak_allocated_bytes": 0,
+    "gpu_peak_reserved_bytes": 0,
+    "output_dir": "D:\\Source\\OPPODS\\artifacts\\resource_probe\\v249\\cpu2",
+    "encoder_learning_rate": 0.00005,
+    "transceiver_learning_rate": 0.00001,
+    "optimizer_parameter_groups": [
+      {
+        "name": "encoder",
+        "lr": 0.00005,
+        "parameters": 803392
+      },
+      {
+        "name": "transceiver",
+        "lr": 0.00001,
+        "parameters": 47387896
+      }
+    ],
+    "optimizer_group_note": "single Adam; global gradient clipping unchanged; per-component LR only"
+  },
+  "input_sha256": {
+    "scripts/train_pure_neural_encoder_lr_v249.py": "dbb52a52bc3bd693af382647936d6b1baba68a392e1bdb07387ecbabb94931f1",
+    "scripts/train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "research/pure_neural_v227/modelDesign.py": "d8b1e579d36e5023630712f0febd7a22c89a6b458f8487dc8a8c49d44fbc20a6",
+    "artifacts/pure_neural_v227/joint_low/encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts/pure_neural_v227/joint_low/transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts/pure_neural_v227/joint_low/receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0"
+  }
+}
