@@ -1,0 +1,9 @@
+{
+  "maximum_absolute_differences": {
+    "loss": 1.6954210257935642e-09,
+    "efficiency": 2.288818359375e-05,
+    "fairness": 0.0,
+    "final": 1.6021728526993684e-05
+  },
+  "matched": true
+}

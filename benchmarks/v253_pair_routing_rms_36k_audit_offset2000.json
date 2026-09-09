@@ -1,0 +1,874 @@
+{
+  "label": "v253_pair_routing_rms_36k",
+  "submission": "D:\\Source\\OPPODS\\artifacts\\pure_neural_v253\\eight\\pair_steps36000",
+  "files": {
+    "modelDesign.py": {
+      "sha256": "7646511e6389e197ca682d201f3400946ca338c1246aa2f6df5d1c9379d81e07",
+      "bytes": 11586
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "db06fe58ce3ad12713b8fd5f3aca6c19ee4ce97f48300b5bdeceb94ac0f4e6cf",
+      "bytes": 420783351
+    },
+    "receiver.pth": {
+      "sha256": "d8597c356e6333636a7c5229bdc3fde217b5a070158dfd9bc7133ce607aaabab",
+      "bytes": 337893605
+    }
+  },
+  "training_report": {
+    "stage": "calibrate",
+    "expert_index": null,
+    "train_components": [
+      "transmitter",
+      "receiver"
+    ],
+    "optimize_expert_index": null,
+    "trainable_parameters": 189551584,
+    "variable_payload": false,
+    "learning_rate": 1e-05,
+    "batch_size": 100,
+    "validation_samples": 2000,
+    "snr_interval_db": [
+      -20.0,
+      20.0
+    ],
+    "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 0, 0, 0, 1, 1, 1, 1]",
+    "baseline_expert_map": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1
+    ],
+    "seed": 15240,
+    "tail_weight": 0.0,
+    "tail_fraction": 0.1,
+    "loss_kind": "rms_score",
+    "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+    "margin": 0.5,
+    "score_temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "score_bce_weight": 0.05,
+    "score_fairness_weight": 0.3,
+    "context_weight": null,
+    "focus_snr_high": 20.0,
+    "focus_prob": 0.0,
+    "train_snr_interval": [
+      -20.0,
+      20.0
+    ],
+    "validation_match_train_snr": false,
+    "shared_frontend": false,
+    "requested_steps": 36000,
+    "best_step": 36000,
+    "best_validation": {
+      "loss": 0.4778776380750868,
+      "efficiency": 74.0112533569336,
+      "fairness": 55.46875,
+      "final": 68.44850234985351
+    },
+    "history": [
+      {
+        "step": 0,
+        "loss": 0.5584146101209853,
+        "efficiency": 73.62705993652344,
+        "fairness": 54.94791793823242,
+        "final": 68.02331733703613
+      },
+      {
+        "step": 1000,
+        "loss": 0.48524737718370226,
+        "efficiency": 73.5954360961914,
+        "fairness": 55.12152862548828,
+        "final": 68.05326385498046
+      },
+      {
+        "step": 2000,
+        "loss": 0.48334752061631947,
+        "efficiency": 73.65557861328125,
+        "fairness": 55.12152862548828,
+        "final": 68.09536361694336
+      },
+      {
+        "step": 3000,
+        "loss": 0.48329369099934893,
+        "efficiency": 73.66387176513672,
+        "fairness": 55.20833206176758,
+        "final": 68.12720985412597
+      },
+      {
+        "step": 4000,
+        "loss": 0.4822917226155599,
+        "efficiency": 73.70948791503906,
+        "fairness": 55.20833206176758,
+        "final": 68.15914115905761
+      },
+      {
+        "step": 5000,
+        "loss": 0.4822346988254123,
+        "efficiency": 73.71810150146484,
+        "fairness": 55.29513931274414,
+        "final": 68.19121284484864
+      },
+      {
+        "step": 6000,
+        "loss": 0.48174122280544707,
+        "efficiency": 73.7488021850586,
+        "fairness": 55.286458587646486,
+        "final": 68.21009910583496
+      },
+      {
+        "step": 7000,
+        "loss": 0.48072254604763454,
+        "efficiency": 73.7904052734375,
+        "fairness": 55.12152862548828,
+        "final": 68.18974227905272
+      },
+      {
+        "step": 8000,
+        "loss": 0.48065499030219183,
+        "efficiency": 73.79112243652344,
+        "fairness": 55.20833206176758,
+        "final": 68.21628532409667
+      },
+      {
+        "step": 9000,
+        "loss": 0.480699961344401,
+        "efficiency": 73.8146743774414,
+        "fairness": 55.20833206176758,
+        "final": 68.23277168273925
+      },
+      {
+        "step": 10000,
+        "loss": 0.48059544033474394,
+        "efficiency": 73.8309097290039,
+        "fairness": 55.3819465637207,
+        "final": 68.29622077941895
+      },
+      {
+        "step": 11000,
+        "loss": 0.4802162068684896,
+        "efficiency": 73.8369369506836,
+        "fairness": 55.29513931274414,
+        "final": 68.27439765930175
+      },
+      {
+        "step": 12000,
+        "loss": 0.4800948452419705,
+        "efficiency": 73.86089324951172,
+        "fairness": 55.46006965637207,
+        "final": 68.34064617156983
+      },
+      {
+        "step": 13000,
+        "loss": 0.48001329040527346,
+        "efficiency": 73.85366821289062,
+        "fairness": 55.20833206176758,
+        "final": 68.2600673675537
+      },
+      {
+        "step": 14000,
+        "loss": 0.47996361117892794,
+        "efficiency": 73.8837890625,
+        "fairness": 55.46875,
+        "final": 68.35927734375
+      },
+      {
+        "step": 15000,
+        "loss": 0.47962686835394963,
+        "efficiency": 73.88328552246094,
+        "fairness": 55.37326583862305,
+        "final": 68.33027961730957
+      },
+      {
+        "step": 16000,
+        "loss": 0.4798339538574219,
+        "efficiency": 73.88626861572266,
+        "fairness": 55.3819465637207,
+        "final": 68.33497200012206
+      },
+      {
+        "step": 17000,
+        "loss": 0.4793021969265408,
+        "efficiency": 73.9052505493164,
+        "fairness": 55.46875,
+        "final": 68.37430038452149
+      },
+      {
+        "step": 18000,
+        "loss": 0.479437013414171,
+        "efficiency": 73.9112319946289,
+        "fairness": 55.46875,
+        "final": 68.37848739624023
+      },
+      {
+        "step": 19000,
+        "loss": 0.4792228529188368,
+        "efficiency": 73.92022705078125,
+        "fairness": 55.3819465637207,
+        "final": 68.35874290466307
+      },
+      {
+        "step": 20000,
+        "loss": 0.47946519639756946,
+        "efficiency": 73.90702819824219,
+        "fairness": 55.3819465637207,
+        "final": 68.34950370788573
+      },
+      {
+        "step": 21000,
+        "loss": 0.4788977542453342,
+        "efficiency": 73.93563842773438,
+        "fairness": 55.46006965637207,
+        "final": 68.39296779632568
+      },
+      {
+        "step": 22000,
+        "loss": 0.47885719468858506,
+        "efficiency": 73.93721771240234,
+        "fairness": 55.3819465637207,
+        "final": 68.37063636779786
+      },
+      {
+        "step": 23000,
+        "loss": 0.47912488471137155,
+        "efficiency": 73.93882751464844,
+        "fairness": 55.46875,
+        "final": 68.3978042602539
+      },
+      {
+        "step": 24000,
+        "loss": 0.4786914774576823,
+        "efficiency": 73.96339416503906,
+        "fairness": 55.46875,
+        "final": 68.41500091552734
+      },
+      {
+        "step": 25000,
+        "loss": 0.4786350385877821,
+        "efficiency": 73.96414947509766,
+        "fairness": 55.46875,
+        "final": 68.41552963256837
+      },
+      {
+        "step": 26000,
+        "loss": 0.4787704586452908,
+        "efficiency": 73.95258331298828,
+        "fairness": 55.3819465637207,
+        "final": 68.381392288208
+      },
+      {
+        "step": 27000,
+        "loss": 0.4785343441433377,
+        "efficiency": 73.958984375,
+        "fairness": 55.3819465637207,
+        "final": 68.3858730316162
+      },
+      {
+        "step": 28000,
+        "loss": 0.4782251892089844,
+        "efficiency": 73.96912384033203,
+        "fairness": 55.3819465637207,
+        "final": 68.39297065734863
+      },
+      {
+        "step": 29000,
+        "loss": 0.4784771219889323,
+        "efficiency": 73.97330474853516,
+        "fairness": 55.46875,
+        "final": 68.42193832397462
+      },
+      {
+        "step": 30000,
+        "loss": 0.47805936686197914,
+        "efficiency": 73.994873046875,
+        "fairness": 55.46875,
+        "final": 68.4370361328125
+      },
+      {
+        "step": 31000,
+        "loss": 0.4786572808159722,
+        "efficiency": 73.98116302490234,
+        "fairness": 55.3819465637207,
+        "final": 68.40139808654786
+      },
+      {
+        "step": 32000,
+        "loss": 0.47820038689507377,
+        "efficiency": 73.98717498779297,
+        "fairness": 55.46006965637207,
+        "final": 68.4290433883667
+      },
+      {
+        "step": 33000,
+        "loss": 0.4781845414903429,
+        "efficiency": 73.99424743652344,
+        "fairness": 55.3819465637207,
+        "final": 68.41055717468262
+      },
+      {
+        "step": 34000,
+        "loss": 0.4783094465467665,
+        "efficiency": 74.00818634033203,
+        "fairness": 55.46875,
+        "final": 68.44635543823242
+      },
+      {
+        "step": 35000,
+        "loss": 0.4779916449652778,
+        "efficiency": 74.00715637207031,
+        "fairness": 55.3819465637207,
+        "final": 68.41959342956542
+      },
+      {
+        "step": 36000,
+        "loss": 0.4778776380750868,
+        "efficiency": 74.0112533569336,
+        "fairness": 55.46875,
+        "final": 68.44850234985351
+      }
+    ],
+    "elapsed_seconds": 8948.351162099745,
+    "gpu_memory_fraction": 0.4,
+    "gpu_peak_allocated_bytes": 9801052160,
+    "gpu_peak_reserved_bytes": 10859053056,
+    "output_dir": "D:\\Source\\OPPODS\\artifacts\\pure_neural_v253\\eight\\pair_steps36000"
+  },
+  "protocol": {
+    "split_seed": 1176,
+    "test_offset": 2000,
+    "samples": 2000,
+    "noise_seeds": [
+      22701,
+      22702,
+      22703
+    ]
+  },
+  "per_seed": [
+    {
+      "command": [
+        "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+        "D:\\Source\\OPPODS\\scripts\\evaluate_submission.py",
+        "--submission",
+        "D:\\Source\\OPPODS\\artifacts\\pure_neural_v253\\eight\\pair_steps36000",
+        "--samples",
+        "2000",
+        "--split-seed",
+        "1176",
+        "--test-offset",
+        "2000",
+        "--seed",
+        "22701",
+        "--progress-every",
+        "0",
+        "--scores-out",
+        "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22701.npz"
+      ],
+      "seed": 22701,
+      "split_seed": 1176,
+      "test_offset": 2000,
+      "samples": 2000,
+      "scores": 4000,
+      "efficiency": 73.79819878472222,
+      "fairness": 55.55555555555556,
+      "final": 68.32540581597222,
+      "elapsed_seconds": 48.590257899835706,
+      "short_outputs": 0,
+      "min_output_length": 1152,
+      "max_output_length": 1152
+    },
+    {
+      "command": [
+        "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+        "D:\\Source\\OPPODS\\scripts\\evaluate_submission.py",
+        "--submission",
+        "D:\\Source\\OPPODS\\artifacts\\pure_neural_v253\\eight\\pair_steps36000",
+        "--samples",
+        "2000",
+        "--split-seed",
+        "1176",
+        "--test-offset",
+        "2000",
+        "--seed",
+        "22702",
+        "--progress-every",
+        "0",
+        "--scores-out",
+        "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22702.npz"
+      ],
+      "seed": 22702,
+      "split_seed": 1176,
+      "test_offset": 2000,
+      "samples": 2000,
+      "scores": 4000,
+      "efficiency": 74.14442274305556,
+      "fairness": 55.729166666666664,
+      "final": 68.61984592013889,
+      "elapsed_seconds": 48.57527420017868,
+      "short_outputs": 0,
+      "min_output_length": 1152,
+      "max_output_length": 1152
+    },
+    {
+      "command": [
+        "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+        "D:\\Source\\OPPODS\\scripts\\evaluate_submission.py",
+        "--submission",
+        "D:\\Source\\OPPODS\\artifacts\\pure_neural_v253\\eight\\pair_steps36000",
+        "--samples",
+        "2000",
+        "--split-seed",
+        "1176",
+        "--test-offset",
+        "2000",
+        "--seed",
+        "22703",
+        "--progress-every",
+        "0",
+        "--scores-out",
+        "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22703.npz"
+      ],
+      "seed": 22703,
+      "split_seed": 1176,
+      "test_offset": 2000,
+      "samples": 2000,
+      "scores": 4000,
+      "efficiency": 74.28090277777778,
+      "fairness": 55.81597222222222,
+      "final": 68.74142361111112,
+      "elapsed_seconds": 48.48581869993359,
+      "short_outputs": 0,
+      "min_output_length": 1152,
+      "max_output_length": 1152
+    }
+  ],
+  "exact_mean_final": 68.56222511574074,
+  "comparisons": {
+    "v242_eight_rms_36k": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v242_eight_rms_36k_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.76473525810242,
+            "p10": 55.55555725097656,
+            "final": 68.30198185596466
+          },
+          "candidate": {
+            "efficiency": 73.79819875621796,
+            "p10": 55.55555725097656,
+            "final": 68.32540630464554
+          },
+          "delta": {
+            "efficiency": 0.033463498115537504,
+            "p10": 0.0,
+            "final": 0.02342444868088478
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.17979992979239343,
+            "[-15,-10)": -0.11447491645812988,
+            "[-10,-5)": 0.1634564813577904,
+            "[-5,0)": -0.13460904039872096,
+            "[0,5)": 0.180503190331193,
+            "[5,10)": -0.43605064941664873,
+            "[10,15)": -0.01463019981812895,
+            "[15,20)": 0.422321469951962
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 986,
+              "mean_score_delta": 0.147375721960474
+            },
+            "[-15,-10)": {
+              "ue_count": 768,
+              "mean_score_delta": -0.03650809327761332
+            },
+            "[-10,-5)": {
+              "ue_count": 712,
+              "mean_score_delta": 0.02694387650221921
+            },
+            "[-5,0)": {
+              "ue_count": 582,
+              "mean_score_delta": -0.027741972933110502
+            },
+            "[0,5)": {
+              "ue_count": 402,
+              "mean_score_delta": -0.07082670600853157
+            },
+            "[5,10)": {
+              "ue_count": 276,
+              "mean_score_delta": 0.13618411188540253
+            },
+            "[10,15)": {
+              "ue_count": 212,
+              "mean_score_delta": 0.010645884387897995
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": 0.035002062397618446
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 10.9375
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v242_eight_rms_36k_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 74.07430556964874,
+            "p10": 55.81597137451172,
+            "final": 68.59680531110763
+          },
+          "candidate": {
+            "efficiency": 74.14442274570465,
+            "p10": 55.72916793823242,
+            "final": 68.61984630346296
+          },
+          "delta": {
+            "efficiency": 0.07011717605590206,
+            "p10": -0.08680343627929688,
+            "final": 0.023040992355333856
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.09352475728948745,
+            "[-15,-10)": -0.03218811456503483,
+            "[-10,-5)": 0.19111962935980212,
+            "[-5,0)": -0.024121859573912306,
+            "[0,5)": 0.20887044320023498,
+            "[5,10)": -0.34722228240966796,
+            "[10,15)": -0.050636624533032616,
+            "[15,20)": 0.5384055535320328
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 890,
+              "mean_score_delta": 0.13937650101908136
+            },
+            "[-15,-10)": {
+              "ue_count": 826,
+              "mean_score_delta": 0.036466875607395866
+            },
+            "[-10,-5)": {
+              "ue_count": 664,
+              "mean_score_delta": 0.08562888869320054
+            },
+            "[-5,0)": {
+              "ue_count": 604,
+              "mean_score_delta": 0.03707916689234854
+            },
+            "[0,5)": {
+              "ue_count": 474,
+              "mean_score_delta": -0.05860300506720563
+            },
+            "[5,10)": {
+              "ue_count": 300,
+              "mean_score_delta": 0.19994234720865886
+            },
+            "[10,15)": {
+              "ue_count": 180,
+              "mean_score_delta": 0.023630078633626303
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": 0.17081106862714213
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 8.767356872558594
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v242_eight_rms_36k_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 74.25334204387664,
+            "p10": 55.72916793823242,
+            "final": 68.69608981218337
+          },
+          "candidate": {
+            "efficiency": 74.28090269756318,
+            "p10": 55.81597137451172,
+            "final": 68.74142330064774
+          },
+          "delta": {
+            "efficiency": 0.027560653686535375,
+            "p10": 0.08680343627929688,
+            "final": 0.045333488464365246
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.04123729945780657,
+            "[-15,-10)": -0.0282987060546875,
+            "[-10,-5)": 0.07178470450387874,
+            "[-5,0)": -0.09701810350605086,
+            "[0,5)": 0.2114959658888757,
+            "[5,10)": -0.3282989044189453,
+            "[10,15)": -0.04246850956209485,
+            "[15,20)": 0.3918548460431427
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 876,
+              "mean_score_delta": 0.10176862429266106
+            },
+            "[-15,-10)": {
+              "ue_count": 810,
+              "mean_score_delta": 0.016396506038712868
+            },
+            "[-10,-5)": {
+              "ue_count": 704,
+              "mean_score_delta": 0.018125393173911354
+            },
+            "[-5,0)": {
+              "ue_count": 624,
+              "mean_score_delta": -0.012937509096585788
+            },
+            "[0,5)": {
+              "ue_count": 446,
+              "mean_score_delta": -0.04184571509938603
+            },
+            "[5,10)": {
+              "ue_count": 292,
+              "mean_score_delta": 0.07610318432115529
+            },
+            "[10,15)": {
+              "ue_count": 190,
+              "mean_score_delta": -0.038834260639391445
+            },
+            "[15,20)": {
+              "ue_count": 58,
+              "mean_score_delta": 0.11973150845231681
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 10.329856872558594
+        }
+      ],
+      "baseline_mean_final": 68.53162565975188,
+      "candidate_mean_final": 68.56222530291875,
+      "mean_delta": 0.030599643166861295,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        -0.007415356752872763,
+        0.06418139806350505
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    },
+    "v252_balanced_routing_rms_36k": {
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v252_balanced_routing_rms_36k_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.7228298587799,
+            "p10": 55.55555725097656,
+            "final": 68.2726480764389
+          },
+          "candidate": {
+            "efficiency": 73.79819875621796,
+            "p10": 55.55555725097656,
+            "final": 68.32540630464554
+          },
+          "delta": {
+            "efficiency": 0.07536889743805375,
+            "p10": 0.0,
+            "final": 0.05275822820664189
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.25585651218779315,
+            "[-15,-10)": -0.06546603043874105,
+            "[-10,-5)": 0.0782888376487876,
+            "[-5,0)": 0.0824912130003184,
+            "[0,5)": 0.2667500819259447,
+            "[5,10)": -0.34133709083169195,
+            "[10,15)": -0.03771324014842287,
+            "[15,20)": 0.3537054734605971
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 986,
+              "mean_score_delta": 0.2914060124519147
+            },
+            "[-15,-10)": {
+              "ue_count": 768,
+              "mean_score_delta": 0.03673413892587026
+            },
+            "[-10,-5)": {
+              "ue_count": 712,
+              "mean_score_delta": 0.056569817360867275
+            },
+            "[-5,0)": {
+              "ue_count": 582,
+              "mean_score_delta": 0.05130781586637202
+            },
+            "[0,5)": {
+              "ue_count": 402,
+              "mean_score_delta": -0.20578529585653277
+            },
+            "[5,10)": {
+              "ue_count": 276,
+              "mean_score_delta": 0.13712743399799734
+            },
+            "[10,15)": {
+              "ue_count": 212,
+              "mean_score_delta": -0.11874335666872421
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.22821463308026713
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 14.149307250976562
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v252_balanced_routing_rms_36k_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 74.0479166688919,
+            "p10": 55.64236068725586,
+            "final": 68.52624987440109
+          },
+          "candidate": {
+            "efficiency": 74.14442274570465,
+            "p10": 55.72916793823242,
+            "final": 68.61984630346296
+          },
+          "delta": {
+            "efficiency": 0.09650607681274437,
+            "p10": 0.0868072509765625,
+            "final": 0.0935964290618756
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.1338402815942485,
+            "[-15,-10)": 0.025339784941964837,
+            "[-10,-5)": 0.11445052355464604,
+            "[-5,0)": 0.08303119104165436,
+            "[0,5)": 0.34201750026680744,
+            "[5,10)": -0.3817707061767578,
+            "[10,15)": -0.006717091514950707,
+            "[15,20)": 0.4631971753077951
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 890,
+              "mean_score_delta": 0.2560276074355908
+            },
+            "[-15,-10)": {
+              "ue_count": 826,
+              "mean_score_delta": 0.07472005941100039
+            },
+            "[-10,-5)": {
+              "ue_count": 664,
+              "mean_score_delta": 0.1647214659725327
+            },
+            "[-5,0)": {
+              "ue_count": 604,
+              "mean_score_delta": 0.061367445434166105
+            },
+            "[0,5)": {
+              "ue_count": 474,
+              "mean_score_delta": -0.1465072792793628
+            },
+            "[5,10)": {
+              "ue_count": 300,
+              "mean_score_delta": 0.1652201207478841
+            },
+            "[10,15)": {
+              "ue_count": 180,
+              "mean_score_delta": -0.11477650536431207
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.15261028658959172
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 11.545135498046875
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v252_balanced_routing_rms_36k_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v253_pair_routing_rms_36k_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 74.19101557540894,
+            "p10": 55.72916793823242,
+            "final": 68.65246128425598
+          },
+          "candidate": {
+            "efficiency": 74.28090269756318,
+            "p10": 55.81597137451172,
+            "final": 68.74142330064774
+          },
+          "delta": {
+            "efficiency": 0.08988712215423789,
+            "p10": 0.08680343627929688,
+            "final": 0.08896201639176127
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.1672088556848224,
+            "[-15,-10)": 0.013541725158691406,
+            "[-10,-5)": 0.09745972784951899,
+            "[-5,0)": 0.017701339721679688,
+            "[0,5)": 0.34244551830545095,
+            "[5,10)": -0.3484376525878906,
+            "[10,15)": 0.0025481953779545314,
+            "[15,20)": 0.426471833758026
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 876,
+              "mean_score_delta": 0.27042514330720246
+            },
+            "[-15,-10)": {
+              "ue_count": 810,
+              "mean_score_delta": 0.06612231407636478
+            },
+            "[-10,-5)": {
+              "ue_count": 704,
+              "mean_score_delta": 0.1266325278715654
+            },
+            "[-5,0)": {
+              "ue_count": 624,
+              "mean_score_delta": 0.08416219858022836
+            },
+            "[0,5)": {
+              "ue_count": 446,
+              "mean_score_delta": -0.1080202094108
+            },
+            "[5,10)": {
+              "ue_count": 292,
+              "mean_score_delta": 0.04934809959098084
+            },
+            "[10,15)": {
+              "ue_count": 190,
+              "mean_score_delta": -0.1635602449115954
+            },
+            "[15,20)": {
+              "ue_count": 58,
+              "mean_score_delta": -0.13320186220366378
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 11.284721374511719
+        }
+      ],
+      "baseline_mean_final": 68.48378641169866,
+      "candidate_mean_final": 68.56222530291875,
+      "mean_delta": 0.07843889122009291,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        0.03519878388563917,
+        0.1213437618525872
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
+    }
+  },
+  "caveat": "Local repeated-selection audit, not an unseen confirmation or an online score."
+}

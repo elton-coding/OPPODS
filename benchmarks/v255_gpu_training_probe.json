@@ -1,0 +1,110 @@
+{
+  "purpose": "initialization/runtime only, not score",
+  "report": {
+    "stage": "calibrate",
+    "expert_index": null,
+    "train_components": [
+      "transmitter",
+      "receiver"
+    ],
+    "optimize_expert_index": null,
+    "trainable_parameters": 189551584,
+    "variable_payload": false,
+    "learning_rate": 1e-05,
+    "batch_size": 100,
+    "validation_samples": 2000,
+    "snr_interval_db": [
+      -20.0,
+      20.0
+    ],
+    "initialization": "exact bank mapping from artifacts\\pure_neural_v227\\joint_low: [0, 0, 1, 1, 1, 1, 1, 1]",
+    "baseline_expert_map": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "seed": 15240,
+    "tail_weight": 0.0,
+    "tail_fraction": 0.1,
+    "loss_kind": "rms_score",
+    "validation_loss_metric": "BCE; the history loss field is not the training optimization objective",
+    "margin": 0.5,
+    "score_temperature": 0.5,
+    "quantile_bandwidth": 0.025,
+    "score_bce_weight": 0.05,
+    "score_fairness_weight": 0.3,
+    "context_weight": null,
+    "focus_snr_high": 20.0,
+    "focus_prob": 0.0,
+    "train_snr_interval": [
+      -20.0,
+      20.0
+    ],
+    "validation_match_train_snr": false,
+    "shared_frontend": false,
+    "requested_steps": 2,
+    "best_step": 0,
+    "best_validation": {
+      "loss": 0.5584146084255642,
+      "efficiency": 73.62703704833984,
+      "fairness": 54.94791793823242,
+      "final": 68.0233013153076
+    },
+    "history": [
+      {
+        "step": 0,
+        "loss": 0.5584146084255642,
+        "efficiency": 73.62703704833984,
+        "fairness": 54.94791793823242,
+        "final": 68.0233013153076
+      },
+      {
+        "step": 2,
+        "loss": 0.5555172271728516,
+        "efficiency": 73.62332916259766,
+        "fairness": 54.94791793823242,
+        "final": 68.02070579528808
+      }
+    ],
+    "elapsed_seconds": 3.4384765001013875,
+    "gpu_memory_fraction": 0.4,
+    "gpu_peak_allocated_bytes": 9582738944,
+    "gpu_peak_reserved_bytes": 10074718208,
+    "output_dir": "D:\\Source\\OPPODS\\artifacts\\resource_probe\\v255\\eight_cosine",
+    "learning_rate_schedule": {
+      "kind": "constant_then_cosine",
+      "hold_updates": 36000,
+      "total_updates": 72000,
+      "initial_learning_rate": 1e-05,
+      "minimum_ratio": 0.1,
+      "applied_before_optimizer_step": true,
+      "optimizer_state_restart": false,
+      "probe_uses_full72000_schedule_not_two_step_decay": true,
+      "completed_updates": 2,
+      "last_applied_rate": 1e-05,
+      "applied_rates_float64_le_sha256": "f5c5eec117482be8e97f28b974d9fc0b1c578f5f4af80bc684542e331e6199fd",
+      "trace": [
+        {
+          "update": 1,
+          "learning_rate": 1e-05
+        },
+        {
+          "update": 2,
+          "learning_rate": 1e-05
+        }
+      ]
+    },
+    "learning_rate_field_scope": "initial rate only; actual applied rates bound by learning_rate_schedule"
+  },
+  "initial_validation_differences": {
+    "loss": 0.0,
+    "efficiency": 0.0,
+    "fairness": 0.0,
+    "final": 0.0
+  }
+}
