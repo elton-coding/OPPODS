@@ -1,4 +1,14 @@
-# 持续优化交接：V234—V254
+# 持续优化交接：V234—V255
+
+2026-09-09 21:48最新覆盖：新增**V255后半程学习率余弦衰减**单因素实验，分支codex/pure-neural-cosine-v255（从ec9126a创建），预登记e2e957d/34c960a，完整CPU证明和运行器9907d9f均已推送。入口scripts/train_pure_neural_cosine_v255.py SHA2cca9e8c58d60c86db58d492c63f51fcaefc6e19048f4b476035150d15e5811e，CPU探针scripts/probe_pure_neural_cosine_v255.py SHAbac47e7e10f5ea15b98597ce1be2a57279ef6cf30499d0e8a470d3b89f44b78b，运行器scripts/run_pure_neural_cosine_v255.py SHA6fb014c6e122ff31cb7e80c3783b80be3ba77a04d0e08039bcb145e6d4994f3b。文档pure-neural-cosine-v255.md及总表/索引已更新。
+
+V255**等待器已真实启动**：会话46137、Python PID7332、父PowerShell65292，计划artifacts/pure_neural_v255/eight/execution_plan.json冻结61项输入，等V253完整36k审计（12小时观察上限，不是训练终止时间）。然后原网络batch100/验证2000两步探针检查初始指标，再从原V227全新Adam独立72k；不是从V250或探针checkpoint续训。正式artifacts/pure_neural_v255/eight/cosine_steps72000，探针artifacts/resource_probe/v255/eight_cosine，标签v255_eight_rms_cosine_72k，对照v250_eight_rms_72k。前36000次成功更新lr1e-5，后36000余弦降到1e-6；其他架构/数据/随机种子15240/batch100/72k预算/RMS目标均保持V250，cap0.4。每次实际成功更新lr的float64小端SHA绑定，trace和总数必须匹配；完整73点及前37点与V250匹配后自动固定三噪声audit。前缀证明是验证轨迹，不能声称完整模型优化器逐位证明。此刻V255尚无GPU探针/正式训练/成绩，不要把等待状态称已训练。
+
+V255 CPU证据benchmarks/v255_cosine_cpu_proof.json：会话56624已exit0，4个float32参数完整72k次带clip的Adam，前36k参数/全部Adam状态逐次与固定LR相同；全72k与独立手动公式参考逐次相同；global/local RNG不变，后期相对恒定LR参数max差0.0012020394206047058；耗时30.469406秒、Torch2.10.0+cu128。实际LR序列SHA3f8394fcf93598dbf5f38c00b863e805480c840b93ea43cc9ff1b9a30bb96744。只证明调度实现，不是比赛分数；源码已冻结，不重跑/覆盖。13项专项通过，完整CPU测试25087正常exit0：**215通过10跳过，38.72秒**；Ruff通过。测试/CPU探针没有活跃会话。
+
+当前4个活跃工具会话：**70145 V253训练**（PID14816/父47048，最新25000验证68.41552963256837、已见最佳，目标36000）；**19900 V254训练**（PID9064/父60480，最新5000验证68.13561210632324，目标72000）；**34137 V254存储四组等待器**（PID51848/父62440，等A完整72k审计）；**46137 V255等待器**（PID7332/父65292，等V253完整审计）。实查现有V253/V254/存储计划27/31/51项哈希均未变，新增V25561项也须保持不可变。仍只有2项GPU训练，GPU26223/32607MiB、88%、69°C；无V256。主干仍f3630cd V250本地68.60602864583332、线上未知，唯一用户确认线上V223 67.01164987745，未达69。
+
+下一步优先等待现有真实句柄，并对最先完成的V253补充vs当前V250的缓存配对（它冻结运行器自动对V242E/V252）；不要新开第三训练或重复等待器。若有真正提升，按新冻结确认和提交门禁办理；旧offset4000/6000不再新鲜、历史交叉/祖先来源限制不变。V254存储四组流程已完整实现，见21:34记录，不再是待编写。下面所有“无V255/只有3会话”等均为历史状态。
 
 2026-09-09 21:34最新覆盖：**V254存储四组执行器已经实现、测试、推送并启动**，不再是待实现事项。scripts/run_storage_factorial_v254.py在550a9de预登记推送，SHA e6e9910fc522aafda0c4ef7fe4e37f4b04a91359e80c91821a33d94fa1e508bf。会话34137、PID51848、父PowerShell62440，计划artifacts/pure_neural_v254/storage/execution_plan.json已排他创建，冻结51项输入；正在等v254_sixteen_rms_72k完整72k审计，最长24小时。仅CPU等待，不是第三项GPU训练。不要修改这些51项生产依赖/重启或复制队列，文档和新独立实验仍可变更。失败会保留failure.json及部分产物、不隐式恢复；超时不等于训练停止。
 
