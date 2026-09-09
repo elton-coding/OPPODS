@@ -1,0 +1,27 @@
+{
+  "archive": "artifacts\\FATE_MIMO_submission_pure_neural_v242_eight_rms_36k_official.zip",
+  "archive_bytes": 707021014,
+  "archive_sha256": "c39e000ca8ef905563fbb95aaa7e7220b69cc94d5742fbba6541f3616866dd7c",
+  "crc_passed": true,
+  "members": {
+    "submit_pt/modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "submit_pt/modelSubmit/encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "submit_pt/modelSubmit/transmitter.pth": {
+      "sha256": "bef020e67d0e48deab3b24187b596399409afed60bade4f5f575ce2e9ec2e084",
+      "bytes": 420783351
+    },
+    "submit_pt/modelSubmit/receiver.pth": {
+      "sha256": "773a97a4c8cb0352631fc17cae9486f41f2e4bf15f4bb12918f7108a929be175",
+      "bytes": 337893605
+    }
+  },
+  "source_audit": "benchmarks/v242_eight_rms_36k_audit_offset2000.json",
+  "promotion_status": "candidate pending frozen confirmation",
+  "online_uploaded": false
+}

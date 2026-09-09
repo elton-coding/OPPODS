@@ -1,0 +1,126 @@
+{
+  "purpose": "CPU shape/control-route/runtime verification, not score evidence",
+  "candidate": "artifacts\\pure_neural_v242\\eight\\steps36000",
+  "cases": 25,
+  "ue_outputs_checked": 50,
+  "expert_indices_checked": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "snr_pairs": [
+    [
+      -17.5,
+      20
+    ],
+    [
+      -12.5,
+      20
+    ],
+    [
+      -7.5,
+      20
+    ],
+    [
+      -2.5,
+      20
+    ],
+    [
+      2.5,
+      20
+    ],
+    [
+      7.5,
+      20
+    ],
+    [
+      12.5,
+      20
+    ],
+    [
+      17.5,
+      20
+    ],
+    [
+      20,
+      -17.5
+    ],
+    [
+      20,
+      -12.5
+    ],
+    [
+      20,
+      -7.5
+    ],
+    [
+      20,
+      -2.5
+    ],
+    [
+      20,
+      2.5
+    ],
+    [
+      20,
+      7.5
+    ],
+    [
+      20,
+      12.5
+    ],
+    [
+      20,
+      17.5
+    ],
+    [
+      -20,
+      -20
+    ],
+    [
+      -15,
+      -15
+    ],
+    [
+      -10,
+      -10
+    ],
+    [
+      -5,
+      -5
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      10,
+      10
+    ],
+    [
+      15,
+      15
+    ],
+    [
+      20,
+      20
+    ]
+  ],
+  "parameter_count": 190354976,
+  "passed": true,
+  "sha256": {
+    "modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "transmitter.pth": "bef020e67d0e48deab3b24187b596399409afed60bade4f5f575ce2e9ec2e084",
+    "receiver.pth": "773a97a4c8cb0352631fc17cae9486f41f2e4bf15f4bb12918f7108a929be175"
+  }
+}
