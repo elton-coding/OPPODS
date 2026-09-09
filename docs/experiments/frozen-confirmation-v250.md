@@ -1,0 +1,24 @@
+# V250 对 V242E 的冻结确认计划
+
+2026-09-09，特性分支 `codex/pure-neural-confirmation-v250`。确认前登记，尚未开始评测；本文件不宣称晋级或达到69。
+
+V250完整72k单因素预算实验的固定选型均分68.60602864583332，相对V242E +0.074403，按信道聚类95%区间[0.041448,0.103418]。三组总分均升，第二组P10下降，因此待确认的是总评分收益，不是每项指标均改善。
+
+## 不可事后修改的协议
+
+- 候选为 `artifacts/pure_neural_v250/eight/steps72000`，只用固定验证选出的best71000，不按确认分数选checkpoint。
+- 对照为当前主干对应的 `artifacts/pure_neural_v242/eight/steps36000`。冻结双方4文件哈希、完整训练审计、V250前36k复现结果、完整数据文件及评测代码依赖。
+- split1176、test offset6000、连续2000信道，噪声42701/42702/42703。先对照再候选；不得失败后换窗口、种子、参数或重复覆盖结果。
+- offset4000已用于V242E确认，明确不复用。offset6000与当前train/validation/offset2000选型及offset4000互不相交。
+- 总分晋级门槛：三组配对总分差均>0，2000次按信道聚类bootstrap的95%区间下界>0。逐组效率和P10差完整披露；总分通过不等于P10全面提高。
+- 即使确认通过，也须另做接口、文件大小、精确打包/哈希、发布测试和版本管理，才能更新main；不自动上传比赛。
+
+## 确认范围限制
+
+09:25只读信道ID清查记录：此窗口2000信道中1792个在历史评测记录中出现过，且存在24份缺少信道ID的归档。V227祖先训练来源尚有缺口。因此这仅是未参与本轮选型的条件性确认，`whole_project_blindness_certified=false`、`ancestor_training_provenance_certified=false`、`online_confirmation=false`，不是全项目从未见过的盲测。不能根据结果缩减或删除这些限制。
+
+## 固定产物与执行顺序
+
+入口 `scripts/run_frozen_confirmation_v250.py --register-only` 以排他方式生成 `benchmarks/v250_confirmation_plan.json`。先提交并推送计划及代码，再运行不带该参数的同一入口。确认期间不改候选、对照或任何冻结依赖。资源上等待V252完整训练/审计结束后执行，保留V253训练，不新增第三项GPU工作。
+
+结果为 `v242e_confirm_v250_audit_offset6000.json`、`v250_confirm_audit_offset6000.json`、对应六份逐UE NPZ，以及 `v250_confirmation_decision.json`。已有任何目标结果就停止，不隐式续跑或覆盖。所有结果不论成功失败都归档。

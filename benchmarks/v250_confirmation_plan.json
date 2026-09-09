@@ -1,0 +1,174 @@
+{
+  "sources": [
+    {
+      "source_audit": "benchmarks\\v242_eight_rms_36k_audit_offset2000.json",
+      "label": "v242e_confirm_v250",
+      "directory": "artifacts/pure_neural_v242/eight/steps36000",
+      "requested_steps": 36000,
+      "files": {
+        "modelDesign.py": {
+          "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+          "bytes": 13933
+        },
+        "encoder.pth": {
+          "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+          "bytes": 3216093
+        },
+        "transmitter.pth": {
+          "sha256": "bef020e67d0e48deab3b24187b596399409afed60bade4f5f575ce2e9ec2e084",
+          "bytes": 420783351
+        },
+        "receiver.pth": {
+          "sha256": "773a97a4c8cb0352631fc17cae9486f41f2e4bf15f4bb12918f7108a929be175",
+          "bytes": 337893605
+        }
+      }
+    },
+    {
+      "source_audit": "benchmarks\\v250_eight_rms_72k_audit_offset2000.json",
+      "label": "v250_confirm",
+      "directory": "artifacts/pure_neural_v250/eight/steps72000",
+      "requested_steps": 72000,
+      "files": {
+        "modelDesign.py": {
+          "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+          "bytes": 13933
+        },
+        "encoder.pth": {
+          "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+          "bytes": 3216093
+        },
+        "transmitter.pth": {
+          "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+          "bytes": 420783351
+        },
+        "receiver.pth": {
+          "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+          "bytes": 337893605
+        }
+      }
+    }
+  ],
+  "input_sha256": {
+    "scripts\\run_frozen_confirmation_v250.py": "9c0f845b9be88db6204a2578e3133377c06afcc0aca38af6679ded1b4af1534e",
+    "scripts\\audit_pure_neural_candidate.py": "6095d40b7b7ec4efeb5161807da254af1ec3071fa57e4024a810baf8faf646c1",
+    "scripts\\evaluate_submission.py": "0a323055c4f2789f8bec70738ddbaa7a28b2527ca42ebe4641203b93ccc6caa6",
+    "scripts\\compare_paired_holdout.py": "b4640d37ea503f6a2cae6ad5a7b6b506ff373f1aa83dafc15bce02318871f307",
+    "scripts\\run_pure_neural_long_budget_v250.py": "065c72c5b983e548e3e894bec64da46e3df2a7fb3173c743df1e9f38ec05d063",
+    "scripts\\run_pure_neural_rms_budget_v242.py": "55a7a7fe8c93ced5020720c9dac15ad7056797e07af5005f566cf3bef9ac2a9a",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "scripts\\run_pure_neural_budget_v240.py": "2d0cf503486cbae4b3ca926dd022a9372c278be7c46dbfc60b7557f392fe4f89",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "ziliao\\data_train\\H_train.npz": "909f491f545bb218c81ea2446696a2cbd3c770a9a2c2622bd8566245e4a460b9",
+    "benchmarks\\confirmation_channel_inventory_20260909_0925.json": "9f3394f05bb53849884f5932bc11b3d96cf2c2baa821dffa6764c8b7abf8a30b",
+    "benchmarks\\v250_eight_rms_72k_prefix_check.json": "d42d67f47fd6adb0bdc12db6b01958c5b658afa277f8c32da3d1700cd099b56a",
+    "artifacts\\pure_neural_v250\\eight\\execution_plan.json": "ad715f1413e675603d24367c1929beee55e2a392f28d34262201f2059b4813da",
+    "benchmarks\\v242_eight_rms_36k_audit_offset2000.json": "7bab8e0843745bcb48b7e72278cf65b7588180c28687236e1b59e310b022591f",
+    "benchmarks\\v250_eight_rms_72k_audit_offset2000.json": "9538add9835482e6b8d1743380f5fc7e1d19f7a1f059a64e7ae2c6291837b873"
+  },
+  "dataset": {
+    "path": "ziliao/data_train/H_train.npz",
+    "bytes": 3686400578,
+    "shape": [
+      100000,
+      2,
+      2,
+      16,
+      144
+    ],
+    "storage_dtype": "float16",
+    "split_seed": 1176,
+    "indices": {
+      "train": {
+        "count": 80000,
+        "sha256": "ba3564fcab54f37c8942093d9e6a386db589259d95250ea9a41451cb4baa9256"
+      },
+      "validation": {
+        "count": 10000,
+        "sha256": "e1457feb7f91d0d46a999c7f1a0e94246b135d3ddbddf79d4d5936617cd691ce"
+      },
+      "test": {
+        "count": 10000,
+        "sha256": "6501806a726aca6ace23c2a4fcc51f88745f05ab71a169f46f4070c01a6f41e6"
+      }
+    },
+    "validation_first2000_sha256": "e1e441fccfd4f4671b73b61499b1792addc5ed1aa6022a5a1c9f34922907637e",
+    "historical_ancestor_provenance_certified": false
+  },
+  "prefix": {
+    "matched": true,
+    "maximum_absolute_difference": {
+      "loss": 0.0,
+      "efficiency": 0.0,
+      "fairness": 0.0,
+      "final": 0.0
+    },
+    "checkpoints": 37,
+    "scope": "same 0..36000 validation trajectory; not proof of bitwise optimizer state equality"
+  },
+  "protocol": {
+    "split_seed": 1176,
+    "test_offset": 6000,
+    "samples": 2000,
+    "noise_seeds": [
+      42701,
+      42702,
+      42703
+    ]
+  },
+  "commands": [
+    [
+      "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+      "-u",
+      "scripts/audit_pure_neural_candidate.py",
+      "--submission",
+      "artifacts/pure_neural_v242/eight/steps36000",
+      "--label",
+      "v242e_confirm_v250",
+      "--baseline-label",
+      "",
+      "--test-offset",
+      "6000",
+      "--samples",
+      "2000",
+      "--noise-seeds",
+      "42701",
+      "42702",
+      "42703"
+    ],
+    [
+      "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+      "-u",
+      "scripts/audit_pure_neural_candidate.py",
+      "--submission",
+      "artifacts/pure_neural_v250/eight/steps72000",
+      "--label",
+      "v250_confirm",
+      "--baseline-label",
+      "v242e_confirm_v250",
+      "--test-offset",
+      "6000",
+      "--samples",
+      "2000",
+      "--noise-seeds",
+      "42701",
+      "42702",
+      "42703"
+    ]
+  ],
+  "criteria": "all three paired total deltas > 0 and channel-bootstrap 95% lower bound > 0",
+  "scope": "unused for this V230+ cohort selection; offset4000 deliberately not reused",
+  "historical_inventory_window": {
+    "test_offset": 6000,
+    "samples": 2000,
+    "ordered_index_sha256": "4fc006a4d41a0f2063d92cbc0a90230caa786f49c16c71f289df2431e81cbaaf",
+    "train1176_overlap": 0,
+    "validation1176_overlap": 0,
+    "current_offset2000_audit_overlap": 0,
+    "all_recorded_evaluation_ids_overlap": 1792,
+    "explicit_split1176_recorded_ids_overlap": 0
+  },
+  "whole_project_blindness_certified": false,
+  "ancestor_training_provenance_certified": false,
+  "online_confirmation": false
+}
