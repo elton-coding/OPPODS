@@ -1,0 +1,153 @@
+{
+  "purpose": "CPU initialization/full-gradient runtime only; not performance evaluation",
+  "matched": true,
+  "input_sha256": {
+    "research\\pure_neural_v254\\modelDesign.py": "de69827779ea01681cd19d72b438193103c197dd6b64b8707a09ac5958c66573",
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_sixteen_v254.py": "cfad6217b70ce53cd4fa5fe26aee20cad8e442815e583c502f2c7d29a814d22e",
+    "scripts\\probe_pure_neural_routing_v252.py": "6a33165b18ee39de6d43dfac995a31406c79aa34fb5f4851d7a37fc08fec7721",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0"
+  },
+  "split_seed": 1176,
+  "train_data_indices": [
+    83391,
+    95379,
+    58244,
+    48864,
+    19126,
+    18433,
+    24795,
+    88669,
+    73556,
+    99667,
+    44489,
+    67794,
+    19791,
+    9066,
+    64011,
+    25212
+  ],
+  "snr": [
+    [
+      -18.75,
+      20.0
+    ],
+    [
+      20.0,
+      -16.25
+    ],
+    [
+      -13.75,
+      20.0
+    ],
+    [
+      20.0,
+      -11.25
+    ],
+    [
+      -8.75,
+      20.0
+    ],
+    [
+      20.0,
+      -6.25
+    ],
+    [
+      -3.75,
+      20.0
+    ],
+    [
+      20.0,
+      -1.25
+    ],
+    [
+      1.25,
+      20.0
+    ],
+    [
+      20.0,
+      3.75
+    ],
+    [
+      6.25,
+      20.0
+    ],
+    [
+      20.0,
+      8.75
+    ],
+    [
+      11.25,
+      20.0
+    ],
+    [
+      20.0,
+      13.75
+    ],
+    [
+      16.25,
+      20.0
+    ],
+    [
+      20.0,
+      18.75
+    ]
+  ],
+  "routes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "mapping": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "parameters": 379906560,
+  "finite_gradient_tensors": 2592,
+  "same_channel_rng_state": true,
+  "rounding_diagnostics": {
+    "single_sample_maximum_difference": 0.0,
+    "batched_maximum_difference": 0.00010991096496582031,
+    "batched_hard_decision_disagreements": 0,
+    "loss_difference": -5.960464477539063e-08,
+    "maximum_grouped_gradient_difference": {
+      "transmitter_0": 2.7939677238464355e-09,
+      "transmitter_1": 1.2747477740049362e-08,
+      "receiver_0": 6.984919309616089e-10,
+      "receiver_1": 1.6298145055770874e-09
+    }
+  },
+  "identity_gate": "bitwise batch1 logits; batched decisions equal; bounded rounding/loss/head gradients"
+}

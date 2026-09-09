@@ -9,6 +9,7 @@ import torch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import probe_pure_neural_sixteen_v254 as probe
+from probe_pure_neural_sixteen_memory_v254 import MEMORY_FRACTION, forced_snr
 
 
 def load_design():
@@ -57,3 +58,12 @@ def test_metadata_and_parameter_count_without_allocating_full_weights():
     with torch.device("meta"):
         components = [module.Encoder(), module.Transmitter(), module.Receiver()]
     assert sum(p.numel() for model in components for p in model.parameters()) == 379906560
+
+
+def test_full_state_probe_includes_rare_experts_in_each_batch():
+    module = load_design()
+    snr = forced_snr(torch.device("cpu"))
+    assert snr.shape == (100, 2)
+    assert torch.bincount(module._expert_indices(snr.amin(1)), minlength=16).tolist() == [7] * 4 + [6] * 12
+    assert torch.all(snr[0::2, 1] == 20) and torch.all(snr[1::2, 0] == 20)
+    assert MEMORY_FRACTION == .5
