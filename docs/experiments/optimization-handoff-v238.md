@@ -1,5 +1,13 @@
 # 持续优化交接：V234—V254
 
+2026-09-09 21:15最新覆盖：V254存储转换代码已在0c20c37推送并完成eight/B组CPU转换（会话28139 exit0）。B目录artifacts/pure_neural_v254/storage/eight_fp16已经存在，证据benchmarks/v254_eight_fp16_storage_conversion.json；禁止覆盖/重转。source为冻结V250 best71000，新增训练0步，报告明确保留的是源float32训练历史/验证指标，不是B重训或B新验证。设计/Enc字节不变；Tx210508151字节SHA8b40fdbb0bf46df042faa4c60fc3d1efb3a46098c4ca3d370ffcb92cc665e6e4，Rx169047973字节SHA5720ee3233487b65a3d15cf471b2938e33d6c7e3daabe3c7c6db8bff60e5108a；两组件参数往返max误差0.00048828125。真实加载参数float32且逐张量等于half存储提升值；固定合成8路由/16UE maxlogit差0.0740709900856018、5/18432硬判决变化，有限输出。不把此误差称无损，也不把CPU探针当成绩。尚无B评分或ZIP，AB未转换。
+
+新脚本scripts/convert_storage_v254.py支持--arm eight/sixteen，转换器自身SHA b41cdceb4798dd189a05768632312b3b83b40fdde86e0de7fb17d26c1f162cdd已绑定B转换证据，后续不能随意修改导致证明过期。12项专项测试通过。为不占第三份GPU资源，只将tests/test_official_baseline_payload.py及tests/test_submission.py的权重载入改为map_location=cpu，不改断言或生产代码；CUDA隐藏下完整187通过10跳过，Ruff通过，测试24152已关闭。此前CUDA隐藏的2个旧测试失败已由CPU载入修复，未来可以安全在CPU执行完整测试。
+
+当前待办：**四组评分/等待执行器尚未实现或启动**。在独立新脚本中验证并复用现有B转换及源C，冻结代码/证据/输入，等待A的v254_sixteen_rms_72k完整72k/audit、校验A文件哈希后才能调用现有converter --arm sixteen生成AB。分别audit B和AB，C/A复用固定3噪声缓存，用compare_factorial_holdout计算A-C、B-C、AB-A、AB-C和交互，另记录每seed两块/SNR分箱；对A/B/AB实际包做大小/成员/CRC/hash核验。预留B/AB labels v254_eight_fp16_storage/v254_sixteen_fp16_storage、报告v254_expert_storage_factorial.json，已有label/目录不可覆盖。FP16存储不是FP16推理；不能把A分数当AB或将源训练历史说成重训。只在训练槽释放后做GPU评分；如果届时main改变，还需对新冠军补充缓存配对。AB通过仍须新冻结确认及发布，offset4000/6000不再是新确认窗口。
+
+21:15实查两项训练和全部冻结输入未变：V253会话70145/训练14816/父47048，最新19000步68.35874290466307，best已见18000为68.37848739624023，目标36000；V254会话19900/训练9064/父60480，最新1000步68.00033721923828，目标72000。两个计划27/31项SHA均复核，GPU26090/32607MiB、83%、69°C。只有70145/19900两个活跃训练会话，无其他等待器/训练；所有CPU/测试会话已关闭。当前分支codex/pure-neural-sixteen-experts-v254上一提交0c20c37，main仍f3630cd的V250本地68.606029，未达69、线上未知；无V255。
+
 2026-09-09 20:59最新覆盖：main/origin main/solution-v250-score-68.606029已在上一轮实查同为f3630cd8cf16ac6d4394374eca4b29309ae3b7b6，工作树部署V250，本地68.606029、线上未知，旧固定包保留；不是仍等待发布。新分支codex/pure-neural-sixteen-experts-v254从该main创建，f1eb746预登记、ae7350a CPU及GPU容量代码、5c5c441正式运行器均先推送后执行。无V255。
 
 V254原会话19900/父60480/训练9064已通过完整GPU初始验证并正式72k，从原V227映射[0]*4+[1]*12、fresh Adam、batch100/lr1e-5/seed15240、原RMS目标不变；16个2.5dB联合min-SNR Tx/Rx专家，宽512×10、379906560参数、Enc冻结379103168可训练、B1152/k8、5控制位。分配上限0.5只是资源变化，仍float32数学精度。正式路径artifacts/pure_neural_v254/sixteen/steps72000；plan冻结31项输入（不得改），label v254_sixteen_rms_72k，完整73点/初始/哈希门控后自动审计对v250_eight_rms_72k。

@@ -1,0 +1,99 @@
+{
+  "label": "v254_eight_fp16_storage",
+  "source_label": "v250_eight_rms_72k",
+  "source_files": {
+    "modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+      "bytes": 420783351
+    },
+    "receiver.pth": {
+      "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+      "bytes": 337893605
+    }
+  },
+  "files": {
+    "modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "8b40fdbb0bf46df042faa4c60fc3d1efb3a46098c4ca3d370ffcb92cc665e6e4",
+      "bytes": 210508151
+    },
+    "receiver.pth": {
+      "sha256": "5720ee3233487b65a3d15cf471b2938e33d6c7e3daabe3c7c6db8bff60e5108a",
+      "bytes": 169047973
+    }
+  },
+  "input_sha256": {
+    "benchmarks\\v250_eight_rms_72k_audit_offset2000.json": "9538add9835482e6b8d1743380f5fc7e1d19f7a1f059a64e7ae2c6291837b873",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\training_report.json": "0d1b8603b0530edec9f1f0b7a7940ee62a4cc552b77dfbb711b78cfc78a7563a",
+    "scripts\\convert_storage_v254.py": "b41cdceb4798dd189a05768632312b3b83b40fdde86e0de7fb17d26c1f162cdd",
+    "scripts\\audit_pure_neural_candidate.py": "6095d40b7b7ec4efeb5161807da254af1ec3071fa57e4024a810baf8faf646c1",
+    "scripts\\run_pure_neural_sixteen_v254.py": "9af38d6f9a5a5187fcec67a33e06060cb64cbd4ae42d2b8c06159413b1701742",
+    "scripts\\run_pure_neural_long_budget_v250.py": "065c72c5b983e548e3e894bec64da46e3df2a7fb3173c743df1e9f38ec05d063",
+    "scripts\\run_pure_neural_rms_budget_v242.py": "55a7a7fe8c93ced5020720c9dac15ad7056797e07af5005f566cf3bef9ac2a9a",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb"
+  },
+  "provenance": {
+    "source_directory": "artifacts/pure_neural_v250/eight/steps72000",
+    "source_audit": "benchmarks\\v250_eight_rms_72k_audit_offset2000.json",
+    "source_training_report_sha256": "0d1b8603b0530edec9f1f0b7a7940ee62a4cc552b77dfbb711b78cfc78a7563a",
+    "output_directory": "artifacts/pure_neural_v254/storage/eight_fp16"
+  },
+  "rounding": {
+    "transmitter": {
+      "floating_tensors": 688,
+      "unchanged_integral_tensors": 0,
+      "source_tensor_bytes": 420531520,
+      "stored_tensor_bytes": 210265760,
+      "maximum_roundtrip_error": 0.00048828125
+    },
+    "receiver": {
+      "floating_tensors": 608,
+      "unchanged_integral_tensors": 0,
+      "source_tensor_bytes": 337674816,
+      "stored_tensor_bytes": 168837408,
+      "maximum_roundtrip_error": 0.00048828125
+    }
+  },
+  "new_training_steps": 0,
+  "inference_dtype": "float32",
+  "encoder_copied_exactly": true,
+  "cpu_check": {
+    "routes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "ue_outputs": 16,
+    "source": "synthetic seeded inputs",
+    "maximum_logit_difference": 0.0740709900856018,
+    "hard_decision_disagreements": 5,
+    "loaded_parameters_dtype": "float32",
+    "all_stored_values_loaded_exactly": true
+  },
+  "passed_runtime_check": true,
+  "score_evaluated": false,
+  "submission_size_verified": false,
+  "caveat": "source history retained as provenance; converted model needs its own official-score evaluation"
+}
