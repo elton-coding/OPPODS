@@ -17,7 +17,7 @@
     "solution": "FATE-MIMO pure-neural k8/B1152 eight 5dB joint-SNR experts, frozen shared Encoder and RMS-normalized score loss, nested 36000-step budget",
     "version": "V242E",
     "source_commit": "8f1c564",
-    "promotion_commit": null,
+    "promotion_commit": "bb137e4",
     "local_validation": {
       "22701": {"efficiency": 73.76473524305557, "fairness_p10": 55.55555555555556, "final": 68.30198133680557},
       "22702": {"efficiency": 74.07430555555557, "fairness_p10": 55.81597222222222, "final": 68.59680555555556},
