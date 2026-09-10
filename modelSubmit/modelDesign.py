@@ -24,6 +24,27 @@ MIDDLE_PREFIX_BITS = 924
 SNR_EXPERT_EDGES_DB = (-20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0)
 SNR_EXPERT_BOUNDARIES_DB = SNR_EXPERT_EDGES_DB[1:-1]
 NUM_EXPERTS = len(SNR_EXPERT_EDGES_DB) - 1
+SHARED_PREFIX_BLOCKS = 8
+SHARED_PARENT_MAP = (0, 0, 1, 1, 1, 1, 1, 1)
+
+
+def _share_prefix(experts: nn.ModuleList, input_modules: tuple[str, ...]) -> None:
+    """Tie only same-parent input/prefix modules; expert suffixes stay independent.
+
+    Construct all original cores first to preserve initialization RNG consumption.
+    Parent-bank loading must use SHARED_PARENT_MAP; shared modules consequently
+    receive identical source tensors on every alias, never cross-parent weights.
+    """
+    leaders = {}
+    for expert, parent in zip(experts, SHARED_PARENT_MAP, strict=True):
+        if parent not in leaders:
+            leaders[parent] = expert
+            continue
+        leader = leaders[parent]
+        for name in input_modules:
+            setattr(expert, name, getattr(leader, name))
+        for index in range(SHARED_PREFIX_BLOCKS):
+            expert._blocks[index] = leader._blocks[index]
 
 
 def _expert_indices(snr: torch.Tensor) -> torch.Tensor:
@@ -192,6 +213,7 @@ class Transmitter(nn.Module):
     def __init__(self):
         super().__init__()
         self.experts = nn.ModuleList([TransmitterCore() for _ in range(NUM_EXPERTS)])
+        _share_prefix(self.experts, ("_bit_embed", "_feedback_expand", "_embed"))
 
     def initialize_from_baseline(self, state_dict: dict[str, torch.Tensor]) -> None:
         for expert in self.experts:
@@ -297,6 +319,7 @@ class Receiver(nn.Module):
     def __init__(self):
         super().__init__()
         self.experts = nn.ModuleList([ReceiverCore() for _ in range(NUM_EXPERTS)])
+        _share_prefix(self.experts, ("_embed",))
 
     def initialize_from_baseline(self, state_dict: dict[str, torch.Tensor]) -> None:
         for expert in self.experts:

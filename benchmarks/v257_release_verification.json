@@ -1,0 +1,18 @@
+{
+  "version": "V257",
+  "date": "2026-09-11",
+  "archive": "artifacts/FATE_MIMO_submission_pure_neural_v257_shared8_rms_72k_official.zip",
+  "canonical_archive": "artifacts/FATE_MIMO_submission.zip",
+  "archive_bytes": 273225235,
+  "archive_sha256": "db52a545752f67e408ab830b47cdac83c219268873456cf8a463e1655b17886c",
+  "both_archive_crc_and_members_verified": true,
+  "production_four_files_match_frozen_candidate": true,
+  "full_cpu_pytest_exit_code": 0,
+  "full_cpu_pytest_session": 99579,
+  "active_v261_108_and_v262_155_frozen_inputs_verified": true,
+  "candidate_cpu_evidence": "benchmarks/v257_candidate_package_verification.json",
+  "confirmation_evidence": "benchmarks/v257_confirmation_decision.json",
+  "organizer_inference_time_certified": false,
+  "online_confirmation": false,
+  "caveat": "Local package and conditional cohort confirmation only; historical channel overlap and ancestor provenance gaps remain. Git publication is verified separately."
+}

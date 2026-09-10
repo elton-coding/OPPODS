@@ -1,64 +1,287 @@
 {
   "schema_version": 2,
   "competition": "DataFountain_1176",
-  "updated_at": "2026-09-09",
+  "updated_at": "2026-09-11",
   "promotion_metric": "paired final score on fixed split_seed1176 test offset2000, noise seeds22701/22702/22703; inspect uncertainty before promotion",
   "protocol": {
     "evaluator": "official-compatible batch_size=1 local evaluator",
     "samples_per_seed": 2000,
     "ue_scores_per_seed": 4000,
-    "seeds": [22701, 22702, 22703],
+    "seeds": [
+      22701,
+      22702,
+      22703
+    ],
     "split_seed": 1176,
     "test_offset": 2000,
     "legacy_caveat": "Historical changing-partition seeds1177/1178 overlap training; current local_validation uses the fixed partition. This viewed window is now audit, not blind.",
     "final_formula": "0.7 * efficiency_mean + 0.3 * fairness_p10"
   },
   "champion": {
-    "solution": "FATE-MIMO pure-neural k8/B1152 eight 5dB joint-SNR experts, frozen shared Encoder and RMS-normalized score loss, nested 72000-step budget",
-    "version": "V250",
-    "source_commit": "45dabee",
-    "promotion_commit": "c948b7d",
+    "solution": "FATE-MIMO pure neural eight 5dB experts with shared prefix8, frozen Encoder, RMS score loss, 72000 steps",
+    "version": "V257",
+    "source_commit": "241a0a7",
+    "promotion_commit": null,
     "local_validation": {
-      "22701": {"efficiency": 73.89131944444443, "fairness_p10": 55.633680555555564, "final": 68.41402777777778},
-      "22702": {"efficiency": 74.1863064236111, "fairness_p10": 55.642361111111114, "final": 68.6231228298611},
-      "22703": {"efficiency": 74.33734809027779, "fairness_p10": 55.81597222222222, "final": 68.78093532986111},
-      "mean_final": 68.60602864583332
+      "22701": {
+        "efficiency": 73.90646701388889,
+        "fairness_p10": 55.642361111111114,
+        "final": 68.42723524305555
+      },
+      "22702": {
+        "efficiency": 74.21176215277778,
+        "fairness_p10": 55.90277777777778,
+        "final": 68.71906684027778
+      },
+      "22703": {
+        "efficiency": 74.37615017361112,
+        "fairness_p10": 55.80729166666667,
+        "final": 68.80549262152779
+      },
+      "mean_final": 68.6505982349537
     },
     "online_leaderboard": null,
     "paired_gain": {
-      "vs_previous_champion_v242e": 0.07440282541910885,
-      "paired_delta_vs_v242e_95_interval": [0.04144848991712079, 0.10341786909262703],
-      "vs_short_budget_eight_rms_v241": 0.2109206436792969,
-      "paired_delta_vs_v241_95_interval": [0.1818401400534301, 0.2534896111607465],
-      "attribution": "Only budget extended 36k to 72k; all 37 validation checkpoints through 36k match exactly. Same architecture, initialization, optimizer protocol and RMS loss. Best checkpoint selected at 71k on validation, not test.",
-      "p10_caveat": "All three efficiency and total metrics improve versus V242E on viewed audit; noise22702 P10 decreases by 0.173611. Confirmation P10 improves twice and is unchanged once. No universal fairness or online claim."
+      "protocol": "fixed split1176; channel-cluster paired bootstrap shared across noise replicas",
+      "per_seed": [
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v250_eight_rms_72k_holdout1176_offset2000_noise22701.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v257_eight_shared_prefix8_rms_72k_holdout1176_offset2000_noise22701.npz",
+          "noise_seed": 22701,
+          "baseline": {
+            "efficiency": 73.89131944179535,
+            "p10": 55.63368034362793,
+            "final": 68.41402771234512
+          },
+          "candidate": {
+            "efficiency": 73.90646696662903,
+            "p10": 55.64236068725586,
+            "final": 68.42723508281708
+          },
+          "delta": {
+            "efficiency": 0.015147524833679427,
+            "p10": 0.008680343627929688,
+            "final": 0.01320737047196019
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.06628490254758222,
+            "[-15,-10)": -0.00976577599843343,
+            "[-10,-5)": -0.08696928204230542,
+            "[-5,0)": -0.17102259338257564,
+            "[0,5)": 0.05774613409083289,
+            "[5,10)": -0.049103979337013375,
+            "[10,15)": 0.02877252557304468,
+            "[15,20)": 0.2966156718147246
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 986,
+              "mean_score_delta": 0.04243427454578949
+            },
+            "[-15,-10)": {
+              "ue_count": 768,
+              "mean_score_delta": 0.042498379945755005
+            },
+            "[-10,-5)": {
+              "ue_count": 712,
+              "mean_score_delta": -0.07485740104418122
+            },
+            "[-5,0)": {
+              "ue_count": 582,
+              "mean_score_delta": -0.017749006395897094
+            },
+            "[0,5)": {
+              "ue_count": 402,
+              "mean_score_delta": 0.012092286674537468
+            },
+            "[5,10)": {
+              "ue_count": 276,
+              "mean_score_delta": 0.15945789779441943
+            },
+            "[10,15)": {
+              "ue_count": 212,
+              "mean_score_delta": 0.024567676040361513
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.0700046170142389
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 10.9375
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v250_eight_rms_72k_holdout1176_offset2000_noise22702.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v257_eight_shared_prefix8_rms_72k_holdout1176_offset2000_noise22702.npz",
+          "noise_seed": 22702,
+          "baseline": {
+            "efficiency": 74.18630637836456,
+            "p10": 55.64236068725586,
+            "final": 68.62312267103195
+          },
+          "candidate": {
+            "efficiency": 74.21176216888428,
+            "p10": 55.90277862548828,
+            "final": 68.71906710586548
+          },
+          "delta": {
+            "efficiency": 0.025455790519714583,
+            "p10": 0.2604179382324219,
+            "final": 0.09594443483352677
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.0753646196181804,
+            "[-15,-10)": 0.008218279957065922,
+            "[-10,-5)": -0.11426598453724207,
+            "[-5,0)": -0.1373465309070955,
+            "[0,5)": -0.025857058438387783,
+            "[5,10)": -0.10729141998291016,
+            "[10,15)": 0.10678469945514013,
+            "[15,20)": 0.40749417046303693
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 890,
+              "mean_score_delta": 0.06554307830467652
+            },
+            "[-15,-10)": {
+              "ue_count": 826,
+              "mean_score_delta": 0.03446998780922509
+            },
+            "[-10,-5)": {
+              "ue_count": 664,
+              "mean_score_delta": -0.05699881013617458
+            },
+            "[-5,0)": {
+              "ue_count": 604,
+              "mean_score_delta": -0.00014371429847565709
+            },
+            "[0,5)": {
+              "ue_count": 474,
+              "mean_score_delta": 0.011354285453442279
+            },
+            "[5,10)": {
+              "ue_count": 300,
+              "mean_score_delta": 0.1941555658976237
+            },
+            "[10,15)": {
+              "ue_count": 180,
+              "mean_score_delta": -0.0014462365044487847
+            },
+            "[15,20)": {
+              "ue_count": 62,
+              "mean_score_delta": -0.16801052708779612
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 9.375
+        },
+        {
+          "baseline_file": "D:\\Source\\OPPODS\\benchmarks\\v250_eight_rms_72k_holdout1176_offset2000_noise22703.npz",
+          "candidate_file": "D:\\Source\\OPPODS\\benchmarks\\v257_eight_shared_prefix8_rms_72k_holdout1176_offset2000_noise22703.npz",
+          "noise_seed": 22703,
+          "baseline": {
+            "efficiency": 74.33734808540345,
+            "p10": 55.81597137451172,
+            "final": 68.78093507213592
+          },
+          "candidate": {
+            "efficiency": 74.37615018844605,
+            "p10": 55.80729103088379,
+            "final": 68.80549244117736
+          },
+          "delta": {
+            "efficiency": 0.0388021030425989,
+            "p10": -0.008680343627929688,
+            "final": 0.02455736904144601
+          },
+          "mean_score_delta_by_own_snr": {
+            "[-20,-15)": 0.08605237948403183,
+            "[-15,-10)": -0.0461805419921875,
+            "[-10,-5)": -0.11248039383763518,
+            "[-5,0)": -0.04901961532293581,
+            "[0,5)": -0.01943650508062663,
+            "[5,10)": -0.045486244201660156,
+            "[10,15)": 0.14762067701485293,
+            "[15,20)": 0.3584681985831936
+          },
+          "paired_min_snr_bins": {
+            "[-20,-15)": {
+              "ue_count": 876,
+              "mean_score_delta": 0.033097106027820886
+            },
+            "[-15,-10)": {
+              "ue_count": 810,
+              "mean_score_delta": 0.020576175642602237
+            },
+            "[-10,-5)": {
+              "ue_count": 704,
+              "mean_score_delta": -0.02330447868867354
+            },
+            "[-5,0)": {
+              "ue_count": 624,
+              "mean_score_delta": 0.08430159397614308
+            },
+            "[0,5)": {
+              "ue_count": 446,
+              "mean_score_delta": 0.0027250623489174608
+            },
+            "[5,10)": {
+              "ue_count": 292,
+              "mean_score_delta": 0.20779804334248583
+            },
+            "[10,15)": {
+              "ue_count": 190,
+              "mean_score_delta": 0.02467141402395148
+            },
+            "[15,20)": {
+              "ue_count": 58,
+              "mean_score_delta": 0.11673841805293642
+            }
+          },
+          "pair_min_ge_minus10_max_absolute_score_delta": 7.7256927490234375
+        }
+      ],
+      "baseline_mean_final": 68.606028485171,
+      "candidate_mean_final": 68.65059820995332,
+      "mean_delta": 0.04456972478231099,
+      "bootstrap_repeats": 2000,
+      "paired_delta_95_percentile_interval": [
+        0.007856290403201882,
+        0.06534711389303484
+      ],
+      "caveat": "finite-channel uncertainty only; not adjusted for repeated model selection or online shift"
     },
     "conditional_confirmation": {
-      "report": "benchmarks/v250_confirm_audit_offset6000.json",
-      "baseline_label": "v242e_confirm_v250",
-      "decision_report": "benchmarks/v250_confirmation_decision.json",
-      "split_seed": 1176,
-      "test_offset": 6000,
-      "noise_seeds": [42701, 42702, 42703],
-      "mean_final": 68.42686197916667,
-      "baseline_mean_final": 68.33861255787038,
-      "paired_gain": 0.08824978062311573,
-      "paired_95_interval": [0.053780640635488076, 0.1183295914125409],
-      "all_three_total_deltas_positive": true,
+      "report": "benchmarks/v257_confirm_audit_offset8000.json",
+      "decision_report": "benchmarks/v257_confirmation_decision.json",
+      "mean_final": 68.46227936921296,
+      "paired_gain": 0.04159066956838823,
+      "paired_95_interval": [
+        0.007332853261625516,
+        0.06791253646611951
+      ],
       "whole_project_blindness_certified": false,
       "ancestor_training_provenance_certified": false,
-      "caveat": "Preregistered offset6000 window unused for current cohort selection; 1792/2000 channels appeared in older historical evaluations. Previously used offset4000 not reused. Not whole-project blind or online confirmation."
+      "caveat": "1812/2000 historical evaluation overlap; not online confirmation",
+      "test_offset": 8000,
+      "noise_seeds": [
+        52701,
+        52702,
+        52703
+      ],
+      "split_seed": 1176,
+      "baseline_label": "v250_confirm_v257",
+      "baseline_mean_final": 68.42068865740741
     },
     "sha256": {
-      "modelDesign.py": "8F61993AE1DD6767C4096D0E45DD6D4FEE6E0823ED2A2FC224BACC375C45B632",
+      "modelDesign.py": "AEE1776EB1E8BC267A41A2C0532FD7A20673A0A906F88E0A4476F760029A3F46",
       "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
-      "transmitter.pth": "3CE3DE8C2C39EB6CB854E483A4330CB5352063AA1965DF7FF6C5F03D1C812BBD",
-      "receiver.pth": "BA162EA1D198DCCA036EFEA475E59AFB333873F0EDDBECF1624B80D0094ED3FA"
+      "transmitter.pth": "2DCE9E3B443A507D0F8DDC72226888F92F7ADA26091E0B3F03E99A585307D01F",
+      "receiver.pth": "83B05865CEBEB56D8DB7D375EA097530986246B24DEE3DB818D655D89B04B07F"
     },
     "submission_archive": {
-      "name": "FATE_MIMO_submission_pure_neural_v250_eight_rms_72k_official.zip",
-      "bytes": 707033064,
-      "sha256": "48A83CB6FB47F25FF9DCE7DD88D3A934C88924CE8532A076BFF162BDDCE5B719"
+      "name": "FATE_MIMO_submission_pure_neural_v257_shared8_rms_72k_official.zip",
+      "bytes": 273225235,
+      "sha256": "DB52A545752F67E408AB830B47CDAC83C219268873456CF8A463E1655B17886C"
     }
   },
   "references": {
@@ -73,6 +296,7 @@
     "previous_champion_v223_mean_final": 67.24261284722223,
     "v223_online_score": 67.01164987745,
     "v220_k7_b1008_seed1176_final": 65.89623263888889,
-    "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064
+    "organizer_baseline_local_mean_final_two_unseeded_runs": 61.83926908369064,
+    "previous_champion_v250_fixed_holdout_mean_final": 68.60602864583332
   }
 }

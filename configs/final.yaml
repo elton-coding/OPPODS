@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V250
+solution_version: V257
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -12,7 +12,8 @@ data:
 model:
   family: pure_neural_black_box
   architecture: per_subcarrier_wide_residual_mlp_joint_snr_experts
-  parameters: 190354976
+  parameters: 73547840
+  shared_prefix_blocks: 8
   residual_width: 512
   residual_blocks: 10
   num_bits_per_re: 8
@@ -23,14 +24,14 @@ model:
   routing_statistic: minimum_of_two_user_snr
 training:
   initialization: V227 exact eight-expert bank mapping [0, 0, 1, 1, 1, 1, 1, 1]
-  source_report: benchmarks/v250_eight_rms_72k_audit_offset2000.json
+  source_report: benchmarks/v257_eight_shared_prefix8_rms_72k_audit_offset2000.json
   train_components: [transmitter, receiver]
   frozen_components: [encoder]
   seed: 15240
   batch_size: 100
   learning_rate: 1.0e-5
   requested_steps: 72000
-  best_step: 71000
+  best_step: 70000
   snr_db: [-20.0, 20.0]
   loss: rms_score
   rms_normalization: per_UE_logits_differentiable_RMS_before_soft_proxy
@@ -45,21 +46,21 @@ evaluation:
   test_offset: 2000
   seeds: [22701, 22702, 22703]
   samples_per_seed: 2000
-  mean_final: 68.60602864583332
+  mean_final: 68.6505982349537
   online_score: null
 confirmation:
-  report: benchmarks/v250_confirm_audit_offset6000.json
+  report: benchmarks/v257_confirm_audit_offset8000.json
   split_seed: 1176
-  test_offset: 6000
-  seeds: [42701, 42702, 42703]
+  test_offset: 8000
+  seeds: [52701, 52702, 52703]
   samples_per_seed: 2000
-  mean_final: 68.42686197916667
-  paired_gain_vs_v242e: 0.08824978062311573
+  mean_final: 68.46227936921296
+  paired_gain_vs_v250: 0.04159066956838823
   scope: conditional_current_cohort_confirmation_with_historical_overlap
   whole_project_blindness_certified: false
   ancestor_training_provenance_certified: false
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v250_eight_rms_72k_official.zip
-  sha256: 48A83CB6FB47F25FF9DCE7DD88D3A934C88924CE8532A076BFF162BDDCE5B719
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v257_shared8_rms_72k_official.zip
+  sha256: DB52A545752F67E408AB830B47CDAC83C219268873456CF8A463E1655B17886C
