@@ -1,0 +1,22 @@
+{
+  "version": "V257",
+  "date": "2026-09-11",
+  "candidate_archive": "artifacts/pure_neural_v257/candidate_package/v257_shared_prefix8_candidate_not_released.zip",
+  "archive_bytes": 273225235,
+  "archive_sha256": "db52a545752f67e408ab830b47cdac83c219268873456cf8a463e1655b17886c",
+  "archive_crc_and_four_members_reverified": true,
+  "matches_frozen_confirmation_model": true,
+  "prior_cpu_contract_evidence_inputs_unchanged": true,
+  "prior_cpu_ue_outputs_checked": 50,
+  "prior_cpu_routes_checked": 8,
+  "prior_archive_state_keys_checked": 1300,
+  "prior_shared_alias_checks": 1024,
+  "confirmation_decision": "benchmarks/v257_confirmation_decision.json",
+  "confirmation_passed": true,
+  "v258_reliably_better_than_v257": false,
+  "production_files_changed": false,
+  "main_promoted": false,
+  "organizer_inference_time_certified": false,
+  "online_confirmation": false,
+  "caveat": "Local package readiness only. Confirmation has historical channel reuse and ancestor provenance gaps. Release metadata, production-copy verification and Git LFS/main publication remain pending."
+}
