@@ -1,4 +1,8 @@
-# 持续优化交接：V234—V257
+# 持续优化交接：V234—V258
+
+2026-09-10 09:06新增覆盖：V258当前八专家RMS72k仅解冻Encoder单因素已在codex/pure-neural-rms-endtoend-v258预登记2493acc并推送；区别于V235/V249两专家soft12k旧实验，不自动组合其未获支持的收益。使用原V230模型/原V227映射，训练全部三组件统一Adam1e-5，其他同V250。CPU真实八路由证明23676正常exit0：初始输出/loss/全部TxRx裁剪前梯度差0，RNG一致；Encoder4张量803392参数有非零有限梯度，两次Adam均1300状态、Encoder最大变化1.0013580322265625e-5/2.002716064453125e-5，总190354976参数，elapsed11.495805600192398秒、不保存权重。证据benchmarks/v258_cpu_endtoend_probe.json。新CPU/GPU证明脚本probe_pure_neural_endtoend_v258.py、运行器run_pure_neural_endtoend_v258.py及14项专项已完成，Ruff通过；完整CPU回归12411正常exit0：251通过10跳过，另collect-only确认261。上述两个CPU会话已关，勿轮询。
+
+V258当前**尚未启动等待器/任何GPU工作**，先提交代码证据，再启动等待V256完整72k审计。预留formal artifacts/pure_neural_v258/eight/endtoend_steps72000，probe artifacts/resource_probe/v258/eight_endtoend，label v258_eight_rms_endtoend_72k。未来GPU全状态batch100八路由两步、原入口两步初始与V250差<=1e-4，再原父fresh72k；不得复用探针/温度/主干权重。当前仍只有85414 V256训练55072/父52552（最新57000验证68.42697410583496）和32543 V257训练51848/父58768（最新3000验证68.148189163208）两项GPU训练。原V25769项生产输入及42项完成依赖SHA刚复核未变，不能修改这些冻结文件。主干仍V250本地68.60602864583332、线上未知，69未达。以下为历史。
 
 2026-09-10 08:52重大覆盖：**V257原会话32543已经转为正式72000步训练**，于08:48:49启动PID51848、父58768，输出artifacts/pure_neural_v257/eight/shared8_steps72000；formal step0 loss0.5584146084255642/eff73.62703704833984/P10 54.94791793823242/final68.0233013153076，与V250四项差0。从原V227fresh Adam，不复用探针/V254/V250训练权重。PID51848是Windows复用旧V254存储PID，旧会话34137已exit0，不能再轮询。
 
