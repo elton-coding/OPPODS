@@ -1,0 +1,88 @@
+{
+  "purpose": "runtime/gradient evidence, not a competition score",
+  "device": "cuda",
+  "input_sha256": {
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_endtoend_v258.py": "b501868df01f50af1e31bf165590584f373b5da142400c61955b1187591b8934",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "scripts\\run_pure_neural_pair_v253.py": "5831a99b23ebdd947b32ec966debf2c495bf1c692af396c1d5010c3fd6083dbc",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "ziliao\\data_train\\H_train.npz": "909f491f545bb218c81ea2446696a2cbd3c770a9a2c2622bd8566245e4a460b9",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0",
+    "benchmarks\\v258_cpu_endtoend_probe.json": "c3fb29c1d3e344f2e29591484cf7632b8fb6371a8b2a434d4108d521b5e23f3a"
+  },
+  "batch_size": 100,
+  "route_counts": [
+    13,
+    13,
+    13,
+    13,
+    12,
+    12,
+    12,
+    12
+  ],
+  "trainable_parameters": 190354976,
+  "trainable_parameter_tensors": 1300,
+  "identity": null,
+  "steps": [
+    {
+      "step": 1,
+      "loss": -0.6593130230903625,
+      "gradient_norm_before_clip": 0.1490662842988968,
+      "component_gradients": {
+        "encoder": {
+          "parameters": 803392,
+          "gradient_tensors": 4,
+          "gradient_l1": 12.587869529146701
+        },
+        "transmitter": {
+          "parameters": 105132880,
+          "gradient_tensors": 688,
+          "gradient_l1": 224.17961225915496
+        },
+        "receiver": {
+          "parameters": 84418704,
+          "gradient_tensors": 608,
+          "gradient_l1": 145.11207933997503
+        }
+      },
+      "adam_parameter_states": 1300,
+      "encoder_maximum_parameter_change_from_initial": 1.0013580322265625e-05
+    },
+    {
+      "step": 2,
+      "loss": -0.6582849621772766,
+      "gradient_norm_before_clip": 0.08977841585874557,
+      "component_gradients": {
+        "encoder": {
+          "parameters": 803392,
+          "gradient_tensors": 4,
+          "gradient_l1": 6.119392397813499
+        },
+        "transmitter": {
+          "parameters": 105132880,
+          "gradient_tensors": 688,
+          "gradient_l1": 170.99271098551617
+        },
+        "receiver": {
+          "parameters": 84418704,
+          "gradient_tensors": 608,
+          "gradient_l1": 141.17601584622753
+        }
+      },
+      "adam_parameter_states": 1300,
+      "encoder_maximum_parameter_change_from_initial": 2.002716064453125e-05
+    }
+  ],
+  "weights_saved": false,
+  "passed": true,
+  "elapsed_seconds": 8.987522500101477,
+  "gpu_memory_fraction": 0.4,
+  "gpu_peak_allocated_bytes": 8770597376,
+  "gpu_peak_reserved_bytes": 9888071680
+}

@@ -11,9 +11,9 @@
 - [V253 联合min/max SNR分段](experiments/pure-neural-pair-routing-v253.md)：完整36k固定均分68.562225；优于同概率V252，但对同预算V242E净增区间跨0，低于现冠军V250，不晋级。
 - [V254 专家数×存储精度四组消融](experiments/pure-neural-sixteen-experts-v254.md)：四组评分及实际验包全部完成；A十六专家68.549637、压缩AB68.549829均低于V250且配对区间为负，B八专家压缩68.598368。A包超1GB，AB包700789914字节但不提分，不确认/不晋级。
 - [V255 后半程余弦学习率](experiments/pure-neural-cosine-v255.md)：完整72k及统一评测68.645153，对V250平均+0.039125且区间为正，但首组总分回落，未满足预登记三组均升条件，不晋级/不另开确认。
-- [V256 RMS温度减半](experiments/pure-neural-rms-temperature-v256.md)：相对V250只改归一化评分代理温度0.5→0.25，恒定学习率和72k预算不变；224通过10跳过，63项输入冻结，GPU初始检查通过，原队列已转为正式72k训练，尚无完整成绩。
+- [V256 RMS温度减半](experiments/pure-neural-rms-temperature-v256.md)：完整72k统一评测68.534712，对V250为-0.071317、区间[-0.099823,-0.024811]，三组均回落，不采纳；已保留完整证据及P10/SNR描述性诊断。
 - [V257 同父专家共享前八层](experiments/pure-neural-shared-prefix-v257.md)：八区间/独立后两层不变，有效7355万参数；CPU/GPU八路由证明及初始四验证指标差0通过，V254四组全部结束后已于08:48独立启动72k正式训练，尚无完整成绩。
-- [V258 RMS长预算下解冻Encoder](experiments/pure-neural-rms-endtoend-v258.md)：补充旧两专家soft12k没有覆盖的当前条件；只解冻Encoder，CPU真实八路由梯度/参数更新证明及251通过10跳过已完成；56049已等待V256完整审计、73项输入冻结，不占第三个GPU槽。
+- [V258 RMS长预算下解冻Encoder](experiments/pure-neural-rms-endtoend-v258.md)：只解冻Encoder，CPU/GPU八路由两步1300完整状态及初始化一致检查通过；56049已于10:21:55从原父独立开训72k，73项输入和9项完成依赖冻结，无完整成绩。
 - [V259 RMS全局大批次](experiments/pure-neural-rms-global-batch-v259.md)：八专家全局400信道一次评分损失，18000步匹配主干720万抽样，验证batch100不变；CPU全局梯度/RNG证明及269通过10跳过，61346已等待V257完整审计，79项输入冻结，尚无GPU成绩。
 - [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：历史冠军，两专家36k固定audit均分68.439628；[提交说明](submission/V240C_提交说明.md)。
 - [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，历史短预算对照。

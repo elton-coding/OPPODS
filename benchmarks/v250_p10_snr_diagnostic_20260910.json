@@ -1,0 +1,35 @@
+{
+  "purpose": "Descriptive current-champion error analysis, not independent confirmation or a new model score",
+  "label": "v250_eight_rms_72k",
+  "date": "2026-09-10",
+  "source_sha256": {
+    "benchmarks/v250_eight_rms_72k_holdout1176_offset2000_noise22701.npz": "e253f6922bf3a43bc1163cab95f1cd3797abd1d02273c5473ad9f1c2527e0ac0",
+    "benchmarks/v250_eight_rms_72k_holdout1176_offset2000_noise22702.npz": "f3cfb9971d44475244cfb36155950526eb637b693e34e0eb8aa740c06db179e8",
+    "benchmarks/v250_eight_rms_72k_holdout1176_offset2000_noise22703.npz": "7ee1f11f29d3765de6227ac8873d141ecde306ce2397175a111dbe77cb3ebe94"
+  },
+  "method": {
+    "score_source": "float32 NPZ score promoted to float64; no model inference or training",
+    "p10": "numpy.quantile(score, 0.1), default linear interpolation",
+    "tail_mask": "score <= p10; ties may exceed exactly 400 of 4000 UE observations",
+    "near_mask": "abs(score - p10) <= 1.0 score point",
+    "snr_assignment": "own UE SNR, not pair minimum SNR",
+    "bin_edges_db": [-20, -15, -10, -5, 0, 5, 10, 15, 20],
+    "payload_bits_verified": 1152,
+    "paired_ue_data_index_alignment_verified": true
+  },
+  "per_seed": [
+    {"seed": 22701, "p10": 55.63368034362793, "tail_count": 400, "within_one_point_count": 230, "tail_own_snr_bins": [270,97,26,6,1,0,0,0], "near_p10_own_snr_bins": [135,73,18,3,0,0,1,0]},
+    {"seed": 22702, "p10": 55.64236068725586, "tail_count": 403, "within_one_point_count": 231, "tail_own_snr_bins": [265,100,30,7,1,0,0,0], "near_p10_own_snr_bins": [127,82,18,3,1,0,0,0]},
+    {"seed": 22703, "p10": 55.81597137451172, "tail_count": 408, "within_one_point_count": 232, "tail_own_snr_bins": [262,109,32,5,0,0,0,0], "near_p10_own_snr_bins": [126,91,12,2,0,1,0,0]}
+  ],
+  "pooled_observations_not_independent_channels": {
+    "tail_count": 1211,
+    "tail_own_snr_below_minus10_count": 1103,
+    "tail_low_snr_fraction": 0.9108175061932288,
+    "near_count": 693,
+    "near_own_snr_below_minus10_count": 634,
+    "near_low_snr_fraction": 0.9148629148629148
+  },
+  "interpretation": "Low own-SNR UE dominate the P10 neighborhood; this motivates future separately registered hypotheses, not immediate reweighting or adoption of temperature0.25.",
+  "caveat": "Same 2000 channels recur across noise seeds. Counts are UE/noise observations, not independent samples. The reused selection cohort and historical provenance limitations preclude global-blind or online claims."
+}
