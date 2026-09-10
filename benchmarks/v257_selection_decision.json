@@ -1,0 +1,21 @@
+{
+  "candidate": "v257_eight_shared_prefix8_rms_72k",
+  "control": "v250_eight_rms_72k",
+  "audit_sha256": "edc244028818532918c9b4731b5f4ef91876d5d511f6937d0c20893b9ee243d4",
+  "candidate_exact_mean_final": 68.6505982349537,
+  "paired_mean_delta": 0.04456972478231099,
+  "paired_delta_95_interval": [0.007856290403201882, 0.06534711389303484],
+  "per_seed_final_deltas": [0.01320737047196019, 0.09594443483352677, 0.02455736904144601],
+  "per_seed_efficiency_deltas": [0.015147524833679427, 0.025455790519714583, 0.0388021030425989],
+  "per_seed_p10_deltas": [0.008680343627929688, 0.2604179382324219, -0.008680343627929688],
+  "full_training_steps_verified": 72000,
+  "history_points": 73,
+  "best_validation_step": 70000,
+  "paired_statistics_reproduced": true,
+  "eligible_for_preregistered_confirmation": true,
+  "confirmation_complete": false,
+  "automatic_promotion": false,
+  "local_69_reached": false,
+  "online_confirmation": false,
+  "caveat": "Selection evidence only; third noise P10 slightly decreases. Confirmation and release checks remain required."
+}

@@ -12,9 +12,9 @@
 - [V254 专家数×存储精度四组消融](experiments/pure-neural-sixteen-experts-v254.md)：四组评分及实际验包全部完成；A十六专家68.549637、压缩AB68.549829均低于V250且配对区间为负，B八专家压缩68.598368。A包超1GB，AB包700789914字节但不提分，不确认/不晋级。
 - [V255 后半程余弦学习率](experiments/pure-neural-cosine-v255.md)：完整72k及统一评测68.645153，对V250平均+0.039125且区间为正，但首组总分回落，未满足预登记三组均升条件，不晋级/不另开确认。
 - [V256 RMS温度减半](experiments/pure-neural-rms-temperature-v256.md)：完整72k统一评测68.534712，对V250为-0.071317、区间[-0.099823,-0.024811]，三组均回落，不采纳；已保留完整证据及P10/SNR描述性诊断。
-- [V257 同父专家共享前八层](experiments/pure-neural-shared-prefix-v257.md)：八区间/独立后两层不变，有效7355万参数；CPU/GPU八路由证明及初始四验证指标差0通过，V254四组全部结束后已于08:48独立启动72k正式训练，尚无完整成绩。
+- [V257 同父专家共享前八层](experiments/pure-neural-shared-prefix-v257.md)：完整72k本地68.650598，对V250 +0.044570、三组总分均升且配对区间为正，进入[冻结确认](experiments/frozen-confirmation-v257.md)；尚未晋级或达到69，历史信道交叉限制保留。
 - [V258 RMS长预算下解冻Encoder](experiments/pure-neural-rms-endtoend-v258.md)：只解冻Encoder，CPU/GPU八路由两步1300完整状态及初始化一致检查通过；56049已于10:21:55从原父独立开训72k，73项输入和9项完成依赖冻结，无完整成绩。
-- [V259 RMS全局大批次](experiments/pure-neural-rms-global-batch-v259.md)：八专家全局400信道一次评分损失，18000步匹配主干720万抽样，验证batch100不变；CPU全局梯度/RNG证明及269通过10跳过，61346已等待V257完整审计，79项输入冻结，尚无GPU成绩。
+- [V259 RMS全局大批次](experiments/pure-neural-rms-global-batch-v259.md)：八专家全局400信道一次评分损失，18000步匹配主干720万抽样；GPU两步1296完整状态及原入口初始四指标差0通过，61346已接续正式训练，79输入/9完成依赖冻结，尚无完整成绩。
 - [V260 接收端自身SNR路由](experiments/pure-neural-receiver-own-snr-v260.md)：只重分配八个Rx专家，保持父组和Tx路由/参数量/原RMS；真实CPU证明及307通过10跳过，8272已等待V258完整审计，84项输入冻结，尚无GPU成绩。
 - [V261 RMS硬排名损失](experiments/pure-neural-rms-hard-rank-v261.md)：保持T0.5和原模型/预算，只替换硬排名及前向计分，反向仍有偏可导近似；真实CPU前向/参考梯度契约及356通过10跳过，89项输入冻结，会话93989等待V259完整审计，尚无GPU训练或成绩。
 - [RMS评分代理诊断（非新训练版本）](experiments/rms-score-proxy-diagnostic-v250.md)：冻结V250在400训练信道上的CPU分析，整体排序高相关仍有局部尾部偏差；更低温度改善代理数值不等于重训提分。保存无损缓存与复算证据，313通过10跳过。

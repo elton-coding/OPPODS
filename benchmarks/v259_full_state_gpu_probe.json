@@ -1,0 +1,61 @@
+{
+  "purpose": "RMS global-loss recomputation/runtime proof, not a score",
+  "device": "cuda",
+  "input_sha256": {
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_rms_global_v259.py": "11e45eaa0f54b2984ec73f6f7fdb591d59002553ec723a98003b66f8f396d8b9",
+    "scripts\\train_pure_neural_rms_global_v259.py": "2c0c6f9aa63b327c31fb65fe4075a10754bc7e6571fdd8777631bcb018767cef",
+    "scripts\\train_pure_neural_global_batch_v246.py": "1e4a5449eba2bac5b4bacb578c3483dbc2758bd925681a8a0c73a0424988f02a",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "scripts\\run_pure_neural_pair_v253.py": "5831a99b23ebdd947b32ec966debf2c495bf1c692af396c1d5010c3fd6083dbc",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "ziliao\\data_train\\H_train.npz": "909f491f545bb218c81ea2446696a2cbd3c770a9a2c2622bd8566245e4a460b9",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0",
+    "benchmarks\\v259_cpu_global_rms_probe.json": "9f479e73dc962c58d8d2fc9c200b00ff4e304bb0cfee529660d5c12828523542"
+  },
+  "batch_size": 400,
+  "microbatch_size": 100,
+  "route_counts": [
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50
+  ],
+  "trainable_parameters": 189551584,
+  "identity": null,
+  "steps": [
+    {
+      "step": 1,
+      "loss": -0.6531808972358704,
+      "gradient_norm_before_clip": 0.08204340189695358,
+      "gradient_tensors": 1296,
+      "adam_parameter_states": 1296,
+      "global_loss_ue_count": 800,
+      "backward_preserves_noise_rng": true
+    },
+    {
+      "step": 2,
+      "loss": -0.6552579402923584,
+      "gradient_norm_before_clip": 0.07137822359800339,
+      "gradient_tensors": 1296,
+      "adam_parameter_states": 1296,
+      "global_loss_ue_count": 800,
+      "backward_preserves_noise_rng": true
+    }
+  ],
+  "encoder_unchanged": true,
+  "weights_saved": false,
+  "passed": true,
+  "elapsed_seconds": 11.224598299711943,
+  "gpu_memory_fraction": 0.4,
+  "gpu_peak_allocated_bytes": 9613631488,
+  "gpu_peak_reserved_bytes": 10773069824
+}
