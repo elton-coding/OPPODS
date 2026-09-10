@@ -1,0 +1,18 @@
+{
+  "input_sha256": {
+    "benchmarks\\v257_confirmation_decision.json": "3e76dc183ddf58238b65b51a3185dafc4b78d11e72c087f8c10a0b559cbef910",
+    "benchmarks\\v250_confirm_v257_audit_offset8000.json": "eebbe8afdb8822355c7b0284dfe223f73426e31e9ca3143ac423cf27080f7bad",
+    "benchmarks\\v250_confirm_v257_holdout1176_offset8000_noise52701.npz": "03e2935d4dc19cc886e62560e0d2a476c9c834d6b299b076c9daa3d651a24cea",
+    "benchmarks\\v250_confirm_v257_holdout1176_offset8000_noise52702.npz": "34506c5b222e3d1c79ad6107385ff4777f3c3b7d2b7c1f8c361aa03d2fcbc6ed",
+    "benchmarks\\v250_confirm_v257_holdout1176_offset8000_noise52703.npz": "d48633dce9fc841bb52a580e714c6430fa3032ab2edfcc156be733fc2dd558cf",
+    "benchmarks\\v257_confirm_audit_offset8000.json": "c817d1c8e664cd7234d8c4eaefecb0b2e7933dbc689de139a252205944799b9c",
+    "benchmarks\\v257_confirm_holdout1176_offset8000_noise52701.npz": "95f2d6f63495a695b7c2ec7f435fe7c6a9f4dd29c14538652c3377ef42ed3dc0",
+    "benchmarks\\v257_confirm_holdout1176_offset8000_noise52702.npz": "dd4022c378d13ac637185301cb4f2399df334096ca2004855e2e9fb7ba413211",
+    "benchmarks\\v257_confirm_holdout1176_offset8000_noise52703.npz": "c9a59c11f3471672e6596d2550493e78e99365a0bfcd1eadee4f8827037e200d"
+  },
+  "reference_labels": [
+    "v250_confirm_v257",
+    "v257_confirm"
+  ],
+  "reuse_without_reselecting_models_or_window": true
+}

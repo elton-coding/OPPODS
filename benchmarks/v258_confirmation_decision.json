@@ -1,0 +1,62 @@
+{
+  "candidate_exact_mean_final": 68.48969690393518,
+  "comparisons": {
+    "v250_confirm_v257": {
+      "passes": true,
+      "mean_delta": 0.0690077943801981,
+      "paired_delta_95_interval": [
+        0.03566227185963816,
+        0.10310003193139464
+      ],
+      "per_seed_metric_deltas": [
+        {
+          "efficiency": 0.04915369701386396,
+          "p10": 0.26041412353515625,
+          "final": 0.1125318249702616
+        },
+        {
+          "efficiency": 0.040147558212282775,
+          "p10": 0.0,
+          "final": 0.028103290748603627
+        },
+        {
+          "efficiency": 0.057638909339914335,
+          "p10": 0.08680343627929688,
+          "final": 0.0663882674217291
+        }
+      ]
+    },
+    "v257_confirm": {
+      "passes": false,
+      "mean_delta": 0.027417124811809874,
+      "paired_delta_95_interval": [
+        -0.0049541304222649055,
+        0.06895440759976375
+      ],
+      "per_seed_metric_deltas": [
+        {
+          "efficiency": 0.01158858966827836,
+          "p10": 0.17361068725585938,
+          "final": 0.06019521894455693
+        },
+        {
+          "efficiency": 0.007183204650871744,
+          "p10": -0.0868072509765625,
+          "final": -0.021013932037362792
+        },
+        {
+          "efficiency": 0.02432722377777452,
+          "p10": 0.08680343627929688,
+          "final": 0.04307008752823549
+        }
+      ]
+    }
+  },
+  "supports_improvement_over_frozen_v250": true,
+  "supports_preference_over_both_frozen_references": false,
+  "automatic_promotion": false,
+  "online_confirmation": false,
+  "whole_project_blindness_certified": false,
+  "ancestor_training_provenance_certified": false,
+  "caveat": "shared-window conditional cohort confirmation; 1812/2000 historical evaluation overlap; not independent of V257 confirmation, not adjusted for historical model selection"
+}
