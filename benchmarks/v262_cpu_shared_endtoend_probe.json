@@ -1,0 +1,100 @@
+{
+  "purpose": "runtime/gradient evidence, not a competition score",
+  "device": "cpu",
+  "input_sha256": {
+    "research\\pure_neural_v257\\modelDesign.py": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_shared_v257.py": "9657b3a70bfc97597f7164511e43dd3901ec5494ac9a70e3943c35e42504b591",
+    "scripts\\probe_pure_neural_shared_endtoend_v262.py": "ca03e592c54fac09cf3c707d81bfc2334859597cf05c61d90ce9efedcc881186",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "scripts\\run_pure_neural_pair_v253.py": "5831a99b23ebdd947b32ec966debf2c495bf1c692af396c1d5010c3fd6083dbc",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "ziliao\\data_train\\H_train.npz": "909f491f545bb218c81ea2446696a2cbd3c770a9a2c2622bd8566245e4a460b9",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0"
+  },
+  "batch_size": 8,
+  "route_counts": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "trainable_parameters": 73547840,
+  "trainable_parameter_tensors": 532,
+  "identity": {
+    "logit_maximum_difference": 0.0,
+    "loss_difference": 0.0,
+    "independent_endtoend_initial_output_and_loss_equal": true,
+    "independent_grouped_gradient_maximum_difference": 9.313225746154785e-10,
+    "independent_encoder_gradient_maximum_difference": 0.0,
+    "rng_equal": true,
+    "frozen_encoder_has_no_gradients": true,
+    "transceiver_gradient_maximum_difference_before_clip": 0.0
+  },
+  "steps": [
+    {
+      "step": 1,
+      "loss": -0.6546443700790405,
+      "gradient_norm_before_clip": 0.18927153944969177,
+      "component_gradients": {
+        "encoder": {
+          "parameters": 803392,
+          "gradient_tensors": 4,
+          "gradient_l1": 19.241317336214706
+        },
+        "transmitter": {
+          "parameters": 38995360,
+          "gradient_tensors": 268,
+          "gradient_l1": 256.6767773912943
+        },
+        "receiver": {
+          "parameters": 33749088,
+          "gradient_tensors": 260,
+          "gradient_l1": 239.2885753380251
+        }
+      },
+      "adam_parameter_states": 532,
+      "encoder_maximum_parameter_change_from_initial": 1.0013580322265625e-05
+    },
+    {
+      "step": 2,
+      "loss": -0.6561110019683838,
+      "gradient_norm_before_clip": 0.22448718547821045,
+      "component_gradients": {
+        "encoder": {
+          "parameters": 803392,
+          "gradient_tensors": 4,
+          "gradient_l1": 22.962092167930678
+        },
+        "transmitter": {
+          "parameters": 38995360,
+          "gradient_tensors": 268,
+          "gradient_l1": 277.3059361484484
+        },
+        "receiver": {
+          "parameters": 33749088,
+          "gradient_tensors": 260,
+          "gradient_l1": 236.70826689092792
+        }
+      },
+      "adam_parameter_states": 532,
+      "encoder_maximum_parameter_change_from_initial": 2.002716064453125e-05
+    }
+  ],
+  "weights_saved": false,
+  "passed": true,
+  "shared_parameter_alias_checks": 1024,
+  "shared_prefix_blocks": 8,
+  "elapsed_seconds": 11.99750699987635,
+  "gpu_memory_fraction": null,
+  "gpu_peak_allocated_bytes": 0,
+  "gpu_peak_reserved_bytes": 0
+}
