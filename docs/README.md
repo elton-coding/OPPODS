@@ -15,7 +15,7 @@
 - [V257 同父专家共享前八层](experiments/pure-neural-shared-prefix-v257.md)：八区间/独立后两层不变，有效7355万参数；CPU/GPU八路由证明及初始四验证指标差0通过，V254四组全部结束后已于08:48独立启动72k正式训练，尚无完整成绩。
 - [V258 RMS长预算下解冻Encoder](experiments/pure-neural-rms-endtoend-v258.md)：只解冻Encoder，CPU/GPU八路由两步1300完整状态及初始化一致检查通过；56049已于10:21:55从原父独立开训72k，73项输入和9项完成依赖冻结，无完整成绩。
 - [V259 RMS全局大批次](experiments/pure-neural-rms-global-batch-v259.md)：八专家全局400信道一次评分损失，18000步匹配主干720万抽样，验证batch100不变；CPU全局梯度/RNG证明及269通过10跳过，61346已等待V257完整审计，79项输入冻结，尚无GPU成绩。
-- [V260 接收端自身SNR路由](experiments/pure-neural-receiver-own-snr-v260.md)：只重分配八个Rx专家，保持父组和Tx路由/参数量/原RMS；真实CPU初始输出/分组梯度/两步状态/序列化证明及307通过10跳过，执行器完成，尚未排队或GPU训练。
+- [V260 接收端自身SNR路由](experiments/pure-neural-receiver-own-snr-v260.md)：只重分配八个Rx专家，保持父组和Tx路由/参数量/原RMS；真实CPU证明及307通过10跳过，8272已等待V258完整审计，84项输入冻结，尚无GPU成绩。
 - [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：历史冠军，两专家36k固定audit均分68.439628；[提交说明](submission/V240C_提交说明.md)。
 - [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，历史短预算对照。
 - [V244 跨子载波残差](experiments/pure-neural-token-context-v244.md)：完整audit68.299965，未证明净收益，不采纳。
