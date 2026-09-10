@@ -1,0 +1,7 @@
+{
+  "audit": "benchmarks\\v260_eight_rms_receiver_own_72k_audit_offset2000.json",
+  "exact_mean_final": 68.50701895254629,
+  "original_failure_preserved": true,
+  "formal_training_steps": 72000,
+  "automatic_promotion": false
+}
