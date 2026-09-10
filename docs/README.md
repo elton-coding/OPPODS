@@ -9,7 +9,7 @@
 - [V251 公平损失权重](experiments/pure-neural-fairness-v251.md)：68.518753，净收益未获支持，不采纳。
 - [V252 近等频SNR分段](experiments/pure-neural-balanced-routing-v252.md)：68.483786，相对V242E配对区间为负，不采纳。
 - [V253 联合min/max SNR分段](experiments/pure-neural-pair-routing-v253.md)：完整36k固定均分68.562225；优于同概率V252，但对同预算V242E净增区间跨0，低于现冠军V250，不晋级。
-- [V254 十六个2.5dB联合专家](experiments/pure-neural-sixteen-experts-v254.md)：原父模型完整72k重训中，另预登记专家数×存储精度四组消融；八专家half存储CPU转换完成但尚未评分，不以超限完整精度包或源模型分数替代转换后的验证。
+- [V254 十六个2.5dB联合专家](experiments/pure-neural-sixteen-experts-v254.md)：完整72k固定均分68.549637，对同预算V250配对净减0.056391且区间为负，不晋级；存储四组对照继续，AB已转换，待B/AB独立评分和实际验包，不以源模型分数替代压缩后的结果。
 - [V255 后半程余弦学习率](experiments/pure-neural-cosine-v255.md)：完整72k及统一评测68.645153，对V250平均+0.039125且区间为正，但首组总分回落，未满足预登记三组均升条件，不晋级/不另开确认。
 - [V256 RMS温度减半](experiments/pure-neural-rms-temperature-v256.md)：相对V250只改归一化评分代理温度0.5→0.25，恒定学习率和72k预算不变；224通过10跳过，63项输入冻结，GPU初始检查通过，原队列已转为正式72k训练，尚无完整成绩。
 - [V257 同父专家共享前八层](experiments/pure-neural-shared-prefix-v257.md)：八区间/独立后两层不变，初始完整链路输出差0；有效7355万参数，13项专项及237通过10跳过；32543已启动等待、69项输入冻结，须在V254存储四组全部完成后才占训练槽，尚无成绩。

@@ -1,0 +1,107 @@
+{
+  "label": "v254_sixteen_fp16_storage",
+  "source_label": "v254_sixteen_rms_72k",
+  "source_files": {
+    "modelDesign.py": {
+      "sha256": "de69827779ea01681cd19d72b438193103c197dd6b64b8707a09ac5958c66573",
+      "bytes": 13927
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "cf2056b5626670f2de7204a4ef3f9478bccb243c6178ba4db64bcc5190582deb",
+      "bytes": 841567951
+    },
+    "receiver.pth": {
+      "sha256": "bc13584626aaf23ad4dc2f91e07380d4299bacfbe34be71b0a0c102b52f54680",
+      "bytes": 675787933
+    }
+  },
+  "files": {
+    "modelDesign.py": {
+      "sha256": "de69827779ea01681cd19d72b438193103c197dd6b64b8707a09ac5958c66573",
+      "bytes": 13927
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "654576080061c316bc9a5643e3a066e2613a2e4b5d6f29c3dcbd6367c44a6516",
+      "bytes": 421017487
+    },
+    "receiver.pth": {
+      "sha256": "d99b5b5c7561ee4d46d866a29394971cad039caa2e2e10aae48129f09f57cc8b",
+      "bytes": 338096669
+    }
+  },
+  "input_sha256": {
+    "benchmarks\\v254_sixteen_rms_72k_audit_offset2000.json": "b16573e55a1fd3a1930ea2ac29b32d405f09c71263dbeecbb94f894341383fc3",
+    "artifacts\\pure_neural_v254\\sixteen\\steps72000\\training_report.json": "e6baa3ba4dd3f505e914a1960f18662a8373c10c0607cdfbbbd12a2832d89b75",
+    "scripts\\convert_storage_v254.py": "b41cdceb4798dd189a05768632312b3b83b40fdde86e0de7fb17d26c1f162cdd",
+    "scripts\\audit_pure_neural_candidate.py": "6095d40b7b7ec4efeb5161807da254af1ec3071fa57e4024a810baf8faf646c1",
+    "scripts\\run_pure_neural_sixteen_v254.py": "9af38d6f9a5a5187fcec67a33e06060cb64cbd4ae42d2b8c06159413b1701742",
+    "scripts\\run_pure_neural_long_budget_v250.py": "065c72c5b983e548e3e894bec64da46e3df2a7fb3173c743df1e9f38ec05d063",
+    "scripts\\run_pure_neural_rms_budget_v242.py": "55a7a7fe8c93ced5020720c9dac15ad7056797e07af5005f566cf3bef9ac2a9a",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb"
+  },
+  "provenance": {
+    "source_directory": "artifacts/pure_neural_v254/sixteen/steps72000",
+    "source_audit": "benchmarks\\v254_sixteen_rms_72k_audit_offset2000.json",
+    "source_training_report_sha256": "e6baa3ba4dd3f505e914a1960f18662a8373c10c0607cdfbbbd12a2832d89b75",
+    "output_directory": "artifacts/pure_neural_v254/storage/sixteen_fp16"
+  },
+  "rounding": {
+    "transmitter": {
+      "floating_tensors": 1376,
+      "unchanged_integral_tensors": 0,
+      "source_tensor_bytes": 841063040,
+      "stored_tensor_bytes": 420531520,
+      "maximum_roundtrip_error": 0.00048828125
+    },
+    "receiver": {
+      "floating_tensors": 1216,
+      "unchanged_integral_tensors": 0,
+      "source_tensor_bytes": 675349632,
+      "stored_tensor_bytes": 337674816,
+      "maximum_roundtrip_error": 0.00048828125
+    }
+  },
+  "new_training_steps": 0,
+  "inference_dtype": "float32",
+  "encoder_copied_exactly": true,
+  "cpu_check": {
+    "routes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "ue_outputs": 32,
+    "source": "synthetic seeded inputs",
+    "maximum_logit_difference": 0.6825865507125854,
+    "hard_decision_disagreements": 12,
+    "loaded_parameters_dtype": "float32",
+    "all_stored_values_loaded_exactly": true
+  },
+  "passed_runtime_check": true,
+  "score_evaluated": false,
+  "submission_size_verified": false,
+  "caveat": "source history retained as provenance; converted model needs its own official-score evaluation"
+}
