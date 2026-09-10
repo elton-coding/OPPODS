@@ -1,0 +1,36 @@
+{
+  "supports_current_cohort_promotion": true,
+  "candidate_exact_mean_final": 68.46227936921296,
+  "paired_mean_delta": 0.04159066956838823,
+  "paired_delta_95_interval": [
+    0.007332853261625516,
+    0.06791253646611951
+  ],
+  "per_seed_deltas": [
+    0.05233660602570467,
+    0.04911722278596642,
+    0.023318179893493607
+  ],
+  "per_seed_metric_deltas": [
+    {
+      "efficiency": 0.0375651073455856,
+      "p10": 0.08680343627929688,
+      "final": 0.05233660602570467
+    },
+    {
+      "efficiency": 0.03296435356141103,
+      "p10": 0.0868072509765625,
+      "final": 0.04911722278596642
+    },
+    {
+      "efficiency": 0.033311685562139814,
+      "p10": 0.0,
+      "final": 0.023318179893493607
+    }
+  ],
+  "automatic_promotion": false,
+  "whole_project_blindness_certified": false,
+  "ancestor_training_provenance_certified": false,
+  "online_confirmation": false,
+  "caveat": "conditional cohort confirmation only; historical overlap and parent provenance gaps remain"
+}
