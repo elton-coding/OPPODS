@@ -21,7 +21,7 @@
     "solution": "FATE-MIMO pure neural eight 5dB experts with shared prefix8, frozen Encoder, RMS score loss, 72000 steps",
     "version": "V257",
     "source_commit": "241a0a7",
-    "promotion_commit": null,
+    "promotion_commit": "049fbb8",
     "local_validation": {
       "22701": {
         "efficiency": 73.90646701388889,
