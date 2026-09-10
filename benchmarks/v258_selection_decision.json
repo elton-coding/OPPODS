@@ -1,0 +1,28 @@
+{
+  "candidate": "v258_eight_rms_endtoend_72k",
+  "control": "v250_eight_rms_72k",
+  "audit_sha256": "85551802005f3047be62ac0cfac70f41d53d1fa5f1cf8bd5475839aba2c4b263",
+  "candidate_exact_mean_final": 68.65581090856482,
+  "paired_mean_delta": 0.04978237682978204,
+  "paired_delta_95_interval": [0.005641295173957299, 0.07876507569869133],
+  "per_seed_final_deltas": [0.0248132782936068, 0.07453549375533441, 0.0499983584404049],
+  "per_seed_efficiency_deltas": [0.03172739315033368, 0.03207469654083184, 0.03422311878203743],
+  "per_seed_p10_deltas": [0.008680343627929688, 0.17361068725585938, 0.0868072509765625],
+  "full_training_steps_verified": 72000,
+  "history_points": 73,
+  "best_validation_step": 71000,
+  "paired_statistics_reproduced": true,
+  "eligible_for_preregistered_confirmation": true,
+  "confirmation_registered": false,
+  "confirmation_complete": false,
+  "versus_v257": {
+    "paired_mean_delta": 0.005212652047471049,
+    "paired_delta_95_interval": [-0.03026386144956336, 0.043948605933181284],
+    "per_seed_final_deltas": [0.01160590782164661, -0.021408941078192356, 0.02544098939895889],
+    "reliable_superiority_demonstrated": false
+  },
+  "automatic_promotion": false,
+  "local_69_reached": false,
+  "online_confirmation": false,
+  "caveat": "Selection evidence only; confirmation and release checks remain. Do not add effects to V257 without a factorial experiment."
+}
