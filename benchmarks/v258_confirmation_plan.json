@@ -1,0 +1,295 @@
+{
+  "candidate": {
+    "label": "v258_confirm",
+    "directory": "artifacts/pure_neural_v258/eight/endtoend_steps72000",
+    "files": {
+      "modelDesign.py": {
+        "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+        "bytes": 13933
+      },
+      "encoder.pth": {
+        "sha256": "43a140bf607ef727dfc63cceff2d51b1dd6e7b1ea10f975cd216a5d4815fb490",
+        "bytes": 3216093
+      },
+      "transmitter.pth": {
+        "sha256": "4b18c7f589751ec66a210fcb529f576dd50873bcdd550835283231e3fe219c57",
+        "bytes": 420783351
+      },
+      "receiver.pth": {
+        "sha256": "7a4ecd872eddd48090caf2289be1fa2e1f420186ffab56f12cf1fb0fe725e763",
+        "bytes": 337893605
+      }
+    }
+  },
+  "input_sha256": {
+    "benchmarks\\v257_confirmation_plan.json": "275bea9d340e3f6e91d3b11aed315a6c6bad0112eacaa4f31de9da2093d5775c",
+    "benchmarks\\v250_eight_rms_72k_audit_offset2000.json": "9538add9835482e6b8d1743380f5fc7e1d19f7a1f059a64e7ae2c6291837b873",
+    "benchmarks\\v250_eight_rms_72k_holdout1176_offset2000_noise22701.npz": "e253f6922bf3a43bc1163cab95f1cd3797abd1d02273c5473ad9f1c2527e0ac0",
+    "benchmarks\\v250_eight_rms_72k_holdout1176_offset2000_noise22702.npz": "f3cfb9971d44475244cfb36155950526eb637b693e34e0eb8aa740c06db179e8",
+    "benchmarks\\v250_eight_rms_72k_holdout1176_offset2000_noise22703.npz": "7ee1f11f29d3765de6227ac8873d141ecde306ce2397175a111dbe77cb3ebe94",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\training_report.json": "0d1b8603b0530edec9f1f0b7a7940ee62a4cc552b77dfbb711b78cfc78a7563a",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\transmitter.pth": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\receiver.pth": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+    "benchmarks\\v257_eight_shared_prefix8_rms_72k_audit_offset2000.json": "edc244028818532918c9b4731b5f4ef91876d5d511f6937d0c20893b9ee243d4",
+    "benchmarks\\v257_eight_shared_prefix8_rms_72k_holdout1176_offset2000_noise22701.npz": "4e34c69c5f96d175379cefd81e36f43b4a45cdd2bfb2db8a8aa1da0ec654b3bf",
+    "benchmarks\\v257_eight_shared_prefix8_rms_72k_holdout1176_offset2000_noise22702.npz": "9a5569ab0352f32bc46286ddfe5db04ecb938fbcf0eccc2bbbacf471450f648f",
+    "benchmarks\\v257_eight_shared_prefix8_rms_72k_holdout1176_offset2000_noise22703.npz": "0e4031066aec9691caa3d06cf46e0c0fdd02ecb361d3bceac7fc1a62b5e691eb",
+    "artifacts\\pure_neural_v257\\eight\\shared8_steps72000\\training_report.json": "c1835e665d7038638d56896b318e31d123425af21cc9509d50a0c57b841dfb14",
+    "artifacts\\pure_neural_v257\\eight\\shared8_steps72000\\modelDesign.py": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+    "artifacts\\pure_neural_v257\\eight\\shared8_steps72000\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v257\\eight\\shared8_steps72000\\transmitter.pth": "2dce9e3b443a507d0f8ddc72226888f92f7ada26091e0b3f03e99a585307d01f",
+    "artifacts\\pure_neural_v257\\eight\\shared8_steps72000\\receiver.pth": "83b05865cebeb56d8db7d375ea097530986246b24dee3db818d655d89b04b07f",
+    "artifacts\\pure_neural_v257\\eight\\execution_plan.json": "bdba05b76d1aa481a5347ab186b9387ed111d40d264ffb6404f2017047aa4c95",
+    "research\\pure_neural_v257\\modelDesign.py": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_shared_v257.py": "9657b3a70bfc97597f7164511e43dd3901ec5494ac9a70e3943c35e42504b591",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0",
+    "artifacts\\pure_neural_v256\\eight\\execution_plan.json": "04671e1b8e061e36b5af309003be0f57cdf6840a28d57dbbb572a334d0197856",
+    "benchmarks\\v257_cpu_shared_prefix_probe.json": "e2005653c6abdb1af0e01206c736ff7aba9bc9fa119ef19f020ab9ddb18ef1f5",
+    "artifacts\\pure_neural_v250\\eight\\execution_plan.json": "ad715f1413e675603d24367c1929beee55e2a392f28d34262201f2059b4813da",
+    "benchmarks\\v241_eight_rms_audit_offset2000.json": "e839c270989df10a156efef0983827a18b8853b294d7d7dbbb4505ab37dd7562",
+    "scripts\\run_pure_neural_budget_v240.py": "2d0cf503486cbae4b3ca926dd022a9372c278be7c46dbfc60b7557f392fe4f89",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "benchmarks\\v242_eight_rms_36k_audit_offset2000.json": "7bab8e0843745bcb48b7e72278cf65b7588180c28687236e1b59e310b022591f",
+    "artifacts\\pure_neural_v242\\eight\\execution_plan.json": "a13ddb23140831fff08585da7476c396ec8388f4c840b7a6d3dc1fcd683bf654",
+    "ziliao\\data_train\\H_train.npz": "909f491f545bb218c81ea2446696a2cbd3c770a9a2c2622bd8566245e4a460b9",
+    "scripts\\run_pure_neural_rms_budget_v242.py": "55a7a7fe8c93ced5020720c9dac15ad7056797e07af5005f566cf3bef9ac2a9a",
+    "scripts\\run_pure_neural_long_budget_v250.py": "065c72c5b983e548e3e894bec64da46e3df2a7fb3173c743df1e9f38ec05d063",
+    "artifacts\\pure_neural_v255\\eight\\execution_plan.json": "7ba7ce9e83d15e15b78daa9423ea41a03b2b885ecb8a243f4cbd859f06271d3d",
+    "scripts\\probe_pure_neural_cosine_v255.py": "bac47e7e10f5ea15b98597ce1be2a57279ef6cf30499d0e8a470d3b89f44b78b",
+    "scripts\\train_pure_neural_cosine_v255.py": "2cca9e8c58d60c86db58d492c63f51fcaefc6e19048f4b476035150d15e5811e",
+    "benchmarks\\v255_cosine_cpu_proof.json": "4b1c700a5f4af6c00527e3d288bd89a7f1182b61a044857ad9696f1180011c6d",
+    "artifacts\\pure_neural_v253\\eight\\execution_plan.json": "ab842ab470c78ea6dd685dc27c6647d28fae2f59e8b7be37d1cdb574c5c93b1b",
+    "research\\pure_neural_v253\\modelDesign.py": "7646511e6389e197ca682d201f3400946ca338c1246aa2f6df5d1c9379d81e07",
+    "research\\pure_neural_v252\\modelDesign.py": "d5e1958e2fe449ef08dde31d4b1a5da1bdc03f9a911f368f2cb1aa626d60b0db",
+    "scripts\\probe_pure_neural_pair_v253.py": "d5548771b1ea6ea286acc8e8b09990983ff0cb2629a0b8ecac3560ec88a274c1",
+    "scripts\\probe_pure_neural_routing_v252.py": "6a33165b18ee39de6d43dfac995a31406c79aa34fb5f4851d7a37fc08fec7721",
+    "benchmarks\\v253_cpu_runtime_probe.json": "0ce619053b1cea623b2dee483e662db3ce70bdf63fd3d10e8d6fb4454544a544",
+    "scripts\\run_pure_neural_pair_v253.py": "5831a99b23ebdd947b32ec966debf2c495bf1c692af396c1d5010c3fd6083dbc",
+    "scripts\\run_pure_neural_fairness_v251.py": "2e72c24349266bb1d926e5aa0e2b70c198c1ce691e13c2fea3ab0f45f2447c48",
+    "scripts\\run_pure_neural_routing_v252.py": "5320e58e5e63071fd1bb5da4dc47190a70d31a7725449b137c6b1ce274f9e96d",
+    "scripts\\audit_pure_neural_candidate.py": "6095d40b7b7ec4efeb5161807da254af1ec3071fa57e4024a810baf8faf646c1",
+    "scripts\\evaluate_submission.py": "0a323055c4f2789f8bec70738ddbaa7a28b2527ca42ebe4641203b93ccc6caa6",
+    "scripts\\compare_paired_holdout.py": "b4640d37ea503f6a2cae6ad5a7b6b506ff373f1aa83dafc15bce02318871f307",
+    "artifacts\\pure_neural_v252\\eight\\execution_plan.json": "cc82b0fe3e410c91aa75db2b5ff039b4c6986df3bc1c59a715e957e9d4f6a8ff",
+    "artifacts\\pure_neural_v254\\storage\\execution_plan.json": "b9adea9a2a169fc07e3752e3748f690416b048f9d81e4a02623daf4fc3afc52b",
+    "research\\pure_neural_v254\\modelDesign.py": "de69827779ea01681cd19d72b438193103c197dd6b64b8707a09ac5958c66573",
+    "scripts\\probe_pure_neural_sixteen_v254.py": "cfad6217b70ce53cd4fa5fe26aee20cad8e442815e583c502f2c7d29a814d22e",
+    "benchmarks\\v254_cpu_runtime_probe.json": "d473b7381f0912c12737caa75781725e5362e7d52deee4ebc5c0ddfa7115bb74",
+    "scripts\\probe_pure_neural_sixteen_memory_v254.py": "5219187133aa75e70616c6388c60f9ee2dcdf25a945a4f431ca59290c995adf7",
+    "benchmarks\\v254_full_state_gpu_probe.json": "755cf8c4ba9d8898ff207536c79b84a5bae12d804bc993849b99d3ac8b8d93c2",
+    "scripts\\run_pure_neural_sixteen_v254.py": "9af38d6f9a5a5187fcec67a33e06060cb64cbd4ae42d2b8c06159413b1701742",
+    "scripts\\convert_storage_v254.py": "b41cdceb4798dd189a05768632312b3b83b40fdde86e0de7fb17d26c1f162cdd",
+    "artifacts\\pure_neural_v254\\sixteen\\execution_plan.json": "baba6004e8e67a91ee4d88333c63155224f536f9bb06373b6f1483a467277e43",
+    "benchmarks\\v254_eight_fp16_storage_conversion.json": "87fbc0cfc77048e32a0e21f5748721e91aa8980155d39d4c1d8790a360d34cc8",
+    "artifacts\\pure_neural_v254\\storage\\eight_fp16\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "artifacts\\pure_neural_v254\\storage\\eight_fp16\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v254\\storage\\eight_fp16\\transmitter.pth": "8b40fdbb0bf46df042faa4c60fc3d1efb3a46098c4ca3d370ffcb92cc665e6e4",
+    "artifacts\\pure_neural_v254\\storage\\eight_fp16\\receiver.pth": "5720ee3233487b65a3d15cf471b2938e33d6c7e3daabe3c7c6db8bff60e5108a",
+    "artifacts\\pure_neural_v254\\storage\\eight_fp16\\training_report.json": "d03e5b208b9e89d6ce5b7d55d3b37de389a05595a6cb88dd69a096aeb0abf68f",
+    "artifacts\\pure_neural_v254\\storage\\eight_fp16\\conversion_plan.json": "5add83a867b5896d2576d2fe3dab34ea43f8f21fa480e9e6bc45f943bba82fcf",
+    "scripts\\run_storage_factorial_v254.py": "e6e9910fc522aafda0c4ef7fe4e37f4b04a91359e80c91821a33d94fa1e508bf",
+    "scripts\\compare_factorial_holdout.py": "d57bcb05a8e1672115a6d69b702cc6496d87c90012a787a29d0e94959e460abd",
+    "scripts\\build_submission.py": "81b0d0b47a0c6b93bb4aed121fa1fd71b90136ebf0940f21e95ab4adb1044fab",
+    "scripts\\run_pure_neural_cosine_v255.py": "6fb014c6e122ff31cb7e80c3783b80be3ba77a04d0e08039bcb145e6d4994f3b",
+    "scripts\\run_pure_neural_rms_temperature_v256.py": "7f47ab49e5a6235d1aa5194f2df441b2414b21f6f090f8c366147573025eec33",
+    "scripts\\run_pure_neural_shared_v257.py": "628c7cd87e7f10e6f2d23a74bf87a32898b6954fc98ea50e7693cfc1843e61a7",
+    "scripts\\probe_pure_neural_shared_memory_v257.py": "a9a3d6c5c45417103c59585964aeef0f401c25424b08010dcc1d71b739937cfc",
+    "artifacts\\pure_neural_v257\\eight\\completed_dependency.json": "9b342ebec3977b9ae8e1bd6e3355ad654486ac84579c1cc9f5aa9572f98e3375",
+    "artifacts\\pure_neural_v254\\storage\\decision.json": "86decc3d199014835899ab99e5ab617a9065b1b48c98c284fcc8d4abbd3949e5",
+    "benchmarks\\v254_expert_storage_factorial.json": "96fda85610c5da9fff6d3c48a41135e32a2cf508e417e40b476d463892b9b32c",
+    "artifacts\\pure_neural_v254\\storage\\completed_source_A.json": "3019d53266760e6baf245e2fc46f7f1943f6051b6de6510a86551a32dedbf3cf",
+    "benchmarks\\v254_sixteen_rms_72k_audit_offset2000.json": "b16573e55a1fd3a1930ea2ac29b32d405f09c71263dbeecbb94f894341383fc3",
+    "benchmarks\\v254_sixteen_rms_72k_holdout1176_offset2000_noise22701.npz": "844a0689df0a3f19b9de0318f61f69c9563f4ac37740ea4ab4e0f6428207c4dc",
+    "benchmarks\\v254_sixteen_rms_72k_holdout1176_offset2000_noise22702.npz": "6ed570faf9e107e3a70b540d259a55394460e4be0fd68d33c815ce071127abf2",
+    "benchmarks\\v254_sixteen_rms_72k_holdout1176_offset2000_noise22703.npz": "8acd74c093eb4c4c7f901fe6eed56b37fdc183360449350a1d67a3361ca25575",
+    "artifacts\\pure_neural_v254\\sixteen\\steps72000\\modelDesign.py": "de69827779ea01681cd19d72b438193103c197dd6b64b8707a09ac5958c66573",
+    "artifacts\\pure_neural_v254\\sixteen\\steps72000\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v254\\sixteen\\steps72000\\transmitter.pth": "cf2056b5626670f2de7204a4ef3f9478bccb243c6178ba4db64bcc5190582deb",
+    "artifacts\\pure_neural_v254\\sixteen\\steps72000\\receiver.pth": "bc13584626aaf23ad4dc2f91e07380d4299bacfbe34be71b0a0c102b52f54680",
+    "artifacts\\pure_neural_v254\\sixteen\\steps72000\\training_report.json": "e6baa3ba4dd3f505e914a1960f18662a8373c10c0607cdfbbbd12a2832d89b75",
+    "benchmarks\\v254_eight_fp16_storage_audit_offset2000.json": "38b400100ac33afe55dbead1fc434dacf118237384fd9d4f89286b490dc34a22",
+    "benchmarks\\v254_eight_fp16_storage_holdout1176_offset2000_noise22701.npz": "b50ef3d63893e7b9034fd833dbc53becc1fbf352feace83990eb9397f23cb20e",
+    "benchmarks\\v254_eight_fp16_storage_holdout1176_offset2000_noise22702.npz": "5397a9655ba9b81d48104627129489cc17d6b24cb4925e4dc762407beeca68a2",
+    "benchmarks\\v254_eight_fp16_storage_holdout1176_offset2000_noise22703.npz": "1e1655e4e7cb9d85732223a7af6628e5641843a32046207dcce87c10b209f5ac",
+    "benchmarks\\v254_sixteen_fp16_storage_audit_offset2000.json": "30916793392acba554d840ab9dd23e635d9297ccbd4a3d6c8ebb2bf7975a4f86",
+    "benchmarks\\v254_sixteen_fp16_storage_holdout1176_offset2000_noise22701.npz": "97756d4f4481fbcd1d9a85e7bc98c538b547a35404de63b6e266924b346d20d8",
+    "benchmarks\\v254_sixteen_fp16_storage_holdout1176_offset2000_noise22702.npz": "c968faa42335847d70f0442200f9f4892ae4cb8d92bc780d5c4a6b8fd8a13875",
+    "benchmarks\\v254_sixteen_fp16_storage_holdout1176_offset2000_noise22703.npz": "53ca737db2d0eb6673faaed7f195cce5e1c1a9b680c46dc6e25d95bad3b6d630",
+    "artifacts\\pure_neural_v254\\storage\\sixteen_fp16\\modelDesign.py": "de69827779ea01681cd19d72b438193103c197dd6b64b8707a09ac5958c66573",
+    "artifacts\\pure_neural_v254\\storage\\sixteen_fp16\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v254\\storage\\sixteen_fp16\\transmitter.pth": "654576080061c316bc9a5643e3a066e2613a2e4b5d6f29c3dcbd6367c44a6516",
+    "artifacts\\pure_neural_v254\\storage\\sixteen_fp16\\receiver.pth": "d99b5b5c7561ee4d46d866a29394971cad039caa2e2e10aae48129f09f57cc8b",
+    "artifacts\\pure_neural_v254\\storage\\sixteen_fp16\\training_report.json": "153fe32ab4fc81566df671d7419d57d80b3cb98cd9b0c803e77776fd2ba12bce",
+    "artifacts\\pure_neural_v254\\storage\\packages\\A_v254_sixteen_rms_72k.zip": "7cca25360a9a4beb4e2f17dd85c5e28a771e1bd933660f00c8b7b6b7470853b6",
+    "artifacts\\pure_neural_v254\\storage\\packages\\B_v254_eight_fp16_storage.zip": "5ffce71c3614529c8d71e3c25bcefe248fd0c287750ccdc2cca86544604b617f",
+    "artifacts\\pure_neural_v254\\storage\\packages\\AB_v254_sixteen_fp16_storage.zip": "0051cc7ba42775914d8703e94c47e04f5a665c9f79ddc5e031a555db57b13b9a",
+    "scripts\\run_frozen_confirmation_v257.py": "636d05f61d5d5786e9f4681d7d587578bb6b92928d495f9f7eef3080b50d9cbc",
+    "scripts\\audit_confirmation_overlap.py": "7f9d14d7bec3026cb087c52b66f783608ef5c2a67fc3b5fa8e3e4189d2ddebf9",
+    "benchmarks\\confirmation_channel_inventory_20260910_1535.json": "2d9330a46c3244d69e58208d78c18827c80622b1221d123aa8c6a3ad87ba1616",
+    "benchmarks\\v258_eight_rms_endtoend_72k_audit_offset2000.json": "85551802005f3047be62ac0cfac70f41d53d1fa5f1cf8bd5475839aba2c4b263",
+    "benchmarks\\v258_eight_rms_endtoend_72k_holdout1176_offset2000_noise22701.npz": "4a384bf20886a086e22566aa1b1b5061a74558ada4c7ba19e60062fc5f71dff1",
+    "benchmarks\\v258_eight_rms_endtoend_72k_holdout1176_offset2000_noise22702.npz": "824e76fc112443af3e272afe46d154991a3e35cffc3dcccc3ee4b85d7cac37b8",
+    "benchmarks\\v258_eight_rms_endtoend_72k_holdout1176_offset2000_noise22703.npz": "4ae9e061ed6eaa96d23686ffc9fcb95e21851957a6188cea2ea3e128cccd319e",
+    "artifacts\\pure_neural_v258\\eight\\endtoend_steps72000\\training_report.json": "6d3ad3e92d99a39663857ff56995c6db979a425d3d0a7b7bbde1ddd330ad1719",
+    "artifacts\\pure_neural_v258\\eight\\endtoend_steps72000\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "artifacts\\pure_neural_v258\\eight\\endtoend_steps72000\\encoder.pth": "43a140bf607ef727dfc63cceff2d51b1dd6e7b1ea10f975cd216a5d4815fb490",
+    "artifacts\\pure_neural_v258\\eight\\endtoend_steps72000\\transmitter.pth": "4b18c7f589751ec66a210fcb529f576dd50873bcdd550835283231e3fe219c57",
+    "artifacts\\pure_neural_v258\\eight\\endtoend_steps72000\\receiver.pth": "7a4ecd872eddd48090caf2289be1fa2e1f420186ffab56f12cf1fb0fe725e763",
+    "scripts\\run_frozen_confirmation_v258.py": "63d72ea0a99a36849b3fd8964336dbf7ffa6ef51504c0b5d0222fe587aae4733",
+    "artifacts\\pure_neural_v258\\eight\\execution_plan.json": "0d8b1ff5a7d42f55e0a3a77ac14f17eb2d38741e5241531038a5e66c24dbc0c9",
+    "scripts\\probe_pure_neural_endtoend_v258.py": "b501868df01f50af1e31bf165590584f373b5da142400c61955b1187591b8934",
+    "benchmarks\\v258_cpu_endtoend_probe.json": "c3fb29c1d3e344f2e29591484cf7632b8fb6371a8b2a434d4108d521b5e23f3a",
+    "scripts\\run_pure_neural_endtoend_v258.py": "48f5cd2cbf51de24a39a9a83a7c6ff05f44ef3303ba29f99777cc4e4470ec338",
+    "artifacts\\pure_neural_v258\\eight\\completed_dependency.json": "65224f46ecf06e4ec3843cf3bce0f1bd5a1e55977f7279b5884942845ba7dccb",
+    "benchmarks\\v256_eight_rms_temperature025_72k_audit_offset2000.json": "ff05686291b64dc6442d51ecd114ff1d17d5cbeedf51cfc28d6be9f2a7b31ebf",
+    "artifacts\\pure_neural_v256\\eight\\temperature025_steps72000\\training_report.json": "729601fe863324df64ad25584f0ce4796c127e5224c470d2bce1399cfaa2b421",
+    "artifacts\\pure_neural_v256\\eight\\temperature025_steps72000\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "artifacts\\pure_neural_v256\\eight\\temperature025_steps72000\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v256\\eight\\temperature025_steps72000\\transmitter.pth": "daeea4b40141325f90970e40bb56c433767302489108e79398f9c3e1235a0efe",
+    "artifacts\\pure_neural_v256\\eight\\temperature025_steps72000\\receiver.pth": "8c79c43e00f95d1e9051b96090291bfebe359ab6d812f745463194b8a9f25b2b",
+    "benchmarks\\v256_eight_rms_temperature025_72k_holdout1176_offset2000_noise22701.npz": "7bbeb6c2efa26f7628ac03bfe49d23c918d7f226b388a98864fd82742ef84d36",
+    "benchmarks\\v256_eight_rms_temperature025_72k_holdout1176_offset2000_noise22702.npz": "fa40aee3e77a78de0a05ebfcc44782977c3816cbaa9170bfb5531d16b73a3209",
+    "benchmarks\\v256_eight_rms_temperature025_72k_holdout1176_offset2000_noise22703.npz": "4f6df58fae4e56757c6d976d9645ca2060c51e61f3bcbb120035fd726692bbc6"
+  },
+  "dataset": {
+    "path": "ziliao/data_train/H_train.npz",
+    "bytes": 3686400578,
+    "shape": [
+      100000,
+      2,
+      2,
+      16,
+      144
+    ],
+    "storage_dtype": "float16",
+    "split_seed": 1176,
+    "indices": {
+      "train": {
+        "count": 80000,
+        "sha256": "ba3564fcab54f37c8942093d9e6a386db589259d95250ea9a41451cb4baa9256"
+      },
+      "validation": {
+        "count": 10000,
+        "sha256": "e1457feb7f91d0d46a999c7f1a0e94246b135d3ddbddf79d4d5936617cd691ce"
+      },
+      "test": {
+        "count": 10000,
+        "sha256": "6501806a726aca6ace23c2a4fcc51f88745f05ab71a169f46f4070c01a6f41e6"
+      }
+    },
+    "validation_first2000_sha256": "e1e441fccfd4f4671b73b61499b1792addc5ed1aa6022a5a1c9f34922907637e",
+    "historical_ancestor_provenance_certified": false
+  },
+  "protocol": {
+    "split_seed": 1176,
+    "test_offset": 8000,
+    "samples": 2000,
+    "noise_seeds": [
+      52701,
+      52702,
+      52703
+    ]
+  },
+  "reference_sources": [
+    {
+      "source_audit": "benchmarks\\v250_eight_rms_72k_audit_offset2000.json",
+      "label": "v250_confirm_v257",
+      "directory": "artifacts/pure_neural_v250/eight/steps72000",
+      "requested_steps": 72000,
+      "files": {
+        "modelDesign.py": {
+          "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+          "bytes": 13933
+        },
+        "encoder.pth": {
+          "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+          "bytes": 3216093
+        },
+        "transmitter.pth": {
+          "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+          "bytes": 420783351
+        },
+        "receiver.pth": {
+          "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+          "bytes": 337893605
+        }
+      }
+    },
+    {
+      "source_audit": "benchmarks\\v257_eight_shared_prefix8_rms_72k_audit_offset2000.json",
+      "label": "v257_confirm",
+      "directory": "artifacts/pure_neural_v257/eight/shared8_steps72000",
+      "requested_steps": 72000,
+      "files": {
+        "modelDesign.py": {
+          "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+          "bytes": 14639
+        },
+        "encoder.pth": {
+          "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+          "bytes": 3216093
+        },
+        "transmitter.pth": {
+          "sha256": "2dce9e3b443a507d0f8ddc72226888f92f7ada26091e0b3f03e99a585307d01f",
+          "bytes": 156148527
+        },
+        "receiver.pth": {
+          "sha256": "83b05865cebeb56d8db7d375ea097530986246b24dee3db818d655d89b04b07f",
+          "bytes": 135145985
+        }
+      }
+    }
+  ],
+  "command": [
+    "D:\\Tools\\Anaconda\\envs\\oppods-df1176\\python.exe",
+    "-u",
+    "scripts/audit_pure_neural_candidate.py",
+    "--submission",
+    "artifacts/pure_neural_v258/eight/endtoend_steps72000",
+    "--label",
+    "v258_confirm",
+    "--baseline-label",
+    "v250_confirm_v257",
+    "--control-label",
+    "v257_confirm",
+    "--test-offset",
+    "8000",
+    "--samples",
+    "2000",
+    "--noise-seeds",
+    "52701",
+    "52702",
+    "52703"
+  ],
+  "preregister_before_any_reference_confirmation_outputs": true,
+  "selection_gate_versus_v250_reproduced": true,
+  "criteria": "each comparison needs all three paired total deltas >0 and 95% lower bound >0; preference over both V250 and V257 requires both comparisons to pass",
+  "v257_selection_comparison": "inconclusive; not treated as proof V258 already beats V257",
+  "bootstrap": {
+    "unit": "channel, both UEs together; shared across noise replicas",
+    "repeats": 2000,
+    "seed": 227
+  },
+  "historical_inventory_window": {
+    "test_offset": 8000,
+    "samples": 2000,
+    "ordered_index_sha256": "5c623afd6418df9ef235f1a89432e6ab0deee7d961150ad14e5d46dc8c78cd89",
+    "train1176_overlap": 0,
+    "validation1176_overlap": 0,
+    "current_offset2000_audit_overlap": 0,
+    "all_recorded_evaluation_ids_overlap": 1812,
+    "explicit_split1176_recorded_ids_overlap": 0
+  },
+  "resource_policy": "wait for complete V257 confirmation, reuse frozen reference caches, then acquire GPU slot",
+  "independent_of_v257_confirmation": false,
+  "automatic_promotion": false,
+  "online_confirmation": false
+}
