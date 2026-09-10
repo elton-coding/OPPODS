@@ -16,7 +16,7 @@
 - [V258 RMS长预算下解冻Encoder](experiments/pure-neural-rms-endtoend-v258.md)：只解冻Encoder，CPU/GPU八路由两步1300完整状态及初始化一致检查通过；56049已于10:21:55从原父独立开训72k，73项输入和9项完成依赖冻结，无完整成绩。
 - [V259 RMS全局大批次](experiments/pure-neural-rms-global-batch-v259.md)：八专家全局400信道一次评分损失，18000步匹配主干720万抽样，验证batch100不变；CPU全局梯度/RNG证明及269通过10跳过，61346已等待V257完整审计，79项输入冻结，尚无GPU成绩。
 - [V260 接收端自身SNR路由](experiments/pure-neural-receiver-own-snr-v260.md)：只重分配八个Rx专家，保持父组和Tx路由/参数量/原RMS；真实CPU证明及307通过10跳过，8272已等待V258完整审计，84项输入冻结，尚无GPU成绩。
-- [V261 RMS硬排名损失](experiments/pure-neural-rms-hard-rank-v261.md)：保持T0.5和原模型/预算，只替换硬排名及前向计分，反向仍有偏可导近似；真实CPU前向/参考梯度契约及356通过10跳过，执行器完成，尚未排队或GPU训练。
+- [V261 RMS硬排名损失](experiments/pure-neural-rms-hard-rank-v261.md)：保持T0.5和原模型/预算，只替换硬排名及前向计分，反向仍有偏可导近似；真实CPU前向/参考梯度契约及356通过10跳过，89项输入冻结，会话93989等待V259完整审计，尚无GPU训练或成绩。
 - [RMS评分代理诊断（非新训练版本）](experiments/rms-score-proxy-diagnostic-v250.md)：冻结V250在400训练信道上的CPU分析，整体排序高相关仍有局部尾部偏差；更低温度改善代理数值不等于重训提分。保存无损缓存与复算证据，313通过10跳过。
 - [V240C 长训练预算](experiments/pure-neural-long-budget-v240.md)：历史冠军，两专家36k固定audit均分68.439628；[提交说明](submission/V240C_提交说明.md)。
 - [V241 专家数×RMS损失](experiments/pure-neural-eight-rms-v241.md)：完整组合audit68.395108，历史短预算对照。
