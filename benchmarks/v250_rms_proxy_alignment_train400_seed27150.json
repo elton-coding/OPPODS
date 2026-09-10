@@ -1,0 +1,354 @@
+{
+  "purpose": "frozen-model training-partition loss diagnostic, not candidate/confirmation/online score",
+  "device": "cpu",
+  "model_label": "v250_eight_rms_72k",
+  "model_files": {
+    "modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+      "bytes": 420783351
+    },
+    "receiver.pth": {
+      "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+      "bytes": 337893605
+    }
+  },
+  "input_sha256": {
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\transmitter.pth": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+    "artifacts\\pure_neural_v250\\eight\\steps72000\\receiver.pth": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+    "scripts\\diagnose_rms_proxy_v250.py": "93d32cbc236459534ec8fd94f3168e0134b21fe2d17216574ff73a360c89adda",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\audit_pure_neural_candidate.py": "6095d40b7b7ec4efeb5161807da254af1ec3071fa57e4024a810baf8faf646c1",
+    "scripts\\run_pure_neural_lr_v237.py": "676f3787a3838b5e5a7abcae5dce7e4c8f4f34ea453663be3efcdd4030f57ce4",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "ziliao\\data_train\\H_train.npz": "909f491f545bb218c81ea2446696a2cbd3c770a9a2c2622bd8566245e4a460b9",
+    "benchmarks\\v250_eight_rms_72k_audit_offset2000.json": "9538add9835482e6b8d1743380f5fc7e1d19f7a1f059a64e7ae2c6291837b873"
+  },
+  "cache_sha256": {
+    "artifacts\\diagnostics\\v250_rms_proxy\\outputs_train400_seed27150.npz": "282874bebc7815c5b60f6efb858a09e4145de9198ff662e55654dfb8145098f3"
+  },
+  "channels": 400,
+  "unique_training_channel_ids": 400,
+  "split_seed": 1176,
+  "random_seed": 27150,
+  "temperatures_fixed_in_advance": [
+    0.5,
+    0.25
+  ],
+  "all_model_gradients_absent": true,
+  "model_weights_saved": false,
+  "elapsed_seconds": 23.635781700257212,
+  "cases": [
+    {
+      "grouping": "original_batch100",
+      "channel_start": 0,
+      "ue_observations": 200,
+      "temperature": 0.5,
+      "hard_efficiency_training_diagnostic_only": 74.63542175292969,
+      "hard_p10_training_diagnostic_only": 55.36457824707031,
+      "soft_mean_proxy": 69.24510192871094,
+      "soft_p10_proxy": 54.46136474609375,
+      "average_rank_correlation": 0.999275094256107,
+      "hard_tail_count_including_ties": 20,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 19,
+      "hard_tail_recalled_by_soft_tail": 0.949999988079071,
+      "hard_p10_plus_minus_one_point_count": 10,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.6617112755775452,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.6781502366065979,
+      "actual_rms_training_objective": -0.6248303651809692,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.3848428726196289,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.36277130246162415,
+        "fraction_at_own_snr_below_minus10": 0.700061023235321
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.6044742465019226,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.647688090801239,
+        "fraction_at_own_snr_below_minus10": 0.7564665079116821
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 100,
+      "ue_observations": 200,
+      "temperature": 0.5,
+      "hard_efficiency_training_diagnostic_only": 73.67448425292969,
+      "hard_p10_training_diagnostic_only": 53.99305725097656,
+      "soft_mean_proxy": 68.49480438232422,
+      "soft_p10_proxy": 53.20646286010742,
+      "average_rank_correlation": 0.9992214701176572,
+      "hard_tail_count_including_ties": 21,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 18,
+      "hard_tail_recalled_by_soft_tail": 0.8571428656578064,
+      "hard_p10_plus_minus_one_point_count": 21,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.9645628333091736,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8821450471878052,
+      "actual_rms_training_objective": -0.6152979135513306,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.4448074996471405,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.613802433013916,
+        "fraction_at_own_snr_below_minus10": 0.780363917350769
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.7428598999977112,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.9636037349700928,
+        "fraction_at_own_snr_below_minus10": 0.9278673529624939
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 200,
+      "ue_observations": 200,
+      "temperature": 0.5,
+      "hard_efficiency_training_diagnostic_only": 74.00910949707031,
+      "hard_p10_training_diagnostic_only": 55.59027862548828,
+      "soft_mean_proxy": 68.79225158691406,
+      "soft_p10_proxy": 54.261253356933594,
+      "average_rank_correlation": 0.9992762222256183,
+      "hard_tail_count_including_ties": 20,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 20,
+      "hard_tail_recalled_by_soft_tail": 1.0,
+      "hard_p10_plus_minus_one_point_count": 5,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.3256288170814514,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8709151744842529,
+      "actual_rms_training_objective": -0.6201267242431641,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.4042547941207886,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.17153765261173248,
+        "fraction_at_own_snr_below_minus10": 0.7305589318275452
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.6820968389511108,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.2865055501461029,
+        "fraction_at_own_snr_below_minus10": 0.8980488181114197
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 300,
+      "ue_observations": 200,
+      "temperature": 0.5,
+      "hard_efficiency_training_diagnostic_only": 74.7951431274414,
+      "hard_p10_training_diagnostic_only": 56.58854293823242,
+      "soft_mean_proxy": 69.40361022949219,
+      "soft_p10_proxy": 55.189369201660156,
+      "average_rank_correlation": 0.9994243510370066,
+      "hard_tail_count_including_ties": 20,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 17,
+      "hard_tail_recalled_by_soft_tail": 0.8500000238418579,
+      "hard_p10_plus_minus_one_point_count": 13,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.7685297727584839,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8971878886222839,
+      "actual_rms_training_objective": -0.6278715133666992,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.37676966190338135,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.45905137062072754,
+        "fraction_at_own_snr_below_minus10": 0.7339050769805908
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.6191263794898987,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.7706776857376099,
+        "fraction_at_own_snr_below_minus10": 0.9203130006790161
+      }
+    },
+    {
+      "grouping": "pooled400_not_v259_training",
+      "channel_start": 0,
+      "ue_observations": 800,
+      "temperature": 0.5,
+      "hard_efficiency_training_diagnostic_only": 74.27852630615234,
+      "hard_p10_training_diagnostic_only": 54.843746185302734,
+      "soft_mean_proxy": 68.98394775390625,
+      "soft_p10_proxy": 54.13019561767578,
+      "average_rank_correlation": 0.9994188806417355,
+      "hard_tail_count_including_ties": 80,
+      "soft_tail_count_including_ties": 80,
+      "tail_intersection_count": 78,
+      "hard_tail_recalled_by_soft_tail": 0.9750000238418579,
+      "hard_p10_plus_minus_one_point_count": 41,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.6044741868972778,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8453893065452576,
+      "actual_rms_training_objective": -0.6215834021568298,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.40631210803985596,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.36592617630958557,
+        "fraction_at_own_snr_below_minus10": 0.7440714836120605
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.6742839813232422,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.6058219075202942,
+        "fraction_at_own_snr_below_minus10": 0.8893342018127441
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 0,
+      "ue_observations": 200,
+      "temperature": 0.25,
+      "hard_efficiency_training_diagnostic_only": 74.63542175292969,
+      "hard_p10_training_diagnostic_only": 55.36457824707031,
+      "soft_mean_proxy": 73.68297576904297,
+      "soft_p10_proxy": 55.2757682800293,
+      "average_rank_correlation": 0.9995413556055384,
+      "hard_tail_count_including_ties": 20,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 19,
+      "hard_tail_recalled_by_soft_tail": 0.949999988079071,
+      "hard_p10_plus_minus_one_point_count": 10,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.6617112159729004,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.6734729409217834,
+      "actual_rms_training_objective": -0.6583386659622192,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.3149512708187103,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.34042930603027344,
+        "fraction_at_own_snr_below_minus10": 0.6825121641159058
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.47309672832489014,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.6345573663711548,
+        "fraction_at_own_snr_below_minus10": 0.7469505071640015
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 100,
+      "ue_observations": 200,
+      "temperature": 0.25,
+      "hard_efficiency_training_diagnostic_only": 73.67448425292969,
+      "hard_p10_training_diagnostic_only": 53.99305725097656,
+      "soft_mean_proxy": 72.76313781738281,
+      "soft_p10_proxy": 53.82207489013672,
+      "average_rank_correlation": 0.9995417324477861,
+      "hard_tail_count_including_ties": 21,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 18,
+      "hard_tail_recalled_by_soft_tail": 0.8571428656578064,
+      "hard_p10_plus_minus_one_point_count": 21,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.9607386589050293,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.9281859397888184,
+      "actual_rms_training_objective": -0.64702308177948,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.37663161754608154,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.6040747761726379,
+        "fraction_at_own_snr_below_minus10": 0.7837108373641968
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.6231717467308044,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.9582716226577759,
+        "fraction_at_own_snr_below_minus10": 0.9549128413200378
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 200,
+      "ue_observations": 200,
+      "temperature": 0.25,
+      "hard_efficiency_training_diagnostic_only": 74.00910949707031,
+      "hard_p10_training_diagnostic_only": 55.59027862548828,
+      "soft_mean_proxy": 73.0780029296875,
+      "soft_p10_proxy": 55.07263946533203,
+      "average_rank_correlation": 0.9995454825921669,
+      "hard_tail_count_including_ties": 20,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 20,
+      "hard_tail_recalled_by_soft_tail": 1.0,
+      "hard_p10_plus_minus_one_point_count": 5,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.3535575866699219,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8489816784858704,
+      "actual_rms_training_objective": -0.6525611281394958,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.33730655908584595,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.18230479955673218,
+        "fraction_at_own_snr_below_minus10": 0.7042198181152344
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.5554832220077515,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.31454363465309143,
+        "fraction_at_own_snr_below_minus10": 0.8728822469711304
+      }
+    },
+    {
+      "grouping": "original_batch100",
+      "channel_start": 300,
+      "ue_observations": 200,
+      "temperature": 0.25,
+      "hard_efficiency_training_diagnostic_only": 74.7951431274414,
+      "hard_p10_training_diagnostic_only": 56.58854293823242,
+      "soft_mean_proxy": 73.84149169921875,
+      "soft_p10_proxy": 56.16865158081055,
+      "average_rank_correlation": 0.9996103588261092,
+      "hard_tail_count_including_ties": 20,
+      "soft_tail_count_including_ties": 20,
+      "tail_intersection_count": 19,
+      "hard_tail_recalled_by_soft_tail": 0.949999988079071,
+      "hard_p10_plus_minus_one_point_count": 13,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.7685297727584839,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8930597305297852,
+      "actual_rms_training_objective": -0.661874532699585,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.3122020363807678,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.4513947665691376,
+        "fraction_at_own_snr_below_minus10": 0.7114822864532471
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.49919480085372925,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.7790713906288147,
+        "fraction_at_own_snr_below_minus10": 0.9043978452682495
+      }
+    },
+    {
+      "grouping": "pooled400_not_v259_training",
+      "channel_start": 0,
+      "ue_observations": 800,
+      "temperature": 0.25,
+      "hard_efficiency_training_diagnostic_only": 74.27852630615234,
+      "hard_p10_training_diagnostic_only": 54.843746185302734,
+      "soft_mean_proxy": 73.3414077758789,
+      "soft_p10_proxy": 54.87922286987305,
+      "average_rank_correlation": 0.9996454056927876,
+      "hard_tail_count_including_ties": 80,
+      "soft_tail_count_including_ties": 80,
+      "tail_intersection_count": 79,
+      "hard_tail_recalled_by_soft_tail": 0.987500011920929,
+      "hard_p10_plus_minus_one_point_count": 41,
+      "quantile_rank_weight_mass_at_hard_p10_plus_minus_one_point": 0.6269283890724182,
+      "quantile_rank_weight_mass_at_own_snr_below_minus10": 0.8448727130889893,
+      "actual_rms_training_objective": -0.65433269739151,
+      "reconstructed_objective_difference": 0.0,
+      "total_loss_gradient_mass": {
+        "absolute_gradient_sum": 0.336772084236145,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.3657340705394745,
+        "fraction_at_own_snr_below_minus10": 0.7280874252319336
+      },
+      "p10_only_gradient_mass": {
+        "absolute_gradient_sum": 0.5427250266075134,
+        "fraction_at_hard_p10_plus_minus_one_point": 0.6262441873550415,
+        "fraction_at_own_snr_below_minus10": 0.8850958347320557
+      }
+    }
+  ],
+  "caveat": "Training data and reused frozen model; descriptive only. Gradients are with respect to logits, not model parameters. Neither rank correlation nor gradient concentration proves a training gain. Pooled observations are not independent-channel repetitions or V259 evaluation."
+}

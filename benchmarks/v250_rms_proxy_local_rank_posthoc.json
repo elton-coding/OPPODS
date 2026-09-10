@@ -1,0 +1,21 @@
+{
+  "purpose": "Secondary descriptive local-tail check after seeing high global correlation, not preregistered confirmation",
+  "selection_of_local_window_after_global_diagnostic": true,
+  "new_model_inference_or_training": false,
+  "source_report_sha256": "49f99597931e3d9ec55d037543c9e5e8016073c68bb5b9dcac5d3c613e0e8b65",
+  "source_report": "benchmarks/v250_rms_proxy_alignment_train400_seed27150.json",
+  "cache_sha256": "282874bebc7815c5b60f6efb858a09e4145de9198ff662e55654dfb8145098f3",
+  "cache": "artifacts/diagnostics/v250_rms_proxy/outputs_train400_seed27150.npz",
+  "method": "On each frozen cached grouping, select hard_score >= quantile(hard,.05) and <= quantile(hard,.15); compute average-tie-rank correlation with the soft score. Reference mass uses identical Gaussian rank bandwidth.025 applied to hard scores, summed where abs(hard-hard_p10)<=.01.",
+  "rows": [
+    {"grouping": "original_batch100", "channel_start": 0, "local_ue_count": 22, "local_correlation_T05": 0.9334511452138247, "local_correlation_T025": 0.953842068288884, "hard_reference_rank_mass_within_one_point": 0.6800252199172974},
+    {"grouping": "original_batch100", "channel_start": 100, "local_ue_count": 20, "local_correlation_T05": 0.7339883112559455, "local_correlation_T025": 0.8259252455200372, "hard_reference_rank_mass_within_one_point": 0.9645628333091736},
+    {"grouping": "original_batch100", "channel_start": 200, "local_ue_count": 21, "local_correlation_T05": 0.8718298975470282, "local_correlation_T025": 0.9277831596284047, "hard_reference_rank_mass_within_one_point": 0.3535575866699219},
+    {"grouping": "original_batch100", "channel_start": 300, "local_ue_count": 20, "local_correlation_T05": 0.8609151716614388, "local_correlation_T025": 0.9167012685992203, "hard_reference_rank_mass_within_one_point": 0.7685298323631287},
+    {"grouping": "pooled400_not_v259_training", "channel_start": 0, "local_ue_count": 80, "local_correlation_T05": 0.9004903111436741, "local_correlation_T025": 0.9347730265371127, "hard_reference_rank_mass_within_one_point": 0.6664683222770691}
+  ],
+  "all_ten_primary_cases_exactly_reproduced_from_cache": true,
+  "all_primary_input_and_cache_hashes_verified": true,
+  "cache_training_ids_match_split1176_first400": true,
+  "caveat": "Training-partition, frozen-V250 output diagnostic. Local windows were chosen after seeing the global diagnostic. No performance gate, significance test, learning-rate compensation, or new candidate choice is justified by these numbers alone."
+}
