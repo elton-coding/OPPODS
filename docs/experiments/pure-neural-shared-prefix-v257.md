@@ -1,5 +1,13 @@
 # V257：八专家共享前八层，保留独立后两层
 
+## 2026-09-10 16:22：候选包及CPU加载检查通过，不是发布
+
+在独立codex/v257-candidate-package分支，为已冻结候选增加只读来源、排他建包的verify_candidate_package_v257.py。真实会话12495正常exit0：artifacts/pure_neural_v257/candidate_package/v257_shared_prefix8_candidate_not_released.zip为273225235字节，SHA db52a545752f67e408ab830b47cdac83c219268873456cf8a463e1655b17886c；实际ZIP低于十进制1GB，严格四成员顺序、CRC和逐成员SHA均与冻结四文件一致。
+
+从ZIP成员直接以weights_only加载，1300个state键逐值恢复一致，包含重复共享别名；1024项共享/私有/跨父隔离检查通过，有效参数73547840。CPU合成25组SNR含端点、分界、弱强互换，覆盖八路由，50个UE输出全部有限float32/1152位，反馈、发射信号与控制位接口通过。模型源文件及111项确认冻结计划检查前后不变。证据benchmarks/v257_candidate_package_verification.json；6专项/Ruff通过，完整CPU回归5427正常exit0：383通过、10跳过，43.91秒。
+
+只证明这个具体候选包的大小、字节身份及CPU接口，不是分数、确认结果、主办方1000秒硬件测试或发布。现有V250正式包SHA再次核对48a83cb6fb47f25ff9dce7dd88d3a934c88924ce8532a076bff162bddce5b719，未改变modelSubmit、main或正式包。确认等待器96470仍按已登记队列等待。以下“尚无包”均指当时状态。
+
 ## 2026-09-10 15:38：完整72k与固定审计通过选型门禁，尚未晋级
 
 原会话32543已正常exit0，训练PID51848及父58768已退出。完整73点，best70000验证68.4930320739746，最后72000验证68.45782127380372；训练23096.4037688002秒，峰值分配7855557120/保留12863930368字节。独立require_result/require_audit检查通过，报告与审计嵌入报告相同，四模型文件SHA匹配；原69输入及42完成依赖全量SHA再次通过。训练历史的loss仍为验证BCE，不是RMS训练目标。

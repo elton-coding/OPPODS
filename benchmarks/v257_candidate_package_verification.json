@@ -1,0 +1,173 @@
+{
+  "archive": "artifacts\\pure_neural_v257\\candidate_package\\v257_shared_prefix8_candidate_not_released.zip",
+  "archive_bytes": 273225235,
+  "archive_sha256": "db52a545752f67e408ab830b47cdac83c219268873456cf8a463e1655b17886c",
+  "members": {
+    "submit_pt/modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "submit_pt/modelSubmit/encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "submit_pt/modelSubmit/transmitter.pth": {
+      "sha256": "2dce9e3b443a507d0f8ddc72226888f92f7ada26091e0b3f03e99a585307d01f",
+      "bytes": 156148527
+    },
+    "submit_pt/modelSubmit/receiver.pth": {
+      "sha256": "83b05865cebeb56d8db7d375ea097530986246b24dee3db818d655d89b04b07f",
+      "bytes": 135145985
+    }
+  },
+  "crc_passed": true,
+  "files": {
+    "modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "2dce9e3b443a507d0f8ddc72226888f92f7ada26091e0b3f03e99a585307d01f",
+      "bytes": 156148527
+    },
+    "receiver.pth": {
+      "sha256": "83b05865cebeb56d8db7d375ea097530986246b24dee3db818d655d89b04b07f",
+      "bytes": 135145985
+    }
+  },
+  "input_sha256": {
+    "scripts\\verify_candidate_package_v257.py": "f66963092744973ea170df3755c04ad90c5a34c4365c42b5cad4cb03de2571ec",
+    "scripts\\build_submission.py": "81b0d0b47a0c6b93bb4aed121fa1fd71b90136ebf0940f21e95ab4adb1044fab",
+    "scripts\\probe_pure_neural_shared_v257.py": "9657b3a70bfc97597f7164511e43dd3901ec5494ac9a70e3943c35e42504b591",
+    "scripts\\evaluate_submission.py": "0a323055c4f2789f8bec70738ddbaa7a28b2527ca42ebe4641203b93ccc6caa6",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "benchmarks\\v257_confirmation_plan.json": "275bea9d340e3f6e91d3b11aed315a6c6bad0112eacaa4f31de9da2093d5775c"
+  },
+  "cpu_contract_snr_pairs": [
+    [
+      -20.0,
+      -20.0
+    ],
+    [
+      -15.0,
+      -15.0
+    ],
+    [
+      -10.0,
+      -10.0
+    ],
+    [
+      -5.0,
+      -5.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      5.0,
+      5.0
+    ],
+    [
+      10.0,
+      10.0
+    ],
+    [
+      15.0,
+      15.0
+    ],
+    [
+      20.0,
+      20.0
+    ],
+    [
+      -20.0,
+      -10.0
+    ],
+    [
+      -20.0,
+      0.0
+    ],
+    [
+      -20.0,
+      20.0
+    ],
+    [
+      -10.0,
+      -20.0
+    ],
+    [
+      -10.0,
+      0.0
+    ],
+    [
+      -10.0,
+      20.0
+    ],
+    [
+      0.0,
+      -20.0
+    ],
+    [
+      0.0,
+      -10.0
+    ],
+    [
+      0.0,
+      20.0
+    ],
+    [
+      20.0,
+      -20.0
+    ],
+    [
+      20.0,
+      -10.0
+    ],
+    [
+      20.0,
+      0.0
+    ],
+    [
+      -19.0,
+      -1.0
+    ],
+    [
+      -1.0,
+      -19.0
+    ],
+    [
+      6.0,
+      19.0
+    ],
+    [
+      19.0,
+      6.0
+    ]
+  ],
+  "ue_outputs_checked": 50,
+  "routes_checked": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "archive_state_keys_exactly_restored": 1300,
+  "shared_parameter_alias_checks_after_archive_loading": 1024,
+  "total_parameters": 73547840,
+  "torch": "2.10.0+cu128",
+  "device": "cpu",
+  "released": false,
+  "organizer_inference_time_certified": false,
+  "online_confirmation": false,
+  "confirmation_result_claimed": false,
+  "scope": "candidate-only ZIP and synthetic CPU contract; not score, promotion, or organizer timing"
+}
