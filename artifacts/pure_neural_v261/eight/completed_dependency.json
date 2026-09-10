@@ -1,0 +1,16 @@
+{
+  "input_sha256": {
+    "benchmarks\\v259_eight_rms_global400_18k_audit_offset2000.json": "243ed30c358ed68eed023b4ed143d88f212282a99e10a973289bae665c9c35e1",
+    "artifacts\\pure_neural_v259\\eight\\global400_steps18000\\training_report.json": "ee8e0426532750dc4ef9e4d044b8fca63903ed40fb8ce377b2af7eb84a0d6b25",
+    "artifacts\\pure_neural_v259\\eight\\global400_steps18000\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "artifacts\\pure_neural_v259\\eight\\global400_steps18000\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v259\\eight\\global400_steps18000\\transmitter.pth": "816e6487b9db8d68039b293e6351d069f7a6a3d7d02a0a8a9892d16d9195b7dc",
+    "artifacts\\pure_neural_v259\\eight\\global400_steps18000\\receiver.pth": "c496d59d8d78a7d4ec668a17b7bbd621b773cfc115668ae46e703a5359dde258",
+    "benchmarks\\v259_eight_rms_global400_18k_holdout1176_offset2000_noise22701.npz": "f66c0112b2eebb707f2eb5469a880c1578742d19d064a964e2cab2d337455713",
+    "benchmarks\\v259_eight_rms_global400_18k_holdout1176_offset2000_noise22702.npz": "e09b498963614e80a02d329d3b1afdc9979f352223e0df579e0ffa36b74fea0b",
+    "benchmarks\\v259_eight_rms_global400_18k_holdout1176_offset2000_noise22703.npz": "8863dfa5fd0f27e5811796dd9cc2785c8d83b3d4ed7f2d9764a4c1bcbd103def"
+  },
+  "exact_mean_final": 68.55259186921296,
+  "resource_dependency_only": true,
+  "v261_control": "v250_eight_rms_72k"
+}
