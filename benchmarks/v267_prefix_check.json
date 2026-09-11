@@ -1,0 +1,11 @@
+{
+  "matched": true,
+  "maximum_absolute_difference": {
+    "loss": 0.0,
+    "efficiency": 0.0,
+    "fairness": 0.0,
+    "final": 0.0
+  },
+  "checkpoints": 37,
+  "scope": "same 0..36000 validation trajectory; not proof of bitwise optimizer state equality"
+}
