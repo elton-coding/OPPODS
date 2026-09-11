@@ -1,5 +1,11 @@
 # 持续优化交接：V234—V263
 
+## V267 预登记推送后正式训练已启动
+
+当前分支codex/shared-cosine-v267，175c573先推送，入口scripts/run_shared_cosine_v267.py。仅在V257共享架构上应用原V255 constant36k+cosine36k到1e-6，其他设置/原V227 fresh初始化/72k不变。完整CPU回归51255已exit0，15项调度相关测试及Ruff通过。实际训练会话22517存活，原网络两步探针完成并通过初始指标/架构/调度门控，峰值7692279296字节；随后全新正式训练已输出step0=68.0233013153076，不是探针续训。
+
+计划artifacts/pure_neural_v267/eight/execution_plan.json；正式cosine_steps72000；完成后自动检查37个恒定前缀点、完整LR记录及三组审计，输出benchmarks/v267_selection_decision.json。不重启、不修改绑定输入，不自动晋级。V265的34317已关闭，V266只读诊断已完成，不要重复运行。main仍V257，无新正式成绩。
+
 ## V266 损失分解诊断完成，无存活训练
 
 分支codex/loss-component-diagnostic-v266，b735a5a先推送后运行diagnose_loss_components_v266.py，exit0。四批固定训练信道，全Tx/Rx唯一参数，评分项与0.05 BCE梯度所有组件余弦均正，总体评分/总损失余弦0.986—0.994；不支持BCE整体抵消假设，不盲删BCE。无优化器或权重保存，证据及限制见loss-component-v266-results.md。当前没有登记下一模型训练，V265/34317已完成关闭，main仍V257。
