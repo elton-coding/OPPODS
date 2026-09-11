@@ -1,0 +1,179 @@
+{
+  "records": [
+    {
+      "batch": 0,
+      "counts": {
+        "weak_both_negative": 12,
+        "strong_with_weak_partner": 15,
+        "rest": 173
+      },
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.015240549109876156,
+            "strong_with_weak_partner": 0.02770017273724079,
+            "rest": 0.06725365668535233
+          },
+          "weak_strong_cosine": 0.049014292657375336,
+          "weak_total_cosine": 0.38947656750679016
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.006497782189399004,
+            "strong_with_weak_partner": 0.006044337991625071,
+            "rest": 0.012300785630941391
+          },
+          "weak_strong_cosine": 0.005669203121215105,
+          "weak_total_cosine": 0.3781369626522064
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.016567906364798546,
+            "strong_with_weak_partner": 0.028351958841085434,
+            "rest": 0.0683693215250969
+          },
+          "weak_strong_cosine": 0.044524937868118286,
+          "weak_total_cosine": 0.3821394145488739
+        }
+      },
+      "decomposition_max_error": 1.3969838619232178e-09
+    },
+    {
+      "batch": 1,
+      "counts": {
+        "weak_both_negative": 14,
+        "strong_with_weak_partner": 12,
+        "rest": 174
+      },
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.04814895987510681,
+            "strong_with_weak_partner": 0.029068168252706528,
+            "rest": 0.04346654936671257
+          },
+          "weak_strong_cosine": -0.1646447628736496,
+          "weak_total_cosine": 0.3975076377391815
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.006647197529673576,
+            "strong_with_weak_partner": 0.006713265553116798,
+            "rest": 0.013399466872215271
+          },
+          "weak_strong_cosine": 0.00864071398973465,
+          "weak_total_cosine": 0.4730990529060364
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.04860563203692436,
+            "strong_with_weak_partner": 0.02983330935239792,
+            "rest": 0.04548501595854759
+          },
+          "weak_strong_cosine": -0.15864893794059753,
+          "weak_total_cosine": 0.3918229043483734
+        }
+      },
+      "decomposition_max_error": 2.8230715543031693e-09
+    },
+    {
+      "batch": 2,
+      "counts": {
+        "weak_both_negative": 10,
+        "strong_with_weak_partner": 10,
+        "rest": 180
+      },
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.027203377336263657,
+            "strong_with_weak_partner": 0.014330442994832993,
+            "rest": 0.05442497879266739
+          },
+          "weak_strong_cosine": 0.16500848531723022,
+          "weak_total_cosine": 0.6160532236099243
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.007816211320459843,
+            "strong_with_weak_partner": 0.005396275315433741,
+            "rest": 0.01653541438281536
+          },
+          "weak_strong_cosine": 0.008033782243728638,
+          "weak_total_cosine": 0.4287060797214508
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.02830400876700878,
+            "strong_with_weak_partner": 0.015312785282731056,
+            "rest": 0.056881438940763474
+          },
+          "weak_strong_cosine": 0.14919982850551605,
+          "weak_total_cosine": 0.6019707322120667
+        }
+      },
+      "decomposition_max_error": 1.1641532182693481e-09
+    },
+    {
+      "batch": 3,
+      "counts": {
+        "weak_both_negative": 8,
+        "strong_with_weak_partner": 12,
+        "rest": 180
+      },
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.007943732663989067,
+            "strong_with_weak_partner": 0.042931489646434784,
+            "rest": 0.10550163686275482
+          },
+          "weak_strong_cosine": 0.09940415620803833,
+          "weak_total_cosine": 0.13423006236553192
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.004952044226229191,
+            "strong_with_weak_partner": 0.00461874483153224,
+            "rest": 0.01572818122804165
+          },
+          "weak_strong_cosine": -0.012709471397101879,
+          "weak_total_cosine": 0.28581365942955017
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.009360856376588345,
+            "strong_with_weak_partner": 0.0431792251765728,
+            "rest": 0.10666757822036743
+          },
+          "weak_strong_cosine": 0.08315236121416092,
+          "weak_total_cosine": 0.1355658918619156
+        }
+      },
+      "decomposition_max_error": 2.7939677238464355e-09
+    }
+  ],
+  "model_files": {
+    "modelDesign.py": {
+      "sha256": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+      "bytes": 13933
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "3ce3de8c2c39eb6cb854e483a4330cb5352063aa1965df7ff6c5f03d1c812bbd",
+      "bytes": 420783351
+    },
+    "receiver.pth": {
+      "sha256": "ba162ea1d198dcca036efea475e59afb333873f0eddbecf1624b80d0094ed3fa",
+      "bytes": 337893605
+    }
+  },
+  "parameters_diagnosed": 38935712,
+  "optimizer_steps": 0,
+  "model_weights_saved": false,
+  "plan": "D:\\Source\\OPPODS\\benchmarks\\v264_independent_gradient_plan.json",
+  "caveat": "Four training batches; native independent parameter space, no cross-model norm comparability or causal sharing attribution."
+}
