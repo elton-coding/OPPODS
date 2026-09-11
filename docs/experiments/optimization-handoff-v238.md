@@ -1,5 +1,11 @@
 # 持续优化交接：V234—V263
 
+## V268 条件性确认恢复完成，候选包检查中
+
+84222因旧噪声种子校验exit1，六次推理完整，失败记录保留。recover_confirmation_v268.py仅核对缓存，63134已exit0；184绑定输入等独立通过。V268确认68.4801454 vs V257 68.4260214，配对+0.054124，95%[0.022174,0.094702]，三组综合分均正。固定audit68.705679，仍未69。见frozen-confirmation-v268-results.md。
+
+候选ZIP/CPU校验会话98937，脚本verify_candidate_package_v268.py，结果benchmarks/v268_candidate_package_verification.json。Ruff仅导入排序问题，运行中不改其绑定源码。没有活跃训练，不能重启84222/23246/63134。main仍V257；下一步承接候选包检查及完整回归/发布验证，确认模型合规后再更新main，随后基于学习率正结果选择下一单因素，不把这次确认当全项目盲测。
+
 ## V268 完成并独立复核，准备冻结条件性确认
 
 976544b已先推送结果/确认协议/入口，3专项测试及Ruff通过。确认会话84222已启动，计划benchmarks/v268_confirmation_plan.json；只承接此会话，不重启旧23246。完成输出v268_confirmation_decision.json，失败输出v268_confirmation_failure.json，需独立复核再判断条件性晋级。
