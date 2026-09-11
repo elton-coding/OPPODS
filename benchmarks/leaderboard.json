@@ -21,7 +21,7 @@
     "solution": "Pure neural eight shared-prefix8 experts, frozen encoder, RMS score loss, constant LR2e-5, 72000 steps",
     "version": "V268",
     "source_commit": "ec62446",
-    "promotion_commit": null,
+    "promotion_commit": "69edea0",
     "local_validation": {
       "22701": {
         "efficiency": 73.96640624809265,
@@ -252,7 +252,32 @@
     },
     "confirmation_report": "benchmarks/v268_confirmation_decision.json",
     "release_report": "benchmarks/v268_release_verification.json",
-    "caveat": "Conditional confirmation; historical channel reuse 2000/2000, not project-wide blind. Below69."
+    "caveat": "Conditional confirmation; historical channel reuse 2000/2000, not project-wide blind. Below69.",
+    "sha256": {
+      "modelDesign.py": "AEE1776EB1E8BC267A41A2C0532FD7A20673A0A906F88E0A4476F760029A3F46",
+      "encoder.pth": "D6431D8146C5D62718DBA9131EA703BA24CD9E9CA98D545D7BD394B0DE6D81BB",
+      "transmitter.pth": "30919FB5D6B38911FCA45F8833F64C0BFEDE1816A7BD24F3F0E74A4C779286DE",
+      "receiver.pth": "F6788FD6EF52A7C72607B2DDF27ABA568A4839DCD4BC822DBBE7E51D72CACF5E"
+    },
+    "submission_archive": {
+      "name": "FATE_MIMO_submission_pure_neural_v268_shared_lr2e5_rms_72k_official.zip",
+      "bytes": 273232388,
+      "sha256": "E254537663A5B96C902C286C19310DD989EE36FD2F98068F7139343D5B0F8C36"
+    },
+    "conditional_confirmation": {
+      "report": "benchmarks/v268_confirm_audit_offset8000.json",
+      "mean_final": 68.48014539930556,
+      "test_offset": 8000,
+      "noise_seeds": [
+        62701,
+        62702,
+        62703
+      ],
+      "baseline_label": "v257_confirm_v268",
+      "decision_report": "benchmarks/v268_release_confirmation.json",
+      "whole_project_blindness_certified": false,
+      "ancestor_training_provenance_certified": false
+    }
   },
   "references": {
     "previous_champion_v242e_fixed_holdout_mean_final": 68.53162543402779,

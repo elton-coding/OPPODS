@@ -63,4 +63,4 @@ submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
   versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v268_shared_lr2e5_rms_72k_official.zip
-  sha256: e254537663a5b96c902c286c19310dd989ee36fd2f98068f7139343d5b0f8c36
+  sha256: E254537663A5B96C902C286C19310DD989EE36FD2F98068F7139343D5B0F8C36
