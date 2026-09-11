@@ -1,0 +1,129 @@
+{
+  "records": [
+    {
+      "batch": 0,
+      "score_loss": -0.6521089673042297,
+      "weighted_bce": 0.02284202165901661,
+      "max_decomposition_error": 5.587935447692871e-09,
+      "components": {
+        "tx": {
+          "score_norm": 0.1318606436252594,
+          "weighted_bce_norm": 0.05336029455065727,
+          "score_bce_cosine": 0.9385939836502075,
+          "score_total_cosine": 0.9949194192886353
+        },
+        "rx": {
+          "score_norm": 0.050370343029499054,
+          "weighted_bce_norm": 0.003980724606662989,
+          "score_bce_cosine": 0.3110533356666565,
+          "score_total_cosine": 0.9973239898681641
+        },
+        "joint": {
+          "score_norm": 0.14115382730960846,
+          "weighted_bce_norm": 0.05350856855511665,
+          "score_bce_cosine": 0.8826273679733276,
+          "score_total_cosine": 0.9912033081054688
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "score_loss": -0.6429678201675415,
+      "weighted_bce": 0.023783795535564423,
+      "max_decomposition_error": 9.313225746154785e-09,
+      "components": {
+        "tx": {
+          "score_norm": 0.10949452221393585,
+          "weighted_bce_norm": 0.034985918551683426,
+          "score_bce_cosine": 0.7811498641967773,
+          "score_total_cosine": 0.9874951243400574
+        },
+        "rx": {
+          "score_norm": 0.04754754528403282,
+          "weighted_bce_norm": 0.003960331901907921,
+          "score_bce_cosine": 0.3296746611595154,
+          "score_total_cosine": 0.9970840811729431
+        },
+        "joint": {
+          "score_norm": 0.11937260627746582,
+          "weighted_bce_norm": 0.035209354013204575,
+          "score_bce_cosine": 0.7267329096794128,
+          "score_total_cosine": 0.9863651394844055
+        }
+      }
+    },
+    {
+      "batch": 2,
+      "score_loss": -0.6398966908454895,
+      "weighted_bce": 0.024287905544042587,
+      "max_decomposition_error": 4.889443516731262e-09,
+      "components": {
+        "tx": {
+          "score_norm": 0.047006018459796906,
+          "weighted_bce_norm": 0.009436693973839283,
+          "score_bce_cosine": 0.5882654190063477,
+          "score_total_cosine": 0.9896226525306702
+        },
+        "rx": {
+          "score_norm": 0.06906810402870178,
+          "weighted_bce_norm": 0.0037414859980344772,
+          "score_bce_cosine": 0.2739373743534088,
+          "score_total_cosine": 0.9986847639083862
+        },
+        "joint": {
+          "score_norm": 0.08354620635509491,
+          "weighted_bce_norm": 0.010151349939405918,
+          "score_bce_cosine": 0.3911462724208832,
+          "score_total_cosine": 0.9943501949310303
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "score_loss": -0.6421128511428833,
+      "weighted_bce": 0.024966072291135788,
+      "max_decomposition_error": 7.450580596923828e-09,
+      "components": {
+        "tx": {
+          "score_norm": 0.14745934307575226,
+          "weighted_bce_norm": 0.044670626521110535,
+          "score_bce_cosine": 0.8887654542922974,
+          "score_total_cosine": 0.9940690994262695
+        },
+        "rx": {
+          "score_norm": 0.04814569279551506,
+          "weighted_bce_norm": 0.003945986274629831,
+          "score_bce_cosine": 0.3373155891895294,
+          "score_total_cosine": 0.9971933364868164
+        },
+        "joint": {
+          "score_norm": 0.15512016415596008,
+          "weighted_bce_norm": 0.04484457150101662,
+          "score_bce_cosine": 0.8508077263832092,
+          "score_total_cosine": 0.9926491379737854
+        }
+      }
+    }
+  ],
+  "model_files": {
+    "modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "2dce9e3b443a507d0f8ddc72226888f92f7ada26091e0b3f03e99a585307d01f",
+      "bytes": 156148527
+    },
+    "receiver.pth": {
+      "sha256": "83b05865cebeb56d8db7d375ea097530986246b24dee3db818d655d89b04b07f",
+      "bytes": 135145985
+    }
+  },
+  "optimizer_steps": 0,
+  "weights_saved": false,
+  "caveat": "Four training batches; Euclidean local gradients are not Adam updates or generalization evidence."
+}
