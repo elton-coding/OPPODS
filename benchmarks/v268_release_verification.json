@@ -1,0 +1,31 @@
+{
+  "version": "V268",
+  "archive": "artifacts\\FATE_MIMO_submission_pure_neural_v268_shared_lr2e5_rms_72k_official.zip",
+  "archive_sha256": "e254537663a5b96c902c286c19310dd989ee36fd2f98068f7139343d5b0f8c36",
+  "archive_bytes": 273232388,
+  "files": {
+    "modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "30919fb5d6b38911fca45f8833f64c0bfede1816a7bd24f3f0e74a4c779286de",
+      "bytes": 156148527
+    },
+    "receiver.pth": {
+      "sha256": "f6788fd6ef52a7c72607b2ddf27aba568a4839dcd4bc822dbbe7e51d72cacf5e",
+      "bytes": 135145985
+    }
+  },
+  "production_and_archive_verified": true,
+  "previous_fixed_archive_preserved": true,
+  "full_cpu_pytest_exit_code": 0,
+  "full_cpu_pytest_session": 7646,
+  "online_confirmation": false,
+  "whole_project_blindness_certified": false,
+  "organizer_inference_time_certified": false
+}
