@@ -1,0 +1,196 @@
+{
+  "plan": "D:\\Source\\OPPODS\\benchmarks\\v264_parameter_gradient_plan.json",
+  "model_files": {
+    "modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "2dce9e3b443a507d0f8ddc72226888f92f7ada26091e0b3f03e99a585307d01f",
+      "bytes": 156148527
+    },
+    "receiver.pth": {
+      "sha256": "83b05865cebeb56d8db7d375ea097530986246b24dee3db818d655d89b04b07f",
+      "bytes": 135145985
+    }
+  },
+  "records": [
+    {
+      "batch": 0,
+      "counts": {
+        "weak_both_negative": 12,
+        "strong_with_weak_partner": 15,
+        "rest": 173
+      },
+      "loss": -0.6276794075965881,
+      "decomposition_max_error": 6.05359673500061e-09,
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.0592641681432724,
+            "strong_with_weak_partner": 0.11811964213848114,
+            "rest": 0.030932312831282616
+          },
+          "weak_strong_cosine": -0.33557772636413574,
+          "weak_rest_cosine": 0.5112783312797546,
+          "weak_total_cosine": 0.32557955384254456
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.007892872206866741,
+            "strong_with_weak_partner": 0.0053636785596609116,
+            "rest": 0.011916709132492542
+          },
+          "weak_strong_cosine": -0.00011230917152715847,
+          "weak_rest_cosine": -0.037447281181812286,
+          "weak_total_cosine": 0.4948597550392151
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.05978744849562645,
+            "strong_with_weak_partner": 0.11824135482311249,
+            "rest": 0.0331483893096447
+          },
+          "weak_strong_cosine": -0.3322989046573639,
+          "weak_rest_cosine": 0.47114479541778564,
+          "weak_total_cosine": 0.32863548398017883
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "counts": {
+        "weak_both_negative": 14,
+        "strong_with_weak_partner": 12,
+        "rest": 174
+      },
+      "loss": -0.618485152721405,
+      "decomposition_max_error": 2.561137080192566e-09,
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.0176796056330204,
+            "strong_with_weak_partner": 0.03805218264460564,
+            "rest": 0.04259917512536049
+          },
+          "weak_strong_cosine": -0.17446568608283997,
+          "weak_rest_cosine": 0.01161121390759945,
+          "weak_total_cosine": 0.21878670156002045
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.007150247693061829,
+            "strong_with_weak_partner": 0.006056325975805521,
+            "rest": 0.011824253015220165
+          },
+          "weak_strong_cosine": -0.002109525026753545,
+          "weak_rest_cosine": -0.011564231477677822,
+          "weak_total_cosine": 0.4682546555995941
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.01907077617943287,
+            "strong_with_weak_partner": 0.03853112831711769,
+            "rest": 0.04420975595712662
+          },
+          "weak_strong_cosine": -0.15985268354415894,
+          "weak_rest_cosine": 0.009212419390678406,
+          "weak_total_cosine": 0.2430281639099121
+        }
+      }
+    },
+    {
+      "batch": 2,
+      "counts": {
+        "weak_both_negative": 10,
+        "strong_with_weak_partner": 10,
+        "rest": 180
+      },
+      "loss": -0.616820752620697,
+      "decomposition_max_error": 2.7939677238464355e-09,
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.015112170949578285,
+            "strong_with_weak_partner": 0.039373159408569336,
+            "rest": 0.155731663107872
+          },
+          "weak_strong_cosine": 0.0031833420507609844,
+          "weak_rest_cosine": -0.07185646891593933,
+          "weak_total_cosine": 0.027361158281564713
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.0089804045855999,
+            "strong_with_weak_partner": 0.005057453643530607,
+            "rest": 0.017422566190361977
+          },
+          "weak_strong_cosine": 0.00472271116450429,
+          "weak_rest_cosine": -0.005992113146930933,
+          "weak_total_cosine": 0.4441790282726288
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.01757911592721939,
+            "strong_with_weak_partner": 0.039696644991636276,
+            "rest": 0.15670320391654968
+          },
+          "weak_strong_cosine": 0.0030216858722269535,
+          "weak_rest_cosine": -0.06172993406653404,
+          "weak_total_cosine": 0.05376768112182617
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "counts": {
+        "weak_both_negative": 8,
+        "strong_with_weak_partner": 12,
+        "rest": 180
+      },
+      "loss": -0.6252854466438293,
+      "decomposition_max_error": 3.725290298461914e-09,
+      "components": {
+        "tx": {
+          "norms": {
+            "weak_both_negative": 0.007301592733711004,
+            "strong_with_weak_partner": 0.041305188089609146,
+            "rest": 0.08374952524900436
+          },
+          "weak_strong_cosine": -0.20187163352966309,
+          "weak_rest_cosine": -0.0758267492055893,
+          "weak_total_cosine": -0.06973586231470108
+        },
+        "rx": {
+          "norms": {
+            "weak_both_negative": 0.0039346530102193356,
+            "strong_with_weak_partner": 0.004369704984128475,
+            "rest": 0.015927016735076904
+          },
+          "weak_strong_cosine": -0.046308133751153946,
+          "weak_rest_cosine": -0.24254895746707916,
+          "weak_total_cosine": -0.008142317645251751
+        },
+        "joint": {
+          "norms": {
+            "weak_both_negative": 0.008294260129332542,
+            "strong_with_weak_partner": 0.04153567925095558,
+            "rest": 0.08525053411722183
+          },
+          "weak_strong_cosine": -0.17903633415699005,
+          "weak_rest_cosine": -0.08707278966903687,
+          "weak_total_cosine": -0.06127507984638214
+        }
+      }
+    }
+  ],
+  "optimizer_steps": 0,
+  "model_weights_saved": false,
+  "parameters_diagnosed": 19467856,
+  "elapsed_seconds": 4.054946899879724,
+  "caveat": "Four training batches only, not independent retraining or evidence of generalization."
+}
