@@ -1,6 +1,6 @@
 competition: DataFountain_1176
 solution_name: FATE-MIMO
-solution_version: V268
+solution_version: V269
 environment:
   conda_prefix: D:\Tools\Anaconda\envs\oppods-df1176
   python: "3.11.15"
@@ -24,14 +24,14 @@ model:
   routing_statistic: minimum_of_two_user_snr
 training:
   initialization: V227 exact eight-expert bank mapping [0, 0, 1, 1, 1, 1, 1, 1]
-  source_report: benchmarks/v268_shared8_rms_lr2e5_72k_audit_offset2000.json
+  source_report: benchmarks/v269_shared8_rms_lr3e5_72k_audit_offset2000.json
   train_components: [transmitter, receiver]
   frozen_components: [encoder]
   seed: 15240
   batch_size: 100
-  learning_rate: 2.0e-5
+  learning_rate: 3.0e-5
   requested_steps: 72000
-  best_step: 69000
+  best_step: 68000
   snr_db: [-20.0, 20.0]
   loss: rms_score
   rms_normalization: per_UE_logits_differentiable_RMS_before_soft_proxy
@@ -46,21 +46,21 @@ evaluation:
   test_offset: 2000
   seeds: [22701, 22702, 22703]
   samples_per_seed: 2000
-  mean_final: 68.70567925347223
+  mean_final: 68.77859085648147
   online_score: null
 confirmation:
-  report: benchmarks/v268_confirm_audit_offset8000.json
+  report: benchmarks/v269_confirm_audit_offset8000.json
   split_seed: 1176
   test_offset: 8000
-  seeds: [62701, 62702, 62703]
+  seeds: [72701, 72702, 72703]
   samples_per_seed: 2000
-  mean_final: 68.48014539930556
-  paired_gain_vs_v257: 0.05412399485905913
+  mean_final: 68.6421997974537
+  paired_gain_vs_v268: 0.09446883316040082
   scope: conditional_current_cohort_confirmation_with_historical_overlap
   whole_project_blindness_certified: false
   ancestor_training_provenance_certified: false
 submission:
   directory: modelSubmit
   archive: artifacts/FATE_MIMO_submission.zip
-  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v268_shared_lr2e5_rms_72k_official.zip
-  sha256: E254537663A5B96C902C286C19310DD989EE36FD2F98068F7139343D5B0F8C36
+  versioned_archive: artifacts/FATE_MIMO_submission_pure_neural_v269_shared_lr3e5_rms_72k_official.zip
+  sha256: AD96FA870C849C1CDF4BE52031D53576484F74C090754043DBAACAFFDDE47B8D

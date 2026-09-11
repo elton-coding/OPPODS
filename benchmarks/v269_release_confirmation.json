@@ -1,0 +1,8 @@
+{
+  "source_decision": "benchmarks/v269_confirmation_decision.json",
+  "supports_current_cohort_promotion": true,
+  "candidate_exact_mean_final": 68.6421997974537,
+  "online_confirmation": false,
+  "whole_project_blindness_certified": false,
+  "ancestor_training_provenance_certified": false
+}
