@@ -1,0 +1,107 @@
+{
+  "purpose": "CPU identity/gradients/optimizer/serialization, not score evidence",
+  "passed": true,
+  "input_sha256": {
+    "research\\pure_neural_v265\\modelDesign.py": "240c895d4e3ba0f0db1d58b6958b445a4954f2ca49989142b65ff1b7d8aed2a8",
+    "research\\pure_neural_v230\\modelDesign.py": "8f61993ae1dd6767c4096d0e45dd6d4fee6e0823ed2a2fc224bacc375c45b632",
+    "scripts\\probe_pure_neural_shared_v265.py": "7db860b748b5730c1e81daf7e0e79520eefa4c6a432dd3d9b38161609ddab114",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "scripts\\train_pure_neural_rms_v239.py": "b3e14003066baf8cc71938130771b880ecf3262d9d3fa30f323a05eb6e419fcb",
+    "src\\oppods\\data.py": "df15882e3c5a42e6b41b7ff4867bb9dc73b2bbd9bdb8f006fa5e9dedd015ff1d",
+    "artifacts\\pure_neural_v227\\joint_low\\encoder.pth": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+    "artifacts\\pure_neural_v227\\joint_low\\transmitter.pth": "09f5a29263b69aa556f7e02638c004554384bcd7ddb4e095cbc094aaffb79cf5",
+    "artifacts\\pure_neural_v227\\joint_low\\receiver.pth": "79702014a8b9176ec1660ef7aba5fae28a3be876020095f3515e10438c1b41c0"
+  },
+  "train_data_indices": [
+    83391,
+    95379,
+    58244,
+    48864,
+    19126,
+    18433,
+    24795,
+    88669
+  ],
+  "split_seed": 1176,
+  "snr": [
+    [
+      -17.5,
+      20.0
+    ],
+    [
+      20.0,
+      -12.5
+    ],
+    [
+      -7.5,
+      20.0
+    ],
+    [
+      20.0,
+      -2.5
+    ],
+    [
+      2.5,
+      20.0
+    ],
+    [
+      20.0,
+      7.5
+    ],
+    [
+      12.5,
+      20.0
+    ],
+    [
+      20.0,
+      17.5
+    ]
+  ],
+  "routes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "mapping": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "shared_prefix_blocks": 8,
+  "shared_parameter_alias_checks": 1024,
+  "parameters": 84570760,
+  "trainable_parameters": 83767368,
+  "trainable_parameter_tensors": 598,
+  "maximum_single_logit_difference": 0.0,
+  "maximum_batched_logit_difference": 0.0,
+  "hard_decision_disagreements": 0,
+  "loss_difference": 0.0,
+  "maximum_tied_gradient_difference": 9.313225746154785e-10,
+  "construction_rng_equal": true,
+  "channel_rng_equal": true,
+  "steps": [
+    {
+      "step": 1,
+      "adam_parameter_states": 598,
+      "finite_gradient_tensors": 598
+    },
+    {
+      "step": 2,
+      "adam_parameter_states": 598,
+      "finite_gradient_tensors": 598
+    }
+  ],
+  "serialization_bytes": 338620619,
+  "serialization_aliases_and_outputs_equal": true,
+  "elapsed_seconds": 14.2200075997971
+}
