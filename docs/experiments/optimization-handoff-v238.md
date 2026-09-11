@@ -1,5 +1,11 @@
 # 持续优化交接：V234—V263
 
+## 2026-09-11：V265预登记已推送，正式72k已启动
+
+c4c7aff先推送，再启动会话34317（父PID61596）；全CPU回归34788已exit0，15项专项及Ruff通过。全8路GPU状态证明通过，598张量均有有限梯度及两步Adam状态，峰值分配7785890304字节。原训练入口两步探针完成，初始四指标与V257差均0，探针没有用于正式续训。
+
+实际已观察到另起正式子进程PID22560，参数--steps72000，目录artifacts/pure_neural_v265/eight/low_tx_untied_steps72000；原探针子进程34000已退出，failure.json不存在。34317尚未完成，不重启、不审计部分checkpoint、不修改执行计划绑定输入。完成后入口自动按冻结协议审计并写benchmarks/v265_selection_decision.json；只有完成、异常或可靠提升才通知。CPU证明、全状态GPU证明及初始探针记录保留；没有新正式分数，main仍V257。
+
 ## 2026-09-11：V265局部低Tx解除共享已实现，训练前预登记
 
 V264四阶段诊断和V263完整复核均已完成，不要重复。当前特性分支codex/pure-neural-low-tx-untie-v265，入口scripts/run_pure_neural_low_tx_untie_v265.py；协议pure-neural-low-tx-untie-v265.md汇总近期结果和本轮唯一因素。V265只解除Tx专家0/1输入/前8块共享，保留高Tx及全部Rx共享、原RMS和fresh V227/72k。
