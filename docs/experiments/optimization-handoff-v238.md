@@ -1,5 +1,11 @@
 # 持续优化交接：V234—V263
 
+## V273条件确认已复核，候选包检查运行
+
+47488已exit0，不再轮询。224输入/数据/双模型/报告/全1152位cache/bootstrap独立复核通过。确认V27368.7578718171 vs V26968.6276482928，+0.1302232979，95%[0.0929564534,0.1616485129]，三组总分正。选型68.932765与确认都未69，2000/2000历史复用，不是盲测。见frozen-confirmation-v273-results.md。
+
+候选包会话91207已启动，入口verify_candidate_package_v273.py，Ruff通过，输出benchmarks/v273_candidate_package_verification.json；候选包artifacts/pure_neural_v273/candidate_package/v273_shared_budget_candidate_not_released.zip。不得重复尝试或覆盖。发布前完整CPU回归会话87660已启动，CUDA为空。无训练队列，主干仍V269，尚未复制生产/发布；下一步接候选包和CPU回归，通过后才生成V273发布脚本/manifest并发布后再跑回归，保留V269不可变ZIP。不直接复用V269发布脚本中旧版本和旧测试会话。
+
 ## V273完整144k可靠提升，冻结条件确认已启动
 
 35762已exit0，不再轮询。213输入/数据/145验证点/最佳139k/实际四模型文件/报告/cache/bootstrap独立复核通过；前73点四指标差全0。固定均分68.9327647569，对V269+0.1541738198，95%[0.1134310812,0.1822836351]，三组均正；效率贡献约77.5%，P10第一组持平另两组上升。见shared-budget-v273-results.md，仍未69，不自动再翻倍训练。
