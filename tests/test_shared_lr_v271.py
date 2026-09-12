@@ -1,0 +1,31 @@
+import copy
+
+import pytest
+import run_shared_lr_v271 as v
+
+
+def test_only_lr_and_output():
+    for probe in (False, True):
+        cmd, base = v.command(probe), v.baseline_command(probe=probe)
+        assert cmd[cmd.index('--learning-rate')+1] == '3.5e-5'
+        for flag in ('--learning-rate', '--output-dir'):
+            i = base.index(flag)+1
+            cmd[i] = base[i]
+        assert cmd == base
+    assert v.CONTROL == 'v269_shared8_rms_lr3e5_72k'
+
+
+def test_guard():
+    for probe, path in ((True, 'artifacts/resource_probe/v269/shared_lr/training_report.json'),
+                        (False, 'artifacts/pure_neural_v269/eight/lr3e5_steps72000/training_report.json')):
+        report = copy.deepcopy(v.read(v.ROOT / path))
+        report['learning_rate'] = 3.5e-5
+        v.require_result(report, probe)
+        for key, value in [('learning_rate', 3e-5), ('learning_rate_schedule', {}),
+                           ('trainable_parameters', 83767368), ('score_bce_weight', 0.),
+                           ('requested_steps', 1), ('microbatch_size', 10)]:
+            with pytest.raises(ValueError):
+                v.require_result({**report, key: value}, probe)
+        report['history'] = report['history'][:-1]
+        with pytest.raises(ValueError):
+            v.require_result(report, probe)
