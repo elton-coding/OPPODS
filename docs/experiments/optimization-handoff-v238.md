@@ -1,5 +1,11 @@
 # 持续优化交接：V234—V263
 
+## V275同144k后半程余弦调度正式运行
+
+当前codex/shared-cosine-v275，74b6325先预登记推送；两个专项测试/Ruff通过，完整CPU91878已exit0。CPU完整144k Adam钩子证明44376已exit0：前72k参数/状态完全匹配恒定对照、全144k匹配独立手动调度参考、RNG不变。这仅小参数实现证明，不是模型效果。
+
+唯一正式会话69972，父67400/子8200已观察存活。两步实际模型探针通过、四初始差0、72744448参数、峰值7692279296字节；随后另起原V227 fresh/新Adam144k，非探针续训。前72k3e-5，后72k余弦降1e-5，其他V273不变/等14.4M抽样。正式artifacts/pure_neural_v275/eight/cosine_steps144000，计划同父目录execution_plan.json，完成输出benchmarks/v275_selection_decision.json；需145点/实际LR记录/前73点复现后审计。承接69972，不重启或修改绑定输入；main仍V273/9ac33c3，未69，无其他训练队列。
+
 ## V273已晋级远端主干；V274诊断完成，无训练
 
 85352已exit0，291MB LFS上传完成。经祖先检查main快进9ac33c3及solution-v273-score-68.932765已推送，不检出旧树。当前分支codex/score-proxy-diagnostic-v274。V273固定audit68.932765/确认68.757872仍未69；全部发布前后校验已完成。
