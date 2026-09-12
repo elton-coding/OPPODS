@@ -1,0 +1,173 @@
+{
+  "archive": "artifacts\\pure_neural_v273\\candidate_package\\v273_shared_budget_candidate_not_released.zip",
+  "archive_bytes": 273249951,
+  "archive_sha256": "6026575f08d9df62099b3a5e6514ebc8fa011f0d215bc870f264289c11ad9774",
+  "members": {
+    "submit_pt/modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "submit_pt/modelSubmit/encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "submit_pt/modelSubmit/transmitter.pth": {
+      "sha256": "5dfd7fdb474cfb0bbd1ee7aac96b488dffe532cfd8366e7910679b33e7fa507f",
+      "bytes": 156148527
+    },
+    "submit_pt/modelSubmit/receiver.pth": {
+      "sha256": "a07bddfc81f00ca08b58e9f52005af64729b05c592ff4d3ed3be39eba80e9798",
+      "bytes": 135145985
+    }
+  },
+  "crc_passed": true,
+  "files": {
+    "modelDesign.py": {
+      "sha256": "aee1776eb1e8bc267a41a2c0532fd7a20673a0a906f88e0a4476f760029a3f46",
+      "bytes": 14639
+    },
+    "encoder.pth": {
+      "sha256": "d6431d8146c5d62718dba9131ea703ba24cd9e9ca98d545d7bd394b0de6d81bb",
+      "bytes": 3216093
+    },
+    "transmitter.pth": {
+      "sha256": "5dfd7fdb474cfb0bbd1ee7aac96b488dffe532cfd8366e7910679b33e7fa507f",
+      "bytes": 156148527
+    },
+    "receiver.pth": {
+      "sha256": "a07bddfc81f00ca08b58e9f52005af64729b05c592ff4d3ed3be39eba80e9798",
+      "bytes": 135145985
+    }
+  },
+  "input_sha256": {
+    "scripts\\verify_candidate_package_v273.py": "93055f63b94f9ea1a30a6b595bf6383b270e3157f0ea5e3eafff6d0e24235dfa",
+    "scripts\\build_submission.py": "81b0d0b47a0c6b93bb4aed121fa1fd71b90136ebf0940f21e95ab4adb1044fab",
+    "scripts\\probe_pure_neural_shared_v257.py": "9657b3a70bfc97597f7164511e43dd3901ec5494ac9a70e3943c35e42504b591",
+    "scripts\\evaluate_submission.py": "0a323055c4f2789f8bec70738ddbaa7a28b2527ca42ebe4641203b93ccc6caa6",
+    "scripts\\train_pure_neural_snr_experts.py": "0145d850015031ee076d3b16469b1580ea96e0a4717927ed8abf9d77cdacc3ef",
+    "benchmarks\\v273_confirmation_plan.json": "f3dd8babfc70623063d7b178a4b9f94ed99abff8acc89e477267927743ee7cae"
+  },
+  "cpu_contract_snr_pairs": [
+    [
+      -20.0,
+      -20.0
+    ],
+    [
+      -15.0,
+      -15.0
+    ],
+    [
+      -10.0,
+      -10.0
+    ],
+    [
+      -5.0,
+      -5.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      5.0,
+      5.0
+    ],
+    [
+      10.0,
+      10.0
+    ],
+    [
+      15.0,
+      15.0
+    ],
+    [
+      20.0,
+      20.0
+    ],
+    [
+      -20.0,
+      -10.0
+    ],
+    [
+      -20.0,
+      0.0
+    ],
+    [
+      -20.0,
+      20.0
+    ],
+    [
+      -10.0,
+      -20.0
+    ],
+    [
+      -10.0,
+      0.0
+    ],
+    [
+      -10.0,
+      20.0
+    ],
+    [
+      0.0,
+      -20.0
+    ],
+    [
+      0.0,
+      -10.0
+    ],
+    [
+      0.0,
+      20.0
+    ],
+    [
+      20.0,
+      -20.0
+    ],
+    [
+      20.0,
+      -10.0
+    ],
+    [
+      20.0,
+      0.0
+    ],
+    [
+      -19.0,
+      -1.0
+    ],
+    [
+      -1.0,
+      -19.0
+    ],
+    [
+      6.0,
+      19.0
+    ],
+    [
+      19.0,
+      6.0
+    ]
+  ],
+  "ue_outputs_checked": 50,
+  "routes_checked": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "archive_state_keys_exactly_restored": 1300,
+  "shared_parameter_alias_checks_after_archive_loading": 1024,
+  "total_parameters": 73547840,
+  "torch": "2.10.0+cu128",
+  "device": "cpu",
+  "released": false,
+  "organizer_inference_time_certified": false,
+  "online_confirmation": false,
+  "confirmation_result_claimed": false,
+  "scope": "candidate-only ZIP and synthetic CPU contract; not score, promotion, or organizer timing"
+}
